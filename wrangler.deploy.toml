@@ -1,0 +1,21 @@
+name = "beam"
+main = "src/index.ts"
+compatibility_date = "2024-11-01"
+compatibility_flags = ["nodejs_compat"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "beam-db"
+database_id = "62c68903-0c63-447d-9236-c1221c1aa575"
+migrations_dir = "migrations"
+
+[[kv_namespaces]]
+binding = "KV"
+id = "eda926e0122f42daaec2772b2d552d04"
+
+[triggers]
+crons = ["0 9 * * *", "0 9 * * 1"]
+
+[vars]
+ENVIRONMENT = "production"
+BEAM_SELF_SITE_ID = "dfa32f6b-0775-43df-a2c4-eb23787e5f03"

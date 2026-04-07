@@ -1,0 +1,28 @@
+{
+  "name": "beam",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "wrangler dev",
+    "build": "tsc",
+    "deploy": "bash deploy.sh",
+    "deploy:raw": "wrangler deploy",
+    "ping": "bash ping-sitemap.sh",
+    "deploy:ping": "npm run deploy && npm run ping",
+    "typecheck": "tsc --noEmit",
+    "migrations:local": "wrangler d1 migrations apply beam-db --local",
+    "test": "tsx --test test/**/*.test.ts",
+    "test:smoke": "playwright test"
+  },
+  "dependencies": {
+    "@sentry/cloudflare": "^10.47.0",
+    "hono": "^4.6.0"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20241022.0",
+    "@playwright/test": "^1.59.1",
+    "tsx": "^4.20.6",
+    "typescript": "^5.5.0",
+    "wrangler": "^3.80.0"
+  }
+}
