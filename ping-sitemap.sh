@@ -75,6 +75,7 @@ URLS_JSON=$(cat <<'URLS'
   "/migrate/plausible",
   "/migrate/fathom",
   "/migrate/beam-analytics",
+  "/migrate/import-history",
   "/beam-analytics-alternative",
   "/docs/api",
   "/for",
@@ -89,7 +90,9 @@ URLS_JSON=$(cat <<'URLS'
   "/for/ghost",
   "/for/framer",
   "/for/carrd",
-  "/tools/stack-scanner"
+  "/tools/stack-scanner",
+  "/switch",
+  "/blog/plausible-alternative"
 ]
 URLS
 )
