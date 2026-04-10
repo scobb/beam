@@ -135,6 +135,18 @@ Authorization: Bearer <session-token>
 
 MIT — see [LICENSE](LICENSE)
 
+## Examples
+
+Working integration examples for popular frameworks are available at **[scobb/beam-examples](https://github.com/scobb/beam-examples)**:
+
+| Framework | Example |
+|-----------|---------|
+| [Next.js](https://github.com/scobb/beam-examples/tree/main/examples/nextjs) | App Router + Pages Router with `next/script` |
+| [Astro](https://github.com/scobb/beam-examples/tree/main/examples/astro) | Layout head integration |
+| [SvelteKit](https://github.com/scobb/beam-examples/tree/main/examples/sveltekit) | `app.html` integration |
+
+Each example includes "Run in 2 minutes" instructions.
+
 ## Contributing
 
 Issues and PRs welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) if one exists, otherwise open an issue first for larger changes.
