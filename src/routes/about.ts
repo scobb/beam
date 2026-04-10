@@ -161,7 +161,7 @@ ${nav()}
       <p><strong>Contact:</strong> <a href="mailto:ralph@keylightdigital.dev" class="text-indigo-600 hover:underline">ralph@keylightdigital.dev</a></p>
       <p><strong>Website:</strong> <a href="${baseUrl}" class="text-indigo-600 hover:underline">${baseHost}</a></p>
       <p><strong>GitHub:</strong> <a href="https://github.com/scobb/beam.js" class="text-indigo-600 hover:underline">Open source tracking script</a></p>
-      <p><strong>npm:</strong> <a href="https://www.npmjs.com/package/beam.js" class="text-indigo-600 hover:underline">beam.js</a> — also available on npm for build-tool workflows</p>
+      <p><strong>npm:</strong> <a href="https://www.npmjs.com/package/@keylightdigital/beam" class="text-indigo-600 hover:underline">@keylightdigital/beam</a> — also available on npm for build-tool workflows</p>
     </div>
   </section>
 

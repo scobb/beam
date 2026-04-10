@@ -156,7 +156,7 @@ export function landingPage(
         <div class="text-center">
           <div class="w-14 h-14 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center text-2xl font-extrabold mx-auto mb-5">1</div>
           <h3 class="font-semibold text-lg mb-2">Add our script tag</h3>
-          <p class="text-gray-500 text-sm">Paste one line of HTML into your site's <code class="bg-gray-100 px-1 rounded text-xs">&lt;head&gt;</code>. That's it — or install via <a href="https://www.npmjs.com/package/beam.js" class="text-indigo-600 hover:underline">npm</a> for build-tool workflows.</p>
+          <p class="text-gray-500 text-sm">Paste one line of HTML into your site's <code class="bg-gray-100 px-1 rounded text-xs">&lt;head&gt;</code>. That's it — or install via <a href="https://www.npmjs.com/package/@keylightdigital/beam" class="text-indigo-600 hover:underline">npm</a> for build-tool workflows.</p>
           <p class="text-gray-400 text-xs mt-2">Browse all setup guides at <a href="/for" class="text-indigo-500 hover:underline">/for</a>, including <a href="/for/nextjs" class="text-indigo-500 hover:underline">Next.js</a>, <a href="/for/wordpress" class="text-indigo-500 hover:underline">WordPress</a>, <a href="/for/hugo" class="text-indigo-500 hover:underline">Hugo</a>, <a href="/for/webflow" class="text-indigo-500 hover:underline">Webflow</a>, <a href="/for/shopify" class="text-indigo-500 hover:underline">Shopify</a>, <a href="/for/ghost" class="text-indigo-500 hover:underline">Ghost</a>, <a href="/for/framer" class="text-indigo-500 hover:underline">Framer</a>, and <a href="/for/carrd" class="text-indigo-500 hover:underline">Carrd</a>.</p>
         </div>
 
@@ -436,7 +436,7 @@ export function landingPage(
         <a href="/for/ghost" class="hover:text-gray-600">Ghost guide</a>
         <a href="/tools/stack-scanner" class="hover:text-gray-600">Stack scanner</a>
         <a href="https://github.com/scobb/beam.js" class="hover:text-gray-600">Open source tracking script</a>
-        <a href="https://www.npmjs.com/package/beam.js" class="hover:text-gray-600">npm</a>
+        <a href="https://www.npmjs.com/package/@keylightdigital/beam" class="hover:text-gray-600">npm</a>
         <a href="/vs/google-analytics" class="hover:text-gray-600">vs Google Analytics</a>
         <a href="/vs/vercel-analytics" class="hover:text-gray-600">vs Vercel Analytics</a>
         <a href="/vs/cloudflare-web-analytics" class="hover:text-gray-600">vs Cloudflare Web Analytics</a>

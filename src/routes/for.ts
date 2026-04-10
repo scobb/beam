@@ -69,10 +69,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       {
         title: 'Option B - npm package (any Router)',
         code: `# Install the package
-npm install beam.js
+npm install @keylightdigital/beam
 
 # In app/layout.tsx or pages/_app.tsx
-import { useBeam } from 'beam.js/react'
+import { useBeam } from '@keylightdigital/beam/react'
 
 export default function RootLayout({ children }) {
   useBeam('YOUR_SITE_ID')
