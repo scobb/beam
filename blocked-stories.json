@@ -1,10 +1,3 @@
 {
-  "blockedStories": [
-    {
-      "id": "BEAM-207",
-      "blocker": "npm publish blocked by 2FA: token requires OTP or automation token with bypass 2fa enabled. All code changes done (package renamed, links updated). Only the npm publish step is blocked.",
-      "blockedAt": "2026-04-10",
-      "emailSent": true
-    }
-  ]
+  "blockedStories": []
 }

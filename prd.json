@@ -3451,8 +3451,8 @@
         "Update any other references to the old npm package name in the codebase"
       ],
       "priority": 1,
-      "passes": false,
-      "notes": "npm auth is working (keylightdigital user). @keylightdigital/nexus v0.1.0 already published. beam.js on npm is NOT our package \u2014 it's 'realtime distributed broadcast emitter' by another author. The current landing page link sends visitors to the wrong package."
+      "passes": true,
+      "notes": "npm auth is working (keylightdigital user). @keylightdigital/nexus v0.1.0 already published. beam.js on npm is NOT our package \u2014 it's 'realtime distributed broadcast emitter' by another author. The current landing page link sends visitors to the wrong package. Published @keylightdigital/beam@1.0.0 on 2026-04-13 using automation NPM_TOKEN."
     },
     {
       "id": "BEAM-208",
