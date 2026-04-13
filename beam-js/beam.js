@@ -13,17 +13,13 @@
   function send(payload) {
     const body = JSON.stringify(payload)
 
-    if (navigator.sendBeacon) {
-      navigator.sendBeacon(endpoint, new Blob([body], { type: 'application/json' }))
-      return
-    }
-
     fetch(endpoint, {
       method: 'POST',
       body,
       headers: { 'Content-Type': 'application/json' },
       keepalive: true,
-    })
+      credentials: 'omit',
+    }).catch(() => {})
   }
 
   const beam = window.beam || {}
