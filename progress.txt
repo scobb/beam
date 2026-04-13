@@ -30,3 +30,18 @@ Started: Sun Apr 12 07:11:26 PM PDT 2026
   - Local smoke suite: 155/156 pass; ux-audit Journey 5 has occasional 10s mobile timeout (pre-existing flakiness, not introduced by this story)
   - ux-audit.spec.ts uses a SHARED test user and serial execution — its tests fail with 429 when run multiple times from the same IP within the rate limit window
 ---
+
+## 2026-04-13 - BEAM-207
+- Published `@keylightdigital/beam@1.0.0` to npm using automation NPM_TOKEN (Steve added NPM_TOKEN to ralph-bootstrap/.env)
+- Publish confirmed: PUT 200 from registry.npmjs.org; second attempt returned E403 "cannot publish over previously published versions: 1.0.0"
+- Package visible in `npm search @keylightdigital` — shows version 1.0.0 published 2026-04-13
+- Landing page links (src/landing.ts:159 and :439) already pointed to `@keylightdigital/beam` from prior iterations
+- About page (src/routes/about.ts:164) already had correct link
+- README badges already pointed to correct npm URL
+- BEAM-207 removed from blocked-stories.json; prd.json passes: true
+- Files changed: `blocked-stories.json`, `prd.json`
+- **Learnings for future iterations:**
+  - NPM_TOKEN is now in `/home/scobb/repos/ralph-bootstrap/.env` as `NPM_TOKEN=npm_...`
+  - npm CDN has propagation delay: `npm view` and registry API return 404 for ~5-10 min after publish, but `npm search` and the reject-on-republish 403 confirm the package IS published
+  - For scoped npm publishes: use `echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > /tmp/.npmrc-beam && npm publish --access public --userconfig /tmp/.npmrc-beam`
+---
