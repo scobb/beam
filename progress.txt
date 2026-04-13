@@ -1,47 +1,23 @@
-## Codebase Patterns
-- Production URL is `beam-privacy.com` (not `beam.keylightdigital.com` which returns 526, nor the deploy script URL `beam.keylightdigital.dev` which redirects to `beam-privacy.com`)
-- Local wrangler dev skips signup/login rate limiting when IP is 'unknown' — safe to run full smoke suite locally repeatedly
-- Production rate limits: 10 signups/hour/IP, 15 logins/15min/IP — run smoke suite against prod at most once per hour
-- Smoke tests at `test/smoke/smoke.spec.ts` and `test/smoke/ux-audit.spec.ts`, run with `npm run test:smoke`
-- `page.request.post()` (Playwright API) shares browser cookies and follows redirects — use for testing POST redirects instead of `page.evaluate(fetch)` with `redirect: 'manual'` (which returns opaque status 0 in browser context)
-- `test.use()` must be at `test.describe()` scope, not inside a `test()` body — wrap in a nested describe if needed
-
 # Ralph Progress Log
-Started: Sun Apr 12 07:11:26 PM PDT 2026
+Started: Mon Apr 13 04:41:19 PM PDT 2026
 ---
 
-## 2026-04-13 - BEAM-210
-- Audited existing smoke tests vs all app routes — identified 10 uncovered flows
-- Added new test describe blocks in test/smoke/smoke.spec.ts:
-  - **Tracking script**: GET /js/beam.js — content-type, size < 2KB, sendBeacon present
-  - **Collect endpoint**: CORS preflight (204), missing site_id (400), unknown site_id (400), valid pageview (200/204)
-  - **Billing page**: free user sees upgrade CTA and usage meter; API key generate redirects free user back without flash; API key revoke redirects with api_key_revoked=1; mobile-safe at 375px
-  - **Alerts toggle**: clicking the On/Off button flips state and redirects back to site detail
-  - **Settings page**: renders account email and plan; mobile-safe at 375px
-  - **API v1 authentication**: missing key → 401; invalid key → 401
-  - **API docs page**: GET /docs/api renders Authentication heading
-- Updated CLAUDE.md with smoke test location, run commands, and correct production URL
-- Files changed: `test/smoke/smoke.spec.ts`, `CLAUDE.md`, `prd.json`, `progress.txt`
-- **Learnings for future iterations:**
-  - Production URL is `beam-privacy.com` — confirmed via `beam.keylightdigital.dev` redirect. `beam.keylightdigital.com` returns Cloudflare 526.
-  - Signup rate limit (10/hour/IP) means you can run the full suite against prod only once per hour — subsequent runs see 429 on all signup-dependent tests
-  - `fetch` with `redirect: 'manual'` in `page.evaluate()` returns opaque status 0, not 302/303 — use `page.request.post()` instead which follows redirects and exposes final URL
-  - `test.use()` cannot be called inside `test()` — must be at describe scope in a nested `test.describe()`
-  - Local smoke suite: 155/156 pass; ux-audit Journey 5 has occasional 10s mobile timeout (pre-existing flakiness, not introduced by this story)
-  - ux-audit.spec.ts uses a SHARED test user and serial execution — its tests fail with 429 when run multiple times from the same IP within the rate limit window
+## Codebase Patterns
+- beam.js is served dynamically via a Cloudflare Worker (tracking.ts BEAM_JS constant) — NOT from a static file. The beam-js/beam.js file is the unminified source kept in sync.
+- Production deploys use `npx wrangler deploy -c wrangler.deploy.toml` (not wrangler.toml) to avoid the zone-level route auth error. beam-privacy.com is a Custom Domain (not a route), so no zone permission needed.
+- Staging deploy route registration fails (auth error on CF zones API) — pre-existing issue. Smoke tests should be run directly against beam-privacy.com.
+- sendBeacon with Blob(type:'application/json') sends credentials:include by default, which breaks CORS when the server responds with Access-Control-Allow-Origin: *. Use fetch(keepalive:true, credentials:'omit') instead.
 ---
 
-## 2026-04-13 - BEAM-207
-- Published `@keylightdigital/beam@1.0.0` to npm using automation NPM_TOKEN (Steve added NPM_TOKEN to ralph-bootstrap/.env)
-- Publish confirmed: PUT 200 from registry.npmjs.org; second attempt returned E403 "cannot publish over previously published versions: 1.0.0"
-- Package visible in `npm search @keylightdigital` — shows version 1.0.0 published 2026-04-13
-- Landing page links (src/landing.ts:159 and :439) already pointed to `@keylightdigital/beam` from prior iterations
-- About page (src/routes/about.ts:164) already had correct link
-- README badges already pointed to correct npm URL
-- BEAM-207 removed from blocked-stories.json; prd.json passes: true
-- Files changed: `blocked-stories.json`, `prd.json`
+## 2026-04-13 - BEAM-211
+- Investigated "Waiting for data" on cards.keylightdigital.dev Beam dashboard
+- Root cause: `navigator.sendBeacon` sends with `credentials: 'include'` by default. When beam.js is loaded cross-origin (script src = beam-privacy.com, page = cards.keylightdigital.dev), the CORS preflight fails because the server returns `Access-Control-Allow-Origin: *` which is not allowed when credentials mode is 'include'. The beacon was silently dropped — no pageviews were recorded.
+- Fix: replaced `sendBeacon` with `fetch(keepalive:true, credentials:'omit')` in both `src/routes/tracking.ts` (production BEAM_JS) and `beam-js/beam.js` (unminified source). `credentials:'omit'` means no cookies sent, so wildcard CORS works fine.
+- Files changed: `src/routes/tracking.ts`, `beam-js/beam.js`, `test/smoke/smoke.spec.ts`
+- Deployed to prod via `npx wrangler deploy -c wrangler.deploy.toml`
+- Smoke tests: 6 tracking/CORS tests passed against production
 - **Learnings for future iterations:**
-  - NPM_TOKEN is now in `/home/scobb/repos/ralph-bootstrap/.env` as `NPM_TOKEN=npm_...`
-  - npm CDN has propagation delay: `npm view` and registry API return 404 for ~5-10 min after publish, but `npm search` and the reject-on-republish 403 confirm the package IS published
-  - For scoped npm publishes: use `echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > /tmp/.npmrc-beam && npm publish --access public --userconfig /tmp/.npmrc-beam`
+  - sendBeacon is NOT safe for cross-origin analytics — always use fetch+keepalive+credentials:omit
+  - The Playwright browser session caches beam.js — CORS errors in the persistent session after deployment are from the old cached script, not the live version. Smoke tests in fresh contexts are the reliable check.
+  - Staging route registration is broken (CF auth) — use prod smoke tests
 ---

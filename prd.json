@@ -3513,7 +3513,7 @@
         "No CSP or CORS errors blocking the tracking script"
       ],
       "priority": "medium",
-      "passes": false
+      "passes": true
     }
   ]
 }

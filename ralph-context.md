@@ -1,14 +1,15 @@
 ## Last completed
-BEAM-207 - Publish Beam tracking SDK to npm and fix landing page link
+BEAM-211 - Debug missing pageview data for cards.keylightdigital.dev
 
 ## Next up
-No stories remain with `passes: false`. All stories in prd.json are complete.
+No stories remain with `passes: false`. All 211 stories in prd.json are complete.
 
 ## Active issues
-None. All stories complete and passing.
+- Staging deploy route registration fails (CF auth error on zone routes API) — pre-existing. Use `npx wrangler deploy -c wrangler.deploy.toml` for prod deploys.
+- Signup rate limit hit during prod smoke run (429s for auth-dependent tests). Not a regression — the 10/hr limit was reached from manual testing + smoke run in same session.
 
 ## Key decisions this session
-- NPM_TOKEN was added to `/home/scobb/repos/ralph-bootstrap/.env` by Steve
-- Used automation token pattern: `echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > /tmp/.npmrc-beam && npm publish --access public --userconfig /tmp/.npmrc-beam`
-- @keylightdigital/beam@1.0.0 published successfully (confirmed by E403 on re-publish attempt)
-- No code changes needed — previous iterations had already updated landing page links and package.json
+- Root cause of BEAM-211: sendBeacon sends with credentials:include, breaking CORS against wildcard Access-Control-Allow-Origin: *
+- Fix: fetch(keepalive:true, credentials:'omit') replaces sendBeacon in tracking.ts and beam-js/beam.js
+- Production deployed via `npx wrangler deploy -c wrangler.deploy.toml` (bypasses zone route auth requirement)
+- Self-generation mode should activate: all stories complete, audit the product and generate new stories
