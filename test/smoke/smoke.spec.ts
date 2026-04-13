@@ -909,9 +909,12 @@ test.describe('Tracking script', () => {
     // Must be under 2KB raw (uncompressed)
     expect(body.length, 'beam.js must be under 2048 bytes raw').toBeLessThan(2048)
     // Core functionality must be present
-    expect(body).toContain('sendBeacon')
     expect(body).toContain('api/collect')
     expect(body).toContain('data-site-id')
+    // Must use fetch with credentials:omit (not sendBeacon) to avoid CORS issues
+    // when the script is loaded cross-origin (e.g. cards.keylightdigital.dev)
+    expect(body).toContain("credentials:'omit'")
+    expect(body).not.toContain('sendBeacon')
   })
 })
 
@@ -984,6 +987,31 @@ test.describe('Collect endpoint', () => {
     })
     // 200 = recorded, 204 = ignored (e.g., bot), both are acceptable non-error responses
     expect([200, 204], `Expected 200 or 204 from collect but got ${res.status()}`).toContain(res.status())
+  })
+
+  test('CORS preflight allows cross-origin requests without credentials requirement (BEAM-211)', async ({ request }) => {
+    // Regression test: beam.js uses fetch with credentials:'omit', so the server
+    // MUST allow * in Access-Control-Allow-Origin. If this breaks, cross-origin
+    // sites like cards.keylightdigital.dev will silently drop all pageviews.
+    const res = await request.fetch('/api/collect', {
+      method: 'OPTIONS',
+      headers: {
+        'Origin': 'https://cards.keylightdigital.dev',
+        'Access-Control-Request-Method': 'POST',
+        'Access-Control-Request-Headers': 'Content-Type',
+      },
+    })
+    expect(res.status()).toBe(204)
+    const headers = res.headers()
+    // Must allow * (or explicit origin) — not restrict to same-origin only
+    const acao = headers['access-control-allow-origin'] ?? ''
+    expect(
+      acao === '*' || acao === 'https://cards.keylightdigital.dev',
+      `ACAO header "${acao}" must be * or the requesting origin`
+    ).toBe(true)
+    // Must allow POST
+    const acam = headers['access-control-allow-methods'] ?? ''
+    expect(acam).toContain('POST')
   })
 })
 
