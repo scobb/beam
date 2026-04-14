@@ -43,6 +43,13 @@ function footer(): string {
 
 const POSTS = [
   {
+    slug: 'senbeacon-cors-analytics-fix',
+    title: 'Why sendBeacon Breaks Cross-Origin Analytics (and How to Fix It)',
+    date: '2026-04-13',
+    excerpt: 'navigator.sendBeacon silently drops requests when your analytics endpoint is cross-origin. Here\'s the root cause — credentials:include meets CORS wildcard — and the two-line fix that makes cross-origin analytics work reliably.',
+    author: 'Keylight Digital',
+  },
+  {
     slug: 'plausible-alternative',
     title: 'Why We Built a Plausible Alternative',
     date: '2026-04-06',
@@ -1534,6 +1541,195 @@ app.get('/blog/plausible-alternative', (c) => {
           <li><a href="/blog/cookie-free-analytics-guide" class="text-indigo-600 hover:text-indigo-700">Cookie-free analytics guide</a> — how privacy-first analytics works under the hood</li>
           <li><a href="/migrate/plausible" class="text-indigo-600 hover:text-indigo-700">Migrating from Plausible to Beam</a> — step-by-step guide</li>
         </ul>
+
+      </div>
+    </article>
+  </main>
+  ${footer()}
+</body>
+</html>`
+  return c.html(html)
+})
+
+// ─── Blog Post: Why sendBeacon Breaks Cross-Origin Analytics ──────────────────
+
+app.get('/blog/senbeacon-cors-analytics-fix', (c) => {
+  const baseUrl = getPublicBaseUrl(c.env)
+  const BEAM_SITE_ID = c.env.BEAM_SELF_SITE_ID ?? 'dfa32f6b-0775-43df-a2c4-eb23787e5f03'
+  const post = POSTS.find(p => p.slug === 'senbeacon-cors-analytics-fix')!
+  const jsonLd = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: post.title,
+    datePublished: post.date,
+    dateModified: post.date,
+    author: { '@type': 'Organization', name: 'Keylight Digital LLC', url: baseUrl },
+    publisher: { '@type': 'Organization', name: 'Keylight Digital LLC', url: baseUrl },
+    description: post.excerpt,
+    url: `${baseUrl}/blog/${post.slug}`,
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `${baseUrl}/blog/${post.slug}` },
+  })
+
+  const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>${post.title} — Beam</title>
+  <meta name="description" content="${post.excerpt}" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="${baseUrl}/blog/${post.slug}" />
+  <link rel="alternate" type="application/rss+xml" title="Beam Blog" href="/blog/rss.xml" />
+  <meta property="og:title" content="${post.title}" />
+  <meta property="og:description" content="${post.excerpt}" />
+  <meta property="og:url" content="${baseUrl}/blog/${post.slug}" />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="${post.date}" />
+  <script type="application/ld+json">${jsonLd}</script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
+</head>
+<body class="bg-white text-gray-900">
+  ${nav()}
+  <main class="max-w-3xl mx-auto px-6 py-16">
+    <div class="mb-8">
+      <a href="/blog" class="text-sm text-indigo-600 hover:text-indigo-700">← Back to blog</a>
+    </div>
+    <article>
+      <header class="mb-10">
+        <time class="text-sm text-gray-400">${post.date}</time>
+        <h1 class="mt-2 text-3xl font-bold text-gray-900 leading-snug">${post.title}</h1>
+        <p class="mt-3 text-lg text-gray-500">${post.excerpt}</p>
+      </header>
+
+      <div class="prose prose-gray max-w-none space-y-6 text-gray-700 leading-relaxed">
+
+        <h2 class="text-xl font-bold text-gray-900 mt-10">The Bug Nobody Notices Until It's Too Late</h2>
+        <p>
+          You install an analytics script. The dashboard shows zero pageviews. You refresh. Still zero. You check the console — no errors. You check the Network tab — the request goes out. You give up and assume it's a caching issue.
+        </p>
+        <p>
+          Two weeks later, you realize: nobody's data has been recorded. Not a single pageview. The script has been silently failing the whole time.
+        </p>
+        <p>
+          This is the <code class="bg-gray-100 px-1 rounded text-sm font-mono">sendBeacon</code> CORS bug, and it affects many analytics scripts — including ones that are otherwise well-written. Here's exactly what's happening, why it's hard to spot, and how to fix it in two lines.
+        </p>
+
+        <h2 class="text-xl font-bold text-gray-900 mt-10">How Analytics Scripts Typically Work</h2>
+        <p>
+          A cookie-free analytics script like Beam follows a simple pattern: when a user visits a page, the script sends a small JSON payload (the path, referrer, screen width, etc.) to an analytics endpoint. That endpoint records the pageview.
+        </p>
+        <p>
+          The canonical way to send this payload on page unload — so it doesn't slow down navigation — is <code class="bg-gray-100 px-1 rounded text-sm font-mono">navigator.sendBeacon()</code>. It was designed exactly for this use case: fire-and-forget, survives page unload, doesn't block the browser. Perfect on paper.
+        </p>
+        <p>
+          The typical implementation looks something like this:
+        </p>
+        <pre class="bg-gray-900 text-green-400 rounded-lg p-4 text-sm font-mono overflow-x-auto"><code>// The naive approach — looks reasonable, has a hidden bug
+const payload = JSON.stringify({ path: location.pathname, referrer: document.referrer })
+navigator.sendBeacon('/api/collect', new Blob([payload], { type: 'application/json' }))</code></pre>
+        <p>
+          This works fine when the script and the analytics endpoint are on the same origin. But the moment they're cross-origin — script loaded from <code class="bg-gray-100 px-1 rounded text-sm font-mono">beam-privacy.com</code>, analytics endpoint at <code class="bg-gray-100 px-1 rounded text-sm font-mono">beam-privacy.com/api/collect</code>, page at <code class="bg-gray-100 px-1 rounded text-sm font-mono">yourapp.com</code> — it silently fails.
+        </p>
+
+        <h2 class="text-xl font-bold text-gray-900 mt-10">The Root Cause: credentials:include Meets CORS Wildcard</h2>
+        <p>
+          Here's the mechanism. When you call <code class="bg-gray-100 px-1 rounded text-sm font-mono">sendBeacon</code> with a <code class="bg-gray-100 px-1 rounded text-sm font-mono">Blob</code> that specifies a content type, the browser treats the request as a <strong>credentialed cross-origin request</strong>. Credentialed means the browser sends cookies and other credentials along with the request.
+        </p>
+        <p>
+          The CORS specification has a hard rule: a credentialed cross-origin request cannot be satisfied by a wildcard <code class="bg-gray-100 px-1 rounded text-sm font-mono">Access-Control-Allow-Origin: *</code> response header. The server must return the exact origin of the requesting page, not a wildcard.
+        </p>
+        <p>
+          Most analytics endpoints — especially those designed to accept data from any domain — return the wildcard:
+        </p>
+        <pre class="bg-gray-900 text-green-400 rounded-lg p-4 text-sm font-mono overflow-x-auto"><code>Access-Control-Allow-Origin: *
+Access-Control-Allow-Methods: POST
+Access-Control-Allow-Headers: Content-Type</code></pre>
+        <p>
+          That's perfectly valid for non-credentialed requests. But <code class="bg-gray-100 px-1 rounded text-sm font-mono">sendBeacon</code> sends a credentialed request, so the browser silently drops the CORS preflight response as invalid. The request never reaches the server.
+        </p>
+        <p>
+          And here's why it's so hard to debug: <strong>sendBeacon failures are silent</strong>. There's no returned promise, no thrown error, no console warning. The browser logs a CORS error in the Network tab — but only if you're watching. Most analytics scripts fire on page unload, which clears the Network tab before you can see it. If you're not specifically looking for it with "Preserve log" enabled, you'll miss it entirely.
+        </p>
+
+        <h2 class="text-xl font-bold text-gray-900 mt-10">Why This Is Especially Common in Analytics</h2>
+        <p>
+          Analytics scripts are almost always cross-origin by design. The whole point of a hosted analytics service is that you load one script from a central domain and it tracks traffic across many different sites. Every one of those sites is a cross-origin relationship.
+        </p>
+        <p>
+          The combination of factors that creates this bug:
+        </p>
+        <ol class="list-decimal pl-6 space-y-2">
+          <li><strong>Script is loaded cross-origin</strong> (from the analytics vendor's domain onto your domain)</li>
+          <li><strong>Script uses sendBeacon with a typed Blob</strong> (application/json triggers a CORS preflight)</li>
+          <li><strong>Server responds with Access-Control-Allow-Origin: *</strong> (perfectly reasonable for a public API)</li>
+          <li><strong>Failure is silent</strong> (no error thrown, no data in the dashboard)</li>
+        </ol>
+        <p>
+          Each of these four things is individually reasonable. Together, they produce a bug that can go undetected for days or weeks.
+        </p>
+
+        <h2 class="text-xl font-bold text-gray-900 mt-10">The Fix: Use fetch with keepalive and credentials:omit</h2>
+        <p>
+          The fix is straightforward. Instead of <code class="bg-gray-100 px-1 rounded text-sm font-mono">sendBeacon</code>, use <code class="bg-gray-100 px-1 rounded text-sm font-mono">fetch</code> with <code class="bg-gray-100 px-1 rounded text-sm font-mono">keepalive: true</code> and <code class="bg-gray-100 px-1 rounded text-sm font-mono">credentials: 'omit'</code>:
+        </p>
+        <pre class="bg-gray-900 text-green-400 rounded-lg p-4 text-sm font-mono overflow-x-auto"><code>// The broken sendBeacon approach
+navigator.sendBeacon('/api/collect', new Blob([payload], { type: 'application/json' }))
+
+// The fixed fetch approach
+fetch('/api/collect', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: payload,
+  keepalive: true,       // survives page unload, same as sendBeacon
+  credentials: 'omit',  // no cookies sent — wildcard CORS works fine
+})</code></pre>
+        <p>
+          Let's break down why this works:
+        </p>
+        <ul class="list-disc pl-6 space-y-2">
+          <li><strong>keepalive: true</strong> — tells the browser to keep the request alive even if the page navigates away. This is the key property that makes <code class="bg-gray-100 px-1 rounded text-sm font-mono">sendBeacon</code> useful for analytics, and <code class="bg-gray-100 px-1 rounded text-sm font-mono">fetch</code> supports it directly.</li>
+          <li><strong>credentials: 'omit'</strong> — explicitly tells the browser not to send cookies or other credentials. This makes the request non-credentialed, which means <code class="bg-gray-100 px-1 rounded text-sm font-mono">Access-Control-Allow-Origin: *</code> is valid, and CORS succeeds.</li>
+        </ul>
+        <p>
+          For analytics, <code class="bg-gray-100 px-1 rounded text-sm font-mono">credentials: 'omit'</code> is actually the correct behavior anyway. You're not authenticating — you're reporting anonymous pageview data. There's no reason to send cookies.
+        </p>
+        <p>
+          The <code class="bg-gray-100 px-1 rounded text-sm font-mono">fetch</code> API also returns a promise, which means you can add error handling if you want to track failures — something <code class="bg-gray-100 px-1 rounded text-sm font-mono">sendBeacon</code> cannot do.
+        </p>
+
+        <h2 class="text-xl font-bold text-gray-900 mt-10">How to Check If You Have This Bug</h2>
+        <p>
+          If your analytics shows unexpectedly low numbers — especially if users are reporting that data isn't recording — here's how to diagnose it:
+        </p>
+        <ol class="list-decimal pl-6 space-y-2">
+          <li>Open the browser's DevTools. Go to the <strong>Network</strong> tab.</li>
+          <li>Check the <strong>"Preserve log"</strong> checkbox. This prevents the log from clearing when the page navigates.</li>
+          <li>Visit a page that should record a pageview. Then navigate to another page (to trigger the unload).</li>
+          <li>Filter the Network log by the analytics endpoint URL.</li>
+          <li>Look for a request with a <strong>CORS error</strong> in the Status column — it may show as "(failed)" or display a red CORS error in the console.</li>
+        </ol>
+        <p>
+          If you see that, you have this bug. Replace the <code class="bg-gray-100 px-1 rounded text-sm font-mono">sendBeacon</code> call with the <code class="bg-gray-100 px-1 rounded text-sm font-mono">fetch + keepalive + credentials:omit</code> pattern above.
+        </p>
+
+        <h2 class="text-xl font-bold text-gray-900 mt-10">What Beam Does</h2>
+        <p>
+          We hit this bug ourselves while building Beam. After fixing it, we dug into why it happens and wrote this up so other analytics developers don't have to rediscover it the hard way.
+        </p>
+        <p>
+          Beam's tracking script uses <code class="bg-gray-100 px-1 rounded text-sm font-mono">fetch</code> with <code class="bg-gray-100 px-1 rounded text-sm font-mono">keepalive: true</code> and <code class="bg-gray-100 px-1 rounded text-sm font-mono">credentials: 'omit'</code>. It works reliably cross-origin, doesn't require cookies, and is fully GDPR-compliant. If you want cookie-free analytics that actually records your pageviews, <a href="/signup" class="text-indigo-600 hover:text-indigo-700">try Beam free</a> — no credit card required.
+        </p>
+
+        <div class="mt-12 pt-8 border-t border-gray-200">
+          <h3 class="text-base font-semibold text-gray-900">Summary</h3>
+          <ul class="mt-4 list-disc pl-6 space-y-2 text-sm">
+            <li><code class="bg-gray-100 px-1 rounded font-mono">sendBeacon</code> with a typed <code class="bg-gray-100 px-1 rounded font-mono">Blob</code> sends credentials by default, triggering a CORS preflight</li>
+            <li>Servers that return <code class="bg-gray-100 px-1 rounded font-mono">Access-Control-Allow-Origin: *</code> cannot satisfy credentialed CORS requests — the request is silently dropped</li>
+            <li>Fix: use <code class="bg-gray-100 px-1 rounded font-mono">fetch({ keepalive: true, credentials: 'omit' })</code> instead</li>
+            <li>This pattern is safe for analytics — you're not authenticating, so omitting credentials is correct</li>
+          </ul>
+        </div>
 
       </div>
     </article>

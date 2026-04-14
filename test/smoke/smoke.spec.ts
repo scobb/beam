@@ -596,6 +596,38 @@ test.describe('Desktop smoke', () => {
 
     await page.screenshot({ path: 'screenshots/smoke/desktop-export-csv.png' })
   })
+
+  test('sendBeacon CORS blog post loads with correct content, OG tags, sitemap entry, and blog index link (BEAM-214)', async ({ page }) => {
+    const slug = 'senbeacon-cors-analytics-fix'
+
+    // Blog post page loads with correct heading and technical content
+    await page.goto(`/blog/${slug}`)
+    await expect(page.getByRole('heading', { level: 1 })).toContainText('sendBeacon')
+    await expect(page.getByText(/credentials:include/i)).toBeVisible()
+    await expect(page.getByText(/credentials: 'omit'/i)).toBeVisible()
+    await expect(page.getByText(/keepalive/i)).toBeVisible()
+
+    // OG meta tags
+    const ogTitle = await page.$eval('meta[property="og:title"]', (el) => el.getAttribute('content'))
+    expect(ogTitle).toContain('sendBeacon')
+    const ogType = await page.$eval('meta[property="og:type"]', (el) => el.getAttribute('content'))
+    expect(ogType).toBe('article')
+    const articlePublished = await page.$eval('meta[property="article:published_time"]', (el) => el.getAttribute('content'))
+    expect(articlePublished).toBe('2026-04-13')
+
+    // Blog index includes the post
+    await page.goto('/blog')
+    await expect(page.getByRole('link', { name: /sendBeacon/i })).toBeVisible()
+
+    // Sitemap includes the post
+    const sitemapRes = await page.request.get('/sitemap.xml')
+    expect(sitemapRes.status()).toBe(200)
+    const sitemapXml = await sitemapRes.text()
+    expect(sitemapXml).toContain(`/blog/${slug}`)
+
+    await page.goto(`/blog/${slug}`)
+    await page.screenshot({ path: 'screenshots/smoke/desktop-blog-senbeacon-cors.png' })
+  })
 })
 
 // ── Mobile smoke ──────────────────────────────────────────────────────────────
@@ -904,6 +936,13 @@ test.describe('Mobile smoke', () => {
     await expect(page.getByRole('button', { name: 'Download CSV' })).toBeVisible()
     await assertNoHorizontalOverflow(page, 'export page (mobile)')
     await page.screenshot({ path: 'screenshots/smoke/mobile-export-csv.png' })
+  })
+
+  test('sendBeacon CORS blog post is mobile-safe at 375px (BEAM-214)', async ({ page }) => {
+    await page.goto('/blog/senbeacon-cors-analytics-fix')
+    await expect(page.getByRole('heading', { level: 1 })).toContainText('sendBeacon')
+    await assertNoHorizontalOverflow(page, 'sendBeacon blog post page')
+    await page.screenshot({ path: 'screenshots/smoke/mobile-blog-senbeacon-cors.png' })
   })
 })
 
