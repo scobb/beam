@@ -39,6 +39,9 @@ function footer(): string {
         <a href="/vs/matomo" class="hover:text-gray-600">vs Matomo</a>
         <a href="/vs/simple-analytics" class="hover:text-gray-600">vs Simple Analytics</a>
         <a href="/vs/rybbit" class="hover:text-gray-600">vs Rybbit</a>
+        <a href="/vs/posthog" class="hover:text-gray-600">vs PostHog</a>
+        <a href="/vs/pirsch" class="hover:text-gray-600">vs Pirsch</a>
+        <a href="/vs/cabin" class="hover:text-gray-600">vs Cabin</a>
         <a href="/beam-analytics-alternative" class="hover:text-gray-600">Beam Analytics Alternative</a>
         <a href="/signup" class="hover:text-gray-600">Sign up</a>
         <a href="/login" class="hover:text-gray-600">Log in</a>
@@ -193,6 +196,27 @@ app.get('/alternatives', (c) => {
       intro: 'A fast-growing open-source/self-hosted option with advanced product analytics features.',
       beamStronger: 'you want zero infrastructure and lower managed cost for day-to-day site analytics.',
       alternativeBetter: 'you need session replay/funnel workflows and can operate self-hosted infrastructure.',
+    },
+    {
+      href: '/vs/posthog',
+      label: 'Beam vs PostHog',
+      intro: 'A full product analytics suite with session replay, feature flags, A/B testing, and funnels.',
+      beamStronger: 'you want simple cookie-free traffic analytics with zero configuration and no consent banner.',
+      alternativeBetter: 'you need feature flags, A/B testing, session replay, or deep funnel analysis for your SaaS product.',
+    },
+    {
+      href: '/vs/pirsch',
+      label: 'Beam vs Pirsch',
+      intro: 'A German-built, EU-hosted cookie-free analytics tool with goal tracking and funnel features.',
+      beamStronger: 'you want a free tier, lower pricing ($5 vs $6+/mo), and Cloudflare\'s global edge network.',
+      alternativeBetter: 'you need EU data residency or goal/funnel tracking alongside privacy-first page metrics.',
+    },
+    {
+      href: '/vs/cabin',
+      label: 'Beam vs Cabin',
+      intro: 'A privacy-first, carbon-neutral analytics tool with a refined aesthetic and sustainability focus.',
+      beamStronger: 'cost matters and you want the same cookie-free privacy at $5/mo vs Cabin\'s $19/mo.',
+      alternativeBetter: 'environmental sustainability is a brand value and you want carbon-neutral analytics infrastructure.',
     },
     {
       href: '/beam-analytics-alternative',
@@ -1119,6 +1143,310 @@ ${nav()}
     { href: '/vs/plausible', label: 'Beam vs Plausible', description: 'Compare Beam with the best-known indie privacy analytics SaaS — also managed, no self-hosting required.' },
     { href: '/vs/umami', label: 'Beam vs Umami', description: 'Another popular open-source self-hosted option; compare the self-hosting trade-off in detail.' },
     { href: '/vs/matomo', label: 'Beam vs Matomo', description: 'The original heavyweight self-hosted analytics — see how full feature depth compares to simplicity.' },
+  ])}
+
+  ${ctaSection()}
+</main>
+
+${footer()}
+</body>
+</html>`
+  return c.html(html)
+})
+
+// ─── PostHog ─────────────────────────────────────────────────────────────────
+
+app.get('/vs/posthog', (c) => {
+  const baseUrl = getPublicBaseUrl(c.env)
+  const BEAM_SITE_ID = c.env.BEAM_SELF_SITE_ID ?? BEAM_SITE_ID_FALLBACK
+  const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Beam vs PostHog — Simple Web Analytics vs Full Product Suite</title>
+  <meta name="description" content="Beam vs PostHog: Beam is lightweight cookie-free web analytics at $5/mo. PostHog is a full product analytics suite with session replay, feature flags, and A/B tests — but far more complex." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="${baseUrl}/vs/posthog" />
+  <meta property="og:title" content="Beam vs PostHog — Simple Web Analytics vs Full Product Suite" />
+  <meta property="og:description" content="Beam is one script tag for privacy-first traffic analytics. PostHog is a full product analytics platform. Compare pricing, complexity, and use cases." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="${baseUrl}/vs/posthog" />
+  <meta property="og:image" content="${baseUrl}/og/vs-posthog" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Beam vs PostHog Analytics" />
+  <meta name="twitter:description" content="Simple privacy-first web analytics vs full product analytics suite. Compare Beam and PostHog." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
+  <script type="application/ld+json">${JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Is PostHog free?", "acceptedAnswer": { "@type": "Answer", "text": "PostHog has a generous free tier — up to 1 million events per month at no cost. Paid plans start at $0 and scale with usage. However, the free tier requires card details and PostHog's complexity means most teams need significant setup time before seeing value." } },
+      { "@type": "Question", "name": "Does Beam have session replay like PostHog?", "acceptedAnswer": { "@type": "Answer", "text": "No. Session replay is a PostHog advantage — it records visitor sessions so you can watch how users navigate your site. Beam focuses on aggregate, privacy-first web analytics without PII collection, so session replay is outside its scope." } },
+      { "@type": "Question", "name": "When should I use Beam instead of PostHog?", "acceptedAnswer": { "@type": "Answer", "text": "Use Beam if you want simple, privacy-first traffic analytics — pageviews, referrers, top pages, countries — without cookies, consent banners, or the overhead of configuring a full product analytics suite. Beam takes 5 minutes to install and zero ongoing management. PostHog is the right choice when you need feature flags, A/B testing, session replay, or funnel analysis alongside your analytics." } }
+    ]
+  })}</script>
+</head>
+<body class="bg-white text-gray-900 antialiased">
+${nav()}
+
+<main class="max-w-4xl mx-auto px-6 py-16">
+
+  <div class="mb-2 text-sm text-indigo-600 font-medium uppercase tracking-wide">Comparison</div>
+  <h1 class="text-4xl font-extrabold tracking-tight text-gray-900 mb-4">Beam vs PostHog</h1>
+  <p class="text-xl text-gray-500 mb-12">PostHog is a powerful open-source product analytics platform built for engineering and product teams. It does a lot — session replay, feature flags, A/B testing, funnels, heatmaps, and more. Beam does one thing well: lightweight, cookie-free web analytics that deploys in 5 minutes and requires zero ongoing maintenance.</p>
+
+  ${comparisonTable([
+    { feature: 'Primary focus', beam: 'Web traffic analytics', competitor: 'Full product analytics suite', beamWins: false },
+    { feature: 'Pricing (hosted)', beam: 'Free / $5/mo Pro', competitor: 'Free up to 1M events, then usage-based', beamWins: false },
+    { feature: 'Open source', beam: 'Tracking script only (MIT)', competitor: 'Fully open source (MIT)', beamWins: false },
+    { feature: 'Cookies used', beam: 'None', competitor: 'Yes (for user tracking)', beamWins: true },
+    { feature: 'GDPR compliant', beam: 'Yes — no consent needed', competitor: 'Requires consent banner for EU visitors', beamWins: true },
+    { feature: 'Setup time', beam: '< 5 minutes (one script tag)', competitor: '30–60 minutes (SDK config, events, properties)', beamWins: true },
+    { feature: 'Infrastructure required', beam: 'None — fully managed', competitor: 'Managed cloud or self-hosted server', beamWins: true },
+    { feature: 'Session replay', beam: 'No', competitor: 'Yes', beamWins: false },
+    { feature: 'Feature flags', beam: 'No', competitor: 'Yes', beamWins: false },
+    { feature: 'A/B testing', beam: 'No', competitor: 'Yes', beamWins: false },
+    { feature: 'Funnels', beam: 'No', competitor: 'Yes', beamWins: false },
+    { feature: 'Heatmaps', beam: 'No', competitor: 'Yes', beamWins: false },
+    { feature: 'Custom events', beam: 'Yes', competitor: 'Yes', beamWins: false },
+    { feature: 'Script size', beam: '< 2 KB', competitor: '~70 KB (full SDK)', beamWins: true },
+    { feature: 'Free tier (hosted)', beam: '1 site, 50K pv/mo', competitor: '1M events/mo (card required)', beamWins: false },
+  ])}
+
+  <div class="mt-12 space-y-6 text-gray-700 leading-relaxed">
+    <h2 class="text-2xl font-bold text-gray-900">Where PostHog Has the Edge</h2>
+    <p>
+      PostHog is one of the most feature-complete product analytics platforms available. If your team needs to understand <em>how</em> users interact with your product — not just how many arrived — PostHog delivers. Session replay lets you watch real user sessions. Feature flags let you gate new features by user segment. A/B testing integrates directly with your analytics data. Funnels show you where users drop off in multi-step flows.
+    </p>
+    <p>
+      PostHog's open-source MIT license also means you can self-host the entire stack for complete data ownership — useful if regulatory requirements demand it. The 1M events/month free tier is generous for early-stage products, and the community and documentation are excellent.
+    </p>
+
+    <h2 class="text-2xl font-bold text-gray-900">Where Beam Has the Edge</h2>
+    <p>
+      PostHog's power comes with complexity. Installing PostHog correctly takes planning: you need to decide which events to track, configure user identification, set up properties, and instrument your codebase. That setup overhead is worthwhile for teams building SaaS products, but it's significant overhead for content sites, blogs, and marketing pages that just need reliable traffic data.
+    </p>
+    <p>
+      Beam is the opposite: one script tag, five minutes, done. There's nothing to configure. Pageviews, referrers, countries, devices, and browsers flow automatically. No cookies means no consent banner required under GDPR, PECR, or CCPA — a meaningful UX and compliance advantage.
+    </p>
+    <p>
+      PostHog's SDK is also roughly 70 KB — necessary for its feature set, but noticeably heavier than Beam's sub-2 KB script. For performance-sensitive sites, script weight matters.
+    </p>
+
+    <h2 class="text-2xl font-bold text-gray-900">Which Should You Choose?</h2>
+    <p>
+      Choose <strong>PostHog</strong> if: you're building a product and need feature flags, A/B testing, session replay, or funnel analysis. PostHog is purpose-built for product teams who want to understand how users interact with their app — not just how they arrived.
+    </p>
+    <p>
+      Choose <strong>Beam</strong> if: you want privacy-first web traffic analytics without cookies, consent banners, or a complex SDK. Beam works for any site — blogs, marketing pages, Shopify stores, content sites — and takes 5 minutes to install. It's also worth noting these tools aren't mutually exclusive: some teams use Beam for cookieless traffic data alongside PostHog for product analytics.
+    </p>
+  </div>
+
+  ${relatedComparisons([
+    { href: '/vs/plausible', label: 'Beam vs Plausible', description: 'Another privacy-first web analytics SaaS — simpler than PostHog, focused on traffic metrics like Beam.' },
+    { href: '/vs/pirsch', label: 'Beam vs Pirsch', description: 'Compare Beam with another cookie-free web analytics tool targeting privacy-conscious teams.' },
+    { href: '/vs/umami', label: 'Beam vs Umami', description: 'Open-source self-hosted analytics — simpler than PostHog but still more ops than Beam.' },
+  ])}
+
+  ${ctaSection()}
+</main>
+
+${footer()}
+</body>
+</html>`
+  return c.html(html)
+})
+
+// ─── Pirsch ───────────────────────────────────────────────────────────────────
+
+app.get('/vs/pirsch', (c) => {
+  const baseUrl = getPublicBaseUrl(c.env)
+  const BEAM_SITE_ID = c.env.BEAM_SELF_SITE_ID ?? BEAM_SITE_ID_FALLBACK
+  const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Beam vs Pirsch — Privacy-First Analytics Comparison</title>
+  <meta name="description" content="Beam vs Pirsch: both are cookie-free, GDPR-compliant web analytics tools. Compare pricing, features, and value. Beam starts free; Pirsch starts at $6/month with no free tier." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="${baseUrl}/vs/pirsch" />
+  <meta property="og:title" content="Beam vs Pirsch — Privacy-First Analytics Comparison" />
+  <meta property="og:description" content="Both cookie-free and GDPR-compliant. Beam offers a free tier; Pirsch starts at $6/mo. Compare features, pricing, and which fits your team." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="${baseUrl}/vs/pirsch" />
+  <meta property="og:image" content="${baseUrl}/og/vs-pirsch" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Beam vs Pirsch Analytics" />
+  <meta name="twitter:description" content="Two cookie-free privacy analytics tools compared. See how Beam stacks up against Pirsch." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
+  <script type="application/ld+json">${JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Is Pirsch free?", "acceptedAnswer": { "@type": "Answer", "text": "Pirsch offers a 30-day free trial but has no permanent free tier. Paid plans start at $6/month for up to 10,000 pageviews. Beam's free tier covers 1 site and 50,000 pageviews per month at no cost." } },
+      { "@type": "Question", "name": "Is Pirsch GDPR compliant?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Like Beam, Pirsch is cookie-free and collects no personal data, making it GDPR, CCPA, and PECR compliant without requiring a consent banner. Pirsch is based in Germany (EU-hosted), which may be an advantage for teams with EU data residency requirements." } },
+      { "@type": "Question", "name": "What are the main differences between Beam and Pirsch?", "acceptedAnswer": { "@type": "Answer", "text": "Both tools are cookie-free privacy analytics. The key differences: Beam has a free tier (50K pv/mo); Pirsch does not. Pirsch offers funnels, goals, and event tracking; Beam is focused on traffic metrics. Pirsch is EU-hosted (Germany); Beam runs on Cloudflare's global edge network. Pirsch starts at $6/mo; Beam Pro is $5/mo." } }
+    ]
+  })}</script>
+</head>
+<body class="bg-white text-gray-900 antialiased">
+${nav()}
+
+<main class="max-w-4xl mx-auto px-6 py-16">
+
+  <div class="mb-2 text-sm text-indigo-600 font-medium uppercase tracking-wide">Comparison</div>
+  <h1 class="text-4xl font-extrabold tracking-tight text-gray-900 mb-4">Beam vs Pirsch</h1>
+  <p class="text-xl text-gray-500 mb-12">Pirsch is a German-built, cookie-free privacy analytics tool with a clean dashboard and EU data hosting. Beam shares Pirsch's privacy-first philosophy — cookie-free, GDPR-compliant, no consent banner required — but starts completely free and runs on Cloudflare's edge network for global low-latency data collection.</p>
+
+  ${comparisonTable([
+    { feature: 'Pricing (hosted)', beam: 'Free / $5/mo Pro', competitor: '$6/mo Hobby, $14/mo Standard', beamWins: true },
+    { feature: 'Free tier', beam: '1 site, 50K pv/mo — no card', competitor: '30-day trial only', beamWins: true },
+    { feature: 'Cookies used', beam: 'None', competitor: 'None', beamWins: false },
+    { feature: 'GDPR compliant', beam: 'Yes — no consent needed', competitor: 'Yes — no consent needed', beamWins: false },
+    { feature: 'Data hosting', beam: 'Cloudflare global edge', competitor: 'EU (Germany)', beamWins: false },
+    { feature: 'Script size', beam: '< 2 KB', competitor: '< 2 KB', beamWins: false },
+    { feature: 'Custom events', beam: 'Yes', competitor: 'Yes', beamWins: false },
+    { feature: 'Funnels', beam: 'No', competitor: 'Yes', beamWins: false },
+    { feature: 'Goals / conversions', beam: 'No', competitor: 'Yes', beamWins: false },
+    { feature: 'Email reports', beam: 'Yes (digest)', competitor: 'Yes', beamWins: false },
+    { feature: 'Public dashboards', beam: 'Yes', competitor: 'Yes', beamWins: false },
+    { feature: 'API access', beam: 'Yes', competitor: 'Yes', beamWins: false },
+    { feature: 'Open source', beam: 'Tracking script (MIT)', competitor: 'No', beamWins: false },
+  ])}
+
+  <div class="mt-12 space-y-6 text-gray-700 leading-relaxed">
+    <h2 class="text-2xl font-bold text-gray-900">Where Pirsch Has the Edge</h2>
+    <p>
+      Pirsch goes deeper on conversion features. If you need to track goals, define funnels, or measure specific conversion events alongside your traffic data, Pirsch offers those capabilities in a privacy-safe way that Beam currently doesn't. The Pirsch dashboard is polished, and the product has built a loyal user base since launching in 2021.
+    </p>
+    <p>
+      EU data residency is a Pirsch-specific advantage for teams that need data stored within the European Union. Pirsch servers are hosted in Germany, which simplifies data processing agreements for some compliance workflows. Beam runs on Cloudflare's global edge — excellent for performance, but data routing is not EU-locked.
+    </p>
+
+    <h2 class="text-2xl font-bold text-gray-900">Where Beam Has the Edge</h2>
+    <p>
+      The clearest Beam advantage is price. Pirsch's Hobby plan starts at $6/month and covers only 10,000 monthly pageviews — a low ceiling for active sites. Beam's free tier covers 50,000 pageviews per month with no credit card required, and the Pro plan at $5/month covers 500,000 pageviews. For indie developers and small teams, the math is straightforward.
+    </p>
+    <p>
+      Beam is also built on Cloudflare Workers and D1 — running at Cloudflare's edge means collection latency is minimal regardless of where your visitors are located. Pirsch's EU hosting is a data residency advantage, but a latency trade-off for global audiences.
+    </p>
+
+    <h2 class="text-2xl font-bold text-gray-900">Which Should You Choose?</h2>
+    <p>
+      Choose <strong>Pirsch</strong> if: EU data residency is a hard requirement, you need goal tracking and funnels alongside traffic metrics, or you prefer Pirsch's more mature product feature set.
+    </p>
+    <p>
+      Choose <strong>Beam</strong> if: you want cookie-free privacy analytics at the lowest possible price (including free), you're running a content site or blog that needs traffic data without funnel complexity, or you want to get started immediately without a credit card.
+    </p>
+  </div>
+
+  ${relatedComparisons([
+    { href: '/vs/posthog', label: 'Beam vs PostHog', description: 'Compare Beam with PostHog\'s full product analytics suite — session replay, feature flags, and more.' },
+    { href: '/vs/plausible', label: 'Beam vs Plausible', description: 'The best-known indie privacy analytics SaaS — compare pricing and features side by side.' },
+    { href: '/vs/fathom', label: 'Beam vs Fathom', description: 'Another privacy-first analytics tool with a premium positioning — how does it compare to Beam?' },
+  ])}
+
+  ${ctaSection()}
+</main>
+
+${footer()}
+</body>
+</html>`
+  return c.html(html)
+})
+
+// ─── Cabin ────────────────────────────────────────────────────────────────────
+
+app.get('/vs/cabin', (c) => {
+  const baseUrl = getPublicBaseUrl(c.env)
+  const BEAM_SITE_ID = c.env.BEAM_SELF_SITE_ID ?? BEAM_SITE_ID_FALLBACK
+  const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Beam vs Cabin — Privacy Analytics Comparison</title>
+  <meta name="description" content="Beam vs Cabin: both are privacy-first, cookie-free analytics. Cabin starts at $19/month with a carbon-neutral focus. Beam starts free at $0 and scales to $5/mo Pro. Compare pricing and features." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="${baseUrl}/vs/cabin" />
+  <meta property="og:title" content="Beam vs Cabin — Privacy Analytics Comparison" />
+  <meta property="og:description" content="Cabin is cookie-free and carbon-neutral analytics at $19/mo. Beam is cookie-free and starts free. Compare both privacy-first analytics tools." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="${baseUrl}/vs/cabin" />
+  <meta property="og:image" content="${baseUrl}/og/vs-cabin" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Beam vs Cabin Analytics" />
+  <meta name="twitter:description" content="Privacy-first web analytics compared: Beam vs Cabin. See pricing, features, and which fits your needs." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
+  <script type="application/ld+json">${JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Is Cabin free?", "acceptedAnswer": { "@type": "Answer", "text": "Cabin does not have a permanent free tier. Paid plans start at $19/month. Beam has a free tier covering 1 site and 50,000 pageviews per month, with a Pro plan at $5/month." } },
+      { "@type": "Question", "name": "What makes Cabin different from other analytics tools?", "acceptedAnswer": { "@type": "Answer", "text": "Cabin is carbon-neutral and emphasizes environmental responsibility as a product differentiator. It is also cookie-free, GDPR compliant, and requires no consent banner. Cabin's pricing reflects its sustainable infrastructure focus." } },
+      { "@type": "Question", "name": "Is Beam a good Cabin alternative?", "acceptedAnswer": { "@type": "Answer", "text": "Yes, if price is a factor. Beam offers the same core privacy analytics features — cookie-free, GDPR-compliant, no consent banner — at a much lower price point ($5/mo vs $19/mo). Cabin has the carbon-neutral angle, which Beam doesn't market as a differentiator." } }
+    ]
+  })}</script>
+</head>
+<body class="bg-white text-gray-900 antialiased">
+${nav()}
+
+<main class="max-w-4xl mx-auto px-6 py-16">
+
+  <div class="mb-2 text-sm text-indigo-600 font-medium uppercase tracking-wide">Comparison</div>
+  <h1 class="text-4xl font-extrabold tracking-tight text-gray-900 mb-4">Beam vs Cabin</h1>
+  <p class="text-xl text-gray-500 mb-12">Cabin is a privacy-first, carbon-neutral web analytics tool with a clean aesthetic and a sustainability angle. Both Beam and Cabin are cookie-free and require no consent banner. The main difference: Cabin starts at $19/month with no free tier, while Beam is free for up to 50,000 pageviews and $5/month for Pro.</p>
+
+  ${comparisonTable([
+    { feature: 'Pricing (hosted)', beam: 'Free / $5/mo Pro', competitor: '$19/mo Starter, $49/mo Growth', beamWins: true },
+    { feature: 'Free tier', beam: '1 site, 50K pv/mo — no card', competitor: 'None', beamWins: true },
+    { feature: 'Cookies used', beam: 'None', competitor: 'None', beamWins: false },
+    { feature: 'GDPR compliant', beam: 'Yes — no consent needed', competitor: 'Yes — no consent needed', beamWins: false },
+    { feature: 'Carbon neutral', beam: 'Not marketed', competitor: 'Yes — core differentiator', beamWins: false },
+    { feature: 'Script size', beam: '< 2 KB', competitor: '< 2 KB', beamWins: false },
+    { feature: 'Custom events', beam: 'Yes', competitor: 'Yes', beamWins: false },
+    { feature: 'Public dashboards', beam: 'Yes', competitor: 'Yes', beamWins: false },
+    { feature: 'Multiple sites', beam: 'Pro plan (unlimited)', competitor: 'Growth plan', beamWins: true },
+    { feature: 'API access', beam: 'Yes', competitor: 'Yes', beamWins: false },
+    { feature: 'Infrastructure', beam: 'Cloudflare edge (global)', competitor: 'US-hosted cloud', beamWins: false },
+    { feature: 'Open source', beam: 'Tracking script (MIT)', competitor: 'No', beamWins: false },
+  ])}
+
+  <div class="mt-12 space-y-6 text-gray-700 leading-relaxed">
+    <h2 class="text-2xl font-bold text-gray-900">Where Cabin Has the Edge</h2>
+    <p>
+      Cabin's standout differentiator is sustainability. The product is marketed as carbon-neutral analytics, powered by renewable energy. For teams and brands where environmental responsibility is part of their values — and something they want to communicate to customers — Cabin's positioning is genuine and rare in the analytics space.
+    </p>
+    <p>
+      Cabin's dashboard is also known for its minimalist, refined design aesthetic. If you value a particularly clean, opinionated UI and the environmental angle matters to your team, Cabin has built a distinct identity in a crowded market.
+    </p>
+
+    <h2 class="text-2xl font-bold text-gray-900">Where Beam Has the Edge</h2>
+    <p>
+      Price is the most significant Beam advantage. Cabin's Starter plan at $19/month is nearly four times Beam's $5/month Pro plan — and Cabin has no free tier. For indie developers, side projects, and small teams managing multiple sites on a budget, the pricing gap is hard to ignore.
+    </p>
+    <p>
+      Beam's free tier (1 site, 50,000 pageviews/month, no credit card) makes it easy to try before committing. Cabin requires an upfront payment decision before you can evaluate the product in production. Beam runs on Cloudflare's global edge network, providing low-latency collection for visitors anywhere in the world, not just from US servers.
+    </p>
+
+    <h2 class="text-2xl font-bold text-gray-900">Which Should You Choose?</h2>
+    <p>
+      Choose <strong>Cabin</strong> if: environmental sustainability is important to your brand, you're comfortable paying a premium for carbon-neutral infrastructure, and Cabin's refined aesthetic aligns with your team's values.
+    </p>
+    <p>
+      Choose <strong>Beam</strong> if: you want cookie-free, GDPR-compliant web analytics at the lowest price point, a free tier to start with no commitment, or you're managing multiple sites and need a cost-effective Pro plan that covers them all.
+    </p>
+  </div>
+
+  ${relatedComparisons([
+    { href: '/vs/pirsch', label: 'Beam vs Pirsch', description: 'Another privacy-first analytics tool — compare cookie-free options at similar price points.' },
+    { href: '/vs/fathom', label: 'Beam vs Fathom', description: 'Fathom is another premium privacy analytics product — compare positioning and pricing.' },
+    { href: '/vs/simple-analytics', label: 'Beam vs Simple Analytics', description: 'Minimalist privacy analytics — see how Simple Analytics compares to Beam and Cabin.' },
   ])}
 
   ${ctaSection()}

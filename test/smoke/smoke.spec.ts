@@ -628,6 +628,42 @@ test.describe('Desktop smoke', () => {
     await page.goto(`/blog/${slug}`)
     await page.screenshot({ path: 'screenshots/smoke/desktop-blog-senbeacon-cors.png' })
   })
+
+  test('/vs/posthog, /vs/pirsch, /vs/cabin comparison pages load with correct content and sitemap entries (BEAM-215)', async ({ page }) => {
+    const pages = [
+      { path: '/vs/posthog', heading: 'Beam vs PostHog', bodyText: 'session replay', sitemap: '/vs/posthog' },
+      { path: '/vs/pirsch', heading: 'Beam vs Pirsch', bodyText: 'EU data residency', sitemap: '/vs/pirsch' },
+      { path: '/vs/cabin', heading: 'Beam vs Cabin', bodyText: 'carbon-neutral', sitemap: '/vs/cabin' },
+    ]
+
+    const sitemapRes = await page.request.get('/sitemap.xml')
+    expect(sitemapRes.status()).toBe(200)
+    const sitemapXml = await sitemapRes.text()
+
+    for (const { path, heading, bodyText, sitemap } of pages) {
+      await page.goto(path)
+      await expect(page.getByRole('heading', { name: heading, exact: true })).toBeVisible()
+      await expect(page.getByText(bodyText).first()).toBeVisible()
+
+      // beam.js tracking snippet present
+      const beamScript = page.locator('script[data-site-id]')
+      await expect(beamScript).toHaveCount(1)
+
+      // CTA present
+      await expect(page.getByRole('link', { name: /Get Started Free/i }).first()).toBeVisible()
+
+      // Sitemap entry
+      expect(sitemapXml).toContain(sitemap)
+    }
+
+    // Alternatives hub links to all three
+    await page.goto('/alternatives')
+    await expect(page.getByRole('link', { name: 'Beam vs PostHog' })).toBeVisible()
+    await expect(page.getByRole('link', { name: 'Beam vs Pirsch' })).toBeVisible()
+    await expect(page.getByRole('link', { name: 'Beam vs Cabin' })).toBeVisible()
+
+    await page.screenshot({ path: 'screenshots/smoke/desktop-vs-posthog-pirsch-cabin.png' })
+  })
 })
 
 // ── Mobile smoke ──────────────────────────────────────────────────────────────
@@ -943,6 +979,14 @@ test.describe('Mobile smoke', () => {
     await expect(page.getByRole('heading', { level: 1 })).toContainText('sendBeacon')
     await assertNoHorizontalOverflow(page, 'sendBeacon blog post page')
     await page.screenshot({ path: 'screenshots/smoke/mobile-blog-senbeacon-cors.png' })
+  })
+
+  test('/vs/posthog, /vs/pirsch, /vs/cabin pages are mobile-safe at 375px (BEAM-215)', async ({ page }) => {
+    for (const path of ['/vs/posthog', '/vs/pirsch', '/vs/cabin']) {
+      await page.goto(path)
+      await assertNoHorizontalOverflow(page, `${path} mobile`)
+    }
+    await page.screenshot({ path: 'screenshots/smoke/mobile-vs-posthog-pirsch-cabin.png' })
   })
 })
 
