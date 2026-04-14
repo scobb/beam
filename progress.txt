@@ -227,3 +227,15 @@ Started: Mon Apr 13 06:34:00 PM PDT 2026
   - Status feedback via query param (?status=x) is stateless and simple — no session flash needed
   - Prod signup rate limit (10/hour/IP) consistently exhausted in multi-story sessions; local tests are authoritative
 ---
+
+## 2026-04-14 - BEAM-229
+- Added /vs/amplitude comparison page: comparison table (15 rows), prose analysis (where each wins), FAQ JSON-LD, related comparisons to /vs/mixpanel, /vs/posthog, /vs/plausible
+- Added Amplitude to /alternatives hub cards (2 new cards: Mixpanel and Amplitude)
+- Added /vs/amplitude to vs.ts footer links
+- Added to sitemap.xml paths + meta in src/index.ts
+- Files changed: src/routes/vs.ts, src/index.ts, test/smoke/smoke.spec.ts
+- Local 4/4; prod 4/4 pass
+- **Learnings for future iterations:**
+  - /alternatives hub uses alternativesCards() with AlternativeOption array — add new cards by appending to the options array before the beam-analytics-alternative entry
+  - vs.ts footer already has flex-wrap so adding more links is safe on mobile
+---

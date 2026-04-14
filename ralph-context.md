@@ -1,11 +1,10 @@
 ## Last completed
-BEAM-231 - Dashboard settings digest toggle (local 4/4 pass; prod 429 rate limit)
+BEAM-229 - /vs/amplitude comparison page (local 4/4; prod 4/4)
 
 ## Next up
-BEAM-229 (medium) — /vs/amplitude comparison page
-- Amplitude is a major paid product analytics platform
-- Follow /vs/mixpanel pattern: comparison table, prose, FAQ JSON-LD, footer links
-- Add to sitemap.xml and /alternatives hub
+BEAM-230 (medium) — /for/gatsby integration guide
+- Gatsby uses gatsby-browser.js entrypoint + onRouteUpdate for SPA tracking
+- Follow /for/react pattern; add to GUIDE_SECTIONS slugs and sitemap
 
 ## Active issues
 - BEAM-216 (auto-blocked): /for/sveltekit, /for/vue, /for/nuxt — blocked after 3 consecutive failures

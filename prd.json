@@ -3782,7 +3782,7 @@
         "Link added to /alternatives hub and /vs/ footer links"
       ],
       "priority": "medium",
-      "passes": false
+      "passes": true
     },
     {
       "id": "BEAM-230",
