@@ -553,6 +553,49 @@ test.describe('Desktop smoke', () => {
 
     await page.screenshot({ path: 'screenshots/smoke/desktop-embed-widget.png' })
   })
+
+  test('CSV export page renders and download returns valid CSV (BEAM-213)', async ({ page }) => {
+    const email = uniqueEmail()
+    await signupAndGetSession(page, email)
+
+    // Create a site
+    await page.goto('/dashboard/sites/new')
+    await page.fill('input[name="name"]', 'Export CSV Site')
+    await page.fill('input[name="domain"]', 'export-csv-test.example.com')
+    await page.click('button[type="submit"]')
+    await page.waitForURL(/\/dashboard\/sites\/[0-9a-f-]+$/)
+    const siteId = page.url().split('/dashboard/sites/')[1]
+
+    // Analytics page: Export CSV button must be visible and link to export page with date params
+    await page.goto(`/dashboard/sites/${siteId}/analytics`)
+    const exportLink = page.getByRole('link', { name: 'Export CSV' })
+    await expect(exportLink).toBeVisible()
+    const href = await exportLink.getAttribute('href')
+    expect(href).toMatch(/\/export\?from=\d{4}-\d{2}-\d{2}&to=\d{4}-\d{2}-\d{2}/)
+
+    // Export form page: accessible without Pro gate
+    await page.goto(`/dashboard/sites/${siteId}/export`)
+    await expect(page.getByRole('heading', { name: 'Export Data' })).toBeVisible()
+    await expect(page.locator('input[name="start_date"]')).toBeVisible()
+    await expect(page.locator('input[name="end_date"]')).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Download CSV' })).toBeVisible()
+    // No Pro gate paywall
+    await expect(page.getByText('Pro Feature')).not.toBeVisible()
+
+    // POST export: must return CSV with correct headers and column row
+    const today = new Date().toISOString().slice(0, 10)
+    const thirtyDaysAgo = new Date(Date.now() - 29 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10)
+    const res = await page.request.post(`/dashboard/sites/${siteId}/export`, {
+      form: { start_date: thirtyDaysAgo, end_date: today },
+    })
+    expect(res.status()).toBe(200)
+    expect(res.headers()['content-type']).toContain('text/csv')
+    expect(res.headers()['content-disposition']).toContain('attachment')
+    const body = await res.text()
+    expect(body).toContain('date,path,referrer,country,device_type,browser,screen_width')
+
+    await page.screenshot({ path: 'screenshots/smoke/desktop-export-csv.png' })
+  })
 })
 
 // ── Mobile smoke ──────────────────────────────────────────────────────────────
@@ -837,6 +880,30 @@ test.describe('Mobile smoke', () => {
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
     await assertNoHorizontalOverflow(page, 'switch calculator page')
     await page.screenshot({ path: 'screenshots/smoke/mobile-switch-calculator.png' })
+  })
+
+  test('export CSV page is mobile-safe and button is reachable at 375px (BEAM-213)', async ({ page }) => {
+    const email = uniqueEmail()
+    await signupAndGetSession(page, email)
+
+    await page.goto('/dashboard/sites/new')
+    await page.fill('input[name="name"]', 'Mobile Export Site')
+    await page.fill('input[name="domain"]', 'mobile-export.example.com')
+    await page.click('button[type="submit"]')
+    await page.waitForURL(/\/dashboard\/sites\/[0-9a-f-]+$/)
+    const siteId = page.url().split('/dashboard/sites/')[1]
+
+    // Analytics page: Export CSV button must be reachable on mobile
+    await page.goto(`/dashboard/sites/${siteId}/analytics`)
+    await expect(page.getByRole('link', { name: 'Export CSV' })).toBeVisible()
+    await assertNoHorizontalOverflow(page, 'analytics page (mobile)')
+
+    // Export form must be usable on mobile
+    await page.goto(`/dashboard/sites/${siteId}/export`)
+    await expect(page.getByRole('heading', { name: 'Export Data' })).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Download CSV' })).toBeVisible()
+    await assertNoHorizontalOverflow(page, 'export page (mobile)')
+    await page.screenshot({ path: 'screenshots/smoke/mobile-export-csv.png' })
   })
 })
 

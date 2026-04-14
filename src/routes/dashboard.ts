@@ -3653,7 +3653,7 @@ dashboard.get('/dashboard/sites/:id/analytics', async (c) => {
           <a href="${dashUrl({ range: '7d' })}" class="${rangeBtnClass('7d')}">7 Days</a>
           <a href="${dashUrl({ range: '30d' })}" class="${rangeBtnClass('30d')}">30 Days</a>
           <a href="/dashboard/sites/${site.id}/goals" class="px-3 py-1.5 text-sm rounded-lg font-medium transition bg-white border border-gray-300 text-gray-600 hover:bg-gray-50">Goals</a>
-          <a href="/dashboard/sites/${site.id}/export" class="px-3 py-1.5 text-sm rounded-lg font-medium transition bg-white border border-gray-300 text-gray-600 hover:bg-gray-50">Export CSV</a>
+          <a href="/dashboard/sites/${site.id}/export?from=${window.startISO.slice(0, 10)}&to=${new Date(window.endDate.getTime() - 1).toISOString().slice(0, 10)}" class="px-3 py-1.5 text-sm rounded-lg font-medium transition bg-white border border-gray-300 text-gray-600 hover:bg-gray-50">Export CSV</a>
         </div>
       </div>
 
@@ -3918,13 +3918,15 @@ dashboard.get('/dashboard/sites/:id/export', async (c) => {
 
   if (!site) return c.redirect('/dashboard/sites')
 
-  const dbUser = await c.env.DB.prepare('SELECT plan FROM users WHERE id = ?').bind(user.sub).first<{ plan: string }>()
-  const isPro = (dbUser?.plan ?? 'free') === 'pro'
-
-  // Default date range: last 30 days
+  // Pre-fill dates from query params (passed from analytics page) or default to last 30 days
   const now = new Date()
   const todayStr = now.toISOString().slice(0, 10)
   const thirtyDaysAgo = new Date(now.getTime() - 29 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10)
+  const dateRe = /^\d{4}-\d{2}-\d{2}$/
+  const qFrom = c.req.query('from') ?? ''
+  const qTo = c.req.query('to') ?? ''
+  const defaultStart = dateRe.test(qFrom) ? qFrom : thirtyDaysAgo
+  const defaultEnd = dateRe.test(qTo) ? qTo : todayStr
 
   const content = `
     <div class="p-4 sm:p-8 max-w-xl">
@@ -3934,36 +3936,27 @@ dashboard.get('/dashboard/sites/:id/export', async (c) => {
         <p class="text-gray-500 text-sm mt-1">${escHtml(site.domain)}</p>
       </div>
 
-      ${!isPro ? `
-        <div class="bg-white rounded-xl border border-gray-200 p-8 text-center">
-          <div class="text-4xl mb-3">📊</div>
-          <h2 class="text-lg font-semibold text-gray-900 mb-2">Pro Feature</h2>
-          <p class="text-sm text-gray-500 mb-4">CSV export is available on the Pro plan. Upgrade to download your raw pageview data for analysis in spreadsheets or other tools.</p>
-          <a href="/dashboard/billing" class="bg-indigo-600 text-white px-5 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700 transition">Upgrade to Pro — $5/mo</a>
-        </div>
-      ` : `
-        <div class="bg-white rounded-xl border border-gray-200 p-6">
-          <p class="text-sm text-gray-500 mb-4">Export your raw pageview data as CSV. Maximum range: 90 days per export.</p>
-          <form method="POST" action="/dashboard/sites/${site.id}/export" class="space-y-4">
-            <div class="grid grid-cols-2 gap-4">
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Start Date</label>
-                <input type="date" name="start_date" value="${thirtyDaysAgo}" max="${todayStr}"
-                  class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm" />
-              </div>
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">End Date</label>
-                <input type="date" name="end_date" value="${todayStr}" max="${todayStr}"
-                  class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm" />
-              </div>
+      <div class="bg-white rounded-xl border border-gray-200 p-6">
+        <p class="text-sm text-gray-500 mb-4">Export your raw pageview data as CSV. Up to 100,000 rows per export.</p>
+        <form method="POST" action="/dashboard/sites/${site.id}/export" class="space-y-4">
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Start Date</label>
+              <input type="date" name="start_date" value="${defaultStart}" max="${todayStr}"
+                class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm" />
             </div>
-            <p class="text-xs text-gray-400">CSV columns: timestamp, path, referrer, country, device_type, browser, screen_width, language, utm_source, utm_medium, utm_campaign</p>
-            <button type="submit" class="w-full bg-indigo-600 text-white rounded-lg py-2 font-medium hover:bg-indigo-700 transition text-sm">
-              Download CSV
-            </button>
-          </form>
-        </div>
-      `}
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">End Date</label>
+              <input type="date" name="end_date" value="${defaultEnd}" max="${todayStr}"
+                class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm" />
+            </div>
+          </div>
+          <p class="text-xs text-gray-400">CSV columns: date, path, referrer, country, device_type, browser, screen_width</p>
+          <button type="submit" class="w-full bg-indigo-600 text-white rounded-lg py-2 font-medium hover:bg-indigo-700 transition text-sm">
+            Download CSV
+          </button>
+        </form>
+      </div>
     </div>`
 
   return c.html(layout('Export Data', '/dashboard/sites', content))
@@ -3978,12 +3971,6 @@ dashboard.post('/dashboard/sites/:id/export', async (c) => {
   ).bind(siteId, user.sub).first<{ id: string; name: string; domain: string }>()
 
   if (!site) return c.redirect('/dashboard/sites')
-
-  // Re-read plan from DB — not JWT
-  const dbUser = await c.env.DB.prepare('SELECT plan FROM users WHERE id = ?').bind(user.sub).first<{ plan: string }>()
-  if ((dbUser?.plan ?? 'free') !== 'pro') {
-    return c.redirect(`/dashboard/sites/${siteId}/export`)
-  }
 
   const body = await c.req.parseBody()
   const now = new Date()
@@ -4003,24 +3990,20 @@ dashboard.post('/dashboard/sites/:id/export', async (c) => {
   // Ensure start <= end
   if (startStr > endStr) startStr = endStr
 
-  // Enforce 90-day max
-  const startMs = new Date(startStr + 'T00:00:00Z').getTime()
-  const endMs = new Date(endStr + 'T00:00:00Z').getTime()
-  const diffDays = (endMs - startMs) / (24 * 60 * 60 * 1000)
-  const clampedStart = diffDays > 90
-    ? new Date(endMs - 90 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10)
-    : startStr
-
-  const startISO = clampedStart + 'T00:00:00.000Z'
+  const startISO = startStr + 'T00:00:00.000Z'
   const endISO = endStr + 'T23:59:59.999Z'
 
+  const ROW_LIMIT = 100_000
   const rows = await c.env.DB.prepare(
-    'SELECT timestamp, path, referrer, country, device_type, browser, screen_width, language, utm_source, utm_medium, utm_campaign FROM pageviews WHERE site_id = ? AND timestamp >= ? AND timestamp <= ? ORDER BY timestamp ASC'
-  ).bind(siteId, startISO, endISO).all<{
+    'SELECT timestamp, path, referrer, country, device_type, browser, screen_width FROM pageviews WHERE site_id = ? AND timestamp >= ? AND timestamp <= ? ORDER BY timestamp ASC LIMIT ?'
+  ).bind(siteId, startISO, endISO, ROW_LIMIT + 1).all<{
     timestamp: string; path: string; referrer: string; country: string;
-    device_type: string; browser: string; screen_width: number; language: string;
-    utm_source: string | null; utm_medium: string | null; utm_campaign: string | null
+    device_type: string; browser: string; screen_width: number
   }>()
+
+  const allRows = rows.results ?? []
+  const truncated = allRows.length > ROW_LIMIT
+  const exportRows = truncated ? allRows.slice(0, ROW_LIMIT) : allRows
 
   const csvEscape = (v: string | number | null | undefined): string => {
     const s = v == null ? '' : String(v)
@@ -4031,9 +4014,9 @@ dashboard.post('/dashboard/sites/:id/export', async (c) => {
   }
 
   const lines: string[] = [
-    'timestamp,path,referrer,country,device_type,browser,screen_width,language,utm_source,utm_medium,utm_campaign'
+    'date,path,referrer,country,device_type,browser,screen_width'
   ]
-  for (const r of (rows.results ?? [])) {
+  for (const r of exportRows) {
     lines.push([
       csvEscape(r.timestamp),
       csvEscape(r.path),
@@ -4042,15 +4025,15 @@ dashboard.post('/dashboard/sites/:id/export', async (c) => {
       csvEscape(r.device_type),
       csvEscape(r.browser),
       csvEscape(r.screen_width),
-      csvEscape(r.language),
-      csvEscape(r.utm_source),
-      csvEscape(r.utm_medium),
-      csvEscape(r.utm_campaign),
     ].join(','))
   }
 
+  if (truncated) {
+    lines.push(`"# Note: Export truncated at ${ROW_LIMIT.toLocaleString()} rows. Use a narrower date range to export all data."`)
+  }
+
   const safeDomain = site.domain.replace(/[^a-z0-9.-]/gi, '-')
-  const filename = `beam-export-${safeDomain}-${clampedStart}-${endStr}.csv`
+  const filename = `beam-export-${safeDomain}-${startStr}-${endStr}.csv`
 
   return new Response(lines.join('\n'), {
     headers: {
