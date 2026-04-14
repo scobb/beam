@@ -3570,7 +3570,7 @@
         "beam.js tracking snippet included on each page"
       ],
       "priority": "medium",
-      "passes": false
+      "passes": true
     },
     {
       "id": "BEAM-216",

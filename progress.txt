@@ -67,3 +67,22 @@ Started: Mon Apr 13 04:41:19 PM PDT 2026
   - `page.getByText(/pattern/i)` fails in strict mode when the pattern matches multiple elements — use `.first()` or a more specific locator to avoid strict mode violations
   - Blog post slug in AC was `senbeacon-cors-analytics-fix` (missing 'd' in "send") — matched exactly as specified
 ---
+
+## 2026-04-13 - BEAM-215
+- Added /vs/posthog, /vs/pirsch, and /vs/cabin comparison pages following the existing /vs/ pattern
+- Files changed: `src/routes/vs.ts`, `src/index.ts`, `test/smoke/smoke.spec.ts`
+- Changes:
+  - Three new Hono route handlers in vs.ts (after /vs/rybbit, before /switch)
+  - Each page: SEO title/description, canonical, OG tags, FAQ schema JSON-LD, comparison table, prose sections (Competitor Edge / Beam Edge / Which to Choose), related comparisons, CTA
+  - beam.js tracking snippet included on each page
+  - All three added to sitemap paths array and meta map in index.ts (priority: 0.8, changefreq: monthly)
+  - All three added to footer links in vs.ts footer() function
+  - All three added as cards to the /alternatives hub
+  - Desktop smoke test: verifies heading, key body text, beam.js script present, CTA link, sitemap entry, alternatives hub links
+  - Mobile smoke test: verifies no horizontal overflow at 375px for all three pages
+- Deployed to prod via `npx wrangler deploy -c wrangler.deploy.toml`
+- 106/106 smoke tests passed on prod (8 not-run = pre-existing ux-audit rate limit issue)
+- **Learnings for future iterations:**
+  - New /vs/ pages go after the last existing /vs/ route and before the /switch route in vs.ts
+  - Must update 4 places for each new /vs/ page: (1) route handler in vs.ts, (2) footer() links in vs.ts, (3) alternativesCards() in vs.ts /alternatives route, (4) sitemap paths + meta in index.ts
+---
