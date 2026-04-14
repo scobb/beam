@@ -43,6 +43,13 @@ function footer(): string {
 
 const POSTS = [
   {
+    slug: 'april-2026-updates',
+    title: 'April 2026 Product Updates: Usage Alerts, Public Dashboard Sharing, and Site Health Indicators',
+    date: '2026-04-14',
+    excerpt: 'Three quality-of-life improvements shipped in April 2026: tiered usage warning banners so you never hit the limit by surprise, a Share button on public dashboards with UTM attribution, and per-site usage bars on the sites overview.',
+    author: 'Keylight Digital',
+  },
+  {
     slug: 'senbeacon-cors-analytics-fix',
     title: 'Why sendBeacon Breaks Cross-Origin Analytics (and How to Fix It)',
     date: '2026-04-13',
@@ -1729,6 +1736,132 @@ fetch('/api/collect', {
             <li>Fix: use <code class="bg-gray-100 px-1 rounded font-mono">fetch({ keepalive: true, credentials: 'omit' })</code> instead</li>
             <li>This pattern is safe for analytics — you're not authenticating, so omitting credentials is correct</li>
           </ul>
+        </div>
+
+      </div>
+    </article>
+  </main>
+  ${footer()}
+</body>
+</html>`
+  return c.html(html)
+})
+
+// ─── Blog Post: April 2026 Product Updates ───────────────────────────────────
+
+app.get('/blog/april-2026-updates', (c) => {
+  const baseUrl = getPublicBaseUrl(c.env)
+  const BEAM_SITE_ID = c.env.BEAM_SELF_SITE_ID ?? 'dfa32f6b-0775-43df-a2c4-eb23787e5f03'
+  const post = POSTS.find(p => p.slug === 'april-2026-updates')!
+  const jsonLd = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: post.title,
+    datePublished: post.date,
+    dateModified: post.date,
+    author: { '@type': 'Organization', name: 'Keylight Digital LLC', url: baseUrl },
+    publisher: { '@type': 'Organization', name: 'Keylight Digital LLC', url: baseUrl },
+    description: post.excerpt,
+    url: `${baseUrl}/blog/${post.slug}`,
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `${baseUrl}/blog/${post.slug}` },
+  })
+
+  const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>${post.title} — Beam</title>
+  <meta name="description" content="${post.excerpt}" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="${baseUrl}/blog/${post.slug}" />
+  <link rel="alternate" type="application/rss+xml" title="Beam Blog" href="/blog/rss.xml" />
+  <meta property="og:title" content="${post.title}" />
+  <meta property="og:description" content="${post.excerpt}" />
+  <meta property="og:url" content="${baseUrl}/blog/${post.slug}" />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="${post.date}" />
+  <script type="application/ld+json">${jsonLd}</script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
+</head>
+<body class="bg-white text-gray-900">
+  ${nav()}
+  <main class="max-w-3xl mx-auto px-6 py-16">
+    <div class="mb-8">
+      <a href="/blog" class="text-sm text-indigo-600 hover:text-indigo-700">← Back to blog</a>
+    </div>
+    <article>
+      <header class="mb-10">
+        <time class="text-sm text-gray-400">${post.date}</time>
+        <h1 class="mt-2 text-3xl font-bold text-gray-900 leading-snug">${post.title}</h1>
+        <p class="mt-3 text-lg text-gray-500">${post.excerpt}</p>
+      </header>
+
+      <div class="prose prose-gray max-w-none space-y-6 text-gray-700 leading-relaxed">
+
+        <p>
+          April 2026 was a quiet month for big features but a busy one for polish. Three improvements shipped that make Beam more useful day-to-day — particularly if you're on the free plan and want to stay on top of your usage. Here's what landed and why we built each one.
+        </p>
+
+        <h2 class="text-xl font-bold text-gray-900 mt-10">Tiered Usage Warning Banners</h2>
+        <p>
+          The most frustrating thing about hitting a pageview limit is that it shouldn't be a surprise. Previously, Beam showed a single warning when you'd used 90% of your monthly allowance — which left a narrow window to react before data collection paused at 100%.
+        </p>
+        <p>
+          We've replaced that single threshold with a two-stage alert system in the dashboard:
+        </p>
+        <ul class="list-disc pl-6 space-y-2">
+          <li><strong>60% — yellow banner:</strong> "You've used X% of your monthly pageview limit." A gentle heads-up. No urgency, but worth knowing.</li>
+          <li><strong>80% — orange banner:</strong> "Data collection will pause when you reach 100%." More prominent styling with a direct link to the billing page.</li>
+        </ul>
+        <p>
+          The change gives you a longer runway to decide whether to upgrade before anything breaks. If you're consistently hitting the 60% banner, it's a reliable signal that your site has grown and the free plan may be worth reconsidering. Pro subscribers don't see the banners — they have no monthly cap.
+        </p>
+        <p>
+          <strong>Why we built it:</strong> Free-plan users were occasionally emailing us confused about why their data had stopped collecting mid-month. The 90% threshold wasn't giving enough advance notice. Two thresholds means you get an amber warning before the red one — the same pattern used in fuel gauges and battery indicators for good reason.
+        </p>
+
+        <h2 class="text-xl font-bold text-gray-900 mt-10">Share Button on Public Dashboards with UTM Attribution</h2>
+        <p>
+          Beam supports public, shareable dashboards — a read-only view of your analytics that you can link to without requiring anyone to log in. The feature existed, but there was no easy way to share from the dashboard itself without manually copying the URL.
+        </p>
+        <p>
+          We've added a Share button to every public dashboard. It does two things:
+        </p>
+        <ul class="list-disc pl-6 space-y-2">
+          <li><strong>Copies a ready-to-share link</strong> to your clipboard — no manual URL construction needed.</li>
+          <li><strong>Appends UTM parameters</strong> (<code class="bg-gray-100 px-1 rounded text-sm font-mono">utm_source=beam-share&amp;utm_medium=referral</code>) so when you share your dashboard and someone clicks through to Beam's site, that traffic is correctly attributed in Beam's own analytics.</li>
+        </ul>
+        <p>
+          There's also a Tweet button that pre-fills a tweet with your dashboard link. The tweet text includes the UTM-tagged URL, so Twitter traffic shows up correctly segmented in your analytics.
+        </p>
+        <p>
+          <strong>Why we built it:</strong> Showing off your analytics (especially if you're a maker sharing an indie project) is a form of social proof. We wanted to make it one click. The UTM tags close the feedback loop — we can see how many people discover Beam through shared dashboards, which helps us understand whether public sharing is a meaningful growth channel.
+        </p>
+
+        <h2 class="text-xl font-bold text-gray-900 mt-10">Per-Site Usage Indicators on the Sites Overview</h2>
+        <p>
+          If you have more than one site in Beam, the sites overview page now shows current-month pageview usage for each site individually.
+        </p>
+        <p>
+          For free-plan accounts, each site card shows a count and a thin progress bar — for example, <strong>12.4K / 50K</strong> with a bar that turns yellow at 60% and orange at 80%. The colour coding matches the dashboard warning banners, so the visual language is consistent.
+        </p>
+        <p>
+          Pro accounts see the raw count without a limit or progress bar, since there's no monthly cap to track against.
+        </p>
+        <p>
+          <strong>Why we built it:</strong> Previously, the only way to see per-site usage was to click into each site's dashboard individually. If you manage several sites, that's a lot of clicking just to get a status overview. The new indicators let you triage at a glance — one site at 8% is fine; one at 78% needs attention. We batch the monthly count queries into a single database call, so adding the indicators doesn't slow down the page.
+        </p>
+
+        <div class="mt-12 pt-8 border-t border-gray-200">
+          <h3 class="text-base font-semibold text-gray-900">What's next</h3>
+          <p class="mt-3 text-gray-600">
+            These three improvements were all driven by free-plan usage patterns — we noticed where confusion and frustration were accumulating and fixed the most impactful pain points first. If you have feedback or a feature request, reply to any Beam email or reach out via the in-dashboard support link.
+          </p>
+          <div class="mt-6">
+            <a href="/signup" class="inline-block bg-indigo-600 text-white px-5 py-2.5 rounded-lg font-medium hover:bg-indigo-700">Try Beam free →</a>
+          </div>
         </div>
 
       </div>

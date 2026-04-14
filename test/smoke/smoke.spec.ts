@@ -1644,4 +1644,29 @@ test.describe('API v1 authentication', () => {
     const tweetHref = await tweetLink.getAttribute('href') ?? ''
     expect(decodeURIComponent(tweetHref)).toContain('utm_source=beam-share')
   })
+
+  // ── BEAM-227: April 2026 product update blog post ─────────────────────────
+
+  test('BEAM-227: /blog/april-2026-updates returns 200 with correct content', async ({ page }) => {
+    const res = await page.goto('/blog/april-2026-updates')
+    expect(res?.status()).toBe(200)
+    await expect(page.getByRole('heading', { level: 1 })).toContainText('April 2026')
+    // All three features covered
+    await expect(page.locator('h2').filter({ hasText: /Usage Warning/i })).toBeVisible()
+    await expect(page.locator('h2').filter({ hasText: /Share Button/i })).toBeVisible()
+    await expect(page.locator('h2').filter({ hasText: /Per-Site Usage/i })).toBeVisible()
+  })
+
+  test('BEAM-227: /blog/april-2026-updates appears in blog index', async ({ page }) => {
+    await page.goto('/blog')
+    await expect(page.getByRole('link', { name: /April 2026 Product Updates/i }).first()).toBeVisible()
+  })
+
+  test('BEAM-227: /blog/april-2026-updates appears in RSS feed', async ({ page }) => {
+    const res = await page.goto('/blog/rss.xml')
+    expect(res?.status()).toBe(200)
+    const text = await page.content()
+    expect(text).toContain('april-2026-updates')
+    expect(text).toContain('April 2026 Product Updates')
+  })
 })
