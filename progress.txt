@@ -137,3 +137,18 @@ Started: Mon Apr 13 06:34:00 PM PDT 2026
   - Progress bar colors match BEAM-225 nudge banner thresholds (60%/80%) for visual consistency
   - Prod signup rate limit (10/hour/IP) consistently exhausted when running 3+ smoke stories in one hour
 ---
+
+## 2026-04-14 - BEAM-223
+- Added `/for/react` integration guide for React + Vite SPAs
+- Two install steps: (1) script tag in `public/index.html`, (2) optional `useBeam` hook with `useEffect` + `useLocation` for SPA route tracking
+- Added `react` to `GUIDE_SECTIONS` developer frameworks array → hub page auto-renders guide card
+- Added `{ slug: 'react', name: 'React' }` to Next.js guide's `others` list and guide page footer links
+- Added `/for/react` to sitemap paths and meta in `src/index.ts`
+- 6 smoke tests pass on prod: content check, hub+sitemap, mobile responsiveness
+- Files changed: `src/routes/for.ts`, `src/index.ts`, `test/smoke/smoke.spec.ts`
+- First prod run: 5/6 pass (sitemap test flaked — CDN cache race); second run 6/6 pass
+- **Learnings for future iterations:**
+  - Adding a guide requires: GUIDES entry, GUIDE_SECTIONS slug, sitemap paths+meta, footer links
+  - Hub page auto-renders from GUIDE_SECTIONS — no separate template change needed
+  - CDN propagation can cause flaky sitemap tests on first prod run after deploy; retry resolves it
+---

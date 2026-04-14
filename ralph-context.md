@@ -1,9 +1,10 @@
 ## Last completed
-BEAM-228 - Per-site monthly usage on sites overview (deployed prod; local 4/4 pass)
+BEAM-223 - /for/react guide (deployed prod; 6/6 smoke tests pass on second run)
 
 ## Next up
-BEAM-223 (medium) — /for/react integration guide for vanilla React and Vite
-- After that: BEAM-224 (/vs/mixpanel), BEAM-226 (UTM share), BEAM-227 (blog post)
+BEAM-224 (medium) — /vs/mixpanel comparison page
+- After that: BEAM-226 (UTM share), BEAM-227 (blog post)
+- Adding a /for guide requires: GUIDES entry, GUIDE_SECTIONS slug, sitemap paths+meta, footer links
 
 ## Active issues
 - BEAM-216 (auto-blocked): /for/sveltekit, /for/vue, /for/nuxt — blocked after 3 consecutive failures
