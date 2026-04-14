@@ -3514,6 +3514,139 @@
       ],
       "priority": "medium",
       "passes": true
+    },
+    {
+      "id": "BEAM-212",
+      "title": "Reduce beam.js Cache-Control TTL from 24h to 1h",
+      "description": "beam.js is currently served with Cache-Control: public, max-age=86400 (24 hours). This means a critical bug fix (like the BEAM-211 sendBeacon CORS fix) takes up to 24 hours to reach users whose browsers cached the old script. Reduce to max-age=3600 (1 hour) so future fixes propagate within an hour.",
+      "acceptanceCriteria": [
+        "GET /js/beam.js returns Cache-Control: public, max-age=3600",
+        "Smoke test verifies the 1-hour TTL is set",
+        "Deploy to production and verify via curl"
+      ],
+      "priority": "high",
+      "passes": false
+    },
+    {
+      "id": "BEAM-213",
+      "title": "CSV export of pageview data for a site",
+      "description": "Users want to download their raw pageview data for offline analysis, backup, or migration. Add an 'Export CSV' button to the analytics page that downloads pageviews for the current date range (or all-time if no range is set). Pro users get all columns; free users get the same data. Limit export to 100K rows to avoid D1 timeout.",
+      "acceptanceCriteria": [
+        "Export CSV button appears on the analytics page",
+        "Clicking it downloads a CSV with columns: date, path, referrer, country, device_type, browser, screen_width",
+        "The export respects the currently selected date range filter",
+        "Rows are capped at 100K with a note if truncated",
+        "Response has correct Content-Disposition: attachment header",
+        "Works on mobile (button is reachable at 375px)"
+      ],
+      "priority": "medium",
+      "passes": false
+    },
+    {
+      "id": "BEAM-214",
+      "title": "Blog post: why sendBeacon breaks cross-origin analytics (and how to fix it)",
+      "description": "Technical blog post about the CORS bug we fixed in BEAM-211: navigator.sendBeacon sends requests with credentials:include, which causes CORS preflight failures when the server returns Access-Control-Allow-Origin: * (wildcard). Many analytics scripts have this bug silently. This is both honest content marketing and useful SEO for 'analytics not tracking' searches.",
+      "acceptanceCriteria": [
+        "Blog post published at /blog/senbeacon-cors-analytics-fix",
+        "Post explains the technical root cause (credentials:include + CORS wildcard)",
+        "Includes code examples showing the broken sendBeacon and fixed fetch approach",
+        "Added to sitemap.xml",
+        "Added to blog index page",
+        "Has correct OG meta tags"
+      ],
+      "priority": "medium",
+      "passes": false
+    },
+    {
+      "id": "BEAM-215",
+      "title": "Add /vs/posthog, /vs/pirsch, /vs/cabin comparison pages",
+      "description": "Add three new competitor comparison pages targeting high-value search terms. PostHog is a major analytics/product analytics tool with a large user base actively searching for simpler alternatives. Pirsch and Cabin are direct privacy-analytics competitors. These pages should follow the existing /vs/ page template and include SEO-optimized content.",
+      "acceptanceCriteria": [
+        "GET /vs/posthog returns 200 with SEO content comparing Beam vs PostHog",
+        "GET /vs/pirsch returns 200 with SEO content comparing Beam vs Pirsch",
+        "GET /vs/cabin returns 200 with SEO content comparing Beam vs Cabin",
+        "All three pages added to sitemap.xml",
+        "Pages follow existing /vs/ layout with feature comparison table, CTA, and tracking snippet example",
+        "beam.js tracking snippet included on each page"
+      ],
+      "priority": "medium",
+      "passes": false
+    },
+    {
+      "id": "BEAM-216",
+      "title": "Add /for/sveltekit, /for/vue, /for/nuxt framework setup guides",
+      "description": "Three popular frameworks are missing from the /for/ setup guides: SvelteKit, Vue.js, and Nuxt. These are high-traffic search terms ('add analytics to sveltekit', 'vue analytics without cookies'). Follow the existing /for/nextjs pattern with copy-paste code examples specific to each framework.",
+      "acceptanceCriteria": [
+        "GET /for/sveltekit returns 200 with SvelteKit-specific setup instructions",
+        "GET /for/vue returns 200 with Vue.js setup instructions",
+        "GET /for/nuxt returns 200 with Nuxt-specific setup instructions (including server-side considerations)",
+        "All three pages added to sitemap.xml and the /for index page",
+        "Code examples use the correct framework idioms (onMount for Svelte, onMounted for Vue, app.vue for Nuxt)",
+        "beam.js tracking snippet and self-tracking snippet on each page"
+      ],
+      "priority": "medium",
+      "passes": false
+    },
+    {
+      "id": "BEAM-217",
+      "title": "Email users when approaching 80% of free plan pageview limit",
+      "description": "Free users have a 50K pageviews/month limit. When they hit 80% (40K pageviews), send a single warning email that month: 'You've used 40K of 50K pageviews this month — upgrade to Pro for unlimited.' This creates urgency to convert before data collection stops. Only send once per user per month.",
+      "acceptanceCriteria": [
+        "When a free user's site crosses 40K pageviews in the current month, an email is sent",
+        "Email includes current count, limit, and a direct upgrade link",
+        "Only one warning email per user per month (tracked with KV key: limitWarn:{userId}:{YYYY-MM})",
+        "Warning is checked in the /api/collect handler before inserting the pageview",
+        "Email is sent asynchronously via waitUntil so it doesn't slow down the collect response",
+        "Smoke test: POST to /api/collect on a free site returns 204 even when near the limit (warning fires async)"
+      ],
+      "priority": "medium",
+      "passes": false
+    },
+    {
+      "id": "BEAM-218",
+      "title": "Add 'Share dashboard' button to public analytics pages",
+      "description": "Users who make their Beam dashboard public have no easy way to share it. Add a 'Share' button (copy link + optional Twitter/X share) to public dashboard pages at /share/:siteId. This turns satisfied users into distribution channels — someone shares their analytics dashboard, visitors see 'Powered by Beam', and click through to sign up.",
+      "acceptanceCriteria": [
+        "A 'Share' button appears on public dashboard pages (/share/:siteId) for the site owner when logged in",
+        "Clicking 'Copy link' copies the public URL to clipboard with visual feedback",
+        "Optional 'Share on X' button pre-fills a tweet: 'Check out my site analytics, powered by @BeamPrivacy [URL]'",
+        "The public dashboard footer shows 'Analytics by Beam — Privacy-first, cookie-free' with link to beam-privacy.com",
+        "Footer is visible to all visitors (not just the owner) to create discovery",
+        "Works on mobile at 375px"
+      ],
+      "priority": "medium",
+      "passes": false
+    },
+    {
+      "id": "BEAM-219",
+      "title": "Add Hacker News 'Show HN' post and submit to indie directories",
+      "description": "Beam needs more distribution beyond the existing launch pages. Create a curated list of directories and communities to submit to, then execute the submissions: Hacker News Show HN post, BetaList, Untools.co, There's An AI For That (analytics category), Indie Hackers product page, and AppSumo marketplace inquiry. Document each submission in a launch log.",
+      "acceptanceCriteria": [
+        "Submit Show HN post to Hacker News (title: 'Show HN: Beam – Privacy-first web analytics for $5/mo, no cookies, no GDPR consent banners')",
+        "Submit to BetaList at betalist.com/submit",
+        "Submit to Indie Hackers product page",
+        "Create an entry at alternativeto.net as alternative to Google Analytics",
+        "Log all submissions with date and URL in launch/submissions.md",
+        "Update progress.txt with submission results"
+      ],
+      "priority": "low",
+      "passes": false
+    },
+    {
+      "id": "BEAM-220",
+      "title": "Dashboard site health indicators — show data freshness on sites overview",
+      "description": "Many users set up tracking and never verify it's actually working. The sites overview page should show a health indicator for each site: green (received data in last 7 days), yellow (no data in 7+ days but has historical data), red (no data ever received). This helps users self-diagnose the sendBeacon-style issues and take action.",
+      "acceptanceCriteria": [
+        "Sites overview page shows a colored dot or badge next to each site name",
+        "Green = has pageview data in last 7 days",
+        "Yellow = has data but none in last 7 days (possibly broken snippet)",
+        "Red/gray = no pageviews ever received (snippet not installed or not working)",
+        "Hovering/tapping the indicator shows a tooltip explaining the status",
+        "Clicking a red/gray indicator links to the site's installation verification page",
+        "Mobile-responsive at 375px (badge is visible and not overlapping)"
+      ],
+      "priority": "medium",
+      "passes": false
     }
   ]
 }
