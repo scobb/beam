@@ -4151,17 +4151,60 @@ dashboard.post('/dashboard/sites/:id/export', async (c) => {
 
 // ── Settings placeholder ──────────────────────────────────────────────────────
 
-dashboard.get('/dashboard/settings', (c) => {
+dashboard.get('/dashboard/settings', async (c) => {
   const user = c.get('user')
+  const dbUser = await c.env.DB.prepare(
+    'SELECT digest_opt_out FROM users WHERE id = ?'
+  ).bind(user.sub).first<{ digest_opt_out: number }>()
+  const digestOptOut = (dbUser?.digest_opt_out ?? 0) === 1
+
+  const statusMsg = c.req.query('status')
+  const statusBanner = statusMsg === 'digest-on'
+    ? `<div class="mb-4 px-4 py-3 bg-green-50 border border-green-200 rounded-lg text-sm text-green-800">Weekly digest emails re-enabled.</div>`
+    : statusMsg === 'digest-off'
+    ? `<div class="mb-4 px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm text-gray-700">Weekly digest emails disabled. You can re-enable any time here.</div>`
+    : ''
+
   const content = `
     <div class="p-8 max-w-lg">
       <h1 class="text-2xl font-bold text-gray-900 mb-6">Settings</h1>
-      <div class="bg-white rounded-xl border border-gray-200 p-6">
-        <p class="text-sm text-gray-500">Account: <span class="font-medium text-gray-900">${escHtml(user.email)}</span></p>
-        <p class="text-sm text-gray-500 mt-2">Plan: <span class="font-medium text-gray-900">${user.plan === 'pro' ? 'Pro' : 'Free'}</span></p>
+      ${statusBanner}
+      <div class="bg-white rounded-xl border border-gray-200 p-6 space-y-4">
+        <div>
+          <p class="text-sm text-gray-500">Account</p>
+          <p class="font-medium text-gray-900 mt-0.5">${escHtml(user.email)}</p>
+        </div>
+        <div>
+          <p class="text-sm text-gray-500">Plan</p>
+          <p class="font-medium text-gray-900 mt-0.5">${user.plan === 'pro' ? 'Pro' : 'Free'}</p>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-xl border border-gray-200 p-6 mt-4">
+        <h2 class="text-base font-semibold text-gray-900 mb-1">Weekly digest emails</h2>
+        <p class="text-sm text-gray-500 mb-4">A weekly summary of your site traffic, sent every Monday morning.</p>
+        <form method="POST" action="/dashboard/settings/digest">
+          ${digestOptOut
+            ? `<button type="submit" name="action" value="enable" class="px-4 py-2 text-sm font-medium bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">Re-enable weekly digest</button>`
+            : `<button type="submit" name="action" value="disable" class="px-4 py-2 text-sm font-medium bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50">Unsubscribe from digest</button>`
+          }
+          <p class="text-xs text-gray-400 mt-2">Currently: <strong>${digestOptOut ? 'unsubscribed' : 'subscribed'}</strong></p>
+        </form>
       </div>
     </div>`
   return c.html(layout('Settings', '/dashboard/settings', content))
+})
+
+dashboard.post('/dashboard/settings/digest', async (c) => {
+  const user = c.get('user')
+  const body = await c.req.parseBody()
+  const action = body['action']
+  const optOut = action === 'disable' ? 1 : 0
+  await c.env.DB.prepare(
+    'UPDATE users SET digest_opt_out = ?, updated_at = ? WHERE id = ?'
+  ).bind(optOut, new Date().toISOString(), user.sub).run()
+  const status = optOut === 1 ? 'digest-off' : 'digest-on'
+  return c.redirect(`/dashboard/settings?status=${status}`, 303)
 })
 
 // ── Helpers ───────────────────────────────────────────────────────────────────

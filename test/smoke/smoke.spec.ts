@@ -1645,6 +1645,39 @@ test.describe('API v1 authentication', () => {
     expect(decodeURIComponent(tweetHref)).toContain('utm_source=beam-share')
   })
 
+  // ── BEAM-231: Dashboard settings digest toggle ───────────────────────────
+
+  test('BEAM-231: /dashboard/settings shows digest subscription toggle', async ({ page }) => {
+    const email = uniqueEmail()
+    await signupAndGetSession(page, email)
+    await page.goto('/dashboard/settings')
+    // Page loads
+    await expect(page.locator('h1')).toContainText('Settings')
+    // Shows account email
+    await expect(page.locator('body')).toContainText(email)
+    // Shows weekly digest section
+    await expect(page.locator('h2').filter({ hasText: /Weekly digest/i })).toBeVisible()
+    // Default: subscribed — shows unsubscribe button
+    await expect(page.getByRole('button', { name: /Unsubscribe from digest/i })).toBeVisible()
+  })
+
+  test('BEAM-231: Toggling digest opt-out persists and shows confirmation', async ({ page }) => {
+    const email = uniqueEmail()
+    await signupAndGetSession(page, email)
+    await page.goto('/dashboard/settings')
+    // Click unsubscribe
+    await page.getByRole('button', { name: /Unsubscribe from digest/i }).click()
+    await page.waitForURL(/status=digest-off/)
+    await expect(page.locator('body')).toContainText('Weekly digest emails disabled')
+    // Now shows re-enable button
+    await expect(page.getByRole('button', { name: /Re-enable weekly digest/i })).toBeVisible()
+    // Re-enable
+    await page.getByRole('button', { name: /Re-enable weekly digest/i }).click()
+    await page.waitForURL(/status=digest-on/)
+    await expect(page.locator('body')).toContainText('Weekly digest emails re-enabled')
+    await expect(page.getByRole('button', { name: /Unsubscribe from digest/i })).toBeVisible()
+  })
+
   // ── BEAM-227: April 2026 product update blog post ─────────────────────────
 
   test('BEAM-227: /blog/april-2026-updates returns 200 with correct content', async ({ page }) => {

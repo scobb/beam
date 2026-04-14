@@ -192,3 +192,23 @@ Started: Mon Apr 13 06:34:00 PM PDT 2026
   - CDN propagation on prod may cause brief 404 immediately after deploy — curl confirms 200 within ~15s; retry Playwright run resolves
   - Prod smoke 6/6 passed on second run (CDN settled)
 ---
+
+## 2026-04-14 - Self-generation (post-BEAM-227)
+- Audited beam-privacy.com: landing, /blog, /for hub, /migrate, /alternatives, /docs/api, /switch, /changelog, /dashboard/settings
+- **Findings:**
+  - /dashboard/settings shows only email+plan — unsubscribe page says "re-enable in settings" but no toggle exists (broken promise)
+  - /for hub missing: Gatsby, Vue (BEAM-216 blocked bundled SvelteKit/Vue/Nuxt)
+  - /vs hub missing: Amplitude (major paid competitor)
+  - /migrate hub missing: Umami (popular self-hosted tool)
+  - Landing page setup guides list omits React and Astro (guides exist at /for/react, /for/astro)
+  - No blog post on GDPR legal requirements for analytics (different from existing technical cookie-free guide)
+- Generated 8 new stories: BEAM-229 through BEAM-236
+  - BEAM-229 (medium): /vs/amplitude
+  - BEAM-230 (medium): /for/gatsby
+  - BEAM-231 (high): Dashboard settings digest toggle
+  - BEAM-232 (medium): Blog: GDPR analytics no cookie banner
+  - BEAM-233 (medium): /migrate/umami
+  - BEAM-234 (medium): /for/vue
+  - BEAM-235 (low): Landing page React+Astro guides list
+  - BEAM-236 (low): Dashboard settings change password + delete account
+---

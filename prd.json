@@ -3768,6 +3768,122 @@
       ],
       "priority": "medium",
       "passes": true
+    },
+    {
+      "id": "BEAM-229",
+      "title": "Add /vs/amplitude comparison page",
+      "description": "Amplitude is a major product analytics and event tracking platform popular with funded startups. 'amplitude alternative' and 'amplitude vs plausible' are high-volume search terms we're not capturing. Add a /vs/amplitude page following the /vs/mixpanel pattern: comparison table, prose analysis (where each tool wins), FAQ JSON-LD schema, and footer links.",
+      "acceptanceCriteria": [
+        "GET /vs/amplitude returns 200 with Beam vs Amplitude comparison",
+        "Page includes a comparison table covering pricing, privacy, setup complexity, and data ownership",
+        "Page has SEO meta title, description, and FAQ JSON-LD structured data",
+        "Page is mobile-safe at 375px (no horizontal overflow)",
+        "Route added to sitemap.xml",
+        "Link added to /alternatives hub and /vs/ footer links"
+      ],
+      "priority": "medium",
+      "passes": false
+    },
+    {
+      "id": "BEAM-230",
+      "title": "Add /for/gatsby integration guide",
+      "description": "Gatsby is a React-based static site generator with a substantial user base. The /for hub covers Next.js, React, Astro, Hugo, and Remix but not Gatsby. Gatsby's entry point is gatsby-browser.js and it provides an onRouteUpdate lifecycle for SPA route tracking. Follow the /for/react pattern.",
+      "acceptanceCriteria": [
+        "GET /for/gatsby returns 200 with Gatsby-specific setup instructions",
+        "Page includes two install steps: gatsby-browser.js script tag and onRouteUpdate hook for SPA tracking",
+        "Page added to /for hub index (GUIDE_SECTIONS developer slugs)",
+        "Route added to sitemap.xml",
+        "Mobile-safe at 375px",
+        "Smoke test: GET /for/gatsby returns 200 and contains Gatsby-specific content"
+      ],
+      "priority": "medium",
+      "passes": false
+    },
+    {
+      "id": "BEAM-231",
+      "title": "Add weekly digest opt-in/opt-out toggle to dashboard settings",
+      "description": "The weekly digest unsubscribe page (reached via email link) tells users to 'Log in to re-enable digests in settings' — but the settings page only shows email and plan with no toggle. The DB already has a digest_opt_out column. Add a POST handler and toggle UI to /dashboard/settings so users can subscribe and unsubscribe without going through email.",
+      "acceptanceCriteria": [
+        "GET /dashboard/settings shows a 'Weekly digest emails' section with a toggle reflecting current opt-out status",
+        "POST /dashboard/settings/digest toggles digest_opt_out for the authenticated user",
+        "Toggling works: opt out sets digest_opt_out=1, opt in sets digest_opt_out=0",
+        "Success feedback shown after toggle (redirect with status message or inline confirmation)",
+        "Mobile-responsive at 375px"
+      ],
+      "priority": "high",
+      "passes": false
+    },
+    {
+      "id": "BEAM-232",
+      "title": "Blog post: GDPR-compliant analytics without a cookie banner — what the law actually requires",
+      "description": "High-intent search term missing from the blog: 'GDPR analytics no cookie banner', 'do I need a cookie banner for analytics', 'GDPR compliant analytics 2026'. The existing cookie-free guide explains how cookie-free works technically; this post covers the legal angle: what GDPR/ePrivacy actually requires for analytics cookies, why cookieless tools don't trigger consent requirements, and common misconceptions.",
+      "acceptanceCriteria": [
+        "GET /blog/gdpr-analytics-no-cookie-banner returns 200",
+        "Post covers: what triggers GDPR consent requirements, why cookies specifically matter, how cookieless analytics avoids consent, CCPA/PECR coverage",
+        "Post has SEO meta title and description targeting 'GDPR analytics cookie banner' keywords",
+        "Post appears in /blog index and RSS feed",
+        "Added to sitemap.xml"
+      ],
+      "priority": "medium",
+      "passes": false
+    },
+    {
+      "id": "BEAM-233",
+      "title": "Add /migrate/umami migration guide",
+      "description": "Umami is one of the most popular self-hosted open-source analytics tools. Many developers run self-hosted Umami and search for 'migrate from umami' as they want a managed solution. The /migrate hub covers GA, Plausible, and Fathom but not Umami. Follow the /migrate/plausible pattern.",
+      "acceptanceCriteria": [
+        "GET /migrate/umami returns 200 with Umami-to-Beam migration guide",
+        "Page covers: script tag swap, Beam feature equivalents for Umami features (events, referrers, countries), data export note",
+        "Page has SEO meta and is linked from the /migrate hub",
+        "Added to sitemap.xml",
+        "Mobile-safe at 375px",
+        "Smoke test: GET /migrate/umami returns 200"
+      ],
+      "priority": "medium",
+      "passes": false
+    },
+    {
+      "id": "BEAM-234",
+      "title": "Add /for/vue integration guide",
+      "description": "Vue.js is the second most popular JavaScript framework. 'Add analytics to Vue.js', 'vue analytics without cookies', and 'gdpr analytics vue' are searched. BEAM-216 bundled Vue with SvelteKit and Nuxt and was auto-blocked after 3 failures — this is a standalone story for Vue only. Cover Vue 3 Options API and Composition API (onMounted hook), and the Vue Router integration for SPA tracking.",
+      "acceptanceCriteria": [
+        "GET /for/vue returns 200 with Vue.js-specific setup instructions",
+        "Page covers: script tag in index.html, onMounted hook for manual tracking, Vue Router afterEach guard for SPA route tracking",
+        "Page added to /for hub index",
+        "Route added to sitemap.xml",
+        "Mobile-safe at 375px",
+        "Smoke test: GET /for/vue returns 200 and contains Vue-specific content"
+      ],
+      "priority": "medium",
+      "passes": false
+    },
+    {
+      "id": "BEAM-235",
+      "title": "Add React and Astro to the landing page setup guides list",
+      "description": "The landing page step 1 ('Add our script tag') lists setup guides for Next.js, WordPress, Hugo, Webflow, Shopify, Ghost, Framer, and Carrd — but omits React and Astro even though /for/react and /for/astro exist. React is the most popular JS library; Astro is the fastest-growing static site framework. A one-line fix to src/landing.ts.",
+      "acceptanceCriteria": [
+        "Landing page step 1 inline list includes links to /for/react and /for/astro",
+        "Links placed logically (React after Next.js, Astro after Hugo)",
+        "Mobile-safe at 375px — no overflow from the longer list",
+        "Smoke test: landing page contains links to /for/react and /for/astro"
+      ],
+      "priority": "low",
+      "passes": false
+    },
+    {
+      "id": "BEAM-236",
+      "title": "Dashboard settings: add change password and delete account",
+      "description": "The /dashboard/settings page currently shows only account email and plan — it has no interactive elements. Users have no self-serve way to change their password or delete their account. Add a change password form (POST /dashboard/settings/password) and a delete account confirmation flow (POST /dashboard/settings/delete).",
+      "acceptanceCriteria": [
+        "GET /dashboard/settings shows a 'Change Password' form with current password, new password, confirm fields",
+        "POST /dashboard/settings/password validates current password, updates to new password, returns success or error",
+        "GET /dashboard/settings shows a 'Delete Account' section with a confirmation button",
+        "POST /dashboard/settings/delete requires password confirmation, deletes user and all associated data, logs out",
+        "All forms are mobile-responsive at 375px",
+        "Error states: wrong current password, password mismatch, empty fields all show clear error messages"
+      ],
+      "priority": "low",
+      "passes": false
     }
   ]
 }

@@ -2,8 +2,9 @@
 BEAM-227 - Blog post: April 2026 product update (deployed prod; local 6/6 pass; prod 6/6 pass)
 
 ## Next up
-ALL non-blocked stories complete. BEAM-216 and BEAM-219 remain blocked (in blocked-stories.json).
-→ Enter self-generation mode: audit deployed product, review progress.txt, write 5-10 new stories
+BEAM-231 (high) — Dashboard settings: weekly digest opt-in/out toggle
+- digest_opt_out column already in DB; unsubscribe page tells users to "re-enable in settings" but no such UI exists
+- Need: POST /dashboard/settings/digest + toggle in GET /dashboard/settings
 
 ## Active issues
 - BEAM-216 (auto-blocked): /for/sveltekit, /for/vue, /for/nuxt — blocked after 3 consecutive failures
