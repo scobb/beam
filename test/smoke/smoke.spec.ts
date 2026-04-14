@@ -664,6 +664,52 @@ test.describe('Desktop smoke', () => {
 
     await page.screenshot({ path: 'screenshots/smoke/desktop-vs-posthog-pirsch-cabin.png' })
   })
+
+  test('public dashboard shows Share button for owner and Beam footer for all (BEAM-218)', async ({ page }) => {
+    const email = uniqueEmail()
+    await signupAndGetSession(page, email)
+
+    // Create a site
+    await page.goto('/dashboard/sites/new')
+    await page.fill('input[name="name"]', 'Share Dashboard Test Site')
+    await page.fill('input[name="domain"]', 'share-dash-test.example.com')
+    await page.click('button[type="submit"]')
+    await page.waitForURL(/\/dashboard\/sites\/[0-9a-f-]+$/)
+    const siteId = page.url().split('/dashboard/sites/')[1]
+
+    // Enable public dashboard
+    await page.click('button[type="submit"]:has-text("Public: Off")')
+    await page.waitForURL(/\/dashboard\/sites\/[0-9a-f-]+$/)
+
+    // Visit the public dashboard as the logged-in owner
+    await page.goto(`/public/${siteId}`)
+
+    // Share button is visible for the owner
+    const shareBtn = page.getByRole('button', { name: /Share/i })
+    await expect(shareBtn).toBeVisible()
+
+    // Clicking Share opens the dropdown
+    await shareBtn.click()
+    await expect(page.getByRole('button', { name: /Copy link/i })).toBeVisible()
+    await expect(page.getByRole('link', { name: /Share on X/i })).toBeVisible()
+
+    // Footer visible to all visitors — "Analytics by Beam — Privacy-first, cookie-free"
+    await expect(page.getByText(/Analytics by Beam/i)).toBeVisible()
+    await expect(page.getByText(/Privacy-first, cookie-free/i)).toBeVisible()
+
+    await page.screenshot({ path: 'screenshots/smoke/desktop-share-dashboard.png' })
+
+    // Mobile check: Share button still reachable at 375px
+    await page.setViewportSize({ width: 375, height: 812 })
+    await page.goto(`/public/${siteId}`)
+    await expect(page.getByRole('button', { name: /Share/i })).toBeVisible()
+    await expect(page.getByText(/Analytics by Beam/i)).toBeVisible()
+    // No horizontal overflow
+    const hasOverflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth)
+    expect(hasOverflow, 'Public dashboard must not overflow at 375px').toBe(false)
+
+    await page.screenshot({ path: 'screenshots/smoke/mobile-share-dashboard.png' })
+  })
 })
 
 // ── Mobile smoke ──────────────────────────────────────────────────────────────

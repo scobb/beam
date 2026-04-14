@@ -1,5 +1,7 @@
 import { Hono } from 'hono'
+import { getCookie } from 'hono/cookie'
 import type { Env } from '../types'
+import { verifyJWT } from '../auth'
 import { escHtml } from './dashboard'
 import { buildAnalyticsWindow, selectAnalyticsEmptyState } from '../lib/analytics'
 import { buildTrafficChannelSql, normalizeTrafficChannel, type TrafficChannel } from '../lib/channels'
@@ -8,6 +10,7 @@ import {
   displayReferrerSource,
   type GoalRecord,
 } from '../lib/goals'
+import { getPublicBaseUrl, publicUrl } from '../lib/publicUrl'
 
 const publicDash = new Hono<{ Bindings: Env }>()
 const BEAM_SITE_ID_FALLBACK = 'dfa32f6b-0775-43df-a2c4-eb23787e5f03'
@@ -137,6 +140,20 @@ publicDash.get('/public/:site_id', async (c) => {
 
   if (!site || site.public !== 1) {
     return c.html(notFoundPage(), 404)
+  }
+
+  // Detect if the logged-in user is the site owner (optional — no redirect on failure)
+  let isOwner = false
+  const sessionToken = getCookie(c, 'beam_session')
+  if (sessionToken) {
+    const secret = c.env.BEAM_JWT_SECRET ?? 'dev-secret-changeme'
+    const payload = await verifyJWT(sessionToken, secret)
+    if (payload) {
+      const ownedSite = await c.env.DB.prepare(
+        'SELECT id FROM sites WHERE id = ? AND user_id = ?'
+      ).bind(siteId, payload['sub']).first<{ id: string }>()
+      isOwner = ownedSite !== null
+    }
   }
 
   const goals = await c.env.DB.prepare(
@@ -455,6 +472,62 @@ publicDash.get('/public/:site_id', async (c) => {
       <p class="text-2xl font-bold text-gray-900 mt-1 truncate">${escHtml(value)}</p>
     </div>`
 
+  const baseUrl = getPublicBaseUrl(c.env)
+  const shareUrl = publicUrl(baseUrl, `/public/${siteId}`)
+  const tweetText = encodeURIComponent(`Check out my site analytics, powered by @BeamPrivacy ${shareUrl}`)
+  const tweetHref = `https://x.com/intent/tweet?text=${tweetText}`
+
+  const shareButtonHtml = isOwner ? `
+    <div class="relative" id="share-container">
+      <button id="share-btn" onclick="toggleShareMenu(event)"
+        class="flex items-center gap-1.5 px-3 py-1.5 text-sm rounded-lg font-medium bg-white border border-gray-300 text-gray-600 hover:bg-gray-50 transition">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/>
+        </svg>
+        Share
+      </button>
+      <div id="share-menu" class="hidden absolute right-0 top-full mt-2 bg-white border border-gray-200 rounded-xl shadow-lg p-3 min-w-[220px] z-20">
+        <button id="copy-btn" onclick="copyShareLink()"
+          class="w-full flex items-center gap-2 px-3 py-2 text-sm text-gray-700 rounded-lg hover:bg-gray-50 transition text-left">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+          </svg>
+          Copy link
+        </button>
+        <a href="${escHtml(tweetHref)}" target="_blank" rel="noopener noreferrer"
+          class="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 rounded-lg hover:bg-gray-50 transition">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-400 shrink-0" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.402 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.259 5.631 5.905-5.631Zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+          </svg>
+          Share on X
+        </a>
+      </div>
+    </div>
+    <script>
+      (function() {
+        var shareUrl = ${JSON.stringify(shareUrl)};
+        window.toggleShareMenu = function(e) {
+          e.stopPropagation();
+          document.getElementById('share-menu').classList.toggle('hidden');
+        };
+        document.addEventListener('click', function(e) {
+          var container = document.getElementById('share-container');
+          if (container && !container.contains(e.target)) {
+            document.getElementById('share-menu').classList.add('hidden');
+          }
+        });
+        window.copyShareLink = function() {
+          navigator.clipboard.writeText(shareUrl).then(function() {
+            var btn = document.getElementById('copy-btn');
+            var orig = btn.innerHTML;
+            btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-green-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg> Copied!';
+            setTimeout(function() { btn.innerHTML = orig; }, 2000);
+          });
+        };
+      })();
+    </script>
+  ` : ''
+
   return c.html(`<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -474,10 +547,11 @@ publicDash.get('/public/:site_id', async (c) => {
         <span class="text-gray-600 text-sm font-medium truncate">${escHtml(site.name)}</span>
         <span class="text-xs text-gray-400 hidden sm:inline truncate">${escHtml(site.domain)}</span>
       </div>
-      <div class="flex flex-wrap gap-2">
+      <div class="flex flex-wrap items-center gap-2">
         <a href="${dashUrl({ range: 'today' })}" class="${rangeBtnClass('today')}">Today</a>
         <a href="${dashUrl({ range: '7d' })}" class="${rangeBtnClass('7d')}">7 Days</a>
         <a href="${dashUrl({ range: '30d' })}" class="${rangeBtnClass('30d')}">30 Days</a>
+        ${shareButtonHtml}
       </div>
     </div>
   </header>
@@ -666,15 +740,15 @@ publicDash.get('/public/:site_id', async (c) => {
 
   <!-- Powered by Beam footer -->
   <footer class="border-t border-gray-200 mt-12">
-    <div class="max-w-6xl mx-auto px-6 py-6 flex items-center justify-between">
-      <p class="text-sm text-gray-400">
-        Analytics powered by <a href="/" class="text-indigo-600 font-medium hover:underline">Beam</a>
-        — Privacy-first web analytics for $5/mo
+    <div class="max-w-6xl mx-auto px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p class="text-sm text-gray-400 text-center sm:text-left">
+        Analytics by <a href="https://beam-privacy.com" class="text-indigo-600 font-medium hover:underline">Beam</a>
+        — Privacy-first, cookie-free
       </p>
       <div class="flex items-center gap-5 text-sm">
-        <a href="/privacy" class="text-gray-500 hover:text-gray-700">Privacy</a>
-        <a href="/terms" class="text-gray-500 hover:text-gray-700">Terms</a>
-        <a href="/signup" class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700 transition">
+        <a href="https://beam-privacy.com/privacy" class="text-gray-500 hover:text-gray-700">Privacy</a>
+        <a href="https://beam-privacy.com/terms" class="text-gray-500 hover:text-gray-700">Terms</a>
+        <a href="https://beam-privacy.com/signup" class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700 transition">
           Get started free →
         </a>
       </div>
