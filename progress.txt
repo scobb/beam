@@ -22,3 +22,17 @@ Started: Mon Apr 13 06:34:00 PM PDT 2026
   - KV.put before fetch-email prevents double-send even if two isolates race; email errors are swallowed (KV key stays set, no retry)
   - deploy.sh prod: worker upload succeeds even when route registration errors (CF zone auth issue)
 ---
+
+## 2026-04-14 - BEAM-218
+- Added Share button to `/public/:site_id` for logged-in site owners: dropdown with "Copy link" (clipboard API + visual feedback) and "Share on X" (pre-filled tweet with @BeamPrivacy)
+- Owner detection: reads `beam_session` JWT cookie, verifies JWT, queries DB for `sites WHERE id = ? AND user_id = ?` — no redirect on failure
+- Updated footer: "Analytics by Beam — Privacy-first, cookie-free" with beam-privacy.com links; visible to all visitors
+- Added smoke test: creates public site as owner, verifies Share button visible, footer text correct, no horizontal overflow at 375px
+- Files changed: `src/routes/public.ts`, `test/smoke/smoke.spec.ts`
+- Deployed to prod via `deploy.sh prod` — worker upload succeeded (route registration pre-existing CF auth error)
+- Prod smoke tests: 2/2 pass on beam-privacy.com
+- **Learnings for future iterations:**
+  - Owner detection on public pages: use `getCookie(c, 'beam_session')` + `verifyJWT` + DB ownership check — no auth middleware needed
+  - `navigator.clipboard.writeText()` only works on HTTPS; fine for prod but local wrangler dev needs a secure origin
+  - PRD userStories key is `userStories`, not `stories` — use `prd['userStories']` when scripting
+---
