@@ -3540,7 +3540,7 @@
         "Works on mobile (button is reachable at 375px)"
       ],
       "priority": "medium",
-      "passes": false
+      "passes": true
     },
     {
       "id": "BEAM-214",

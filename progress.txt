@@ -34,3 +34,20 @@ Started: Mon Apr 13 04:41:19 PM PDT 2026
   - The Playwright browser session caches beam.js — CORS errors in the persistent session after deployment are from the old cached script, not the live version. Smoke tests in fresh contexts are the reliable check.
   - Staging route registration is broken (CF auth) — use prod smoke tests
 ---
+
+## 2026-04-13 - BEAM-213
+- Implemented CSV export of pageview data for a site
+- Files changed: `src/routes/dashboard.ts`, `test/smoke/smoke.spec.ts`
+- Changes:
+  - Removed Pro-only gate: export now available to all users (free + pro)
+  - Pre-fill export form with analytics page's current date range via `?from=&to=` query params on "Export CSV" link
+  - Added 100K row cap (LIMIT 100001) — if truncated, appends note row to CSV
+  - Columns: date, path, referrer, country, device_type, browser, screen_width (matching AC)
+  - Content-Disposition: attachment header for browser download trigger
+- Smoke tests: 2 desktop + 2 mobile tests — 164/164 passed locally
+- Deployed to prod via `npx wrangler deploy -c wrangler.deploy.toml`
+- Prod 429s on signup rate limit are pre-existing (10/hr/IP), not regressions
+- **Learnings for future iterations:**
+  - When creating a test site with a name that includes the button text (e.g., "Export CSV Site"), Playwright's getByRole link selector matches both the back link and the button — always use `exact: true` for button/link text matching in smoke tests
+  - The export form uses POST (form submit) — page.request.post with `form: {...}` works correctly with the session cookie from signupAndGetSession
+---
