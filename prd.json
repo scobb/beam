@@ -3661,7 +3661,7 @@
         "GET /changelog renders the new group at the top, before the April 3 group"
       ],
       "priority": "high",
-      "passes": false
+      "passes": true
     },
     {
       "id": "BEAM-222",
