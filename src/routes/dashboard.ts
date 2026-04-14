@@ -412,8 +412,13 @@ dashboard.get('/dashboard', async (c) => {
         </a>
       </div>
 
-      ${!isPro && pvPct >= 90 ? `
-        <div class="bg-yellow-50 border border-yellow-200 rounded-xl px-4 py-3 mb-5 flex items-start justify-between gap-3">
+      ${!isPro && pvPct >= 80 ? `
+        <div class="bg-orange-50 border border-orange-300 rounded-xl px-4 py-3 mb-5 flex items-start justify-between gap-3" data-testid="upgrade-nudge-urgent">
+          <p class="text-sm text-orange-900">You've used <strong>${pvPct}%</strong> of your monthly pageview limit. Data collection will pause when you reach 100%.</p>
+          <a href="/dashboard/billing" class="text-sm font-medium text-orange-900 underline whitespace-nowrap shrink-0">Upgrade to Pro →</a>
+        </div>
+      ` : !isPro && pvPct >= 60 ? `
+        <div class="bg-yellow-50 border border-yellow-200 rounded-xl px-4 py-3 mb-5 flex items-start justify-between gap-3" data-testid="upgrade-nudge-warn">
           <p class="text-sm text-yellow-800">You've used <strong>${pvPct}%</strong> of your monthly pageview limit.</p>
           <a href="/dashboard/billing" class="text-sm font-medium text-yellow-900 underline whitespace-nowrap shrink-0">Upgrade to Pro →</a>
         </div>

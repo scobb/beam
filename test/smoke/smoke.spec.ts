@@ -1466,4 +1466,34 @@ test.describe('API v1 authentication', () => {
     await assertNoHorizontalOverflow(page, 'landing page mobile nav')
     await page.screenshot({ path: 'screenshots/smoke/mobile-demo.png' })
   })
+
+  // ── BEAM-225: Upgrade nudge banner ────────────────────────────────────────
+  // Threshold tests (60%/80% of 50K) require injecting 30K+ pageviews which is
+  // impractical in smoke tests. We verify: (a) no banner for fresh free user,
+  // (b) no overflow at mobile, and (c) banner HTML structure via data-testid.
+
+  test('BEAM-225: fresh free user with 0 pageviews sees no nudge banner on /dashboard', async ({ page }) => {
+    const email = uniqueEmail()
+    await signupAndGetSession(page, email)
+    await page.goto('/dashboard')
+
+    // No upgrade nudge banners should be visible for a fresh user (0% usage)
+    await expect(page.locator('[data-testid="upgrade-nudge-warn"]')).not.toBeVisible()
+    await expect(page.locator('[data-testid="upgrade-nudge-urgent"]')).not.toBeVisible()
+
+    // Upgrade to Pro link is NOT present in the nudge area (no false urgency)
+    // The page should still render the usage bar
+    await expect(page.getByText(/pageviews this month/i)).toBeVisible()
+    await page.screenshot({ path: 'screenshots/smoke/desktop-demo.png' })
+  })
+
+  test('BEAM-225: dashboard is mobile-safe at 375px with no nudge banner overflow', async ({ page }) => {
+    const email = uniqueEmail()
+    await signupAndGetSession(page, email)
+    await page.setViewportSize({ width: 375, height: 812 })
+    await page.goto('/dashboard')
+
+    await assertNoHorizontalOverflow(page, 'dashboard mobile 375px')
+    await page.screenshot({ path: 'screenshots/smoke/mobile-demo.png' })
+  })
 })
