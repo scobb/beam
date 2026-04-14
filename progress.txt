@@ -167,3 +167,17 @@ Started: Mon Apr 13 06:34:00 PM PDT 2026
   - The vs.ts footer inner link div was missing `flex-wrap` (pre-existing); now fixed
   - `comparisonTable()` now has `overflow-x-auto` wrapper — all 12 /vs pages benefit from this
 ---
+
+## 2026-04-14 - BEAM-226
+- Added UTM attribution to public dashboard share links in `src/routes/public.ts`
+- Created `shareUrlWithUtm = shareUrl + ?utm_source=beam-share&utm_medium=referral`
+- Used UTM URL for both: `copyShareLink()` JS (clipboard), and `tweetText` server-side (tweet pre-fill)
+- Untagged `/public/:siteId` still works unchanged
+- Smoke test verifies: clipboard content contains utm_source=beam-share, utm_medium=referral, and siteId; tweet href contains UTM params
+- Uses `context.grantPermissions(['clipboard-read','clipboard-write'])` to read clipboard in Playwright
+- Files changed: `src/routes/public.ts`, `test/smoke/smoke.spec.ts`
+- Local 2/2 pass; prod 429 (IP signup rate limit from cumulative session) — not a code issue
+- **Learnings for future iterations:**
+  - `context.grantPermissions(['clipboard-read','clipboard-write'])` needed to read clipboard in Playwright tests
+  - `shareUrl` JS var in `<script>` block needed updating alongside server-side tweetText — easy to miss one
+---

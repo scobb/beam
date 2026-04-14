@@ -1,10 +1,9 @@
 ## Last completed
-BEAM-224 - /vs/mixpanel comparison page (6/6 prod smoke tests pass)
+BEAM-226 - UTM attribution on share links (deployed prod; local 2/2 pass; prod 429 rate limit)
 
 ## Next up
-BEAM-226 (low) — UTM attribution on public dashboard share links
-- After that: BEAM-227 (blog post)
-- vs.ts footer now has flex-wrap (was missing); comparisonTable() now has overflow-x-auto wrapper
+BEAM-227 (low) — Blog post: April 2026 product update covering recent features
+- This is the final story; after it all stories will pass → enter self-generation mode
 
 ## Active issues
 - BEAM-216 (auto-blocked): /for/sveltekit, /for/vue, /for/nuxt — blocked after 3 consecutive failures

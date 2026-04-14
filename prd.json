@@ -3736,7 +3736,7 @@
         "Smoke test: Copy link returns a URL containing utm_source=beam-share"
       ],
       "priority": "low",
-      "passes": false
+      "passes": true
     },
     {
       "id": "BEAM-227",
