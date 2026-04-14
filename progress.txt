@@ -9,6 +9,19 @@ Started: Mon Apr 13 04:41:19 PM PDT 2026
 - sendBeacon with Blob(type:'application/json') sends credentials:include by default, which breaks CORS when the server responds with Access-Control-Allow-Origin: *. Use fetch(keepalive:true, credentials:'omit') instead.
 ---
 
+## 2026-04-13 - BEAM-212
+- Reduced beam.js Cache-Control TTL from max-age=86400 (24h) to max-age=3600 (1h)
+- Files changed: `src/routes/tracking.ts`, `test/smoke/smoke.spec.ts`
+- Deployed to prod via `npx wrangler deploy -c wrangler.deploy.toml`
+- Verified: `curl -sI -H "Cache-Control: no-cache" https://beam-privacy.com/js/beam.js` returns `max-age=3600`
+- All 4 Tracking script smoke tests passed. Full smoke.spec.ts: 98 passed.
+- ux-audit Journey 1 timed out (pre-existing signup rate limit hit — 10/hr/IP on prod, not a regression)
+- **Learnings for future iterations:**
+  - Cloudflare edge cache serves old cached Worker responses even after Worker update. Use `curl -H "Cache-Control: no-cache"` to bypass and test the live Worker response.
+  - The CF API token does not have cache purge permissions — cannot clear CF edge cache via API.
+  - Add `headers: { 'Cache-Control': 'no-cache' }` to Playwright smoke test requests that check response headers, so CF edge cache doesn't return stale headers.
+---
+
 ## 2026-04-13 - BEAM-211
 - Investigated "Waiting for data" on cards.keylightdigital.dev Beam dashboard
 - Root cause: `navigator.sendBeacon` sends with `credentials: 'include'` by default. When beam.js is loaded cross-origin (script src = beam-privacy.com, page = cards.keylightdigital.dev), the CORS preflight fails because the server returns `Access-Control-Allow-Origin: *` which is not allowed when credentials mode is 'include'. The beacon was silently dropped — no pageviews were recorded.
