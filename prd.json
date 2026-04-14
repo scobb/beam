@@ -3797,7 +3797,7 @@
         "Smoke test: GET /for/gatsby returns 200 and contains Gatsby-specific content"
       ],
       "priority": "medium",
-      "passes": false
+      "passes": true
     },
     {
       "id": "BEAM-231",

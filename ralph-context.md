@@ -1,10 +1,10 @@
 ## Last completed
-BEAM-229 - /vs/amplitude comparison page (local 4/4; prod 4/4)
+BEAM-230 - /for/gatsby integration guide (local 6/6; prod 6/6)
 
 ## Next up
-BEAM-230 (medium) — /for/gatsby integration guide
-- Gatsby uses gatsby-browser.js entrypoint + onRouteUpdate for SPA tracking
-- Follow /for/react pattern; add to GUIDE_SECTIONS slugs and sitemap
+BEAM-232 (medium) — Blog: GDPR analytics without a cookie banner
+- Legal angle (what GDPR actually requires), different from existing technical cookie-free guide
+- Slug: gdpr-analytics-no-cookie-banner
 
 ## Active issues
 - BEAM-216 (auto-blocked): /for/sveltekit, /for/vue, /for/nuxt — blocked after 3 consecutive failures

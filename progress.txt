@@ -239,3 +239,19 @@ Started: Mon Apr 13 06:34:00 PM PDT 2026
   - /alternatives hub uses alternativesCards() with AlternativeOption array — add new cards by appending to the options array before the beam-analytics-alternative entry
   - vs.ts footer already has flex-wrap so adding more links is safe on mobile
 ---
+
+## 2026-04-14 - BEAM-230
+- Added /for/gatsby integration guide with two install steps:
+  1. onClientEntry in gatsby-browser.js to inject the script
+  2. onRouteUpdate hook for SPA client-side navigation tracking
+- Added 'gatsby' to GUIDE_SECTIONS developer slugs array
+- Added gatsby entry to GUIDES map with slug, name, icon, tagline, installSteps, verificationChecklist, whyPoints, others
+- Added Gatsby to React guide's others list
+- Added /for/gatsby to sitemap paths + meta in src/index.ts
+- Files changed: src/routes/for.ts, src/index.ts, test/smoke/smoke.spec.ts
+- Local 6/6; prod first run 3/6 (CDN cache); second run 6/6 pass
+- **Learnings for future iterations:**
+  - Gatsby uses gatsby-browser.js (not index.html) for script injection — onClientEntry is the entry point
+  - onRouteUpdate gets { location, prevLocation } — use location.pathname for tracking
+  - First prod run flaky on sitemap test (CDN propagation) — retry resolves
+---
