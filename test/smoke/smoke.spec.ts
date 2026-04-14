@@ -1496,4 +1496,47 @@ test.describe('API v1 authentication', () => {
     await assertNoHorizontalOverflow(page, 'dashboard mobile 375px')
     await page.screenshot({ path: 'screenshots/smoke/mobile-demo.png' })
   })
+
+  // ── BEAM-228: Per-site monthly usage on sites overview ──────────────────────
+
+  test('BEAM-228: /dashboard/sites shows per-site usage for a new site (0 pageviews)', async ({ page }) => {
+    const email = uniqueEmail()
+    await signupAndGetSession(page, email)
+
+    // Create a site
+    await page.goto('/dashboard/sites/new')
+    await page.fill('input[name="name"]', 'Usage Smoke Site')
+    await page.fill('input[name="domain"]', 'usage-smoke.example.com')
+    await page.click('button[type="submit"]')
+    await page.waitForURL(/\/dashboard\/sites\/[0-9a-f-]+$/)
+    const siteId = page.url().split('/dashboard/sites/')[1].split(/[?#]/)[0]
+
+    await page.goto('/dashboard/sites')
+
+    // Usage widget must be present with 0 / 50K for a free user
+    const usageWidget = page.locator(`[data-testid="site-usage-${siteId}"]`)
+    await expect(usageWidget).toBeVisible()
+    await expect(usageWidget).toContainText('0')
+    await expect(usageWidget).toContainText('50K')
+
+    await assertNoHorizontalOverflow(page, 'sites overview with usage desktop')
+    await page.screenshot({ path: 'screenshots/smoke/desktop-demo.png' })
+  })
+
+  test('BEAM-228: /dashboard/sites is mobile-safe at 375px with usage indicators', async ({ page }) => {
+    const email = uniqueEmail()
+    await signupAndGetSession(page, email)
+
+    await page.goto('/dashboard/sites/new')
+    await page.fill('input[name="name"]', 'Usage Mobile Site')
+    await page.fill('input[name="domain"]', 'usage-mobile.example.com')
+    await page.click('button[type="submit"]')
+    await page.waitForURL(/\/dashboard\/sites\/[0-9a-f-]+$/)
+
+    await page.setViewportSize({ width: 375, height: 812 })
+    await page.goto('/dashboard/sites')
+
+    await assertNoHorizontalOverflow(page, 'sites overview mobile 375px with usage')
+    await page.screenshot({ path: 'screenshots/smoke/mobile-demo.png' })
+  })
 })

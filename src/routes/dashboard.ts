@@ -1286,6 +1286,13 @@ dashboard.get('/dashboard/sites', async (c) => {
   const user = c.get('user')
   const now = new Date()
   const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000).toISOString()
+  const monthStart = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1)).toISOString()
+  const monthEnd = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + 1, 1)).toISOString()
+
+  // Fetch plan (JWT may be stale after upgrade)
+  const dbUser = await c.env.DB.prepare('SELECT plan FROM users WHERE id = ?').bind(user.sub).first<{ plan: string }>()
+  const isPro = (dbUser?.plan ?? 'free') === 'pro'
+  const pvLimit = isPro ? 500000 : 50000
 
   const sites = await c.env.DB.prepare(
     `SELECT s.id, s.name, s.domain, s.created_at,
@@ -1300,6 +1307,8 @@ dashboard.get('/dashboard/sites', async (c) => {
   // For yellow detection we also need to know if a site has ANY historical data
   const siteIds = (sites.results ?? []).map(s => s.id)
   const hasAnyDataMap = new Map<string, boolean>()
+  const monthlyCountMap = new Map<string, number>()
+
   if (siteIds.length > 0) {
     // Only query sites that returned no recent data (last_pageview_at is null from the JOIN above)
     const sitesWithNoRecent = (sites.results ?? []).filter(s => s.last_pageview_at === null).map(s => s.id)
@@ -1312,6 +1321,35 @@ dashboard.get('/dashboard/sites', async (c) => {
         hasAnyDataMap.set(row.site_id, true)
       }
     }
+
+    // Monthly pageview counts per site — one query, not N+1
+    const placeholders = siteIds.map(() => '?').join(',')
+    const monthlyRows = await c.env.DB.prepare(
+      `SELECT site_id, COUNT(*) as count FROM pageviews
+       WHERE site_id IN (${placeholders}) AND timestamp >= ? AND timestamp < ?
+       GROUP BY site_id`
+    ).bind(...siteIds, monthStart, monthEnd).all<{ site_id: string; count: number }>()
+    for (const row of monthlyRows.results ?? []) {
+      monthlyCountMap.set(row.site_id, row.count)
+    }
+  }
+
+  function renderUsage(siteId: string): string {
+    const count = monthlyCountMap.get(siteId) ?? 0
+    const formatted = count >= 1000 ? `${(count / 1000).toFixed(1)}K` : count.toString()
+    if (isPro) {
+      return `<span class="text-xs text-gray-500">${formatted} pageviews this month</span>`
+    }
+    const limitFormatted = pvLimit >= 1000 ? `${(pvLimit / 1000).toFixed(0)}K` : pvLimit.toString()
+    const pct = Math.min(100, Math.round((count / pvLimit) * 100))
+    const barColor = pct >= 80 ? 'bg-orange-400' : pct >= 60 ? 'bg-yellow-400' : 'bg-indigo-400'
+    return `
+      <div class="flex flex-col gap-0.5 min-w-0 w-24 shrink-0" data-testid="site-usage-${siteId}">
+        <span class="text-xs text-gray-500 whitespace-nowrap">${formatted} / ${limitFormatted}</span>
+        <div class="w-full bg-gray-100 rounded-full h-1">
+          <div class="${barColor} h-1 rounded-full" style="width: ${pct}%"></div>
+        </div>
+      </div>`
   }
 
   const siteCards = (sites.results ?? []).map(s => {
@@ -1328,6 +1366,7 @@ dashboard.get('/dashboard/sites', async (c) => {
         </div>
       </div>
       <div class="flex items-center gap-4 shrink-0">
+        ${renderUsage(s.id)}
         <a href="/dashboard/sites/${s.id}/analytics" class="text-indigo-600 hover:underline text-sm">Analytics</a>
         <a href="/dashboard/sites/${s.id}/goals" class="text-indigo-600 hover:underline text-sm">Goals</a>
         <a href="/dashboard/sites/${s.id}" class="text-indigo-600 hover:underline text-sm">Manage →</a>
