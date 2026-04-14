@@ -1645,6 +1645,32 @@ test.describe('API v1 authentication', () => {
     expect(decodeURIComponent(tweetHref)).toContain('utm_source=beam-share')
   })
 
+  // ── BEAM-230: /for/gatsby integration guide ──────────────────────────────
+
+  test('BEAM-230: /for/gatsby returns 200 with Gatsby content', async ({ page }) => {
+    const res = await page.goto('/for/gatsby')
+    expect(res?.status()).toBe(200)
+    await expect(page.getByRole('heading', { level: 1 })).toContainText('Gatsby')
+    await expect(page.locator('body')).toContainText('gatsby-browser.js')
+    await expect(page.locator('body')).toContainText('onRouteUpdate')
+  })
+
+  test('BEAM-230: /for/gatsby appears in /for hub and sitemap', async ({ page }) => {
+    await page.goto('/for')
+    await expect(page.getByRole('link', { name: /Gatsby/i }).first()).toBeVisible()
+    const res2 = await page.goto('/sitemap.xml')
+    expect(res2?.status()).toBe(200)
+    const text = await page.content()
+    expect(text).toContain('/for/gatsby')
+  })
+
+  test('BEAM-230: /for/gatsby is mobile-safe at 375px', async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 812 })
+    await page.goto('/for/gatsby')
+    await expect(page.getByRole('heading', { level: 1 })).toContainText('Gatsby')
+    await assertNoHorizontalOverflow(page, '/for/gatsby mobile 375px')
+  })
+
   // ── BEAM-229: /vs/amplitude comparison page ──────────────────────────────
 
   test('BEAM-229: /vs/amplitude returns 200 with comparison content', async ({ page }) => {

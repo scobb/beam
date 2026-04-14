@@ -24,7 +24,7 @@ const GUIDE_SECTIONS = [
   {
     title: 'Developer frameworks',
     subtitle: 'Implementation guides for teams that control source code and deploy pipelines.',
-    slugs: ['nextjs', 'react', 'wordpress', 'astro', 'hugo', 'remix'],
+    slugs: ['nextjs', 'react', 'wordpress', 'astro', 'gatsby', 'hugo', 'remix'],
   },
   {
     title: 'No-code builders',
@@ -173,9 +173,67 @@ export default function App() {
     ],
     others: [
       { slug: 'nextjs', name: 'Next.js' },
+      { slug: 'gatsby', name: 'Gatsby' },
       { slug: 'remix', name: 'Remix' },
       { slug: 'astro', name: 'Astro' },
-      { slug: 'webflow', name: 'Webflow' },
+    ],
+  },
+
+  gatsby: {
+    slug: 'gatsby',
+    name: 'Gatsby',
+    icon: '🟣',
+    tagline: 'Privacy-first analytics for Gatsby sites',
+    hubDescription: 'Script tag in gatsby-browser.js plus an onRouteUpdate hook for full SPA route tracking.',
+    description: 'Add cookie-free, GDPR-compliant analytics to your Gatsby site in under 2 minutes. No consent banner required. Works with Gatsby v4 and v5 for both static sites and SSR.',
+    metaDescription: 'Add privacy-first analytics to your Gatsby site. Cookie-free, GDPR-compliant, <2KB script. Works with Gatsby v4 and v5. No consent banner needed.',
+    installSteps: [
+      {
+        title: 'Add the script tag in gatsby-browser.js',
+        code: `// gatsby-browser.js (create if it doesn't exist)
+
+export const onClientEntry = () => {
+  const script = document.createElement('script')
+  script.defer = true
+  script.src = '${DEFAULT_PUBLIC_BASE_URL}/js/beam.js'
+  script.setAttribute('data-site-id', 'YOUR_SITE_ID')
+  document.head.appendChild(script)
+}`,
+        lang: 'js',
+        explanation: 'Gatsby\'s <code>onClientEntry</code> lifecycle fires once when the browser runtime loads. Injecting the script here ensures Beam initialises before the first route renders.',
+      },
+      {
+        title: 'Track SPA route changes with onRouteUpdate',
+        code: `// gatsby-browser.js (add below onClientEntry)
+
+export const onRouteUpdate = ({ location }) => {
+  // Gatsby handles client-side navigation without full page reloads.
+  // onRouteUpdate fires after every route transition.
+  if (typeof window !== 'undefined' && window.beam) {
+    window.beam.track('pageview', { path: location.pathname })
+  }
+}`,
+        lang: 'js',
+        explanation: 'Without this hook, Beam only captures the initial page load. <code>onRouteUpdate</code> fires on every Gatsby client-side navigation, keeping your Top Pages report accurate across all routes.',
+      },
+    ],
+    verificationChecklist: [
+      'Run gatsby develop and open the site in a browser.',
+      'Navigate between two pages using Gatsby Link components (not browser refresh).',
+      'Open your Beam dashboard and confirm both paths appear in Top Pages within a minute.',
+      'Check that no cookies or localStorage keys are set by the Beam script.',
+    ],
+    whyPoints: [
+      { icon: '🍪', title: 'No cookie banner required', body: 'Beam is cookie-free by design — no consent UI to build, no GDPR overhead for your Gatsby site.' },
+      { icon: '⚡', title: 'Sub-2KB, zero dependencies', body: 'Beam\'s tracking script adds no npm packages and is lighter than most Gatsby plugins.' },
+      { icon: '🧭', title: 'Full SPA route tracking', body: 'The onRouteUpdate hook captures every Gatsby client-side navigation so your Top Pages report is complete.' },
+      { icon: '🔒', title: 'Privacy by default', body: 'No PII, no fingerprinting, no ad-tech — just page-level metrics that work without a consent banner.' },
+    ],
+    others: [
+      { slug: 'react', name: 'React' },
+      { slug: 'nextjs', name: 'Next.js' },
+      { slug: 'astro', name: 'Astro' },
+      { slug: 'hugo', name: 'Hugo' },
     ],
   },
 
