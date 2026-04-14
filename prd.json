@@ -3811,7 +3811,7 @@
         "Mobile-responsive at 375px"
       ],
       "priority": "high",
-      "passes": false
+      "passes": true
     },
     {
       "id": "BEAM-232",

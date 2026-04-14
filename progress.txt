@@ -212,3 +212,18 @@ Started: Mon Apr 13 06:34:00 PM PDT 2026
   - BEAM-235 (low): Landing page React+Astro guides list
   - BEAM-236 (low): Dashboard settings change password + delete account
 ---
+
+## 2026-04-14 - BEAM-231
+- Added weekly digest email opt-in/out toggle to /dashboard/settings
+- GET /dashboard/settings now queries digest_opt_out from DB and shows subscribed/unsubscribed state
+- Added POST /dashboard/settings/digest handler: parses action=enable|disable, sets digest_opt_out=0|1, redirects with status query param
+- Status query param (?status=digest-on|digest-off) shows confirmation banner on settings page
+- Fixes broken promise: unsubscribe page said "re-enable in settings" but no such UI existed
+- Files changed: `src/routes/dashboard.ts`
+- Local 4/4 pass; prod 4/4 429 (signup rate limit exhausted in session — code correct)
+- **Learnings for future iterations:**
+  - parseBody() returns a Record<string, string|File>; use `body['action']` to read form values
+  - 303 redirect after POST avoids double-submit on browser back button
+  - Status feedback via query param (?status=x) is stateless and simple — no session flash needed
+  - Prod signup rate limit (10/hour/IP) consistently exhausted in multi-story sessions; local tests are authoritative
+---

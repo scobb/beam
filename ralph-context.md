@@ -1,10 +1,11 @@
 ## Last completed
-BEAM-227 - Blog post: April 2026 product update (deployed prod; local 6/6 pass; prod 6/6 pass)
+BEAM-231 - Dashboard settings digest toggle (local 4/4 pass; prod 429 rate limit)
 
 ## Next up
-BEAM-231 (high) — Dashboard settings: weekly digest opt-in/out toggle
-- digest_opt_out column already in DB; unsubscribe page tells users to "re-enable in settings" but no such UI exists
-- Need: POST /dashboard/settings/digest + toggle in GET /dashboard/settings
+BEAM-229 (medium) — /vs/amplitude comparison page
+- Amplitude is a major paid product analytics platform
+- Follow /vs/mixpanel pattern: comparison table, prose, FAQ JSON-LD, footer links
+- Add to sitemap.xml and /alternatives hub
 
 ## Active issues
 - BEAM-216 (auto-blocked): /for/sveltekit, /for/vue, /for/nuxt — blocked after 3 consecutive failures
