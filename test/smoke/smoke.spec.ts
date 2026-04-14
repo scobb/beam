@@ -1446,4 +1446,24 @@ test.describe('API v1 authentication', () => {
     await assertNoHorizontalOverflow(page, 'sites overview mobile 375px')
     await page.screenshot({ path: 'screenshots/smoke/mobile-health-indicators.png' })
   })
+
+  // ── BEAM-222: Blog link in main navigation ────────────────────────────────
+
+  test('BEAM-222: landing page nav includes Blog link pointing to /blog', async ({ page }) => {
+    await page.goto('/')
+    // Blog link must be visible in the nav
+    const blogLink = page.locator('nav a[href="/blog"]').first()
+    await expect(blogLink).toBeVisible()
+    await expect(blogLink).toHaveText('Blog')
+    await page.screenshot({ path: 'screenshots/smoke/desktop-demo.png' })
+  })
+
+  test('BEAM-222: landing page nav Blog link accessible at mobile 375px with no overflow', async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 812 })
+    await page.goto('/')
+    const blogLink = page.locator('nav a[href="/blog"]').first()
+    await expect(blogLink).toBeVisible()
+    await assertNoHorizontalOverflow(page, 'landing page mobile nav')
+    await page.screenshot({ path: 'screenshots/smoke/mobile-demo.png' })
+  })
 })

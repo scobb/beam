@@ -99,6 +99,7 @@ export function landingPage(
         <a href="/migrate" class="text-gray-600 hover:text-gray-900">Migration Hub</a>
         <a href="/tools/stack-scanner" class="text-gray-600 hover:text-gray-900">Stack Scanner</a>
         <a href="/changelog" class="text-gray-600 hover:text-gray-900">Changelog</a>
+        <a href="/blog" class="text-gray-600 hover:text-gray-900">Blog</a>
         <a href="/login" class="text-gray-600 hover:text-gray-900">Log in</a>
         <a href="/signup" data-beam-cta="nav_get_started" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700">Get Started</a>
       </div>
