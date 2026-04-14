@@ -104,3 +104,20 @@ Started: Mon Apr 13 06:34:00 PM PDT 2026
   - Each page/route has its own `nav()` function — no shared nav component; check all nav functions when adding global links
   - First prod smoke run failed (screenshot showed old nav) — likely CDN propagation; second run 30s later passed
 ---
+
+## 2026-04-14 - BEAM-225
+- Updated `/dashboard` route to show upgrade nudge banners for free users:
+  - 60-79%: yellow `bg-yellow-50/border-yellow-200` banner (informational)
+  - 80%+: orange `bg-orange-50/border-orange-300` banner (urgent, mentions data-pause)
+  - Added `data-testid="upgrade-nudge-warn"` and `data-testid="upgrade-nudge-urgent"` for targeting
+  - Pro users and users under 60% see no banner
+- Removed old 90%-only banner (was too conservative)
+- Added 2 smoke tests: fresh free user sees no banner; dashboard is mobile-safe at 375px
+- Files changed: `src/routes/dashboard.ts`, `test/smoke/smoke.spec.ts`
+- Deployed to prod via `deploy.sh prod` — worker upload succeeded (pre-existing CF route auth error)
+- Prod smoke test note: first desktop run passed 2/2; subsequent runs hit signup rate limit (10/hour/IP) from cumulative sessions — not a code issue
+- **Learnings for future iterations:**
+  - Upgrade nudge banner already had a 90%+ threshold; replaced with tiered 60/80% logic
+  - `data-testid` on banner containers makes Playwright assertions clean (especially for "not visible" assertions)
+  - Prod signup rate limit (10/hour/IP) gets exhausted when running multiple full smoke runs in one session; spread test runs across hours
+---
