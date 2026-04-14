@@ -1573,4 +1573,34 @@ test.describe('API v1 authentication', () => {
     await assertNoHorizontalOverflow(page, '/for/react mobile 375px')
     await page.screenshot({ path: 'screenshots/smoke/mobile-demo.png' })
   })
+
+  // ── BEAM-224: /vs/mixpanel comparison page ──────────────────────────────────
+
+  test('BEAM-224: /vs/mixpanel returns 200 with structured comparison content', async ({ page }) => {
+    await page.goto('/vs/mixpanel')
+    await expect(page).toHaveURL(/\/vs\/mixpanel/)
+    await expect(page.getByRole('heading', { level: 1 })).toContainText('Mixpanel')
+    // Comparison table
+    await expect(page.getByText(/cookies used/i).first()).toBeVisible()
+    await expect(page.getByText(/GDPR/i).first()).toBeVisible()
+    // Pricing info
+    await expect(page.getByText(/\$5\/mo/i).first()).toBeVisible()
+    // Related comparisons section
+    await expect(page.getByRole('link', { name: /Beam vs PostHog/i })).toBeVisible()
+    await page.screenshot({ path: 'screenshots/smoke/desktop-demo.png' })
+  })
+
+  test('BEAM-224: /vs/mixpanel is in the sitemap', async ({ request }) => {
+    const sitemap = await request.get('/sitemap.xml')
+    expect(sitemap.status()).toBe(200)
+    expect(await sitemap.text()).toContain('/vs/mixpanel')
+  })
+
+  test('BEAM-224: /vs/mixpanel is mobile-safe at 375px', async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 812 })
+    await page.goto('/vs/mixpanel')
+    await expect(page.getByRole('heading', { level: 1 })).toContainText('Mixpanel')
+    await assertNoHorizontalOverflow(page, '/vs/mixpanel mobile 375px')
+    await page.screenshot({ path: 'screenshots/smoke/mobile-demo.png' })
+  })
 })

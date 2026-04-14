@@ -24,7 +24,7 @@ function footer(): string {
   <footer class="border-t border-gray-100 py-10">
     <div class="max-w-5xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-400">
       <span>&copy; ${new Date().getFullYear()} Keylight Digital LLC. All rights reserved.</span>
-      <div class="flex items-center gap-6">
+      <div class="flex flex-wrap items-center gap-x-6 gap-y-2 justify-center md:justify-end">
         <a href="/about" class="hover:text-gray-600">About</a>
         <a href="/privacy" class="hover:text-gray-600">Privacy</a>
         <a href="/terms" class="hover:text-gray-600">Terms</a>
@@ -40,6 +40,7 @@ function footer(): string {
         <a href="/vs/simple-analytics" class="hover:text-gray-600">vs Simple Analytics</a>
         <a href="/vs/rybbit" class="hover:text-gray-600">vs Rybbit</a>
         <a href="/vs/posthog" class="hover:text-gray-600">vs PostHog</a>
+        <a href="/vs/mixpanel" class="hover:text-gray-600">vs Mixpanel</a>
         <a href="/vs/pirsch" class="hover:text-gray-600">vs Pirsch</a>
         <a href="/vs/cabin" class="hover:text-gray-600">vs Cabin</a>
         <a href="/beam-analytics-alternative" class="hover:text-gray-600">Beam Analytics Alternative</a>
@@ -52,7 +53,8 @@ function footer(): string {
 
 function comparisonTable(rows: { feature: string; beam: string; competitor: string; beamWins?: boolean }[]): string {
   return `
-  <table class="w-full text-sm border border-gray-200 rounded-xl overflow-hidden">
+  <div class="overflow-x-auto">
+  <table class="w-full text-sm border border-gray-200 rounded-xl overflow-hidden" style="min-width:480px">
     <thead class="bg-gray-50">
       <tr>
         <th class="text-left px-4 py-3 font-semibold text-gray-700">Feature</th>
@@ -68,7 +70,8 @@ function comparisonTable(rows: { feature: string; beam: string; competitor: stri
         <td class="px-4 py-3 text-center text-gray-500">${r.competitor}</td>
       </tr>`).join('')}
     </tbody>
-  </table>`
+  </table>
+  </div>`
 }
 
 function ctaSection(): string {
@@ -1447,6 +1450,110 @@ ${nav()}
     { href: '/vs/pirsch', label: 'Beam vs Pirsch', description: 'Another privacy-first analytics tool — compare cookie-free options at similar price points.' },
     { href: '/vs/fathom', label: 'Beam vs Fathom', description: 'Fathom is another premium privacy analytics product — compare positioning and pricing.' },
     { href: '/vs/simple-analytics', label: 'Beam vs Simple Analytics', description: 'Minimalist privacy analytics — see how Simple Analytics compares to Beam and Cabin.' },
+  ])}
+
+  ${ctaSection()}
+</main>
+
+${footer()}
+</body>
+</html>`
+  return c.html(html)
+})
+
+// ─── Mixpanel ─────────────────────────────────────────────────────────────────
+
+app.get('/vs/mixpanel', (c) => {
+  const baseUrl = getPublicBaseUrl(c.env)
+  const BEAM_SITE_ID = c.env.BEAM_SELF_SITE_ID ?? BEAM_SITE_ID_FALLBACK
+  const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Beam vs Mixpanel — Simple Privacy-First Analytics vs Event Analytics Platform</title>
+  <meta name="description" content="Beam vs Mixpanel: Beam is cookie-free web analytics at $5/mo with no consent banner required. Mixpanel is a powerful event-based product analytics platform — but expensive, complex, and cookie-dependent." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="${baseUrl}/vs/mixpanel" />
+  <meta property="og:title" content="Beam vs Mixpanel — Privacy-First Analytics vs Event Analytics" />
+  <meta property="og:description" content="Beam is one script tag for cookie-free web analytics. Mixpanel is an event-based product analytics platform. Compare pricing, privacy, and complexity." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="${baseUrl}/vs/mixpanel" />
+  <meta property="og:image" content="${baseUrl}/og/vs-mixpanel" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Beam vs Mixpanel Analytics" />
+  <meta name="twitter:description" content="Simple cookie-free web analytics vs event-based product analytics. Compare Beam and Mixpanel on privacy, pricing, and setup." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
+  <script type="application/ld+json">${JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Is Mixpanel free?", "acceptedAnswer": { "@type": "Answer", "text": "Mixpanel offers a free plan with up to 20 million monthly events tracked. Paid plans start at $28/mo (Starter) and scale significantly — Growth is $24–$100+/mo depending on event volume, and Enterprise pricing is custom. Costs rise quickly as event volume grows." } },
+      { "@type": "Question", "name": "Does Mixpanel use cookies?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Mixpanel uses cookies and device fingerprinting to track individual users across sessions. This means you need a GDPR-compliant cookie banner for EU visitors, and you must handle CCPA opt-outs in California. Beam uses neither — no cookies, no consent banner required." } },
+      { "@type": "Question", "name": "When should I use Beam instead of Mixpanel?", "acceptedAnswer": { "@type": "Answer", "text": "Use Beam if you want simple, privacy-first web traffic analytics — pageviews, referrers, top pages, countries — without cookies, consent banners, or per-event pricing. Beam takes 5 minutes to install and $5/mo flat. Mixpanel is the right choice when you need user-level funnel analysis, retention cohorts, A/B test analysis, or detailed behavioural analytics on a per-event basis." } }
+    ]
+  })}</script>
+</head>
+<body class="bg-white text-gray-900 antialiased">
+${nav()}
+
+<main class="max-w-4xl mx-auto px-6 py-16">
+
+  <div class="mb-2 text-sm text-indigo-600 font-medium uppercase tracking-wide">Comparison</div>
+  <h1 class="text-4xl font-extrabold tracking-tight text-gray-900 mb-4">Beam vs Mixpanel</h1>
+  <p class="text-xl text-gray-500 mb-12">Mixpanel is a powerful event-based product analytics platform built for understanding user behaviour in depth. It excels at funnels, retention cohorts, and A/B testing. Beam does one thing differently: lightweight, cookie-free web analytics that works in 5 minutes, costs $5/mo flat, and requires no consent banner.</p>
+
+  ${comparisonTable([
+    { feature: 'Primary focus', beam: 'Web traffic analytics', competitor: 'Event-based product analytics', beamWins: false },
+    { feature: 'Pricing model', beam: 'Free / $5/mo flat', competitor: 'Free up to 20M events, then $28–$100+/mo', beamWins: true },
+    { feature: 'Cookies used', beam: 'None', competitor: 'Yes (user tracking cookies)', beamWins: true },
+    { feature: 'GDPR compliant out of the box', beam: 'Yes — no consent needed', competitor: 'Requires consent banner for EU visitors', beamWins: true },
+    { feature: 'CCPA handling', beam: 'No PII collected — no opt-out needed', competitor: 'Opt-out required for California users', beamWins: true },
+    { feature: 'Setup time', beam: '< 5 minutes (one script tag)', competitor: '1–3 hours (SDK, events, user properties)', beamWins: true },
+    { feature: 'Per-event pricing risk', beam: 'None — pageview-based flat rate', competitor: 'Yes — costs spike with traffic or instrumentation', beamWins: true },
+    { feature: 'Funnel analysis', beam: 'No', competitor: 'Yes', beamWins: false },
+    { feature: 'Retention cohorts', beam: 'No', competitor: 'Yes', beamWins: false },
+    { feature: 'A/B test analysis', beam: 'No', competitor: 'Yes', beamWins: false },
+    { feature: 'User-level tracking', beam: 'No (privacy by design)', competitor: 'Yes', beamWins: false },
+    { feature: 'Script size', beam: '< 2 KB', competitor: '~45 KB (full SDK)', beamWins: true },
+    { feature: 'Infrastructure required', beam: 'None — fully managed', competitor: 'Managed cloud only', beamWins: true },
+    { feature: 'Free tier', beam: '1 site, 50K pageviews/mo', competitor: '20M events/mo', beamWins: false },
+  ])}
+
+  <div class="mt-12 space-y-6 text-gray-700 leading-relaxed">
+    <h2 class="text-2xl font-bold text-gray-900">Where Mixpanel Has the Edge</h2>
+    <p>
+      Mixpanel is one of the most capable product analytics tools available. If you need to understand <em>how</em> individual users behave inside your application — which features they use, where they drop off in multi-step funnels, which cohorts retain longest — Mixpanel is built for exactly that. Its funnel analysis, retention cohorts, and A/B test integration are class-leading.
+    </p>
+    <p>
+      Mixpanel's free tier is also generous at 20 million events per month, which is sufficient for many early-stage products. For teams instrumenting a SaaS product with dozens of custom events, Mixpanel's depth of analysis is hard to match.
+    </p>
+
+    <h2 class="text-2xl font-bold text-gray-900">Where Beam Has the Edge</h2>
+    <p>
+      Mixpanel's power comes with real costs. First, pricing: Mixpanel charges per event, which means costs are unpredictable as traffic grows and instrumentation expands. A spike in user activity or an instrumentation mistake can push your bill well past the plan tier. Beam charges $5/mo flat — no surprises.
+    </p>
+    <p>
+      Second, compliance: Mixpanel uses cookies and tracks individual users, which means a GDPR-compliant consent banner is mandatory for EU visitors and CCPA opt-outs are required in California. Beam collects no PII and sets no cookies — no consent UI needed anywhere in the world.
+    </p>
+    <p>
+      Third, setup: correctly instrumenting Mixpanel takes significant engineering time. You need to define your event taxonomy, instrument each user action, set user properties, and test that events are firing correctly. Beam is one script tag in your HTML — up and running before your next cup of coffee.
+    </p>
+
+    <h2 class="text-2xl font-bold text-gray-900">Which Should You Choose?</h2>
+    <p>
+      Choose <strong>Mixpanel</strong> if: you're building a SaaS product and need to understand user-level behaviour — funnels, retention, feature adoption, and A/B test results. Mixpanel is purpose-built for product teams who need granular event data per user.
+    </p>
+    <p>
+      Choose <strong>Beam</strong> if: you want privacy-first web traffic analytics — pageviews, referrers, countries, devices — without cookies, consent banners, per-event pricing surprises, or a multi-hour instrumentation project. Beam is also a strong complement to Mixpanel: use Beam for cookieless traffic data (SEO, campaigns, top pages) while Mixpanel handles in-product behavioural analytics.
+    </p>
+  </div>
+
+  ${relatedComparisons([
+    { href: '/vs/posthog', label: 'Beam vs PostHog', description: 'Another full product analytics suite — open-source with session replay, feature flags, and A/B testing.' },
+    { href: '/vs/plausible', label: 'Beam vs Plausible', description: 'Privacy-first web analytics SaaS — similar positioning to Beam but priced at $9/mo and up.' },
+    { href: '/vs/google-analytics', label: 'Beam vs Google Analytics', description: 'The default choice — powerful but cookie-dependent, GDPR-problematic, and overwhelming for simple use cases.' },
   ])}
 
   ${ctaSection()}
