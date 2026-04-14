@@ -1645,6 +1645,25 @@ test.describe('API v1 authentication', () => {
     expect(decodeURIComponent(tweetHref)).toContain('utm_source=beam-share')
   })
 
+  // ── BEAM-232: Blog post GDPR analytics ───────────────────────────────────
+
+  test('BEAM-232: /blog/gdpr-analytics-no-cookie-banner returns 200 with correct content', async ({ page }) => {
+    const res = await page.goto('/blog/gdpr-analytics-no-cookie-banner')
+    expect(res?.status()).toBe(200)
+    await expect(page.getByRole('heading', { level: 1 })).toContainText('GDPR')
+    await expect(page.locator('body')).toContainText('ePrivacy')
+    await expect(page.locator('body')).toContainText('cookie banner')
+  })
+
+  test('BEAM-232: /blog/gdpr post appears in blog index and RSS', async ({ page }) => {
+    await page.goto('/blog')
+    await expect(page.getByRole('link', { name: /GDPR-Compliant Analytics/i }).first()).toBeVisible()
+    const res2 = await page.goto('/blog/rss.xml')
+    expect(res2?.status()).toBe(200)
+    const text = await page.content()
+    expect(text).toContain('gdpr-analytics-no-cookie-banner')
+  })
+
   // ── BEAM-230: /for/gatsby integration guide ──────────────────────────────
 
   test('BEAM-230: /for/gatsby returns 200 with Gatsby content', async ({ page }) => {

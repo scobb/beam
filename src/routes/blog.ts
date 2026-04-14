@@ -43,6 +43,13 @@ function footer(): string {
 
 const POSTS = [
   {
+    slug: 'gdpr-analytics-no-cookie-banner',
+    title: 'GDPR-Compliant Analytics Without a Cookie Banner — What the Law Actually Requires',
+    date: '2026-04-14',
+    excerpt: 'Most analytics tools need a cookie banner because they set cookies. But the law doesn\'t require a banner for analytics — it requires one for cookies. Here\'s what GDPR and the ePrivacy Directive actually say, and why cookie-free analytics sidesteps the requirement entirely.',
+    author: 'Keylight Digital',
+  },
+  {
     slug: 'april-2026-updates',
     title: 'April 2026 Product Updates: Usage Alerts, Public Dashboard Sharing, and Site Health Indicators',
     date: '2026-04-14',
@@ -1736,6 +1743,175 @@ fetch('/api/collect', {
             <li>Fix: use <code class="bg-gray-100 px-1 rounded font-mono">fetch({ keepalive: true, credentials: 'omit' })</code> instead</li>
             <li>This pattern is safe for analytics — you're not authenticating, so omitting credentials is correct</li>
           </ul>
+        </div>
+
+      </div>
+    </article>
+  </main>
+  ${footer()}
+</body>
+</html>`
+  return c.html(html)
+})
+
+// ─── Blog Post: GDPR Analytics Without a Cookie Banner ───────────────────────
+
+app.get('/blog/gdpr-analytics-no-cookie-banner', (c) => {
+  const baseUrl = getPublicBaseUrl(c.env)
+  const BEAM_SITE_ID = c.env.BEAM_SELF_SITE_ID ?? 'dfa32f6b-0775-43df-a2c4-eb23787e5f03'
+  const post = POSTS.find(p => p.slug === 'gdpr-analytics-no-cookie-banner')!
+  const jsonLd = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: post.title,
+    datePublished: post.date,
+    dateModified: post.date,
+    author: { '@type': 'Organization', name: 'Keylight Digital LLC', url: baseUrl },
+    publisher: { '@type': 'Organization', name: 'Keylight Digital LLC', url: baseUrl },
+    description: post.excerpt,
+    url: `${baseUrl}/blog/${post.slug}`,
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `${baseUrl}/blog/${post.slug}` },
+  })
+
+  const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>${post.title} — Beam</title>
+  <meta name="description" content="${post.excerpt}" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="${baseUrl}/blog/${post.slug}" />
+  <link rel="alternate" type="application/rss+xml" title="Beam Blog" href="/blog/rss.xml" />
+  <meta property="og:title" content="${post.title}" />
+  <meta property="og:description" content="${post.excerpt}" />
+  <meta property="og:url" content="${baseUrl}/blog/${post.slug}" />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="${post.date}" />
+  <script type="application/ld+json">${jsonLd}</script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
+</head>
+<body class="bg-white text-gray-900">
+  ${nav()}
+  <main class="max-w-3xl mx-auto px-6 py-16">
+    <div class="mb-8">
+      <a href="/blog" class="text-sm text-indigo-600 hover:text-indigo-700">← Back to blog</a>
+    </div>
+    <article>
+      <header class="mb-10">
+        <time class="text-sm text-gray-400">${post.date}</time>
+        <h1 class="mt-2 text-3xl font-bold text-gray-900 leading-snug">${post.title}</h1>
+        <p class="mt-3 text-lg text-gray-500">${post.excerpt}</p>
+      </header>
+
+      <div class="prose prose-gray max-w-none space-y-6 text-gray-700 leading-relaxed">
+
+        <p>
+          Every analytics guide eventually mentions "cookie banners." But few explain <em>why</em> those banners exist — or under what conditions you can skip them entirely. The short answer: cookie banners are required for cookies, not for analytics. If your analytics tool doesn't use cookies, you don't need a banner.
+        </p>
+        <p>
+          Here's what the law actually says, why traditional analytics tools trigger the requirement, and why a growing class of cookie-free tools side-steps it completely.
+        </p>
+
+        <h2 class="text-xl font-bold text-gray-900 mt-10">What GDPR Actually Regulates</h2>
+        <p>
+          The General Data Protection Regulation (GDPR) governs the processing of <strong>personal data</strong> — information relating to an identified or identifiable natural person. If you process personal data of EU residents, GDPR applies. If you don't, it doesn't.
+        </p>
+        <p>
+          Tracking cookies by themselves don't automatically constitute personal data. But when a cookie stores a unique identifier — a visitor ID, a session token, a device fingerprint — that identifier can, in combination with other data, identify a person. The CJEU (Court of Justice of the EU) and national regulators have consistently held that tracking cookies that persist across sessions create identifiable profiles and therefore fall under GDPR.
+        </p>
+        <p>
+          GDPR requires a <strong>lawful basis</strong> for processing personal data. For non-essential analytics cookies, "legitimate interests" is increasingly difficult to rely on (DPAs have rejected it repeatedly for tracking). That leaves <strong>consent</strong> — hence the cookie banner.
+        </p>
+
+        <h2 class="text-xl font-bold text-gray-900 mt-10">The ePrivacy Directive: The Actual Cookie Law</h2>
+        <p>
+          GDPR gets most of the attention, but the more specific instrument for cookie compliance is the <strong>ePrivacy Directive</strong> (sometimes called the Cookie Law), implemented locally in each EU member state.
+        </p>
+        <p>
+          The ePrivacy Directive's rule is straightforward: you need <strong>prior informed consent</strong> before storing or accessing information on a user's device — with limited exceptions. The key exceptions are:
+        </p>
+        <ul class="list-disc pl-6 space-y-2">
+          <li><strong>Strictly necessary cookies</strong>: required for a service the user has explicitly requested (shopping cart, session login). No consent needed.</li>
+          <li><strong>Technical transmission</strong>: cookies solely used to carry out the transmission of a communication.</li>
+        </ul>
+        <p>
+          Analytics cookies don't qualify for these exceptions. They're not strictly necessary for the service the user requested. They exist to benefit the website operator, not to fulfil the user's request.
+        </p>
+        <p>
+          This is why Google Analytics requires a cookie banner: it stores a <code class="bg-gray-100 px-1 rounded text-sm font-mono">_ga</code> cookie on the user's device for two years. That cookie is not strictly necessary. Consent is required before setting it.
+        </p>
+
+        <h2 class="text-xl font-bold text-gray-900 mt-10">Why Cookie-Free Analytics Skips All of This</h2>
+        <p>
+          Cookie-free analytics tools like Beam don't write <em>anything</em> to the user's device — no cookies, no localStorage, no fingerprinting scripts, no persistent identifiers. They count traffic using aggregated, non-personal signals:
+        </p>
+        <ul class="list-disc pl-6 space-y-2">
+          <li>The URL path being visited</li>
+          <li>The referrer (where the user came from)</li>
+          <li>The user's country (derived from IP, not stored)</li>
+          <li>Browser family and screen width (for device breakdowns)</li>
+        </ul>
+        <p>
+          These signals are hashed together with a rotating daily salt to count unique visitors without ever identifying a person. The hash is discarded after counting. No user-level record is created.
+        </p>
+        <p>
+          Because nothing is stored on or accessed from the user's device, the ePrivacy Directive's consent requirement doesn't trigger. No cookie is set, so no cookie consent is needed.
+        </p>
+        <p>
+          And because no personal data is collected, GDPR's consent and lawful basis requirements don't apply either — there's no personal data to regulate.
+        </p>
+
+        <h2 class="text-xl font-bold text-gray-900 mt-10">CCPA (California Consumer Privacy Act)</h2>
+        <p>
+          The same logic applies to CCPA. California's privacy law regulates the "sale" or "sharing" of personal information, and the right to opt out applies when businesses collect personal information for advertising purposes. Cookie-free analytics that collects no personal information falls outside CCPA's scope. There's no opt-out to implement, no "Do Not Sell" link to add.
+        </p>
+
+        <h2 class="text-xl font-bold text-gray-900 mt-10">PECR (UK ePrivacy Law)</h2>
+        <p>
+          Post-Brexit, the UK's Privacy and Electronic Communications Regulations (PECR) remain in force and closely mirror the EU ePrivacy Directive. The same logic applies: cookie consent is required for cookies, not for analytics in general. Cookie-free analytics is compliant with PECR without consent banners.
+        </p>
+
+        <h2 class="text-xl font-bold text-gray-900 mt-10">Common Misconceptions</h2>
+        <p><strong>"I still need a cookie banner even if I use cookie-free analytics."</strong></p>
+        <p>
+          Only if you have other cookies — from third-party embeds, chat widgets, advertising tags, or other services. Beam running as your only analytics tool doesn't create a consent obligation. If you're using other services that set cookies, those still need a banner.
+        </p>
+        <p><strong>"IP addresses are personal data, so analytics is always regulated."</strong></p>
+        <p>
+          IP addresses are considered personal data when stored or associated with a user record. Cookie-free analytics tools derive aggregated signals from the IP (like country) and then discard it. No IP is stored, so no personal data enters the system.
+        </p>
+        <p><strong>"All analytics requires consent under GDPR."</strong></p>
+        <p>
+          This is a common conflation. GDPR requires consent for processing <em>personal data</em>. If your analytics collects no personal data, GDPR's consent requirement doesn't apply. The ICO (UK), the CNIL (France), and the German DPAs have all issued guidance confirming that privacy-preserving analytics can be lawful without consent.
+        </p>
+
+        <h2 class="text-xl font-bold text-gray-900 mt-10">What to Look for in a Compliant Analytics Tool</h2>
+        <p>To run analytics without a consent banner, your tool should:</p>
+        <ul class="list-disc pl-6 space-y-2">
+          <li>Set no cookies and use no localStorage or IndexedDB for visitor tracking</li>
+          <li>Not store or log raw IP addresses</li>
+          <li>Not create user-level records or persistent identifiers</li>
+          <li>Not share data with third parties for advertising</li>
+          <li>Use aggregated, non-reversible data for unique visitor counting</li>
+        </ul>
+        <p>
+          Beam meets all of these criteria by design. If you switch to Beam as your only analytics tool and you have no other cookies on your site, you can remove your cookie banner entirely.
+        </p>
+
+        <div class="mt-12 pt-8 border-t border-gray-200">
+          <h3 class="text-base font-semibold text-gray-900">Summary</h3>
+          <ul class="mt-4 list-disc pl-6 space-y-2 text-sm">
+            <li>Cookie banners are required by the ePrivacy Directive when you store or access data on a user's device (cookies, localStorage)</li>
+            <li>GDPR's consent requirement is triggered by processing <em>personal data</em>, not analytics in general</li>
+            <li>Cookie-free analytics that stores nothing on the user's device and collects no personal data doesn't trigger either requirement</li>
+            <li>CCPA and PECR follow the same logic — no personal data means no consent obligation</li>
+            <li>If Beam is your only analytics tool and your site has no other cookies, you can remove your consent banner</li>
+          </ul>
+          <div class="mt-6">
+            <a href="/signup" class="inline-block bg-indigo-600 text-white px-5 py-2.5 rounded-lg font-medium hover:bg-indigo-700">Try Beam free — no consent banner required →</a>
+          </div>
         </div>
 
       </div>
