@@ -10,7 +10,7 @@ tracking.get('/js/beam.js', (c) => {
   return new Response(BEAM_JS, {
     headers: {
       'Content-Type': 'application/javascript',
-      'Cache-Control': 'public, max-age=86400',
+      'Cache-Control': 'public, max-age=3600',
     },
   })
 })

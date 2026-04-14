@@ -916,6 +916,16 @@ test.describe('Tracking script', () => {
     expect(body).toContain("credentials:'omit'")
     expect(body).not.toContain('sendBeacon')
   })
+
+  test('GET /js/beam.js has Cache-Control max-age=3600 (1 hour, not 24h) (BEAM-212)', async ({ request }) => {
+    const res = await request.get('/js/beam.js')
+    expect(res.status()).toBe(200)
+    const cacheControl = res.headers()['cache-control'] ?? ''
+    // Must be 1-hour TTL so bug fixes propagate quickly to users
+    expect(cacheControl).toContain('public')
+    expect(cacheControl).toContain('max-age=3600')
+    expect(cacheControl).not.toContain('max-age=86400')
+  })
 })
 
 // ── Collect endpoint smoke ──────────────────────────────────────────────────────
