@@ -3751,7 +3751,7 @@
         "Post appears in RSS feed at /blog/rss.xml"
       ],
       "priority": "low",
-      "passes": false
+      "passes": true
     },
     {
       "id": "BEAM-228",

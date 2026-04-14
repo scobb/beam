@@ -181,3 +181,14 @@ Started: Mon Apr 13 06:34:00 PM PDT 2026
   - `context.grantPermissions(['clipboard-read','clipboard-write'])` needed to read clipboard in Playwright tests
   - `shareUrl` JS var in `<script>` block needed updating alongside server-side tweetText — easy to miss one
 ---
+
+## 2026-04-14 — BEAM-227
+- What was implemented: New blog post at /blog/april-2026-updates covering three April 2026 features — tiered usage warning banners (60%/80%), Share button on public dashboards with UTM attribution, per-site usage indicators on sites overview
+- Files changed: src/routes/blog.ts (new POSTS entry + full route handler), src/index.ts (sitemap paths + meta), test/smoke/smoke.spec.ts (3 new tests)
+- **Learnings for future iterations:**
+  - Blog RSS feed auto-picks up from POSTS array — no separate update needed
+  - POSTS array is most-recent-first — new entries go at position 0
+  - Route handler hardcodes `POSTS.find(p => p.slug === '...')` rather than relying on array position (more robust)
+  - CDN propagation on prod may cause brief 404 immediately after deploy — curl confirms 200 within ~15s; retry Playwright run resolves
+  - Prod smoke 6/6 passed on second run (CDN settled)
+---

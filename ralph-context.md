@@ -1,9 +1,9 @@
 ## Last completed
-BEAM-226 - UTM attribution on share links (deployed prod; local 2/2 pass; prod 429 rate limit)
+BEAM-227 - Blog post: April 2026 product update (deployed prod; local 6/6 pass; prod 6/6 pass)
 
 ## Next up
-BEAM-227 (low) — Blog post: April 2026 product update covering recent features
-- This is the final story; after it all stories will pass → enter self-generation mode
+ALL non-blocked stories complete. BEAM-216 and BEAM-219 remain blocked (in blocked-stories.json).
+→ Enter self-generation mode: audit deployed product, review progress.txt, write 5-10 new stories
 
 ## Active issues
 - BEAM-216 (auto-blocked): /for/sveltekit, /for/vue, /for/nuxt — blocked after 3 consecutive failures
