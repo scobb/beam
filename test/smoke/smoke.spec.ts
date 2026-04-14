@@ -1152,6 +1152,34 @@ test.describe('Collect endpoint', () => {
     expect([200, 204], `Expected 200 or 204 from collect but got ${res.status()}`).toContain(res.status())
   })
 
+  test('POST /api/collect returns 204 for free user (limit warning fires async, does not block response) (BEAM-217)', async ({ page, request }) => {
+    // Verifies that the 80%-limit warning email logic is fire-and-forget:
+    // the collect endpoint must still return 204 regardless of warning state.
+    const email = uniqueEmail()
+    await signupAndGetSession(page, email)
+
+    await page.goto('/dashboard/sites/new')
+    await page.fill('input[name="name"]', 'Limit Warning Test Site')
+    await page.fill('input[name="domain"]', 'limit-warn.example.com')
+    await page.click('button[type="submit"]')
+    await page.waitForURL(/\/dashboard\/sites\/[0-9a-f-]+$/)
+    const siteId = page.url().split('/dashboard/sites/')[1]
+
+    const res = await request.post('/api/collect', {
+      data: {
+        site_id: siteId,
+        path: '/test-limit-warning',
+        referrer: '',
+        screen_width: 1280,
+        language: 'en',
+        timezone: 'UTC',
+      },
+      headers: { 'Content-Type': 'application/json' },
+    })
+    // Must return 204 — warning email fires asynchronously and must not block
+    expect(res.status(), 'Collect must return 204 even with limit warning logic present').toBe(204)
+  })
+
   test('CORS preflight allows cross-origin requests without credentials requirement (BEAM-211)', async ({ request }) => {
     // Regression test: beam.js uses fetch with credentials:'omit', so the server
     // MUST allow * in Access-Control-Allow-Origin. If this breaks, cross-origin

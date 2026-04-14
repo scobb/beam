@@ -1,6 +1,7 @@
 import { Hono } from 'hono'
 import type { Env } from '../types'
 import { maybeSendFirstActivityAlert, type ActivationAlertUserContext } from '../lib/activationAlerts'
+import { maybeSendLimitWarning } from '../lib/limitWarning'
 
 const app = new Hono<{ Bindings: Env }>()
 
@@ -338,6 +339,7 @@ app.post('/api/collect', async (c) => {
     }
   }
 
+  let capturedMonthlyCount = 0
   if (!isEvent) {
     // Monthly pageview limit (cached in KV to avoid D1 on every request)
     const pvLimit = site.plan === 'pro' ? 500000 : 50000
@@ -371,6 +373,8 @@ app.post('/api/collect', async (c) => {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       })
     }
+
+    capturedMonthlyCount = monthlyCount
   }
 
   // Extract country from Cloudflare header
@@ -475,6 +479,17 @@ app.post('/api/collect', async (c) => {
     const existingActive = await c.env.KV.get(activeKey)
     if (!existingActive) {
       await c.env.KV.put(activeKey, '1', { expirationTtl: 300 })
+    }
+
+    // Limit warning email (fire-and-forget, one per user per month at 80% usage)
+    if (site.plan !== 'pro') {
+      c.executionCtx.waitUntil(
+        maybeSendLimitWarning(c.env, {
+          userId: site.user_id,
+          userEmail: site.email,
+          monthlyCount: capturedMonthlyCount + 1, // +1 for the pageview we just inserted
+        })
+      )
     }
 
     const alertUser: ActivationAlertUserContext = {
