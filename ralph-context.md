@@ -1,10 +1,10 @@
 ## Last completed
-BEAM-230 - /for/gatsby integration guide (local 6/6; prod 6/6)
+BEAM-232 - Blog: GDPR analytics without a cookie banner (local 4/4; prod 4/4)
 
 ## Next up
-BEAM-232 (medium) — Blog: GDPR analytics without a cookie banner
-- Legal angle (what GDPR actually requires), different from existing technical cookie-free guide
-- Slug: gdpr-analytics-no-cookie-banner
+BEAM-233 (medium) — /migrate/umami migration guide
+- Umami is popular self-hosted analytics; users searching for managed alternative
+- Follow /migrate/plausible pattern; link from /migrate hub
 
 ## Active issues
 - BEAM-216 (auto-blocked): /for/sveltekit, /for/vue, /for/nuxt — blocked after 3 consecutive failures

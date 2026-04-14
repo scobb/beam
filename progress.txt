@@ -255,3 +255,11 @@ Started: Mon Apr 13 06:34:00 PM PDT 2026
   - onRouteUpdate gets { location, prevLocation } — use location.pathname for tracking
   - First prod run flaky on sitemap test (CDN propagation) — retry resolves
 ---
+
+## 2026-04-14 - BEAM-232
+- Added /blog/gdpr-analytics-no-cookie-banner blog post covering GDPR legal mechanics
+- Post covers: what GDPR regulates (personal data, not analytics), ePrivacy Directive (the actual cookie law), why cookie-free analytics sidesteps consent, CCPA/PECR coverage, common misconceptions
+- SEO meta targets 'GDPR analytics no cookie banner' keywords (priority 0.8 in sitemap)
+- Files changed: src/routes/blog.ts (new POSTS entry + route handler), src/index.ts (sitemap), test/smoke/smoke.spec.ts
+- Local 4/4; prod 4/4 on final run (CDN propagation caused flakiness on earlier runs)
+---

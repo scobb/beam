@@ -3825,7 +3825,7 @@
         "Added to sitemap.xml"
       ],
       "priority": "medium",
-      "passes": false
+      "passes": true
     },
     {
       "id": "BEAM-233",
