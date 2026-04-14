@@ -24,7 +24,7 @@ const GUIDE_SECTIONS = [
   {
     title: 'Developer frameworks',
     subtitle: 'Implementation guides for teams that control source code and deploy pipelines.',
-    slugs: ['nextjs', 'react', 'wordpress', 'astro', 'gatsby', 'hugo', 'remix'],
+    slugs: ['nextjs', 'react', 'vue', 'wordpress', 'astro', 'gatsby', 'hugo', 'remix'],
   },
   {
     title: 'No-code builders',
@@ -176,6 +176,78 @@ export default function App() {
       { slug: 'gatsby', name: 'Gatsby' },
       { slug: 'remix', name: 'Remix' },
       { slug: 'astro', name: 'Astro' },
+    ],
+  },
+
+  vue: {
+    slug: 'vue',
+    name: 'Vue.js',
+    icon: '💚',
+    tagline: 'Privacy-first analytics for Vue.js apps',
+    hubDescription: 'Script tag in index.html plus an onMounted hook and Vue Router afterEach guard for SPA route tracking.',
+    description: 'Add cookie-free, GDPR-compliant analytics to your Vue.js app in under 2 minutes. No consent banner required. Works with Vue 3 (Composition API and Options API) and Vue Router.',
+    metaDescription: 'Add privacy-first analytics to your Vue.js app. Cookie-free, GDPR-compliant, <2KB script. Works with Vue 3 Composition API and Vue Router. No consent banner needed.',
+    installSteps: [
+      {
+        title: 'Add the script tag to index.html',
+        code: `<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Vue App</title>
+    <script
+      defer
+      src="${DEFAULT_PUBLIC_BASE_URL}/js/beam.js"
+      data-site-id="YOUR_SITE_ID">
+    </script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>`,
+        lang: 'html',
+        explanation: 'Place the <code>defer</code> script in <code>&lt;head&gt;</code> so Beam loads after your Vue app without blocking render.',
+      },
+      {
+        title: 'Track SPA routes with Vue Router afterEach guard',
+        code: `// src/router/index.ts
+import { createRouter, createWebHistory } from 'vue-router'
+
+const router = createRouter({
+  history: createWebHistory(),
+  routes: [/* your routes */],
+})
+
+// Fire a Beam pageview on every client-side navigation
+router.afterEach((to) => {
+  window.beam?.track?.('pageview', { path: to.fullPath })
+})
+
+export default router`,
+        lang: 'ts',
+        explanation: 'Vue Router handles navigation without full page reloads. The <code>afterEach</code> guard fires after every route transition — keeping Beam\'s Top Pages report accurate across all routes.',
+      },
+    ],
+    verificationChecklist: [
+      'Run npm run dev and open the app in a browser.',
+      'Navigate between two routes using router-link components (not browser refresh).',
+      'Open your Beam dashboard and confirm both paths appear in Top Pages within a minute.',
+      'Check that no cookies or localStorage keys are set by the Beam script.',
+    ],
+    whyPoints: [
+      { icon: '🍪', title: 'No cookie banner required', body: 'Beam is cookie-free by design — no consent UI to build, no GDPR overhead for your Vue SPA.' },
+      { icon: '⚡', title: 'Sub-2KB, zero dependencies', body: 'Beam\'s tracking script is lighter than a single Vue component and adds no npm dependencies.' },
+      { icon: '🧭', title: 'Full SPA route tracking', body: 'The afterEach guard captures every Vue Router navigation so your Top Pages report is complete.' },
+      { icon: '🔒', title: 'Privacy by default', body: 'No PII, no fingerprinting, no ad-tech — just page-level metrics your team can act on.' },
+    ],
+    others: [
+      { slug: 'react', name: 'React' },
+      { slug: 'nextjs', name: 'Next.js' },
+      { slug: 'astro', name: 'Astro' },
+      { slug: 'remix', name: 'Remix' },
     ],
   },
 

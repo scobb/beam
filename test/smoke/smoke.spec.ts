@@ -1645,6 +1645,32 @@ test.describe('API v1 authentication', () => {
     expect(decodeURIComponent(tweetHref)).toContain('utm_source=beam-share')
   })
 
+  // ── BEAM-234: /for/vue integration guide ─────────────────────────────────
+
+  test('BEAM-234: /for/vue returns 200 with Vue.js content', async ({ page }) => {
+    const res = await page.goto('/for/vue')
+    expect(res?.status()).toBe(200)
+    await expect(page.getByRole('heading', { level: 1 })).toContainText('Vue')
+    await expect(page.locator('body')).toContainText('afterEach')
+    await expect(page.locator('body')).toContainText('Vue Router')
+  })
+
+  test('BEAM-234: /for/vue appears in /for hub and sitemap', async ({ page }) => {
+    await page.goto('/for')
+    await expect(page.getByRole('link', { name: /Vue/i }).first()).toBeVisible()
+    const res2 = await page.goto('/sitemap.xml')
+    expect(res2?.status()).toBe(200)
+    const text = await page.content()
+    expect(text).toContain('/for/vue')
+  })
+
+  test('BEAM-234: /for/vue is mobile-safe at 375px', async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 812 })
+    await page.goto('/for/vue')
+    await expect(page.getByRole('heading', { level: 1 })).toContainText('Vue')
+    await assertNoHorizontalOverflow(page, '/for/vue mobile 375px')
+  })
+
   // ── BEAM-233: /migrate/umami migration guide ─────────────────────────────
 
   test('BEAM-233: /migrate/umami returns 200 with Umami migration content', async ({ page }) => {
