@@ -24,7 +24,7 @@ const GUIDE_SECTIONS = [
   {
     title: 'Developer frameworks',
     subtitle: 'Implementation guides for teams that control source code and deploy pipelines.',
-    slugs: ['nextjs', 'wordpress', 'astro', 'hugo', 'remix'],
+    slugs: ['nextjs', 'react', 'wordpress', 'astro', 'hugo', 'remix'],
   },
   {
     title: 'No-code builders',
@@ -94,9 +94,88 @@ export default function RootLayout({ children }) {
       { icon: '📊', title: 'Readable, decision-ready metrics', body: 'Track top routes, channels, referrers, and devices in one dashboard instead of GA-style report sprawl.' },
     ],
     others: [
+      { slug: 'react', name: 'React' },
       { slug: 'wordpress', name: 'WordPress' },
       { slug: 'astro', name: 'Astro' },
       { slug: 'remix', name: 'Remix' },
+    ],
+  },
+
+  react: {
+    slug: 'react',
+    name: 'React',
+    icon: '⚛',
+    tagline: 'Privacy-first analytics for React and Vite apps',
+    hubDescription: 'Script tag in public/index.html plus an optional useBeam hook for SPA route tracking.',
+    description: 'Add cookie-free, GDPR-compliant analytics to your React or Vite app in under 2 minutes. No consent banner required. Works with Create React App, Vite, and any React SPA.',
+    metaDescription: 'Add privacy-first analytics to your React app. Cookie-free, GDPR-compliant, <2KB script. Works with Vite and Create React App. No consent banner needed.',
+    installSteps: [
+      {
+        title: 'Add the script tag to public/index.html',
+        code: `<!-- public/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My App</title>
+    <script
+      defer
+      src="${DEFAULT_PUBLIC_BASE_URL}/js/beam.js"
+      data-site-id="YOUR_SITE_ID">
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>`,
+        lang: 'html',
+        explanation: 'Place the <code>defer</code> script in <code>&lt;head&gt;</code> so Beam loads after your React app without blocking render.',
+      },
+      {
+        title: 'Optional: useBeam hook for SPA route tracking',
+        code: `// src/hooks/useBeam.ts
+import { useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
+
+export function useBeam() {
+  const location = useLocation()
+  useEffect(() => {
+    // Beam auto-sends a pageview on initial load.
+    // This hook fires on every client-side navigation.
+    window.beam?.track?.('pageview', { path: location.pathname })
+  }, [location.pathname])
+}
+
+// Mount it once near the top of your app:
+// src/App.tsx
+import { useBeam } from './hooks/useBeam'
+
+export default function App() {
+  useBeam()
+  return <RouterOutlet />
+}`,
+        lang: 'tsx',
+        explanation: 'React Router changes the URL without a full page reload, so Beam\'s initial auto-capture only fires once. This hook re-fires on every route change to keep path-level analytics accurate.',
+      },
+    ],
+    verificationChecklist: [
+      'Run your dev server and open the app in a browser.',
+      'Navigate between two routes using React Router links (not full reloads).',
+      'Open your Beam dashboard and confirm both paths appear in Top Pages within a minute.',
+      'Check that no cookies or localStorage keys are set by the Beam script.',
+    ],
+    whyPoints: [
+      { icon: '🍪', title: 'No cookie banner required', body: 'Beam is cookie-free by design — no consent UI to build, no GDPR overhead for your SPA.' },
+      { icon: '⚡', title: 'Sub-2KB, zero dependencies', body: 'Beam\'s tracking script is lighter than a single React component and adds no npm dependencies.' },
+      { icon: '🧭', title: 'SPA-aware route tracking', body: 'The useBeam hook captures every client-side navigation, so your Top Pages report reflects real user behaviour.' },
+      { icon: '🔒', title: 'Privacy by default', body: 'No PII, no fingerprinting, no ad-tech — just page-level metrics your team can act on.' },
+    ],
+    others: [
+      { slug: 'nextjs', name: 'Next.js' },
+      { slug: 'remix', name: 'Remix' },
+      { slug: 'astro', name: 'Astro' },
+      { slug: 'webflow', name: 'Webflow' },
     ],
   },
 
@@ -944,6 +1023,7 @@ function guidePage(guide: GuideConfig, baseUrl: string, selfSiteId?: string): st
         <a href="/migrate" class="hover:text-gray-600">Migration hub</a>
         <a href="/wordpress-plugin" class="hover:text-gray-600">WordPress plugin</a>
         <a href="/for/nextjs" class="hover:text-gray-600">Next.js</a>
+        <a href="/for/react" class="hover:text-gray-600">React</a>
         <a href="/for/wordpress" class="hover:text-gray-600">WordPress</a>
         <a href="/for/astro" class="hover:text-gray-600">Astro</a>
         <a href="/for/hugo" class="hover:text-gray-600">Hugo</a>

@@ -1539,4 +1539,38 @@ test.describe('API v1 authentication', () => {
     await assertNoHorizontalOverflow(page, 'sites overview mobile 375px with usage')
     await page.screenshot({ path: 'screenshots/smoke/mobile-demo.png' })
   })
+
+  // ── BEAM-223: /for/react integration guide ─────────────────────────────────
+
+  test('BEAM-223: /for/react returns 200 with React setup content and useBeam hook', async ({ page }) => {
+    await page.goto('/for/react')
+    await expect(page).toHaveURL(/\/for\/react/)
+    await expect(page.getByRole('heading', { level: 1 })).toContainText('React')
+    // Script tag step
+    await expect(page.getByText(/public\/index\.html/i).first()).toBeVisible()
+    // useBeam hook step
+    await expect(page.getByText(/useBeam/i).first()).toBeVisible()
+    await expect(page.getByText(/useEffect/i).first()).toBeVisible()
+    await page.screenshot({ path: 'screenshots/smoke/desktop-demo.png' })
+  })
+
+  test('BEAM-223: /for/react is in the /for hub and sitemap', async ({ page, request }) => {
+    // Hub page includes React card
+    await page.goto('/for')
+    await expect(page.getByRole('link', { name: /Beam for React/i })).toBeVisible()
+
+    // Sitemap includes /for/react
+    const sitemap = await request.get('/sitemap.xml')
+    expect(sitemap.status()).toBe(200)
+    const xml = await sitemap.text()
+    expect(xml).toContain('/for/react')
+  })
+
+  test('BEAM-223: /for/react is mobile-safe at 375px', async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 812 })
+    await page.goto('/for/react')
+    await expect(page.getByRole('heading', { level: 1 })).toContainText('React')
+    await assertNoHorizontalOverflow(page, '/for/react mobile 375px')
+    await page.screenshot({ path: 'screenshots/smoke/mobile-demo.png' })
+  })
 })
