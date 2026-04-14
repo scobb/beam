@@ -1,88 +1,24 @@
 # Ralph Progress Log
-Started: Mon Apr 13 04:41:19 PM PDT 2026
+Started: Mon Apr 13 06:34:00 PM PDT 2026
 ---
 
 ## Codebase Patterns
-- beam.js is served dynamically via a Cloudflare Worker (tracking.ts BEAM_JS constant) — NOT from a static file. The beam-js/beam.js file is the unminified source kept in sync.
-- Production deploys use `npx wrangler deploy -c wrangler.deploy.toml` (not wrangler.toml) to avoid the zone-level route auth error. beam-privacy.com is a Custom Domain (not a route), so no zone permission needed.
-- Staging deploy route registration fails (auth error on CF zones API) — pre-existing issue. Smoke tests should be run directly against beam-privacy.com.
-- sendBeacon with Blob(type:'application/json') sends credentials:include by default, which breaks CORS when the server responds with Access-Control-Allow-Origin: *. Use fetch(keepalive:true, credentials:'omit') instead.
+- Email sending in collect.ts uses `c.executionCtx.waitUntil()` for fire-and-forget async ops
+- KV dedup keys follow pattern `{prefix}:{userId}:{YYYY-MM}` for per-user-per-month guards
+- Resend API sends from `beam@keylightdigital.dev`, timeout 4000ms, errors are swallowed
+- Monthly count is captured pre-insert as `capturedMonthlyCount`; add +1 for the record just inserted
 ---
 
-## 2026-04-13 - BEAM-212
-- Reduced beam.js Cache-Control TTL from max-age=86400 (24h) to max-age=3600 (1h)
-- Files changed: `src/routes/tracking.ts`, `test/smoke/smoke.spec.ts`
-- Deployed to prod via `npx wrangler deploy -c wrangler.deploy.toml`
-- Verified: `curl -sI -H "Cache-Control: no-cache" https://beam-privacy.com/js/beam.js` returns `max-age=3600`
-- All 4 Tracking script smoke tests passed. Full smoke.spec.ts: 98 passed.
-- ux-audit Journey 1 timed out (pre-existing signup rate limit hit — 10/hr/IP on prod, not a regression)
+## 2026-04-14 - BEAM-217
+- Added `src/lib/limitWarning.ts`: sends one warning email per free user per calendar month when their monthly pageview count reaches 40K (80% of 50K limit)
+- KV key `limitWarn:{userId}:{YYYY-MM}` ensures exactly one email per user per month
+- Modified `src/routes/collect.ts`: hoisted `capturedMonthlyCount` to outer scope, added `waitUntil(maybeSendLimitWarning(...))` in pageview branch for free users
+- Added smoke test in `test/smoke/smoke.spec.ts`: verifies collect returns 204 (async warning does not block response)
+- Files changed: `src/lib/limitWarning.ts` (new), `src/routes/collect.ts`, `test/smoke/smoke.spec.ts`
+- Deployed to prod via `deploy.sh prod` — worker upload succeeded, route registration fails on CF zone auth (pre-existing issue, routes already exist)
+- Prod smoke tests: 2/2 pass
 - **Learnings for future iterations:**
-  - Cloudflare edge cache serves old cached Worker responses even after Worker update. Use `curl -H "Cache-Control: no-cache"` to bypass and test the live Worker response.
-  - The CF API token does not have cache purge permissions — cannot clear CF edge cache via API.
-  - Add `headers: { 'Cache-Control': 'no-cache' }` to Playwright smoke test requests that check response headers, so CF edge cache doesn't return stale headers.
----
-
-## 2026-04-13 - BEAM-211
-- Investigated "Waiting for data" on cards.keylightdigital.dev Beam dashboard
-- Root cause: `navigator.sendBeacon` sends with `credentials: 'include'` by default. When beam.js is loaded cross-origin (script src = beam-privacy.com, page = cards.keylightdigital.dev), the CORS preflight fails because the server returns `Access-Control-Allow-Origin: *` which is not allowed when credentials mode is 'include'. The beacon was silently dropped — no pageviews were recorded.
-- Fix: replaced `sendBeacon` with `fetch(keepalive:true, credentials:'omit')` in both `src/routes/tracking.ts` (production BEAM_JS) and `beam-js/beam.js` (unminified source). `credentials:'omit'` means no cookies sent, so wildcard CORS works fine.
-- Files changed: `src/routes/tracking.ts`, `beam-js/beam.js`, `test/smoke/smoke.spec.ts`
-- Deployed to prod via `npx wrangler deploy -c wrangler.deploy.toml`
-- Smoke tests: 6 tracking/CORS tests passed against production
-- **Learnings for future iterations:**
-  - sendBeacon is NOT safe for cross-origin analytics — always use fetch+keepalive+credentials:omit
-  - The Playwright browser session caches beam.js — CORS errors in the persistent session after deployment are from the old cached script, not the live version. Smoke tests in fresh contexts are the reliable check.
-  - Staging route registration is broken (CF auth) — use prod smoke tests
----
-
-## 2026-04-13 - BEAM-213
-- Implemented CSV export of pageview data for a site
-- Files changed: `src/routes/dashboard.ts`, `test/smoke/smoke.spec.ts`
-- Changes:
-  - Removed Pro-only gate: export now available to all users (free + pro)
-  - Pre-fill export form with analytics page's current date range via `?from=&to=` query params on "Export CSV" link
-  - Added 100K row cap (LIMIT 100001) — if truncated, appends note row to CSV
-  - Columns: date, path, referrer, country, device_type, browser, screen_width (matching AC)
-  - Content-Disposition: attachment header for browser download trigger
-- Smoke tests: 2 desktop + 2 mobile tests — 164/164 passed locally
-- Deployed to prod via `npx wrangler deploy -c wrangler.deploy.toml`
-- Prod 429s on signup rate limit are pre-existing (10/hr/IP), not regressions
-- **Learnings for future iterations:**
-  - When creating a test site with a name that includes the button text (e.g., "Export CSV Site"), Playwright's getByRole link selector matches both the back link and the button — always use `exact: true` for button/link text matching in smoke tests
-  - The export form uses POST (form submit) — page.request.post with `form: {...}` works correctly with the session cookie from signupAndGetSession
----
-
-## 2026-04-13 - BEAM-214
-- Published blog post: "Why sendBeacon Breaks Cross-Origin Analytics (and How to Fix It)" at /blog/senbeacon-cors-analytics-fix
-- Files changed: `src/routes/blog.ts`, `src/index.ts`, `test/smoke/smoke.spec.ts`
-- Changes:
-  - Added new post to POSTS array (newest first order)
-  - Added full route handler with: technical content, two code examples (broken sendBeacon vs fixed fetch), root cause explanation, diagnosis guide, and CTA
-  - Added to sitemap.xml with changefreq=monthly, priority=0.7
-  - Desktop smoke test: verifies heading, technical content, OG tags (og:type=article, article:published_time), blog index link, sitemap entry
-  - Mobile smoke test: verifies no horizontal overflow at 375px
-- Deployed to prod via `npx wrangler deploy -c wrangler.deploy.toml`
-- 102/102 smoke.spec.ts tests passed on prod
-- **Learnings for future iterations:**
-  - `page.getByText(/pattern/i)` fails in strict mode when the pattern matches multiple elements — use `.first()` or a more specific locator to avoid strict mode violations
-  - Blog post slug in AC was `senbeacon-cors-analytics-fix` (missing 'd' in "send") — matched exactly as specified
----
-
-## 2026-04-13 - BEAM-215
-- Added /vs/posthog, /vs/pirsch, and /vs/cabin comparison pages following the existing /vs/ pattern
-- Files changed: `src/routes/vs.ts`, `src/index.ts`, `test/smoke/smoke.spec.ts`
-- Changes:
-  - Three new Hono route handlers in vs.ts (after /vs/rybbit, before /switch)
-  - Each page: SEO title/description, canonical, OG tags, FAQ schema JSON-LD, comparison table, prose sections (Competitor Edge / Beam Edge / Which to Choose), related comparisons, CTA
-  - beam.js tracking snippet included on each page
-  - All three added to sitemap paths array and meta map in index.ts (priority: 0.8, changefreq: monthly)
-  - All three added to footer links in vs.ts footer() function
-  - All three added as cards to the /alternatives hub
-  - Desktop smoke test: verifies heading, key body text, beam.js script present, CTA link, sitemap entry, alternatives hub links
-  - Mobile smoke test: verifies no horizontal overflow at 375px for all three pages
-- Deployed to prod via `npx wrangler deploy -c wrangler.deploy.toml`
-- 106/106 smoke tests passed on prod (8 not-run = pre-existing ux-audit rate limit issue)
-- **Learnings for future iterations:**
-  - New /vs/ pages go after the last existing /vs/ route and before the /switch route in vs.ts
-  - Must update 4 places for each new /vs/ page: (1) route handler in vs.ts, (2) footer() links in vs.ts, (3) alternativesCards() in vs.ts /alternatives route, (4) sitemap paths + meta in index.ts
+  - `capturedMonthlyCount` is pre-insert count; pass +1 to warning so threshold check is accurate
+  - KV.put before fetch-email prevents double-send even if two isolates race; email errors are swallowed (KV key stays set, no retry)
+  - deploy.sh prod: worker upload succeeds even when route registration errors (CF zone auth issue)
 ---

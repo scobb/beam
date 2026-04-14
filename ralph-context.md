@@ -1,15 +1,15 @@
 ## Last completed
-BEAM-215 - Add /vs/posthog, /vs/pirsch, /vs/cabin comparison pages
+BEAM-217 - Email users when approaching 80% of free plan pageview limit
 
 ## Next up
-BEAM-216 - Add /for/sveltekit, /for/vue, /for/nuxt framework setup guides — follow existing /for/ route pattern in for.ts
+BEAM-218 - Add 'Share dashboard' button to public analytics pages — add share UI to /dashboard/sites/:id/analytics
 
 ## Active issues
-- Staging deploy route registration fails (CF auth error on zone routes API) — pre-existing. Use `npx wrangler deploy -c wrangler.deploy.toml` for prod deploys.
+- BEAM-216 (auto-blocked): /for/sveltekit, /for/vue, /for/nuxt — blocked after 3 consecutive failures.
+- Staging deploy route registration fails (CF auth error on zone routes API) — pre-existing. Worker upload on prod succeeds despite route error; routes already exist from prior deploys.
 - CF API token lacks cache_purge permission — cannot programmatically purge Cloudflare edge cache.
-- ux-audit Journey 1 flaky on prod due to signup rate limit (10/hr/IP). Not a regression — skip if hit.
-- 8 tests "did not run" on prod smoke suite = pre-existing UX audit rate limit issue, not failures.
+- ux-audit Journey 1 flaky on prod due to signup rate limit (10/hr/IP). Not a regression.
 
 ## Key decisions this session
-- /vs/ pages require updates in 4 places: route handler in vs.ts, footer() in vs.ts, alternativesCards() in /alternatives route, sitemap in index.ts
-- BEAM-215: new /vs/ routes go after /vs/rybbit and before /switch in vs.ts
+- BEAM-217: capturedMonthlyCount is pre-insert count; pass +1 to warning for accurate threshold check
+- KV.put before Resend fetch prevents double-send; errors are swallowed (KV key stays set)
