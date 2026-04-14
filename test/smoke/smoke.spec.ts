@@ -1645,6 +1645,22 @@ test.describe('API v1 authentication', () => {
     expect(decodeURIComponent(tweetHref)).toContain('utm_source=beam-share')
   })
 
+  // ── BEAM-229: /vs/amplitude comparison page ──────────────────────────────
+
+  test('BEAM-229: /vs/amplitude returns 200 with comparison content', async ({ page }) => {
+    const res = await page.goto('/vs/amplitude')
+    expect(res?.status()).toBe(200)
+    await expect(page.getByRole('heading', { level: 1 })).toContainText('Amplitude')
+    await expect(page.locator('body')).toContainText('Beam vs Amplitude')
+  })
+
+  test('BEAM-229: /vs/amplitude is mobile-safe at 375px', async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 812 })
+    await page.goto('/vs/amplitude')
+    await expect(page.getByRole('heading', { level: 1 })).toContainText('Amplitude')
+    await assertNoHorizontalOverflow(page, '/vs/amplitude mobile 375px')
+  })
+
   // ── BEAM-231: Dashboard settings digest toggle ───────────────────────────
 
   test('BEAM-231: /dashboard/settings shows digest subscription toggle', async ({ page }) => {

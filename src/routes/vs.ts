@@ -41,6 +41,7 @@ function footer(): string {
         <a href="/vs/rybbit" class="hover:text-gray-600">vs Rybbit</a>
         <a href="/vs/posthog" class="hover:text-gray-600">vs PostHog</a>
         <a href="/vs/mixpanel" class="hover:text-gray-600">vs Mixpanel</a>
+        <a href="/vs/amplitude" class="hover:text-gray-600">vs Amplitude</a>
         <a href="/vs/pirsch" class="hover:text-gray-600">vs Pirsch</a>
         <a href="/vs/cabin" class="hover:text-gray-600">vs Cabin</a>
         <a href="/beam-analytics-alternative" class="hover:text-gray-600">Beam Analytics Alternative</a>
@@ -220,6 +221,20 @@ app.get('/alternatives', (c) => {
       intro: 'A privacy-first, carbon-neutral analytics tool with a refined aesthetic and sustainability focus.',
       beamStronger: 'cost matters and you want the same cookie-free privacy at $5/mo vs Cabin\'s $19/mo.',
       alternativeBetter: 'environmental sustainability is a brand value and you want carbon-neutral analytics infrastructure.',
+    },
+    {
+      href: '/vs/mixpanel',
+      label: 'Beam vs Mixpanel',
+      intro: 'An event-based product analytics platform built for user behaviour tracking, funnels, and retention.',
+      beamStronger: 'you want simple cookie-free web traffic analytics with flat pricing and no consent banner.',
+      alternativeBetter: 'you need funnel analysis, retention cohorts, A/B testing, or per-user behavioural data for your SaaS product.',
+    },
+    {
+      href: '/vs/amplitude',
+      label: 'Beam vs Amplitude',
+      intro: 'An enterprise-grade product analytics platform with deep user journey mapping, cohorts, and A/B testing.',
+      beamStronger: 'you want privacy-first web analytics at $5/mo flat without cookies, consent banners, or per-MAU pricing.',
+      alternativeBetter: 'you need enterprise-scale user behaviour analytics, retention cohorts, and A/B experiment measurement.',
     },
     {
       href: '/beam-analytics-alternative',
@@ -1554,6 +1569,110 @@ ${nav()}
     { href: '/vs/posthog', label: 'Beam vs PostHog', description: 'Another full product analytics suite — open-source with session replay, feature flags, and A/B testing.' },
     { href: '/vs/plausible', label: 'Beam vs Plausible', description: 'Privacy-first web analytics SaaS — similar positioning to Beam but priced at $9/mo and up.' },
     { href: '/vs/google-analytics', label: 'Beam vs Google Analytics', description: 'The default choice — powerful but cookie-dependent, GDPR-problematic, and overwhelming for simple use cases.' },
+  ])}
+
+  ${ctaSection()}
+</main>
+
+${footer()}
+</body>
+</html>`
+  return c.html(html)
+})
+
+// ─── Beam vs Amplitude ────────────────────────────────────────────────────────
+
+app.get('/vs/amplitude', (c) => {
+  const baseUrl = getPublicBaseUrl(c.env)
+  const BEAM_SITE_ID = c.env.BEAM_SELF_SITE_ID ?? BEAM_SITE_ID_FALLBACK
+  const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Beam vs Amplitude — Simple Privacy-First Analytics vs Product Analytics Suite</title>
+  <meta name="description" content="Beam vs Amplitude: Beam is cookie-free web analytics at $5/mo flat — no consent banners, one script tag. Amplitude is a powerful but expensive product analytics suite built for enterprise user behaviour tracking." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="${baseUrl}/vs/amplitude" />
+  <meta property="og:title" content="Beam vs Amplitude — Privacy-First Web Analytics vs Product Analytics" />
+  <meta property="og:description" content="Beam is simple cookie-free web analytics. Amplitude is an enterprise product analytics platform. Compare pricing, privacy, and complexity." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="${baseUrl}/vs/amplitude" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Beam vs Amplitude Analytics" />
+  <meta name="twitter:description" content="Simple cookie-free web analytics vs enterprise product analytics. Compare Beam and Amplitude on privacy, pricing, and setup." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
+  <script type="application/ld+json">${JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Is Amplitude free?", "acceptedAnswer": { "@type": "Answer", "text": "Amplitude has a free Starter plan limited to 50,000 monthly active users with basic charts. Paid plans start at $49/mo for Plus and rise significantly for Growth and Enterprise tiers. Enterprise pricing is quote-based and typically runs thousands per month at scale. Beam is free up to 50,000 pageviews/month and $5/mo after that — no per-user pricing." } },
+      { "@type": "Question", "name": "Does Amplitude use cookies?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Amplitude assigns persistent device IDs and user IDs using browser storage and cookies to track individual users across sessions. This means you need a GDPR-compliant consent banner for EU visitors and must handle CCPA opt-outs. Beam collects no personal data and sets no cookies — no consent banner needed anywhere in the world." } },
+      { "@type": "Question", "name": "When should I use Beam instead of Amplitude?", "acceptedAnswer": { "@type": "Answer", "text": "Use Beam if you want lightweight, privacy-first web traffic analytics — pageviews, top pages, referrers, countries, devices — without the complexity or cost of a product analytics platform. Beam installs in one script tag, costs $5/mo flat, and requires no consent banner. Amplitude is the right choice when you need user-level behavioural analytics: funnel analysis, retention cohorts, user journey mapping, and A/B test measurement at an enterprise scale." } }
+    ]
+  })}</script>
+</head>
+<body class="bg-white text-gray-900 antialiased">
+${nav()}
+
+<main class="max-w-4xl mx-auto px-6 py-16">
+
+  <div class="mb-2 text-sm text-indigo-600 font-medium uppercase tracking-wide">Comparison</div>
+  <h1 class="text-4xl font-extrabold tracking-tight text-gray-900 mb-4">Beam vs Amplitude</h1>
+  <p class="text-xl text-gray-500 mb-12">Amplitude is an enterprise-grade product analytics platform built for understanding individual user behaviour in depth — funnels, retention, pathways, and A/B testing at scale. Beam takes a different approach: lightweight, cookie-free web analytics that works in 5 minutes, costs $5/mo flat, and needs no consent banner.</p>
+
+  ${comparisonTable([
+    { feature: 'Primary focus', beam: 'Web traffic analytics', competitor: 'Product/behavioural analytics', beamWins: false },
+    { feature: 'Pricing model', beam: 'Free / $5/mo flat', competitor: 'Free (50K MAU), then $49/mo–enterprise', beamWins: true },
+    { feature: 'Pricing predictability', beam: 'Flat rate — no surprises', competitor: 'Per-MAU pricing — scales with growth', beamWins: true },
+    { feature: 'Cookies used', beam: 'None', competitor: 'Yes (device IDs, user tracking)', beamWins: true },
+    { feature: 'GDPR compliant out of the box', beam: 'Yes — no consent needed', competitor: 'Requires consent banner for EU visitors', beamWins: true },
+    { feature: 'CCPA handling', beam: 'No PII collected — no opt-out needed', competitor: 'Opt-out required for California users', beamWins: true },
+    { feature: 'Setup time', beam: '< 5 minutes (one script tag)', competitor: '2–8 hours (SDK, event schema, user props)', beamWins: true },
+    { feature: 'Funnel analysis', beam: 'No', competitor: 'Yes (class-leading)', beamWins: false },
+    { feature: 'Retention cohorts', beam: 'No', competitor: 'Yes', beamWins: false },
+    { feature: 'User journey / pathways', beam: 'No', competitor: 'Yes', beamWins: false },
+    { feature: 'A/B test analysis', beam: 'No', competitor: 'Yes', beamWins: false },
+    { feature: 'User-level tracking', beam: 'No (privacy by design)', competitor: 'Yes', beamWins: false },
+    { feature: 'Script size', beam: '< 2 KB', competitor: '~60 KB (full SDK)', beamWins: true },
+    { feature: 'Data ownership', beam: 'Your data stays yours', competitor: 'Stored on Amplitude servers', beamWins: true },
+    { feature: 'Self-serve on free plan', beam: 'Yes — full dashboard, no card', competitor: 'Limited to Starter features', beamWins: true },
+  ])}
+
+  <div class="mt-12 space-y-6 text-gray-700 leading-relaxed">
+    <h2 class="text-2xl font-bold text-gray-900">Where Amplitude Has the Edge</h2>
+    <p>
+      Amplitude is one of the most sophisticated product analytics platforms on the market. If you need to understand <em>exactly</em> how individual users move through your product — which features they adopt, where they drop out of multi-step flows, which cohorts have the highest lifetime value — Amplitude is purpose-built for that problem. Its behavioural cohorts, funnel analysis, user pathways, and A/B experiment measurement are all class-leading.
+    </p>
+    <p>
+      For funded SaaS companies with dedicated data teams, Amplitude's depth is worth the investment. The platform can answer questions like "which users who completed onboarding in week 1 are still active at week 12?" — queries that would require significant SQL work anywhere else.
+    </p>
+
+    <h2 class="text-2xl font-bold text-gray-900">Where Beam Has the Edge</h2>
+    <p>
+      Amplitude's power comes with real costs across three dimensions. First, <strong>pricing</strong>: Amplitude charges per monthly active user (MAU). Once you graduate from the free Starter tier, costs climb steeply — the Plus plan starts at $49/mo but quickly grows with your user base. Enterprise tiers are quote-based and often run thousands per month. Beam is $5/mo flat, regardless of traffic volume beyond the free tier.
+    </p>
+    <p>
+      Second, <strong>compliance</strong>: Amplitude tracks individual users via persistent device IDs and cookies. That triggers GDPR consent requirements for EU visitors and CCPA opt-out obligations in California. Every Amplitude customer needs a cookie banner. Beam collects no personal data and sets no cookies — no consent infrastructure needed, no risk of banner dismissal eroding your data quality.
+    </p>
+    <p>
+      Third, <strong>implementation cost</strong>: correctly instrumenting Amplitude requires defining an event taxonomy, implementing SDK calls throughout your application, setting user properties, and testing event fidelity. A typical implementation takes days of engineering time. Beam is one script tag — under 5 minutes start to finish.
+    </p>
+
+    <h2 class="text-2xl font-bold text-gray-900">Which Should You Choose?</h2>
+    <p>
+      Choose <strong>Amplitude</strong> if: you're a growth-stage or enterprise SaaS company that needs user-level product analytics — retention cohorts, funnel analysis, A/B testing, and user journey mapping. Amplitude is built for product teams who need granular behavioural data at scale and have the engineering resources to maintain a proper event taxonomy.
+    </p>
+    <p>
+      Choose <strong>Beam</strong> if: you want privacy-first web traffic analytics — pageviews, referrers, top pages, countries, devices — without cookies, consent banners, per-MAU pricing surprises, or a weeks-long instrumentation project. Beam also works alongside Amplitude: use Beam for cookieless top-of-funnel web traffic data while Amplitude handles in-product behavioural analytics.
+    </p>
+  </div>
+
+  ${relatedComparisons([
+    { href: '/vs/mixpanel', label: 'Beam vs Mixpanel', description: 'Another event-based product analytics platform — similar positioning to Amplitude with per-event pricing.' },
+    { href: '/vs/posthog', label: 'Beam vs PostHog', description: 'Open-source product analytics with session replay, feature flags, and A/B testing.' },
+    { href: '/vs/plausible', label: 'Beam vs Plausible', description: 'Privacy-first web analytics SaaS — similar positioning to Beam but priced at $9/mo and up.' },
   ])}
 
   ${ctaSection()}
