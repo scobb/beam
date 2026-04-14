@@ -918,7 +918,10 @@ test.describe('Tracking script', () => {
   })
 
   test('GET /js/beam.js has Cache-Control max-age=3600 (1 hour, not 24h) (BEAM-212)', async ({ request }) => {
-    const res = await request.get('/js/beam.js')
+    // Use Cache-Control: no-cache to bypass Cloudflare edge cache and hit the Worker directly
+    const res = await request.get('/js/beam.js', {
+      headers: { 'Cache-Control': 'no-cache' },
+    })
     expect(res.status()).toBe(200)
     const cacheControl = res.headers()['cache-control'] ?? ''
     // Must be 1-hour TTL so bug fixes propagate quickly to users
