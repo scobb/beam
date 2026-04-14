@@ -121,3 +121,19 @@ Started: Mon Apr 13 06:34:00 PM PDT 2026
   - `data-testid` on banner containers makes Playwright assertions clean (especially for "not visible" assertions)
   - Prod signup rate limit (10/hour/IP) gets exhausted when running multiple full smoke runs in one session; spread test runs across hours
 ---
+
+## 2026-04-14 - BEAM-228
+- Added per-site monthly pageview usage to `/dashboard/sites` site cards
+- One efficient GROUP BY query for all sites (not N+1): `SELECT site_id, COUNT(*) as count FROM pageviews WHERE site_id IN (...) AND timestamp >= ? AND timestamp < ? GROUP BY site_id`
+- `renderUsage()` function: free users see "X / 50K" + thin color-coded progress bar (indigo <60%, yellow 60-79%, orange 80%+); pro users see "X pageviews this month" (no limit)
+- Usage widget positioned left of Analytics/Goals/Manage links on desktop; wraps naturally on mobile
+- `data-testid="site-usage-{siteId}"` for Playwright targeting
+- Also queries plan from DB (same pattern as /dashboard) to know free vs pro
+- Files changed: `src/routes/dashboard.ts`, `test/smoke/smoke.spec.ts`
+- Deployed to prod via `deploy.sh prod` — worker upload succeeded (pre-existing CF route auth error)
+- Prod smoke tests: all 429 from IP signup rate limit (cumulative session issue, not code); local 4/4 pass
+- **Learnings for future iterations:**
+  - `renderUsage()` is a local helper function within the route handler — matches the pattern of `renderHealthIndicator()`
+  - Progress bar colors match BEAM-225 nudge banner thresholds (60%/80%) for visual consistency
+  - Prod signup rate limit (10/hour/IP) consistently exhausted when running 3+ smoke stories in one hour
+---

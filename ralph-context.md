@@ -1,9 +1,9 @@
 ## Last completed
-BEAM-225 - Upgrade nudge banner (60%=yellow, 80%=orange/red; deployed prod; local tests pass)
+BEAM-228 - Per-site monthly usage on sites overview (deployed prod; local 4/4 pass)
 
 ## Next up
-BEAM-228 (medium) — Show per-site monthly pageview usage on sites overview
-- After that: BEAM-223 (/for/react), BEAM-224 (/vs/mixpanel), BEAM-226 (UTM share), BEAM-227 (blog post)
+BEAM-223 (medium) — /for/react integration guide for vanilla React and Vite
+- After that: BEAM-224 (/vs/mixpanel), BEAM-226 (UTM share), BEAM-227 (blog post)
 
 ## Active issues
 - BEAM-216 (auto-blocked): /for/sveltekit, /for/vue, /for/nuxt — blocked after 3 consecutive failures

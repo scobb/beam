@@ -3767,7 +3767,7 @@
         "Smoke test: /dashboard/sites renders without error for a user with one site"
       ],
       "priority": "medium",
-      "passes": false
+      "passes": true
     }
   ]
 }
