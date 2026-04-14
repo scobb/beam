@@ -1,10 +1,10 @@
 ## Last completed
-BEAM-232 - Blog: GDPR analytics without a cookie banner (local 4/4; prod 4/4)
+BEAM-233 - /migrate/umami migration guide (local 4/4; prod 4/4 on retry)
 
 ## Next up
-BEAM-233 (medium) — /migrate/umami migration guide
-- Umami is popular self-hosted analytics; users searching for managed alternative
-- Follow /migrate/plausible pattern; link from /migrate hub
+BEAM-234 (medium) — /for/vue integration guide
+- Vue 3 Composition API, onMounted hook, Vue Router afterEach guard
+- Standalone story (not bundled with SvelteKit/Nuxt that caused BEAM-216 failures)
 
 ## Active issues
 - BEAM-216 (auto-blocked): /for/sveltekit, /for/vue, /for/nuxt — blocked after 3 consecutive failures

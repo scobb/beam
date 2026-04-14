@@ -3840,7 +3840,7 @@
         "Smoke test: GET /migrate/umami returns 200"
       ],
       "priority": "medium",
-      "passes": false
+      "passes": true
     },
     {
       "id": "BEAM-234",

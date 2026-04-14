@@ -263,3 +263,17 @@ Started: Mon Apr 13 06:34:00 PM PDT 2026
 - Files changed: src/routes/blog.ts (new POSTS entry + route handler), src/index.ts (sitemap), test/smoke/smoke.spec.ts
 - Local 4/4; prod 4/4 on final run (CDN propagation caused flakiness on earlier runs)
 ---
+
+## 2026-04-14 - BEAM-233
+- Added /migrate/umami migration guide covering: script swap, custom events migration (umami.track → beam.track), verification, server decommission
+- Added Umami to migration paths array in /migrate hub (renders as a card)
+- Added HowTo + FAQ JSON-LD structured data
+- Added /migrate/umami to sitemap.xml paths + meta
+- Mobile overflow fix needed: flex bullet list items with inline code caused overflow — fixed with `shrink-0` on icon spans and `min-w-0 break-words` on text spans; also `min-w-0 flex-1` on inner divs of code-block steps
+- Files changed: src/routes/migrate.ts, src/index.ts, test/smoke/smoke.spec.ts
+- Local 4/4; prod first run CDN flake, second run 4/4
+- **Learnings for future iterations:**
+  - `<li class="flex items-start gap-2">` — both the icon span and text span need min-w-0/shrink-0 treatment when text contains long inline code
+  - `overflow-x-auto` on a div containing pre needs the flex PARENT to also have min-w-0 or the pre still expands the document scrollWidth
+  - Migration guide cards in migrationPaths array render in order; add new entries before the setup/demo/signup items at the end
+---
