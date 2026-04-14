@@ -92,3 +92,15 @@ Started: Mon Apr 13 06:34:00 PM PDT 2026
   - Changelog is fully hardcoded in `src/routes/changelog.ts` as a `CHANGELOG: ChangelogGroup[]` array — no DB
   - New date groups go at the TOP of the array (most recent first)
 ---
+
+## 2026-04-14 - BEAM-222
+- Added Blog link to main landing page navigation (`src/landing.ts`) between Changelog and Log in
+- Other nav-heavy pages (changelog.ts, blog.ts) already had Blog link; landing.ts was the only gap
+- Added 2 smoke tests: desktop (Blog link visible) + mobile 375px (Blog link visible, no overflow)
+- Files changed: `src/landing.ts`, `test/smoke/smoke.spec.ts`
+- Deployed to prod via `deploy.sh prod` — worker upload succeeded (pre-existing CF route auth error)
+- Prod smoke tests: 4/4 pass on beam-privacy.com
+- **Learnings for future iterations:**
+  - Each page/route has its own `nav()` function — no shared nav component; check all nav functions when adding global links
+  - First prod smoke run failed (screenshot showed old nav) — likely CDN propagation; second run 30s later passed
+---

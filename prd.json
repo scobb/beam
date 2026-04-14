@@ -1,5 +1,5 @@
 {
-  "project": "Beam — Privacy-First Web Analytics",
+  "project": "Beam \u2014 Privacy-First Web Analytics",
   "branchName": "ralph/beam",
   "description": "A lightweight, cookie-free, GDPR-compliant web analytics service built on Cloudflare's edge network. Site owners add a tiny JS snippet to collect pageviews without cookies or PII. Data is stored in D1 and displayed on a clean server-rendered dashboard. Priced at $5/mo to undercut Plausible ($9/mo) and Fathom ($15/mo).",
   "infrastructure": {
@@ -55,7 +55,7 @@
         "Served at GET / (root path) by the Hono app",
         "Hero section with headline ('Privacy-first web analytics'), subheadline, and 'Get Started' CTA button linking to /signup",
         "Features section highlighting: no cookies, GDPR-compliant, lightweight script (< 2KB), real-time dashboard",
-        "Pricing section showing: Free tier (1 site, 5K pageviews/mo) and Pro tier ($5/mo — unlimited sites, 100K pageviews/mo)",
+        "Pricing section showing: Free tier (1 site, 5K pageviews/mo) and Pro tier ($5/mo \u2014 unlimited sites, 100K pageviews/mo)",
         "Footer with Keylight Digital LLC copyright and links",
         "Responsive design using Tailwind CSS via CDN (no build step)",
         "Page loads in under 1 second (no heavy assets)",
@@ -123,7 +123,7 @@
       ],
       "priority": 6,
       "passes": true,
-      "notes": "Keep the User-Agent parser simple — just detect major browsers (Chrome, Firefox, Safari, Edge) and device types from screen width or UA. Use KV for rate limiting with 60-second TTL. Country comes free from Cloudflare headers."
+      "notes": "Keep the User-Agent parser simple \u2014 just detect major browsers (Chrome, Firefox, Safari, Edge) and device types from screen width or UA. Use KV for rate limiting with 60-second TTL. Country comes free from Cloudflare headers."
     },
     {
       "id": "BEAM-007",
@@ -143,7 +143,7 @@
       ],
       "priority": 7,
       "passes": true,
-      "notes": "Server-side rendered HTML using Hono template helpers or template literals. No client-side JavaScript framework needed for the dashboard — keep it simple with HTML forms and page reloads."
+      "notes": "Server-side rendered HTML using Hono template helpers or template literals. No client-side JavaScript framework needed for the dashboard \u2014 keep it simple with HTML forms and page reloads."
     },
     {
       "id": "BEAM-008",
@@ -163,7 +163,7 @@
       ],
       "priority": 8,
       "passes": true,
-      "notes": "Use Chart.js v4 via CDN. Pass chart data as JSON in a <script> block. Unique visitor counting without cookies is inherently approximate — use a hash of available non-PII fields per day. D1 queries should be efficient with indexes."
+      "notes": "Use Chart.js v4 via CDN. Pass chart data as JSON in a <script> block. Unique visitor counting without cookies is inherently approximate \u2014 use a hash of available non-PII fields per day. D1 queries should be efficient with indexes."
     },
     {
       "id": "BEAM-009",
@@ -171,11 +171,11 @@
       "description": "As a site owner, I need to see breakdowns of my traffic by page, referrer, country, browser, and device.",
       "acceptanceCriteria": [
         "Breakdown tables displayed below the chart on the analytics overview page (or as tabs)",
-        "Top Pages table: columns are Path, Visitors, Pageviews — sorted by pageviews descending, top 20",
-        "Referrer Sources table: columns are Source (domain or 'Direct'), Visitors — sorted descending, top 20",
-        "Countries table: columns are Country (code from CF-IPCountry), Visitors — sorted descending, top 20",
-        "Browsers table: columns are Browser, Visitors — sorted descending, top 10",
-        "Devices table: columns are Device Type (Desktop/Mobile/Tablet), Visitors, Percentage — sorted descending",
+        "Top Pages table: columns are Path, Visitors, Pageviews \u2014 sorted by pageviews descending, top 20",
+        "Referrer Sources table: columns are Source (domain or 'Direct'), Visitors \u2014 sorted descending, top 20",
+        "Countries table: columns are Country (code from CF-IPCountry), Visitors \u2014 sorted descending, top 20",
+        "Browsers table: columns are Browser, Visitors \u2014 sorted descending, top 10",
+        "Devices table: columns are Device Type (Desktop/Mobile/Tablet), Visitors, Percentage \u2014 sorted descending",
         "All breakdowns respect the selected time range filter",
         "Tables are styled consistently with the dashboard design",
         "Empty tables show 'No data for this period' message"
@@ -202,7 +202,7 @@
       ],
       "priority": 10,
       "passes": true,
-      "notes": "Use Stripe API directly via fetch() — no Stripe SDK needed in Workers. Create the Stripe product/price programmatically or via dashboard. Webhook signature verification uses Web Crypto API."
+      "notes": "Use Stripe API directly via fetch() \u2014 no Stripe SDK needed in Workers. Create the Stripe product/price programmatically or via dashboard. Webhook signature verification uses Web Crypto API."
     },
     {
       "id": "BEAM-011",
@@ -221,7 +221,7 @@
       ],
       "priority": 11,
       "passes": true,
-      "notes": "Count pageviews per calendar month (1st to end of month, UTC). The count query should be efficient — consider caching the count in KV with a short TTL to avoid hitting D1 on every collect request."
+      "notes": "Count pageviews per calendar month (1st to end of month, UTC). The count query should be efficient \u2014 consider caching the count in KV with a short TTL to avoid hitting D1 on every collect request."
     },
     {
       "id": "BEAM-012",
@@ -251,7 +251,7 @@
         "Landing page has proper meta tags: title, description, og:title, og:description, og:type, twitter:card",
         "GET /robots.txt returns valid robots.txt allowing all crawlers",
         "GET /sitemap.xml returns valid sitemap with landing page URL",
-        "Add Beam tracking to its own landing page (dogfooding) — verify pageview appears in a test dashboard",
+        "Add Beam tracking to its own landing page (dogfooding) \u2014 verify pageview appears in a test dashboard",
         "Create Stripe product and price in live mode if not already done",
         "Send launch notification email to Steve via Resend: 'Beam is live at beam.keylightdigital.com'",
         "Verify end-to-end: signup -> add site -> embed script -> pageview collected -> data visible in dashboard",
@@ -278,7 +278,7 @@
       ],
       "priority": 14,
       "passes": true,
-      "notes": "This is critical for revenue — the Stripe webhook requires manual setup by Steve (STRIPE_WEBHOOK_SECRET). This fallback ensures payments work immediately. Use Stripe's GET /v1/checkout/sessions/:id endpoint. The success_url already includes {CHECKOUT_SESSION_ID} template."
+      "notes": "This is critical for revenue \u2014 the Stripe webhook requires manual setup by Steve (STRIPE_WEBHOOK_SECRET). This fallback ensures payments work immediately. Use Stripe's GET /v1/checkout/sessions/:id endpoint. The success_url already includes {CHECKOUT_SESSION_ID} template."
     },
     {
       "id": "BEAM-015",
@@ -305,7 +305,7 @@
       "description": "As a new user who just signed up, I need to receive a welcome email with clear setup instructions so that I actually install the tracking script and start using Beam.",
       "acceptanceCriteria": [
         "After successful signup (POST /api/auth/signup), send welcome email via Resend API",
-        "Email sent from beam@keylightdigital.dev with subject 'Welcome to Beam — here's how to get started'",
+        "Email sent from beam@keylightdigital.dev with subject 'Welcome to Beam \u2014 here's how to get started'",
         "Email body includes: welcome message, 3 numbered setup steps (1. Add your site, 2. Copy the tracking snippet, 3. View your dashboard), direct link to /dashboard/sites/new",
         "Email is plain text (not HTML) for maximum deliverability",
         "Email sending is fire-and-forget (don't block signup response on email delivery)",
@@ -333,14 +333,14 @@
       ],
       "priority": 17,
       "passes": true,
-      "notes": "Target search terms: 'google analytics alternative privacy', 'plausible alternative cheaper', 'fathom analytics alternative', 'privacy friendly analytics'. Be factually accurate about competitors — don't misrepresent their features. Keep content genuine and helpful, not spammy."
+      "notes": "Target search terms: 'google analytics alternative privacy', 'plausible alternative cheaper', 'fathom analytics alternative', 'privacy friendly analytics'. Be factually accurate about competitors \u2014 don't misrepresent their features. Keep content genuine and helpful, not spammy."
     },
     {
       "id": "BEAM-018",
       "title": "Public shareable dashboard links",
       "description": "As a site owner, I want to share my analytics publicly so that others can see Beam in action and discover the product.",
       "acceptanceCriteria": [
-        "New column in sites table: public (INTEGER DEFAULT 0) — requires a D1 migration",
+        "New column in sites table: public (INTEGER DEFAULT 0) \u2014 requires a D1 migration",
         "GET /dashboard/sites/:id shows a 'Make Public' toggle (HTML form with checkbox/button)",
         "POST /dashboard/sites/:id/public toggles the public flag for the site",
         "GET /public/:site_id renders a read-only version of the analytics dashboard (same stats, chart, breakdowns)",
@@ -352,7 +352,7 @@
       ],
       "priority": 18,
       "passes": true,
-      "notes": "Public dashboards are a powerful word-of-mouth driver — when site owners share their stats on social media, viewers discover Beam. The 'Powered by Beam' branding is key for viral growth. Reuse the existing analytics query logic from the dashboard route."
+      "notes": "Public dashboards are a powerful word-of-mouth driver \u2014 when site owners share their stats on social media, viewers discover Beam. The 'Powered by Beam' branding is key for viral growth. Reuse the existing analytics query logic from the dashboard route."
     },
     {
       "id": "BEAM-019",
@@ -371,7 +371,7 @@
       ],
       "priority": 19,
       "passes": true,
-      "notes": "Data export adds concrete value to the Pro tier and is a common request from analytics users. Limit to 90 days per request to prevent D1 timeouts on large datasets. Use simple string concatenation for CSV — no library needed."
+      "notes": "Data export adds concrete value to the Pro tier and is a common request from analytics users. Limit to 90 days per request to prevent D1 timeouts on large datasets. Use simple string concatenation for CSV \u2014 no library needed."
     },
     {
       "id": "BEAM-020",
@@ -423,7 +423,7 @@
       ],
       "priority": 22,
       "passes": true,
-      "notes": "The /about page returns 404 in production despite being in the codebase — this suggests the latest code hasn't been deployed since BEAM-018. Run wrangler deploy from the beam/ directory. This must be the first story in Phase 3 since everything else depends on the product being accessible."
+      "notes": "The /about page returns 404 in production despite being in the codebase \u2014 this suggests the latest code hasn't been deployed since BEAM-018. Run wrangler deploy from the beam/ directory. This must be the first story in Phase 3 since everything else depends on the product being accessible."
     },
     {
       "id": "BEAM-023",
@@ -440,7 +440,7 @@
       ],
       "priority": 23,
       "passes": true,
-      "notes": "Steve noted in progress.txt that the restricted key now has Webhook Endpoints → Write permission. Use POST https://api.stripe.com/v1/webhook_endpoints with the STRIPE_SECRET_KEY from .env. The response includes a 'secret' field — that's the STRIPE_WEBHOOK_SECRET. This fully automates the revenue path without Steve's manual intervention."
+      "notes": "Steve noted in progress.txt that the restricted key now has Webhook Endpoints \u2192 Write permission. Use POST https://api.stripe.com/v1/webhook_endpoints with the STRIPE_SECRET_KEY from .env. The response includes a 'secret' field \u2014 that's the STRIPE_WEBHOOK_SECRET. This fully automates the revenue path without Steve's manual intervention."
     },
     {
       "id": "BEAM-024",
@@ -452,11 +452,11 @@
         "Email body includes: user email, signup timestamp, total user count from D1",
         "Fire-and-forget: don't block signup response on email delivery",
         "If Resend API call fails, log error but don't fail the signup",
-        "Don't send admin notification for the welcome email — these are separate emails"
+        "Don't send admin notification for the welcome email \u2014 these are separate emails"
       ],
       "priority": 24,
       "passes": true,
-      "notes": "This is critical for knowing when marketing efforts pay off. Keep it simple — one email per signup with the user's email and a count of total users. Fire-and-forget pattern same as the welcome email (BEAM-016). Send AFTER the welcome email in the signup handler."
+      "notes": "This is critical for knowing when marketing efforts pay off. Keep it simple \u2014 one email per signup with the user's email and a count of total users. Fire-and-forget pattern same as the welcome email (BEAM-016). Send AFTER the welcome email in the signup handler."
     },
     {
       "id": "BEAM-025",
@@ -471,11 +471,11 @@
         "Step 3 complete: at least one pageview exists for any of the user's sites",
         "Pending steps have CTAs: 'Add Site' button for step 1, copy snippet instruction for step 2",
         "Checklist hides once all steps are complete (or has a dismiss option)",
-        "Checklist queries use existing D1 data — no new tables needed"
+        "Checklist queries use existing D1 data \u2014 no new tables needed"
       ],
       "priority": 25,
       "passes": true,
-      "notes": "The goal is to reduce the gap between signup and first tracked pageview. Most analytics tools lose users between signup and script installation — this checklist keeps them on track. Query sites and pageviews tables to determine completion state. Steps 2 and 3 can be merged visually if simpler."
+      "notes": "The goal is to reduce the gap between signup and first tracked pageview. Most analytics tools lose users between signup and script installation \u2014 this checklist keeps them on track. Query sites and pageviews tables to determine completion state. Steps 2 and 3 can be merged visually if simpler."
     },
     {
       "id": "BEAM-026",
@@ -508,16 +508,16 @@
         "Analytics page queries KV via list() with prefix active:{site_id}: and counts results",
         "Counter shows '0 active now' when no recent visitors (not hidden)",
         "Public dashboards (/public/:site_id) also show the active visitor count",
-        "Counter updates on page load (not real-time websocket — that's unnecessary complexity)"
+        "Counter updates on page load (not real-time websocket \u2014 that's unnecessary complexity)"
       ],
       "priority": 27,
       "passes": true,
-      "notes": "Real-time visitors is a feature Plausible charges $9+/mo for and Fathom charges $15+/mo for. Including it in Beam's free tier is a strong differentiator. Use KV list() with prefix to count active keys — each key auto-expires after 5 minutes via TTL. This is a KV-heavy approach but within free tier limits for small sites."
+      "notes": "Real-time visitors is a feature Plausible charges $9+/mo for and Fathom charges $15+/mo for. Including it in Beam's free tier is a strong differentiator. Use KV list() with prefix to count active keys \u2014 each key auto-expires after 5 minutes via TTL. This is a KV-heavy approach but within free tier limits for small sites."
     },
     {
       "id": "BEAM-028",
       "title": "Embeddable visitor count badge",
-      "description": "As a site owner, I want an embeddable SVG badge showing my visitor count that I can put in GitHub READMEs or on my site for social proof — and every badge is free marketing for Beam.",
+      "description": "As a site owner, I want an embeddable SVG badge showing my visitor count that I can put in GitHub READMEs or on my site for social proof \u2014 and every badge is free marketing for Beam.",
       "acceptanceCriteria": [
         "GET /badge/:site_id.svg returns an SVG badge showing '123 visitors this month | Beam'",
         "Badge uses shields.io-style flat design (rounded rectangle, two-tone)",
@@ -531,7 +531,7 @@
       ],
       "priority": 28,
       "passes": true,
-      "notes": "Embeddable badges are a proven growth hack — shields.io-style badges in GitHub READMEs get seen by thousands of developers. Every badge impression is a free ad for Beam. Only public sites get badges to encourage the public dashboard feature. Cache aggressively since badge images get hammered by high-traffic READMEs."
+      "notes": "Embeddable badges are a proven growth hack \u2014 shields.io-style badges in GitHub READMEs get seen by thousands of developers. Every badge impression is a free ad for Beam. Only public sites get badges to encourage the public dashboard feature. Cache aggressively since badge images get hammered by high-traffic READMEs."
     },
     {
       "id": "BEAM-029",
@@ -548,7 +548,7 @@
       ],
       "priority": 29,
       "passes": true,
-      "notes": "Sitemap pings are free and instant — they tell search engines to crawl the site sooner. Google's ping endpoint is being deprecated in favor of Search Console, but still works. IndexNow requires generating an API key file served at the root. Steve should also verify the site in Google Search Console manually for best results."
+      "notes": "Sitemap pings are free and instant \u2014 they tell search engines to crawl the site sooner. Google's ping endpoint is being deprecated in favor of Search Console, but still works. IndexNow requires generating an API key file served at the root. Steve should also verify the site in Google Search Console manually for best results."
     },
     {
       "id": "BEAM-030",
@@ -617,7 +617,7 @@
       "description": "As Ralph, I need to verify beam.keylightdigital.dev with Google Search Console so that pages get indexed. Currently site:beam.keylightdigital.dev returns zero results on Google.",
       "acceptanceCriteria": [
         "Use Cloudflare API to add a Google Search Console TXT verification record to the keylightdigital.dev zone",
-        "The TXT record value should follow the format google-site-verification=XXXXX — use the Cloudflare API to create the record",
+        "The TXT record value should follow the format google-site-verification=XXXXX \u2014 use the Cloudflare API to create the record",
         "If the verification code is not available, add an HTML meta tag verification route instead: serve the google-site-verification meta tag on the landing page",
         "Alternatively, add a static file route (e.g., GET /googleXXXX.html) that returns the verification HTML file",
         "Submit the sitemap URL (https://beam.keylightdigital.dev/sitemap.xml) via Google's Indexing API if feasible, or document the manual step for Steve",
@@ -627,7 +627,7 @@
       ],
       "priority": 34,
       "passes": true,
-      "notes": "This is the single highest-impact action for organic traffic. The site has 9 pages of SEO-optimized content (comparison pages, blog, about) but ZERO Google indexing. Google Search Console requires site ownership verification — DNS TXT record is the cleanest approach since we have Cloudflare API access to the zone. If we can't get the verification code programmatically, prepare everything for Steve to paste the code and Ralph creates the record."
+      "notes": "This is the single highest-impact action for organic traffic. The site has 9 pages of SEO-optimized content (comparison pages, blog, about) but ZERO Google indexing. Google Search Console requires site ownership verification \u2014 DNS TXT record is the cleanest approach since we have Cloudflare API access to the zone. If we can't get the verification code programmatically, prepare everything for Steve to paste the code and Ralph creates the record."
     },
     {
       "id": "BEAM-035",
@@ -644,12 +644,12 @@
       ],
       "priority": 35,
       "passes": true,
-      "notes": "A web analytics SaaS without a privacy policy is a red flag, especially one marketing itself as privacy-first. These pages are table-stakes for directory submissions (many require a privacy policy link) and for building user trust. Keep language clear and readable — not boilerplate legalese. Keylight Digital LLC is the legal entity."
+      "notes": "A web analytics SaaS without a privacy policy is a red flag, especially one marketing itself as privacy-first. These pages are table-stakes for directory submissions (many require a privacy policy link) and for building user trust. Keep language clear and readable \u2014 not boilerplate legalese. Keylight Digital LLC is the legal entity."
     },
     {
       "id": "BEAM-036",
       "title": "Three more SEO comparison pages",
-      "description": "As a potential customer searching for analytics alternatives, I should find Beam through comparison pages targeting Umami, Matomo, and Simple Analytics — three major competitors not yet covered.",
+      "description": "As a potential customer searching for analytics alternatives, I should find Beam through comparison pages targeting Umami, Matomo, and Simple Analytics \u2014 three major competitors not yet covered.",
       "acceptanceCriteria": [
         "GET /vs/umami renders a comparison page: Beam vs Umami Analytics",
         "GET /vs/matomo renders a comparison page: Beam vs Matomo Analytics",
@@ -682,12 +682,12 @@
       ],
       "priority": 37,
       "passes": true,
-      "notes": "Tutorial content targets 'how to add analytics to website' and 'add analytics without cookies' search terms. These are high-intent queries — people searching this are actively looking to install an analytics tool. Include real code snippets for popular frameworks (React, Next.js, WordPress) to capture framework-specific search traffic."
+      "notes": "Tutorial content targets 'how to add analytics to website' and 'add analytics without cookies' search terms. These are high-intent queries \u2014 people searching this are actively looking to install an analytics tool. Include real code snippets for popular frameworks (React, Next.js, WordPress) to capture framework-specific search traffic."
     },
     {
       "id": "BEAM-038",
       "title": "DevHunt listing via GitHub PR",
-      "description": "As Ralph, I need to submit Beam to DevHunt (devhunt.org) which accepts tool listings via GitHub pull requests — a free directory listing the agent can do without CAPTCHAs.",
+      "description": "As Ralph, I need to submit Beam to DevHunt (devhunt.org) which accepts tool listings via GitHub pull requests \u2014 a free directory listing the agent can do without CAPTCHAs.",
       "acceptanceCriteria": [
         "Fork the DevHunt repository (MarsX-dev/devhunt) on GitHub",
         "Add Beam listing following DevHunt's required format and schema",
@@ -710,14 +710,14 @@
         "Add a 'Built on Cloudflare' trust badge section mentioning global edge network, encrypted storage, 99.99% uptime",
         "Add a live site counter showing total tracked pageviews across the platform (fetched from D1 or KV-cached)",
         "Add a 'No credit card required' callout near the free tier CTA",
-        "Improve the CTA button copy from 'Get Started Free' to include benefit (e.g., 'Start tracking in 60 seconds — free')",
+        "Improve the CTA button copy from 'Get Started Free' to include benefit (e.g., 'Start tracking in 60 seconds \u2014 free')",
         "Add a mini FAQ section (3-4 questions) below pricing: 'Do I need a cookie banner?', 'How does it count visitors?', 'Can I switch from Google Analytics?', 'Is there a free plan?'",
         "Ensure all changes maintain responsive design and fast load times",
         "Deploy updated landing page to production"
       ],
       "priority": 39,
       "passes": true,
-      "notes": "The current landing page is functional but generic. These changes target the three main conversion blockers: trust (Cloudflare badge, live counter), clarity (how it works steps, FAQ), and urgency (improved CTA copy, no credit card callout). Keep the page fast — no heavy images or external API calls on load."
+      "notes": "The current landing page is functional but generic. These changes target the three main conversion blockers: trust (Cloudflare badge, live counter), clarity (how it works steps, FAQ), and urgency (improved CTA copy, no credit card callout). Keep the page fast \u2014 no heavy images or external API calls on load."
     },
     {
       "id": "BEAM-040",
@@ -728,7 +728,7 @@
         "Send UTM parameters in the /api/collect JSON payload",
         "Create D1 migration to add utm_source, utm_medium, utm_campaign columns to the pageviews table (TEXT, nullable)",
         "Update /api/collect handler to store UTM parameters in new columns",
-        "Add a 'Campaigns' breakdown table on the analytics dashboard showing utm_source × utm_medium with visitor and pageview counts",
+        "Add a 'Campaigns' breakdown table on the analytics dashboard showing utm_source \u00d7 utm_medium with visitor and pageview counts",
         "Campaign breakdown respects time range filter",
         "CSV export includes UTM columns",
         "Apply migration to local and production D1",
@@ -736,12 +736,12 @@
       ],
       "priority": 40,
       "passes": true,
-      "notes": "UTM tracking is essential before any marketing push — if Steve posts on HN/Reddit using UTM links, he needs to see which channel works. This is also a feature most free-tier analytics tools include. Keep the tracking script impact minimal — only read URL params if they exist."
+      "notes": "UTM tracking is essential before any marketing push \u2014 if Steve posts on HN/Reddit using UTM links, he needs to see which channel works. This is also a feature most free-tier analytics tools include. Keep the tracking script impact minimal \u2014 only read URL params if they exist."
     },
     {
       "id": "BEAM-041",
       "title": "RSS feed for blog and changelog",
-      "description": "As a developer who uses RSS, I want to subscribe to Beam's blog so I stay updated — and the RSS feed helps with SEO and aggregator discovery.",
+      "description": "As a developer who uses RSS, I want to subscribe to Beam's blog so I stay updated \u2014 and the RSS feed helps with SEO and aggregator discovery.",
       "acceptanceCriteria": [
         "GET /blog/rss.xml returns a valid RSS 2.0 feed with Content-Type: application/rss+xml",
         "Feed includes all blog posts with title, link, description (excerpt), pubDate, and guid",
@@ -753,7 +753,7 @@
       ],
       "priority": 41,
       "passes": true,
-      "notes": "RSS feeds are picked up by aggregators, dev newsletters, and feed readers — free distribution. They also signal to search engines that the site has regularly updated content. Simple to implement: generate XML from the existing POSTS array in blog.ts."
+      "notes": "RSS feeds are picked up by aggregators, dev newsletters, and feed readers \u2014 free distribution. They also signal to search engines that the site has regularly updated content. Simple to implement: generate XML from the existing POSTS array in blog.ts."
     },
     {
       "id": "BEAM-042",
@@ -787,46 +787,46 @@
       ],
       "priority": 43,
       "passes": true,
-      "notes": "Dogfooding is the most powerful trust signal — if we use our own product, visitors see it works. The public dashboard becomes social proof showing real traffic. Use an env var for the site_id so it works in both dev and production. Create the account via direct D1 insert or API call during deployment bootstrap."
+      "notes": "Dogfooding is the most powerful trust signal \u2014 if we use our own product, visitors see it works. The public dashboard becomes social proof showing real traffic. Use an env var for the site_id so it works in both dev and production. Create the account via direct D1 insert or API call during deployment bootstrap."
     },
     {
       "id": "BEAM-044",
       "title": "Custom event tracking",
       "description": "As a site owner, I need to track custom events (button clicks, form submissions, signups) beyond pageviews so I can understand user behavior on my site.",
       "acceptanceCriteria": [
-        "Add beam.track(eventName, properties) method to beam.js tracking script — properties is an optional key-value object",
+        "Add beam.track(eventName, properties) method to beam.js tracking script \u2014 properties is an optional key-value object",
         "Create D1 migration: custom_events table with id, site_id, event_name, properties (JSON text), path, referrer, country, timestamp",
         "Update POST /api/collect to handle event payloads (type: 'event' with event_name and optional properties) alongside existing pageview payloads",
         "Add Events section to the analytics dashboard showing: top events by count, events over time chart, and event properties breakdown",
         "Free tier: up to 5 unique event names per site. Pro tier: unlimited event names",
         "Script size stays under 2KB with the new beam.track() method",
-        "Events respect the same privacy model as pageviews — no PII collected",
+        "Events respect the same privacy model as pageviews \u2014 no PII collected",
         "Deploy to production and verify event collection works"
       ],
       "priority": 44,
       "passes": true,
-      "notes": "Custom events are table stakes for serious analytics — Plausible, Fathom, and PostHog all have them. This is the #1 missing feature vs competitors. Keep the API simple: beam.track('signup', {plan: 'pro'}) sends to /api/collect with type 'event'. Properties stored as JSON text in D1. Dashboard display can be a simple table + count chart."
+      "notes": "Custom events are table stakes for serious analytics \u2014 Plausible, Fathom, and PostHog all have them. This is the #1 missing feature vs competitors. Keep the API simple: beam.track('signup', {plan: 'pro'}) sends to /api/collect with type 'event'. Properties stored as JSON text in D1. Dashboard display can be a simple table + count chart."
     },
     {
       "id": "BEAM-045",
       "title": "Open-source beam.js tracking script on GitHub",
-      "description": "As a developer evaluating Beam, I want to inspect the tracking script source code on GitHub so I can verify it respects privacy — and as Beam, a public GitHub repo creates a new discovery channel.",
+      "description": "As a developer evaluating Beam, I want to inspect the tracking script source code on GitHub so I can verify it respects privacy \u2014 and as Beam, a public GitHub repo creates a new discovery channel.",
       "acceptanceCriteria": [
         "Create a public GitHub repository keylightdigital/beam.js (or scobb/beam.js if org doesn't exist) via GitHub API",
         "Repository contains: the tracking script source (beam.js), a comprehensive README.md, MIT license, and package.json for npm discoverability",
         "README includes: what Beam is, what the script tracks (and doesn't track), setup instructions with code snippet, framework examples (HTML, React, Next.js, WordPress), link to hosted product at beam.keylightdigital.dev",
         "Add GitHub topics/tags: analytics, privacy, gdpr, cookieless, web-analytics, tracking",
-        "Include a CONTRIBUTING.md noting this is the tracking script only — the backend is hosted SaaS",
+        "Include a CONTRIBUTING.md noting this is the tracking script only \u2014 the backend is hosted SaaS",
         "Update the Beam landing page and /about page to link to the GitHub repo ('Open source tracking script')",
         "Deploy updated pages to production"
       ],
       "priority": 45,
       "passes": true,
-      "notes": "Open-sourcing the tracking script (not the backend) is a proven strategy — Simple Analytics does this. It builds trust (developers can audit what runs on their site), creates GitHub discoverability, and every README view is a marketing impression. Use GITHUB_TOKEN from .env to create the repo via API."
+      "notes": "Open-sourcing the tracking script (not the backend) is a proven strategy \u2014 Simple Analytics does this. It builds trust (developers can audit what runs on their site), creates GitHub discoverability, and every README view is a marketing impression. Use GITHUB_TOKEN from .env to create the repo via API."
     },
     {
       "id": "BEAM-046",
-      "title": "Blog post — Privacy Analytics for Next.js Apps",
+      "title": "Blog post \u2014 Privacy Analytics for Next.js Apps",
       "description": "As a Next.js developer searching for analytics, I want a step-by-step guide for adding Beam to my Next.js project so I can get privacy-compliant analytics without complex setup.",
       "acceptanceCriteria": [
         "New blog post at /blog/nextjs-privacy-analytics with SEO-optimized title, meta description, and OG tags",
@@ -843,13 +843,13 @@
     },
     {
       "id": "BEAM-047",
-      "title": "Blog post — Complete Guide to GA Alternatives in 2026",
-      "description": "As someone searching for Google Analytics alternatives, I want a comprehensive comparison so I can choose the right tool — and Beam should own this high-volume search term.",
+      "title": "Blog post \u2014 Complete Guide to GA Alternatives in 2026",
+      "description": "As someone searching for Google Analytics alternatives, I want a comprehensive comparison so I can choose the right tool \u2014 and Beam should own this high-volume search term.",
       "acceptanceCriteria": [
         "New blog post at /blog/google-analytics-alternatives-2026 with SEO-optimized title targeting 'google analytics alternatives 2026'",
-        "Cover at least 8 alternatives: Beam, Plausible, Fathom, Simple Analytics, Umami, Matomo, PostHog, Usermaven — with pricing, pros, cons for each",
+        "Cover at least 8 alternatives: Beam, Plausible, Fathom, Simple Analytics, Umami, Matomo, PostHog, Usermaven \u2014 with pricing, pros, cons for each",
         "Include a comparison table with columns: tool, price, open source, cookieless, GDPR, custom events, self-hosted option",
-        "Beam positioned honestly — acknowledge strengths (price, simplicity, Cloudflare edge) and areas competitors excel (Matomo feature depth, PostHog product analytics)",
+        "Beam positioned honestly \u2014 acknowledge strengths (price, simplicity, Cloudflare edge) and areas competitors excel (Matomo feature depth, PostHog product analytics)",
         "Internal links to all individual /vs/ comparison pages",
         "Proper SEO: meta description, OG tags, JSON-LD Article schema, canonical URL",
         "Add to POSTS array, sitemap.xml, and RSS feed",
@@ -857,7 +857,7 @@
       ],
       "priority": 47,
       "passes": true,
-      "notes": "'Google analytics alternatives' is one of the highest-volume search terms in this space. A comprehensive, honest comparison post that ranks well could drive significant organic traffic. Position Beam as the simple, affordable option — don't try to compete on features with PostHog or Matomo. Link to individual vs/ pages for detailed comparisons."
+      "notes": "'Google analytics alternatives' is one of the highest-volume search terms in this space. A comprehensive, honest comparison post that ranks well could drive significant organic traffic. Position Beam as the simple, affordable option \u2014 don't try to compete on features with PostHog or Matomo. Link to individual vs/ pages for detailed comparisons."
     },
     {
       "id": "BEAM-048",
@@ -873,7 +873,7 @@
       ],
       "priority": 48,
       "passes": true,
-      "notes": "Show HN is the single highest-impact free launch channel for developer tools. A front-page post can bring 10-80K visitors in 24 hours. HN users value technical depth and honesty over marketing polish. The post should lead with the architecture and privacy approach, not pricing. Prepare for tough questions — HN will ask about Plausible, Umami, and self-hosting."
+      "notes": "Show HN is the single highest-impact free launch channel for developer tools. A front-page post can bring 10-80K visitors in 24 hours. HN users value technical depth and honesty over marketing polish. The post should lead with the architecture and privacy approach, not pricing. Prepare for tough questions \u2014 HN will ask about Plausible, Umami, and self-hosting."
     },
     {
       "id": "BEAM-049",
@@ -908,7 +908,7 @@
       ],
       "priority": 50,
       "passes": true,
-      "notes": "Click-to-filter is standard in analytics tools — Plausible has it, GA has it. Without it, the dashboard is view-only and users can't answer questions like 'what pages do my US visitors view?' or 'what's my bounce rate from Twitter?'. Implementation: add optional query params (page, referrer, country, browser, device) to the dashboard route, include them in SQL WHERE clauses."
+      "notes": "Click-to-filter is standard in analytics tools \u2014 Plausible has it, GA has it. Without it, the dashboard is view-only and users can't answer questions like 'what pages do my US visitors view?' or 'what's my bounce rate from Twitter?'. Implementation: add optional query params (page, referrer, country, browser, device) to the dashboard route, include them in SQL WHERE clauses."
     },
     {
       "id": "BEAM-051",
@@ -926,7 +926,7 @@
       ],
       "priority": 51,
       "passes": true,
-      "notes": "Email digests are a proven retention mechanism — users who don't log in still see value from the product. Cloudflare Workers supports Cron Triggers natively: add [triggers] crons = ['0 9 * * 1'] to wrangler.toml and export a scheduled() handler. Use Resend API (RESEND_API_KEY already deployed as secret). Keep the email simple and fast to scan. The unsubscribe mechanism is legally required (CAN-SPAM)."
+      "notes": "Email digests are a proven retention mechanism \u2014 users who don't log in still see value from the product. Cloudflare Workers supports Cron Triggers natively: add [triggers] crons = ['0 9 * * 1'] to wrangler.toml and export a scheduled() handler. Use Resend API (RESEND_API_KEY already deployed as secret). Keep the email simple and fast to scan. The unsubscribe mechanism is legally required (CAN-SPAM)."
     },
     {
       "id": "BEAM-052",
@@ -944,7 +944,7 @@
       ],
       "priority": 52,
       "passes": true,
-      "notes": "Final deployment and verification story for Phase 5. Every new page (changelog, blog posts) needs to be in sitemap.xml and submitted to IndexNow. Verify the self-tracked analytics are working — this is our live demo for Show HN."
+      "notes": "Final deployment and verification story for Phase 5. Every new page (changelog, blog posts) needs to be in sitemap.xml and submitted to IndexNow. Verify the self-tracked analytics are working \u2014 this is our live demo for Show HN."
     },
     {
       "id": "BEAM-053",
@@ -1017,21 +1017,21 @@
         "Sample data includes: 30 days of pageview data across 8-10 realistic pages, 4-5 referrer sources (Google, Twitter, Hacker News, Reddit, Direct), geographic distribution across 6+ countries, device mix (desktop/mobile/tablet), 3-4 custom events (signup_click, pricing_view, docs_download, contact_form)",
         "Demo dashboard reuses the existing dashboard analytics template/layout so visitors see exactly what they'll get after signup",
         "All interactive features work on the demo: time range selector (Today/7d/30d), click-to-filter by segment, breakdown tables, events section",
-        "Clear banner at top: 'This is a live demo with sample data — Start tracking your own site' with CTA to /signup",
+        "Clear banner at top: 'This is a live demo with sample data \u2014 Start tracking your own site' with CTA to /signup",
         "Add prominent 'Live Demo' link/button on landing page hero and navigation",
         "Demo data is generated deterministically (seeded) so it's consistent across page loads without needing D1 storage",
         "Deploy to production"
       ],
       "priority": 57,
       "passes": true,
-      "notes": "Both Plausible (plausible.io/plausible.io) and Fathom (app.usefathom.com/demo) offer interactive demos. This is the single biggest conversion gap — visitors who can't try the product bounce. Generate sample data in-memory using a seeded PRNG rather than storing demo data in D1. Reuse the existing dashboard HTML template to keep the demo authentic."
+      "notes": "Both Plausible (plausible.io/plausible.io) and Fathom (app.usefathom.com/demo) offer interactive demos. This is the single biggest conversion gap \u2014 visitors who can't try the product bounce. Generate sample data in-memory using a seeded PRNG rather than storing demo data in D1. Reuse the existing dashboard HTML template to keep the demo authentic."
     },
     {
       "id": "BEAM-058",
       "title": "Goals and conversion tracking",
       "description": "As a site owner, I want to define goal pages (like /thank-you or /signup-complete) so I can track conversion rates and see which traffic sources drive the most conversions.",
       "acceptanceCriteria": [
-        "Create D1 migration: goals table with id, site_id, name, match_pattern (TEXT — exact path or prefix with wildcard), created_at",
+        "Create D1 migration: goals table with id, site_id, name, match_pattern (TEXT \u2014 exact path or prefix with wildcard), created_at",
         "GET /dashboard/sites/:id/goals renders a goals management page listing existing goals with conversion stats",
         "POST /dashboard/sites/:id/goals creates a new goal (name + URL pattern, e.g., '/thank-you' or '/checkout/*')",
         "DELETE /dashboard/sites/:id/goals/:goalId removes a goal",
@@ -1044,7 +1044,7 @@
       ],
       "priority": 58,
       "passes": true,
-      "notes": "Goals/conversions are table stakes — both Plausible and Fathom include them. This transforms Beam from 'see traffic' to 'measure outcomes.' The implementation queries existing pageview data (no new collection needed) using the goal's match_pattern against the pageview path column. Use SQL LIKE for prefix matching when pattern ends in *. Conversion rate = (visitors who hit goal page) / (total unique visitors) for the time range."
+      "notes": "Goals/conversions are table stakes \u2014 both Plausible and Fathom include them. This transforms Beam from 'see traffic' to 'measure outcomes.' The implementation queries existing pageview data (no new collection needed) using the goal's match_pattern against the pageview path column. Use SQL LIKE for prefix matching when pattern ends in *. Conversion rate = (visitors who hit goal page) / (total unique visitors) for the time range."
     },
     {
       "id": "BEAM-059",
@@ -1057,12 +1057,12 @@
         "Clicking a channel slice filters the dashboard to that channel (adds channel= query param)",
         "Channel breakdown table below the chart: Channel, Visitors, Pageviews, sorted by visitors descending",
         "Same traffic source visualization on public dashboards",
-        "Add utm_medium-based overrides: utm_medium=email → Email, utm_medium=social → Social, utm_medium=cpc → Paid (new category for future use)",
+        "Add utm_medium-based overrides: utm_medium=email \u2192 Email, utm_medium=social \u2192 Social, utm_medium=cpc \u2192 Paid (new category for future use)",
         "Deploy to production"
       ],
       "priority": 59,
       "passes": true,
-      "notes": "Plausible has automatic channel grouping and it's one of their most-used features. This is a decision-support feature — answers 'where is my traffic coming from?' in a single glance rather than requiring users to scan a raw referrer list. The classification is done at query time (not collection time) so it works retroactively on existing data. Keep the domain-to-channel mapping in a shared utility so it can be reused in insights and API."
+      "notes": "Plausible has automatic channel grouping and it's one of their most-used features. This is a decision-support feature \u2014 answers 'where is my traffic coming from?' in a single glance rather than requiring users to scan a raw referrer list. The classification is done at query time (not collection time) so it works retroactively on existing data. Keep the domain-to-channel mapping in a shared utility so it can be reused in insights and API."
     },
     {
       "id": "BEAM-060",
@@ -1082,7 +1082,7 @@
       ],
       "priority": 60,
       "passes": true,
-      "notes": "Neither Plausible nor Fathom offers traffic anomaly alerts — this is a genuine differentiator. Alert emails are the ultimate retention mechanism: users don't need to remember to check the dashboard when something important happens. Reuse the existing cron infrastructure from BEAM-051. Keep thresholds generous (40% drop, 100% spike) to avoid alert fatigue on small sites with natural variance."
+      "notes": "Neither Plausible nor Fathom offers traffic anomaly alerts \u2014 this is a genuine differentiator. Alert emails are the ultimate retention mechanism: users don't need to remember to check the dashboard when something important happens. Reuse the existing cron infrastructure from BEAM-051. Keep thresholds generous (40% drop, 100% spike) to avoid alert fatigue on small sites with natural variance."
     },
     {
       "id": "BEAM-061",
@@ -1092,7 +1092,7 @@
         "Create D1 migration: ALTER TABLE users ADD COLUMN api_key TEXT",
         "Add 'Generate API Key' button on billing page (Pro users only) that creates a random 32-byte hex API key, stores it hashed in D1, and displays the raw key once",
         "Add 'Revoke API Key' button to disable the current key",
-        "API authentication: Authorization: Bearer <api_key> header — lookup user by hashed key",
+        "API authentication: Authorization: Bearer <api_key> header \u2014 lookup user by hashed key",
         "GET /api/v1/sites returns list of user's sites (id, domain, name)",
         "GET /api/v1/sites/:id/stats?range=7d|30d|today returns JSON: { pageviews, uniqueVisitors, topPages[], topReferrers[], topCountries[], channels{} }",
         "GET /api/v1/sites/:id/events?range=7d returns JSON: { events: [{ name, count, properties{} }] }",
@@ -1103,7 +1103,7 @@
       ],
       "priority": 61,
       "passes": true,
-      "notes": "API access is a standard Pro feature — Plausible charges for it on Business plan, Fathom includes it. Developers are Beam's target audience and they expect programmatic access. Hash the API key before storing (same PBKDF2 from auth or simpler SHA-256 since API keys are high entropy). The API documentation page doubles as SEO content targeting 'analytics API' searches."
+      "notes": "API access is a standard Pro feature \u2014 Plausible charges for it on Business plan, Fathom includes it. Developers are Beam's target audience and they expect programmatic access. Hash the API key before storing (same PBKDF2 from auth or simpler SHA-256 since API keys are high entropy). The API documentation page doubles as SEO content targeting 'analytics API' searches."
     },
     {
       "id": "BEAM-062",
@@ -1116,13 +1116,13 @@
         "Include insights in the weekly email digest (from BEAM-051) as the first section before raw stats",
         "Each insight is a complete sentence with context: 'Traffic from Google increased 45% this week, driving 230 additional visitors' not just 'Google +45%'",
         "Show 'Not enough data yet' message when site has less than 14 days of history",
-        "Insights generated via rule-based analysis of D1 data — no external AI API calls needed",
+        "Insights generated via rule-based analysis of D1 data \u2014 no external AI API calls needed",
         "Insights respect the site's current time range on the dashboard (adapts to Today/7d/30d)",
         "Deploy to production"
       ],
       "priority": 62,
       "passes": true,
-      "notes": "Every analytics tool shows numbers — very few interpret them. Plain-English insights are Beam's opportunity to be the analytics tool that tells you what matters, not just what happened. This aligns with the product thesis: features that answer 'what should I do?' beat passive metric displays. Keep it rule-based (comparison queries, percentage change calculations) — no LLM dependency. The insight generation function should be shared between dashboard rendering and email digest."
+      "notes": "Every analytics tool shows numbers \u2014 very few interpret them. Plain-English insights are Beam's opportunity to be the analytics tool that tells you what matters, not just what happened. This aligns with the product thesis: features that answer 'what should I do?' beat passive metric displays. Keep it rule-based (comparison queries, percentage change calculations) \u2014 no LLM dependency. The insight generation function should be shared between dashboard rendering and email digest."
     },
     {
       "id": "BEAM-063",
@@ -1132,14 +1132,14 @@
         "Update beam-js/package.json: set name to 'beam-analytics' (or 'beam-privacy-analytics' if taken), version 1.0.0, add description, keywords (analytics, privacy, gdpr, cookieless, web-analytics, tracking, lightweight), repository, homepage, license fields",
         "Add TypeScript type declarations (beam-js/index.d.ts) declaring the window.beam.track() method and script attributes",
         "Add beam-js/README.md npm badge, install instructions, and quick-start code for npm usage: import or script tag",
-        "Attempt npm publish — if NPM_TOKEN is available in .env, publish the package; if not, log blocker with exact command for Steve to run",
+        "Attempt npm publish \u2014 if NPM_TOKEN is available in .env, publish the package; if not, log blocker with exact command for Steve to run",
         "Verify the package is discoverable by searching npm for the package name",
         "Update landing page and /about to mention npm availability: 'Also available on npm'",
         "Deploy to production"
       ],
       "priority": 63,
       "passes": true,
-      "notes": "npm has 17M+ developers searching for packages. 'analytics' is a high-traffic search term. Even a small package creates discoverability — developers browsing related packages see beam-analytics in results. The beam-js/ directory already exists from BEAM-045; this story polishes it for npm and attempts publication. TypeScript types are essential for developer credibility."
+      "notes": "npm has 17M+ developers searching for packages. 'analytics' is a high-traffic search term. Even a small package creates discoverability \u2014 developers browsing related packages see beam-analytics in results. The beam-js/ directory already exists from BEAM-045; this story polishes it for npm and attempts publication. TypeScript types are essential for developer credibility."
     },
     {
       "id": "BEAM-064",
@@ -1151,7 +1151,7 @@
         "Re-submit all URLs (including /demo, /docs/api, and any new pages) to IndexNow API",
         "Run typecheck and smoke tests to confirm no regressions",
         "Send Steve an escalation email via Resend with subject 'Beam: 3 actions needed to get first users' containing: (1) GSC verification instructions (5 min, copy-paste commands), (2) Show HN post is ready in launch/show-hn.md (just needs posting), (3) Top 5 directory submissions from submissions.md ranked by priority (link to file)",
-        "Include a note that the product now has an interactive demo, goals, API, and insights — it's ready for real users",
+        "Include a note that the product now has an interactive demo, goals, API, and insights \u2014 it's ready for real users",
         "Log deployment version and all verified endpoints in progress.txt"
       ],
       "priority": 64,
@@ -1191,7 +1191,7 @@
       ],
       "priority": 66,
       "passes": true,
-      "notes": "Framework-specific pages are high-intent SEO targets. Someone searching 'nextjs analytics privacy' is actively looking for a solution. These pages also serve as documentation for framework users. Keep installation code realistic and tested conceptually — the tracking script is just a script tag so framework integration is mostly about where to put it."
+      "notes": "Framework-specific pages are high-intent SEO targets. Someone searching 'nextjs analytics privacy' is actively looking for a solution. These pages also serve as documentation for framework users. Keep installation code realistic and tested conceptually \u2014 the tracking script is just a script tag so framework integration is mostly about where to put it."
     },
     {
       "id": "BEAM-067",
@@ -1209,7 +1209,7 @@
       ],
       "priority": 67,
       "passes": true,
-      "notes": "Rybbit is a fast-growing new competitor (11K GitHub stars, launched 2025). People searching 'rybbit alternative' or 'rybbit vs' are in buying mode. Be honest — Rybbit has features Beam doesn't (session replay, funnels). Position Beam on price, simplicity, and managed hosting."
+      "notes": "Rybbit is a fast-growing new competitor (11K GitHub stars, launched 2025). People searching 'rybbit alternative' or 'rybbit vs' are in buying mode. Be honest \u2014 Rybbit has features Beam doesn't (session replay, funnels). Position Beam on price, simplicity, and managed hosting."
     },
     {
       "id": "BEAM-068",
@@ -1225,7 +1225,7 @@
       ],
       "priority": 68,
       "passes": true,
-      "notes": "Awesome-lists are a proven distribution channel for developer tools. Each merged PR creates a permanent backlink and puts Beam in front of developers browsing for analytics solutions. The agent can do this entirely via GITHUB_TOKEN — no CAPTCHA or human action required. Expect some PRs to be rejected; that's fine."
+      "notes": "Awesome-lists are a proven distribution channel for developer tools. Each merged PR creates a permanent backlink and puts Beam in front of developers browsing for analytics solutions. The agent can do this entirely via GITHUB_TOKEN \u2014 no CAPTCHA or human action required. Expect some PRs to be rejected; that's fine."
     },
     {
       "id": "BEAM-069",
@@ -1251,32 +1251,32 @@
         "Create launch/community-posts/ directory with individual markdown files for each platform",
         "Create posts for: r/webdev (technical angle), r/privacy (privacy angle), r/SaaS (indie founder angle), IndieHackers (building in public story), Dev.to (technical tutorial format)",
         "Each file includes: platform name, submission URL, suggested title, full post body ready to copy-paste, posting tips (best time, community rules to follow)",
-        "Posts are tailored to each community's tone and norms — not the same text everywhere",
+        "Posts are tailored to each community's tone and norms \u2014 not the same text everywhere",
         "Include the Show HN post from launch/show-hn.md in the community-posts directory for completeness",
         "Add a README.md in launch/community-posts/ with a checklist Steve can follow: post order, estimated time per post, what to monitor",
         "Send Steve an email via Resend pointing to the launch kit with a clear call to action"
       ],
       "priority": 70,
       "passes": true,
-      "notes": "Steve has not posted to any community despite multiple emails. The barrier may be friction — writing posts takes time and energy. Remove ALL friction: Steve opens a file, copies the text, pastes it into the platform, posts. 2-3 minutes per platform. The email should be short and direct: 'I wrote 5 posts for you. Pick r/webdev first. Open the file, copy, paste, post.'"
+      "notes": "Steve has not posted to any community despite multiple emails. The barrier may be friction \u2014 writing posts takes time and energy. Remove ALL friction: Steve opens a file, copies the text, pastes it into the platform, posts. 2-3 minutes per platform. The email should be short and direct: 'I wrote 5 posts for you. Pick r/webdev first. Open the file, copy, paste, post.'"
     },
     {
       "id": "BEAM-071",
       "title": "Landing page demo-first redesign",
       "description": "As a first-time visitor, I want to see the product in action before being asked to sign up so I can evaluate whether it meets my needs.",
       "acceptanceCriteria": [
-        "Restructure landing page sections: Hero → How It Works (3 steps) → Interactive Demo Preview → Feature highlights → Pricing → FAQ → Footer",
+        "Restructure landing page sections: Hero \u2192 How It Works (3 steps) \u2192 Interactive Demo Preview \u2192 Feature highlights \u2192 Pricing \u2192 FAQ \u2192 Footer",
         "Add a 'See it in action' section between how-it-works and pricing that embeds a mini-dashboard screenshot or links prominently to /demo with compelling CTA text",
         "Demo CTA button should be visually distinct (different color from signup CTA) and say 'Try the live demo' or 'See real analytics data'",
         "Add a 'Built with' credibility section: Cloudflare Workers logo/text, TypeScript, D1, open-source tracking script",
         "Add a stats/credibility bar: '65+ features', 'Sub-2KB script', '$0 infrastructure cost', 'GDPR compliant'",
-        "Preserve all existing content — reorganize, don't delete",
+        "Preserve all existing content \u2014 reorganize, don't delete",
         "Mobile responsive at 375px",
         "Deploy to production"
       ],
       "priority": 71,
       "passes": true,
-      "notes": "The current landing page follows a standard SaaS layout. The interactive demo is Beam's strongest conversion asset but it's not visible from the landing page without scrolling or knowing about /demo. When traffic does arrive (Show HN, directories), the landing page needs to convert — showing the product is more persuasive than describing it."
+      "notes": "The current landing page follows a standard SaaS layout. The interactive demo is Beam's strongest conversion asset but it's not visible from the landing page without scrolling or knowing about /demo. When traffic does arrive (Show HN, directories), the landing page needs to convert \u2014 showing the product is more persuasive than describing it."
     },
     {
       "id": "BEAM-072",
@@ -1291,7 +1291,7 @@
       ],
       "priority": 72,
       "passes": true,
-      "notes": "Beam already tracks its own pageviews (BEAM-043 dogfooding). This extends dogfooding to conversion events. When traffic arrives, Steve can see exactly how many visitors clicked the CTA, started signup, and completed signup — real funnel data. This also demonstrates custom event tracking to visitors viewing the public dashboard."
+      "notes": "Beam already tracks its own pageviews (BEAM-043 dogfooding). This extends dogfooding to conversion events. When traffic arrives, Steve can see exactly how many visitors clicked the CTA, started signup, and completed signup \u2014 real funnel data. This also demonstrates custom event tracking to visitors viewing the public dashboard."
     },
     {
       "id": "BEAM-073",
@@ -1307,7 +1307,7 @@
       ],
       "priority": 73,
       "passes": true,
-      "notes": "This is the third escalation email. The tone should be direct and action-focused, not apologetic. The community launch kit removes all friction — Steve's only job is to copy-paste. Also flag the beamanalytics.io name collision as a branding issue that may need addressing before major marketing pushes."
+      "notes": "This is the third escalation email. The tone should be direct and action-focused, not apologetic. The community launch kit removes all friction \u2014 Steve's only job is to copy-paste. Also flag the beamanalytics.io name collision as a branding issue that may need addressing before major marketing pushes."
     },
     {
       "id": "BEAM-074",
@@ -1351,7 +1351,7 @@
         "Create a shared base-URL helper or env-backed configuration (for example `PUBLIC_BASE_URL`) that defaults to `https://beam.keylightdigital.dev`",
         "Update public route handlers to derive canonical URLs, OG URLs, sitemap URLs, docs links, and tracking snippet host output from that shared configuration instead of hardcoded host strings",
         "Update any public email/template rendering paths touched by the app so user-visible links also use the shared base URL helper",
-        "Keep behavior unchanged in production today — the goal is centralization, not yet switching domains",
+        "Keep behavior unchanged in production today \u2014 the goal is centralization, not yet switching domains",
         "Confirm there are no remaining hardcoded `https://beam.keylightdigital.dev` strings in runtime app code except deliberate tests, comments, or legacy/audit docs",
         "Deploy to production"
       ],
@@ -1561,7 +1561,7 @@
       ],
       "priority": 88,
       "passes": true,
-      "notes": "The Cloudflare API token returned 'Invalid API Token' (code 1000) on 2026-04-04. Wrangler OAuth token expired at 05:11 UTC but has a refresh token that may auto-renew. This is the #1 blocker — if deploys don't work, nothing else matters."
+      "notes": "The Cloudflare API token returned 'Invalid API Token' (code 1000) on 2026-04-04. Wrangler OAuth token expired at 05:11 UTC but has a refresh token that may auto-renew. This is the #1 blocker \u2014 if deploys don't work, nothing else matters."
     },
     {
       "id": "BEAM-089",
@@ -1638,7 +1638,7 @@
         "Send one email via Resend API that clearly states: 0 external users, 0 revenue, 0 Google indexing after 87 stories",
         "Include exactly 3 actions Steve can complete in 30 minutes total: (1) Post Show HN using the ready-made copy at launch/community-posts/show-hn.md, (2) Submit to 3 directories using ready-made guides, (3) Run npm publish for beam-analytics",
         "Include copy-paste-ready text for the Show HN post directly in the email body so Steve doesn't even need to open a file",
-        "Frame this as a survival issue not a task list — the product dies without distribution",
+        "Frame this as a survival issue not a task list \u2014 the product dies without distribution",
         "Include a concrete offer: if Steve does these 3 things, Ralph will handle everything else",
         "Log the escalation in decisions.log"
       ],
@@ -1937,10 +1937,10 @@
     {
       "id": "BEAM-112",
       "title": "Robots.txt and meta indexing audit",
-      "description": "As Beam's operator, I need to verify nothing is blocking search engine crawling — check robots.txt, X-Robots-Tag headers, meta robots tags, and canonical tag correctness across all public routes so the 42-URL sitemap can actually be crawled.",
+      "description": "As Beam's operator, I need to verify nothing is blocking search engine crawling \u2014 check robots.txt, X-Robots-Tag headers, meta robots tags, and canonical tag correctness across all public routes so the 42-URL sitemap can actually be crawled.",
       "acceptanceCriteria": [
         "Fetch /robots.txt from production and verify it allows all user-agents with no Disallow rules blocking public pages",
-        "Spot-check 5+ public HTML routes for meta robots noindex/nofollow tags — none should be present on public marketing pages",
+        "Spot-check 5+ public HTML routes for meta robots noindex/nofollow tags \u2014 none should be present on public marketing pages",
         "Verify no X-Robots-Tag response headers are set to noindex on public routes",
         "Verify canonical tags on 5+ public pages point to the correct production URL (not localhost or wrong domain)",
         "Fix any issues found and redeploy",
@@ -1972,7 +1972,7 @@
         "Create a technical blog post in beam-js/articles/ covering: Cloudflare Workers architecture, D1 for analytics storage, cookie-free visitor counting approach, sub-2KB tracking script design",
         "Include Beam signup/demo CTAs naturally within the content",
         "Create a Dev.to-ready markdown file at launch/community-posts/devto-article.md with frontmatter (title, tags, canonical_url pointing to the blog post on Beam)",
-        "Keep tone technical and honest — this is an engineering post, not marketing",
+        "Keep tone technical and honest \u2014 this is an engineering post, not marketing",
         "Update beam-js/README.md to link to the article"
       ],
       "priority": 114,
@@ -1982,11 +1982,11 @@
     {
       "id": "BEAM-115",
       "title": "Create an embeddable analytics widget for public dashboards",
-      "description": "As a Beam user, I want an embeddable iframe widget I can paste into my website's footer or about page that shows live visitor count and top pages, so visitors to my site see Beam branding and click through — making every user a distribution channel.",
+      "description": "As a Beam user, I want an embeddable iframe widget I can paste into my website's footer or about page that shows live visitor count and top pages, so visitors to my site see Beam branding and click through \u2014 making every user a distribution channel.",
       "acceptanceCriteria": [
         "Add GET /embed/:siteId route serving a compact, styled HTML widget (under 50KB) showing: current visitors, today's pageviews, and top 3 pages",
         "Widget includes a 'Powered by Beam' link pointing to the Beam landing page with a utm_source=embed parameter",
-        "Widget respects existing public dashboard visibility settings — only renders for sites with public dashboards enabled",
+        "Widget respects existing public dashboard visibility settings \u2014 only renders for sites with public dashboards enabled",
         "Widget auto-refreshes every 60 seconds via script",
         "Add embed code snippet to the dashboard site settings page so users can copy-paste it",
         "Add smoke test coverage for the embed route"
@@ -2025,7 +2025,7 @@
       ],
       "priority": 117,
       "passes": true,
-      "notes": "Savings calculators convert well because they give visitors a personalized reason to act. Beam's $5/mo with 50K free tier is genuinely cheaper than every paid competitor — make this obvious."
+      "notes": "Savings calculators convert well because they give visitors a personalized reason to act. Beam's $5/mo with 50K free tier is genuinely cheaper than every paid competitor \u2014 make this obvious."
     },
     {
       "id": "BEAM-118",
@@ -2046,7 +2046,7 @@
     {
       "id": "BEAM-119",
       "title": "Build a Hacker News-ready live architecture page",
-      "description": "As a developer evaluating Beam, I want to see the full technical architecture — how tracking works, how data flows through the edge, how privacy is maintained — so I can trust the product and share it with my engineering team.",
+      "description": "As a developer evaluating Beam, I want to see the full technical architecture \u2014 how tracking works, how data flows through the edge, how privacy is maintained \u2014 so I can trust the product and share it with my engineering team.",
       "acceptanceCriteria": [
         "Add GET /how-it-works route with a detailed technical architecture page",
         "Cover: tracking script lifecycle, edge collection (Workers), D1 storage, unique visitor hashing approach, no-cookie design, performance characteristics",
@@ -2402,7 +2402,7 @@
         "Check Cloudflare zone settings via API for any Super Bot Fight Mode, WAF, or security rules that could challenge Googlebot (document findings even if API permissions are limited)",
         "Re-submit sitemap to Google via ping endpoint (https://www.google.com/ping?sitemap=URL) and to Bing via IndexNow",
         "Enable GitHub Pages on the scobb/beam.js repo with a docs/ directory containing an index.html that links to beam.keylightdigital.dev with proper anchor text",
-        "The GitHub Pages site must include: Beam description, installation instructions, link to live demo, link to signup, link to documentation — all pointing to beam.keylightdigital.dev",
+        "The GitHub Pages site must include: Beam description, installation instructions, link to live demo, link to signup, link to documentation \u2014 all pointing to beam.keylightdigital.dev",
         "Verify the GitHub Pages site is accessible at the published URL",
         "Document all findings in progress.txt with specific pass/fail for each crawlability check"
       ],
@@ -2444,7 +2444,7 @@
     {
       "id": "BEAM-145",
       "title": "Steve's zero-decision 30-minute launch playbook",
-      "description": "As Steve, I need a single document that walks me through launching Beam in exactly 30 minutes with zero decisions required — just copy-paste actions — because prior escalation emails with task lists have not been acted on.",
+      "description": "As Steve, I need a single document that walks me through launching Beam in exactly 30 minutes with zero decisions required \u2014 just copy-paste actions \u2014 because prior escalation emails with task lists have not been acted on.",
       "acceptanceCriteria": [
         "Create launch/30-minute-launch.md with 5-6 numbered steps, each with: exact URL to open, exact text to paste, expected time, and a checkbox",
         "Step 1: Post Show HN (include full title + body text inline, URL to news.ycombinator.com/submit)",
@@ -2458,7 +2458,7 @@
       ],
       "priority": 150,
       "passes": true,
-      "notes": "16 strategy cycles have produced escalation emails, task lists, and launch kits that Steve has not acted on. The hypothesis is that decision fatigue and scattered materials are the barrier. This document eliminates ALL decisions — Steve just opens it and follows numbered steps. If this doesn't work, the distribution problem requires a fundamentally different approach (e.g., finding a co-founder, hiring, or pivoting to open-source)."
+      "notes": "16 strategy cycles have produced escalation emails, task lists, and launch kits that Steve has not acted on. The hypothesis is that decision fatigue and scattered materials are the barrier. This document eliminates ALL decisions \u2014 Steve just opens it and follows numbered steps. If this doesn't work, the distribution problem requires a fundamentally different approach (e.g., finding a co-founder, hiring, or pivoting to open-source)."
     },
     {
       "id": "BEAM-146",
@@ -2468,13 +2468,13 @@
         "Deploy all Phase 17 changes to production (or verify already deployed if no Worker changes)",
         "Verify production HTTP 200 for / and /js/beam.js",
         "Verify the GitHub Pages site is live and accessible",
-        "Send Steve an email via Resend with subject 'Beam: 141 stories done, 0 users — here is your 30-minute launch playbook'",
+        "Send Steve an email via Resend with subject 'Beam: 141 stories done, 0 users \u2014 here is your 30-minute launch playbook'",
         "Email body includes: honest traction assessment (0 real users after 141 stories), what the product CAN do (compete on features with $9-15/mo tools at $5/mo), what the agent CANNOT do (post to HN, Reddit, directories), a direct link to launch/30-minute-launch.md, and the statement that no further feature development will help without distribution",
         "Append deployment verification and strategy summary to progress.txt"
       ],
       "priority": 151,
       "passes": true,
-      "notes": "This is an honest reckoning. The agent has built a competitive product with 141 stories and spent $0 of the $100 budget. But zero users means the product is invisible. The email should be direct, not pleading — it should frame the situation as a business decision Steve needs to make."
+      "notes": "This is an honest reckoning. The agent has built a competitive product with 141 stories and spent $0 of the $100 budget. But zero users means the product is invisible. The email should be direct, not pleading \u2014 it should frame the situation as a business decision Steve needs to make."
     },
     {
       "id": "BEAM-147",
@@ -2499,7 +2499,7 @@
       ],
       "priority": 142,
       "passes": true,
-      "notes": "beam-privacy.com was purchased via Cloudflare Registrar ($11.56). DNS is already in Cloudflare. This is a comprehensive migration — touch every file that references the old domain. Use find/grep to ensure nothing is missed. The Stripe webhook must be recreated (use the API, the token has webhook write permission). Keep beam.keylightdigital.dev alive as a 301 redirect for any existing backlinks."
+      "notes": "beam-privacy.com was purchased via Cloudflare Registrar ($11.56). DNS is already in Cloudflare. This is a comprehensive migration \u2014 touch every file that references the old domain. Use find/grep to ensure nothing is missed. The Stripe webhook must be recreated (use the API, the token has webhook write permission). Keep beam.keylightdigital.dev alive as a 301 redirect for any existing backlinks."
     },
     {
       "id": "BEAM-148",
@@ -2512,7 +2512,7 @@
         "Audit JWT implementation: verify signature validation, expiry enforcement, algorithm pinning (no alg=none)",
         "Audit password hashing: verify PBKDF2 parameters (iterations >= 100K, unique salt per user, correct key derivation)",
         "Audit cookie settings: HttpOnly, Secure, SameSite=Lax on all auth cookies",
-        "Check CORS policy on /api/collect — should accept cross-origin POST but not expose sensitive headers",
+        "Check CORS policy on /api/collect \u2014 should accept cross-origin POST but not expose sensitive headers",
         "Check rate limiting on auth endpoints (login, signup, password reset) to prevent brute force",
         "Check that /api/collect validates and sanitizes all fields before D1 insert (path length, referrer length, etc.)",
         "Check that Stripe webhook endpoint verifies the webhook signature before processing events",
@@ -2523,7 +2523,7 @@
       ],
       "priority": 143,
       "passes": true,
-      "notes": "This is a read-heavy audit story. Read every route file and middleware. Check OWASP Top 10 categories. Be thorough — this is pre-launch hardening. Do not skip findings because the code looks correct at a glance; verify with the actual implementation."
+      "notes": "This is a read-heavy audit story. Read every route file and middleware. Check OWASP Top 10 categories. Be thorough \u2014 this is pre-launch hardening. Do not skip findings because the code looks correct at a glance; verify with the actual implementation."
     },
     {
       "id": "BEAM-149",
@@ -2542,20 +2542,20 @@
       ],
       "priority": 146,
       "passes": true,
-      "notes": "Think of this like a shortest-path analysis for UX. Each click, keystroke, page navigation, or context switch (leaving Beam to do something external) is a cost. Lower cost = higher conversion. The Playwright screenshots serve as evidence and help Steve see what users see. Focus on the signup-to-first-pageview journey most heavily — thats where most users will drop off."
+      "notes": "Think of this like a shortest-path analysis for UX. Each click, keystroke, page navigation, or context switch (leaving Beam to do something external) is a cost. Lower cost = higher conversion. The Playwright screenshots serve as evidence and help Steve see what users see. Focus on the signup-to-first-pageview journey most heavily \u2014 thats where most users will drop off."
     },
     {
       "id": "BEAM-150",
       "title": "Abuse-resistant cost controls on collect endpoint",
       "description": "As Steve, I need the tracking endpoint to be resilient against abuse that could inflate Cloudflare KV/D1 costs, even from unauthenticated or rate-limited traffic.",
       "acceptanceCriteria": [
-        "Rate limit check must NOT write to KV on every request — use a read-then-write pattern: only write on first request in a window or when incrementing past a threshold",
+        "Rate limit check must NOT write to KV on every request \u2014 use a read-then-write pattern: only write on first request in a window or when incrementing past a threshold",
         "Consider replacing per-IP KV rate limiting with Cloudflare built-in rate limiting rules (free tier includes basic rules) or a Durable Object counter",
         "Add a global request counter with a hard daily cap on total collect requests (e.g., 500K/day) that returns 503 without any KV/D1 operations when exceeded",
         "Rate-limited requests (429) must not trigger any KV writes, D1 writes, or active-visitor heartbeats",
         "Add origin/referer validation: collect endpoint should only accept requests where the referrer domain matches the registered site domain (with fallback for privacy browsers that strip referrer)",
         "Add an account-level daily pageview cap for free users (e.g., 500/day or 10K/month across all sites) that triggers early, before monthly limit check",
-        "Evaluate moving rate limit and active-visitor tracking out of KV entirely — options: in-memory (per-isolate, lossy but free), Cache API (free), or Durable Objects (usage-based but cheaper per-write than KV)",
+        "Evaluate moving rate limit and active-visitor tracking out of KV entirely \u2014 options: in-memory (per-isolate, lossy but free), Cache API (free), or Durable Objects (usage-based but cheaper per-write than KV)",
         "Document the cost ceiling: what is the maximum possible monthly cost given these controls, assuming worst-case adversarial traffic?",
         "Typecheck passes after changes",
         "Deploy to production"
@@ -2592,7 +2592,7 @@
       "acceptanceCriteria": [
         "After the tracking snippet is shown in /dashboard/setup, add a status card below it that auto-polls /dashboard/sites/:id/installation-status every 5 seconds via client-side JavaScript fetch()",
         "Status card shows animated 'Waiting for your first pageview...' state with a subtle spinner or pulsing dot",
-        "When the installation-status endpoint reports data received, transition to a '✓ First pageview received!' success state with a link to the analytics page",
+        "When the installation-status endpoint reports data received, transition to a '\u2713 First pageview received!' success state with a link to the analytics page",
         "Analytics page empty state (when site has zero pageviews across all time ranges) also shows an auto-polling 'Waiting for data...' card instead of a static 'No data yet' message",
         "Polling stops automatically after 5 minutes (60 polls) to avoid unnecessary requests on abandoned tabs",
         "Polling stops immediately when the first pageview is detected",
@@ -2601,7 +2601,7 @@
       ],
       "priority": 146,
       "passes": true,
-      "notes": "This is the #1 UX friction point from the BEAM-149 audit (Journey 2 — Critical). The installation-status endpoint already exists. The fix is purely client-side: add a small inline <script> block that polls and updates the DOM. Keep it simple — no WebSocket, no framework, just fetch() + setInterval()."
+      "notes": "This is the #1 UX friction point from the BEAM-149 audit (Journey 2 \u2014 Critical). The installation-status endpoint already exists. The fix is purely client-side: add a small inline <script> block that polls and updates the DOM. Keep it simple \u2014 no WebSocket, no framework, just fetch() + setInterval()."
     },
     {
       "id": "BEAM-153",
@@ -2614,7 +2614,7 @@
         "Update PR #26 (irazasyed/awesome-cloudflare): replace beam.keylightdigital.com with beam-privacy.com in README diff and PR body, update stale pricing",
         "All 4 PRs use consistent description: beam-privacy.com, 50K free tier, $5/mo Pro, current feature highlights",
         "PR diffs are clean and mergeable (rebase against upstream main if needed)",
-        "Verify the 2 newer PRs (#30 paulaime, #61 iAmCorey) are already correct — no changes needed"
+        "Verify the 2 newer PRs (#30 paulaime, #61 iAmCorey) are already correct \u2014 no changes needed"
       ],
       "priority": 147,
       "passes": true,
@@ -2663,12 +2663,12 @@
         "Cookie max-age matches JWT expiry (7 days default, 30 days when 'Keep me logged in' is checked)",
         "Login API endpoint (/api/auth/login) accepts a 'remember' field from form body",
         "Signup flow continues to use default 7-day expiry (no change)",
-        "Billing page (/dashboard/billing) shows 'Cancel anytime — no long-term commitment' text near the Upgrade CTA",
+        "Billing page (/dashboard/billing) shows 'Cancel anytime \u2014 no long-term commitment' text near the Upgrade CTA",
         "Typecheck passes, existing tests pass"
       ],
       "priority": 150,
       "passes": true,
-      "notes": "UX audit friction points #2 (Journey 5 — Medium) and #4 (Journey 4). The JWT extension is a small change to the login handler. The billing copy is a one-line HTML addition. Both reduce friction for the activation and conversion funnels."
+      "notes": "UX audit friction points #2 (Journey 5 \u2014 Medium) and #4 (Journey 4). The JWT extension is a small change to the login handler. The billing copy is a one-line HTML addition. Both reduce friction for the activation and conversion funnels."
     },
     {
       "id": "BEAM-157",
@@ -2678,13 +2678,13 @@
         "Deploy latest code via deploy.sh (typecheck + migrations + wrangler deploy)",
         "Verify beam-privacy.com returns HTTP 200 for /, /js/beam.js, /demo, /signup, /login",
         "Verify beam.keylightdigital.dev 301-redirects to beam-privacy.com",
-        "Send email to steve@keylightdigital.dev via Resend API with subject 'Beam hardening complete — your 30-minute launch playbook is ready'",
+        "Send email to steve@keylightdigital.dev via Resend API with subject 'Beam hardening complete \u2014 your 30-minute launch playbook is ready'",
         "Email body includes: (1) confirmation all 5 hardening items are done with results, (2) current product state (features, security, monitoring), (3) direct reference to launch/30-minute-launch.md, (4) updated awesome-list PR status, (5) what the agent cannot do (post to HN/Reddit, submit to directories, publish to npm)",
         "Log deployment verification results"
       ],
       "priority": 151,
       "passes": true,
-      "notes": "Steve's April 4 directive was: domain migration, security review, cost controls, Sentry, UX audit — THEN distribution. All 5 are now complete. This email is the handoff: hardening is done, the product is ready, Steve needs to execute the 30-minute launch playbook. Send from ralph@keylightdigital.dev (verified Resend domain)."
+      "notes": "Steve's April 4 directive was: domain migration, security review, cost controls, Sentry, UX audit \u2014 THEN distribution. All 5 are now complete. This email is the handoff: hardening is done, the product is ready, Steve needs to execute the 30-minute launch playbook. Send from ralph@keylightdigital.dev (verified Resend domain)."
     },
     {
       "id": "BEAM-158",
@@ -2702,7 +2702,7 @@
       ],
       "priority": 152,
       "passes": true,
-      "notes": "beamanalytics.io shutdown confirmed September 1, 2026 with data export available. This is Beam's highest-ROI content investment right now — directly targets users actively searching for a replacement. Follow existing /migrate/* pattern."
+      "notes": "beamanalytics.io shutdown confirmed September 1, 2026 with data export available. This is Beam's highest-ROI content investment right now \u2014 directly targets users actively searching for a replacement. Follow existing /migrate/* pattern."
     },
     {
       "id": "BEAM-159",
@@ -2718,7 +2718,7 @@
       ],
       "priority": 153,
       "passes": true,
-      "notes": "Target high-intent search queries: 'beam analytics shutting down', 'beam analytics alternative 2026', 'beamanalytics.io migration'. Tone must be respectful and genuinely helpful — not gloating. Include Beam as one option among several."
+      "notes": "Target high-intent search queries: 'beam analytics shutting down', 'beam analytics alternative 2026', 'beamanalytics.io migration'. Tone must be respectful and genuinely helpful \u2014 not gloating. Include Beam as one option among several."
     },
     {
       "id": "BEAM-160",
@@ -2730,11 +2730,11 @@
         "Update launch/30-minute-launch.md Show HN body to include shutdown context",
         "Keep tone factual and helpful, not opportunistic",
         "All templates still reference beam-privacy.com (not old domains)",
-        "No code changes needed — documentation/template updates only"
+        "No code changes needed \u2014 documentation/template updates only"
       ],
       "priority": 154,
       "passes": true,
-      "notes": "The beamanalytics.io shutdown gives Steve a concrete reason to post NOW vs 'just another analytics tool'. The shutdown is confirmed for September 1, 2026 — mention this as timely context, not the main pitch. Beam should be positioned as one good option, with the HN/Reddit community angle being the technical architecture story."
+      "notes": "The beamanalytics.io shutdown gives Steve a concrete reason to post NOW vs 'just another analytics tool'. The shutdown is confirmed for September 1, 2026 \u2014 mention this as timely context, not the main pitch. Beam should be positioned as one good option, with the HN/Reddit community angle being the technical architecture story."
     },
     {
       "id": "BEAM-161",
@@ -2764,7 +2764,7 @@
       ],
       "priority": 156,
       "passes": true,
-      "notes": "The CF API token (cfat_*) works for wrangler deploy but fails on D1 remote queries with code 7403. Wrangler OAuth may use a different auth path. The 'beam privacy' branding concern is strategic — when people search 'beam privacy', they find a cryptocurrency project, not our analytics tool. Steve should be aware for domain/branding strategy."
+      "notes": "The CF API token (cfat_*) works for wrangler deploy but fails on D1 remote queries with code 7403. Wrangler OAuth may use a different auth path. The 'beam privacy' branding concern is strategic \u2014 when people search 'beam privacy', they find a cryptocurrency project, not our analytics tool. Steve should be aware for domain/branding strategy."
     },
     {
       "id": "BEAM-163",
@@ -2775,7 +2775,7 @@
         "Verify beam-privacy.com returns HTTP 200 for /, /js/beam.js, /migrate/beam-analytics, and new blog post",
         "Verify new URLs appear in sitemap.xml",
         "Run npm run ping to submit updated sitemap to IndexNow",
-        "Send email to steve@keylightdigital.dev via Resend API with: (1) beamanalytics.io shutdown confirmed Sep 1 2026 — 5-month window, (2) migration guide and blog post now live, (3) community post templates updated with shutdown angle, (4) the 30-minute launch playbook is ready and timely, (5) CF token fix needed for D1 queries",
+        "Send email to steve@keylightdigital.dev via Resend API with: (1) beamanalytics.io shutdown confirmed Sep 1 2026 \u2014 5-month window, (2) migration guide and blog post now live, (3) community post templates updated with shutdown angle, (4) the 30-minute launch playbook is ready and timely, (5) CF token fix needed for D1 queries",
         "Run typecheck and smoke tests before deploy"
       ],
       "priority": 157,
@@ -2803,7 +2803,7 @@
       "title": "Submit to open-source and SaaS directories via GitHub PRs",
       "description": "As Ralph, I need to submit beam-privacy.com to open-source directory lists and SaaS directories that accept GitHub PR submissions, because each merged PR creates a permanent high-authority backlink and a discovery channel.",
       "acceptanceCriteria": [
-        "Submit to btw-so/open-source-alternatives (GitHub PR) — add Beam under Analytics category",
+        "Submit to btw-so/open-source-alternatives (GitHub PR) \u2014 add Beam under Analytics category",
         "Submit to mahseema/awesome-saas-directories if applicable, or identify 2 more curated lists that accept analytics tool PRs",
         "Log openalternative.co/submit as a Steve manual action item (web form required) in submissions.md",
         "Update submissions.md with all new submission URLs, statuses, and dates",
@@ -2811,7 +2811,7 @@
       ],
       "priority": 159,
       "passes": true,
-      "notes": "Focus on actively maintained lists (last push within 6 months). beam.js is open source (MIT) so it qualifies for open-source directories. The full product is SaaS so it also qualifies for SaaS directories. Prioritize high-star repos for maximum backlink value. openalternative.co has 5.7K stars and lists analytics alternatives but requires a web form — flag for Steve."
+      "notes": "Focus on actively maintained lists (last push within 6 months). beam.js is open source (MIT) so it qualifies for open-source directories. The full product is SaaS so it also qualifies for SaaS directories. Prioritize high-star repos for maximum backlink value. openalternative.co has 5.7K stars and lists analytics alternatives but requires a web form \u2014 flag for Steve."
     },
     {
       "id": "BEAM-166",
@@ -2819,14 +2819,14 @@
       "description": "As Ralph, I need to create a GitHub Actions workflow that publishes beam.js to npm when a version tag is pushed, because NPM_TOKEN is not available for direct publish and this reduces Steve's action to adding one secret and pushing one tag.",
       "acceptanceCriteria": [
         "Create .github/workflows/publish.yml in scobb/beam.js repo that triggers on version tag push (v*.*.*)",
-        "Workflow: checkout → setup Node 20 → npm publish using NPM_TOKEN secret",
+        "Workflow: checkout \u2192 setup Node 20 \u2192 npm publish using NPM_TOKEN secret",
         "Include npm pack --dry-run as a validation step before publish",
         "Update beam-js/PUBLISHING.md with simplified instructions: (1) add NPM_TOKEN repo secret, (2) git tag v1.0.1, (3) git push --tags",
         "Workflow file committed to scobb/beam.js main branch via GitHub API"
       ],
       "priority": 160,
       "passes": true,
-      "notes": "NPM_TOKEN is not in .env, so the agent cannot publish directly. This workflow reduces Steve's npm publish action from 'install npm, login, configure, publish' to 'add one secret, push one tag'. npm has 17M+ developers searching for packages — this is a real discovery channel."
+      "notes": "NPM_TOKEN is not in .env, so the agent cannot publish directly. This workflow reduces Steve's npm publish action from 'install npm, login, configure, publish' to 'add one secret, push one tag'. npm has 17M+ developers searching for packages \u2014 this is a real discovery channel."
     },
     {
       "id": "BEAM-167",
@@ -2834,8 +2834,8 @@
       "description": "As Ralph, I need to add 2-3 SEO-targeted pages to the scobb.github.io/beam.js GitHub Pages site targeting high-intent search terms, because GitHub Pages has high domain authority and will be indexed by Google while beam-privacy.com has zero indexing.",
       "acceptanceCriteria": [
         "Add at least 2 new HTML pages to scobb/beam.js docs/ directory alongside existing index.html",
-        "Page 1: 'Privacy Analytics Comparison 2026' — comparing Beam vs Plausible vs Fathom vs Umami vs Rybbit with honest positioning",
-        "Page 2: 'Cookie-Free Analytics Setup Guide' — practical guide with code examples linking to beam-privacy.com/signup",
+        "Page 1: 'Privacy Analytics Comparison 2026' \u2014 comparing Beam vs Plausible vs Fathom vs Umami vs Rybbit with honest positioning",
+        "Page 2: 'Cookie-Free Analytics Setup Guide' \u2014 practical guide with code examples linking to beam-privacy.com/signup",
         "Each page has proper <title>, <meta description>, and <h1> targeting distinct search keywords",
         "Each page has at least 3 links to beam-privacy.com routes (signup, demo, relevant feature pages)",
         "Pages are accessible and rendering correctly on scobb.github.io/beam.js/",
@@ -2854,9 +2854,9 @@
         "Verify beam-privacy.com returns HTTP 200 for /, /js/beam.js, /demo",
         "Verify GitHub Wiki, Discussions, and Pages changes are live and accessible",
         "Send email to steve@keylightdigital.dev via Resend API with strategic decision framing",
-        "Email must include: (1) honest state — 163+ stories, 0 external users, 20 strategy cycles, $88.44 remaining, (2) what the agent built and cannot do, (3) three options: A) Execute the 30-minute launch playbook this week (beamanalytics.io shutdown gives a timely hook, all copy ready), B) Open-source the full Beam product to follow Rybbit's playbook (11K stars prove this works), C) Find a distribution partner/co-founder since the bottleneck is human action, (4) clear recommendation: Option A first, Option B if no traction in 2 weeks",
-        "Email also includes the npm publish shortcut (add NPM_TOKEN secret → push tag) and openalternative.co/submit as a 5-minute manual action",
-        "Email tone: respectful, honest, not accusatory — framed as 'the product is ready, here are your options'"
+        "Email must include: (1) honest state \u2014 163+ stories, 0 external users, 20 strategy cycles, $88.44 remaining, (2) what the agent built and cannot do, (3) three options: A) Execute the 30-minute launch playbook this week (beamanalytics.io shutdown gives a timely hook, all copy ready), B) Open-source the full Beam product to follow Rybbit's playbook (11K stars prove this works), C) Find a distribution partner/co-founder since the bottleneck is human action, (4) clear recommendation: Option A first, Option B if no traction in 2 weeks",
+        "Email also includes the npm publish shortcut (add NPM_TOKEN secret \u2192 push tag) and openalternative.co/submit as a 5-minute manual action",
+        "Email tone: respectful, honest, not accusatory \u2014 framed as 'the product is ready, here are your options'"
       ],
       "priority": 162,
       "passes": true,
@@ -2912,22 +2912,22 @@
     {
       "id": "BEAM-172",
       "title": "Create zero-decision launch script for Steve",
-      "description": "As Ralph, I need to create launch/go.sh — a single bash script that reduces Steve's 30-minute launch playbook to executable steps. The script opens submission URLs, prints ready-to-paste post text, and handles npm publish if NPM_TOKEN is set.",
+      "description": "As Ralph, I need to create launch/go.sh \u2014 a single bash script that reduces Steve's 30-minute launch playbook to executable steps. The script opens submission URLs, prints ready-to-paste post text, and handles npm publish if NPM_TOKEN is set.",
       "acceptanceCriteria": [
         "Create launch/go.sh that is executable (chmod +x)",
         "Script prints a numbered checklist of 5 launch actions with time estimates",
         "For each action: prints the exact URL to open and the exact text to paste (from existing community-posts/ templates)",
-        "Action 1: Show HN — prints title + URL + body text from launch/show-hn.md or community-posts/show-hn.md",
-        "Action 2: Reddit r/webdev — prints title + body from community-posts/",
-        "Action 3: Submit to openalternative.co — prints URL and form field values",
-        "Action 4: npm publish — if NPM_TOKEN env var is set, runs npm publish in beam-js/; if not, prints the 2-step setup",
-        "Action 5: Add beam-privacy.com to Google Search Console — prints URL and instructions",
+        "Action 1: Show HN \u2014 prints title + URL + body text from launch/show-hn.md or community-posts/show-hn.md",
+        "Action 2: Reddit r/webdev \u2014 prints title + body from community-posts/",
+        "Action 3: Submit to openalternative.co \u2014 prints URL and form field values",
+        "Action 4: npm publish \u2014 if NPM_TOKEN env var is set, runs npm publish in beam-js/; if not, prints the 2-step setup",
+        "Action 5: Add beam-privacy.com to Google Search Console \u2014 prints URL and instructions",
         "Script uses xdg-open/open to launch URLs in browser when available, falls back to printing URLs",
         "Total estimated time printed at top: 30 minutes"
       ],
       "priority": 166,
       "passes": true,
-      "notes": "Previous launch playbooks were documents Steve had to read. This script executes the playbook interactively. The goal is zero decision cost — Steve runs one command and follows prompts. Each step has the exact copy to paste so Steve never has to compose text."
+      "notes": "Previous launch playbooks were documents Steve had to read. This script executes the playbook interactively. The goal is zero decision cost \u2014 Steve runs one command and follows prompts. Each step has the exact copy to paste so Steve never has to compose text."
     },
     {
       "id": "BEAM-173",
@@ -2938,18 +2938,18 @@
         "Verify beam-privacy.com returns HTTP 200 for /, /js/beam.js, /demo, /signup",
         "Verify Playwright smoke results from BEAM-171 are clean",
         "Send email to steve@keylightdigital.dev via Resend API",
-        "Email subject: 'Hardening complete — launch/go.sh is ready'",
-        "Email body includes: (1) All 5 hardening items confirmed done with dates, (2) operational cleanup done (test accounts removed, dogfooding domain fixed), (3) Playwright smoke results, (4) 'bash launch/go.sh' as the single action needed, (5) IMPORTANT: flag that 'beam-privacy' search results are dominated by a Web3 cryptocurrency project (Beam Privacy / BEAMMW) which means SEO for the beam-privacy.com domain faces a naming collision — Steve should be aware",
-        "Email tone: direct and operational — this is the handoff Steve authorized"
+        "Email subject: 'Hardening complete \u2014 launch/go.sh is ready'",
+        "Email body includes: (1) All 5 hardening items confirmed done with dates, (2) operational cleanup done (test accounts removed, dogfooding domain fixed), (3) Playwright smoke results, (4) 'bash launch/go.sh' as the single action needed, (5) IMPORTANT: flag that 'beam-privacy' search results are dominated by a Web3 cryptocurrency project (Beam Privacy / BEAMMW) which means SEO for the beam-privacy.com domain faces a naming collision \u2014 Steve should be aware",
+        "Email tone: direct and operational \u2014 this is the handoff Steve authorized"
       ],
       "priority": 167,
       "passes": true,
-      "notes": "Steve explicitly said on April 4: do hardening first, THEN push distribution. All 5 items (domain migration, security review, cost controls, Sentry, UX audit) are complete. This email is the authorized handoff. The beam-privacy.com SEO collision is a strategic concern Steve needs to evaluate — the domain competes with an established cryptocurrency project in search results."
+      "notes": "Steve explicitly said on April 4: do hardening first, THEN push distribution. All 5 items (domain migration, security review, cost controls, Sentry, UX audit) are complete. This email is the authorized handoff. The beam-privacy.com SEO collision is a strategic concern Steve needs to evaluate \u2014 the domain competes with an established cryptocurrency project in search results."
     },
     {
       "id": "BEAM-174",
       "title": "Fix production rate limits, fake structured data, and low-count social proof",
-      "description": "As Ralph, I need to fix three production issues: (1) auth rate limits were raised to 100 signup/IP/hour and 50 login/IP/15min during BEAM-171 smoke testing and are still deployed — restore to secure production values, (2) landing page JSON-LD contains a fabricated aggregateRating (4.8 from 12 reviews) with zero real users — this is deceptive structured data that could trigger a Google penalty and would destroy trust during a Show HN launch, (3) landing page shows '20 pageviews tracked' counter which signals nobody uses the product — hide when count is below a credible threshold.",
+      "description": "As Ralph, I need to fix three production issues: (1) auth rate limits were raised to 100 signup/IP/hour and 50 login/IP/15min during BEAM-171 smoke testing and are still deployed \u2014 restore to secure production values, (2) landing page JSON-LD contains a fabricated aggregateRating (4.8 from 12 reviews) with zero real users \u2014 this is deceptive structured data that could trigger a Google penalty and would destroy trust during a Show HN launch, (3) landing page shows '20 pageviews tracked' counter which signals nobody uses the product \u2014 hide when count is below a credible threshold.",
       "acceptanceCriteria": [
         "Signup rate limit restored to 10 per IP per hour (from 100) in beam/src/routes/auth.ts",
         "Login rate limit restored to 15 per IP per 15 minutes (from 50) in beam/src/routes/auth.ts",
@@ -2961,12 +2961,12 @@
       ],
       "priority": 174,
       "passes": true,
-      "notes": "BEAM-171 raised rate limits for Playwright testing against production but never restored them. The fake aggregateRating is the most dangerous issue — it directly undermines Beam's trust positioning and could be called out on HN. The '20 pageviews' counter actively hurts conversion."
+      "notes": "BEAM-171 raised rate limits for Playwright testing against production but never restored them. The fake aggregateRating is the most dangerous issue \u2014 it directly undermines Beam's trust positioning and could be called out on HN. The '20 pageviews' counter actively hurts conversion."
     },
     {
       "id": "BEAM-175",
       "title": "Deploy Phase 22 fixes and send Steve critical-path email",
-      "description": "As Ralph, I need to deploy the security and trust fixes from BEAM-174, verify production, and send Steve one focused email about the single most important action: adding beam-privacy.com to Google Search Console and submitting the sitemap. This is THE critical path — 56 pages are invisible to Google without it.",
+      "description": "As Ralph, I need to deploy the security and trust fixes from BEAM-174, verify production, and send Steve one focused email about the single most important action: adding beam-privacy.com to Google Search Console and submitting the sitemap. This is THE critical path \u2014 56 pages are invisible to Google without it.",
       "acceptanceCriteria": [
         "Deploy via cd beam && npm run deploy (or wrangler-noroutesdeploy.toml fallback)",
         "Verify beam-privacy.com returns HTTP 200 for /, /js/beam.js, /demo, /signup",
@@ -2974,12 +2974,12 @@
         "Verify landing page JSON-LD does not contain aggregateRating",
         "Send email to steve@keylightdigital.dev via Resend API",
         "Email subject focuses on GSC as the one critical action",
-        "Email body includes: (1) GSC step-by-step for beam-privacy.com (add property → submit sitemap → request indexing for top 5 pages), (2) secondary: submit Beam to uneed.best/alternatives/beam_analytics (Beam Analytics alternatives page that does NOT list beam-privacy.com), (3) tertiary: run bash launch/go.sh for Show HN + directories",
-        "Email tone: direct, focused, one-action — not a task list"
+        "Email body includes: (1) GSC step-by-step for beam-privacy.com (add property \u2192 submit sitemap \u2192 request indexing for top 5 pages), (2) secondary: submit Beam to uneed.best/alternatives/beam_analytics (Beam Analytics alternatives page that does NOT list beam-privacy.com), (3) tertiary: run bash launch/go.sh for Show HN + directories",
+        "Email tone: direct, focused, one-action \u2014 not a task list"
       ],
       "priority": 175,
       "passes": true,
-      "notes": "beam-privacy.com has ZERO Google-indexed pages. The domain is 1 day old with no backlinks pointing to it. GSC verification meta tag is already live. Steve only needs to add the property and submit the sitemap. Without this, all 56 pages of SEO content produce zero organic traffic. The Uneed.best 'Beam Analytics alternatives' page is a high-value target — beamanalytics.io users looking for replacements will find it."
+      "notes": "beam-privacy.com has ZERO Google-indexed pages. The domain is 1 day old with no backlinks pointing to it. GSC verification meta tag is already live. Steve only needs to add the property and submit the sitemap. Without this, all 56 pages of SEO content produce zero organic traffic. The Uneed.best 'Beam Analytics alternatives' page is a high-value target \u2014 beamanalytics.io users looking for replacements will find it."
     },
     {
       "id": "BEAM-176",
@@ -3066,7 +3066,7 @@
     {
       "id": "BEAM-181",
       "title": "Create step-by-step Google Search Console setup guide for beam-privacy.com",
-      "description": "As Ralph, I need to create a concise, zero-ambiguity guide for Steve to add beam-privacy.com to Google Search Console. GSC is the single most important action for organic discovery — without it, 56 pages are invisible to Google. The guide should be completable in under 5 minutes.",
+      "description": "As Ralph, I need to create a concise, zero-ambiguity guide for Steve to add beam-privacy.com to Google Search Console. GSC is the single most important action for organic discovery \u2014 without it, 56 pages are invisible to Google. The guide should be completable in under 5 minutes.",
       "acceptanceCriteria": [
         "Create launch/gsc-setup.md with step-by-step instructions for adding beam-privacy.com to GSC",
         "Include both DNS TXT verification method and meta tag method (meta tag is already deployed via GOOGLE_SITE_VERIFICATION)",
@@ -3077,18 +3077,18 @@
       ],
       "priority": 181,
       "passes": true,
-      "notes": "beam-privacy.com has ZERO Google-indexed pages. GSC is the fastest path to getting indexed. Previous GSC setup was for beam.keylightdigital.dev — a new property must be created for beam-privacy.com. This guide removes the last barrier to Steve completing this critical 5-minute task."
+      "notes": "beam-privacy.com has ZERO Google-indexed pages. GSC is the fastest path to getting indexed. Previous GSC setup was for beam.keylightdigital.dev \u2014 a new property must be created for beam-privacy.com. This guide removes the last barrier to Steve completing this critical 5-minute task."
     },
     {
       "id": "BEAM-182",
       "title": "Deploy Phase 24 and send Steve decision-tree email",
-      "description": "As Ralph, I need to deploy any changes, then send Steve a focused email with a clear decision tree. This is not another task list — it's 3 binary decisions with recommendations, the beamanalytics.io urgency, and an honest assessment of where the business stands after 182 stories and 0 users.",
+      "description": "As Ralph, I need to deploy any changes, then send Steve a focused email with a clear decision tree. This is not another task list \u2014 it's 3 binary decisions with recommendations, the beamanalytics.io urgency, and an honest assessment of where the business stands after 182 stories and 0 users.",
       "acceptanceCriteria": [
         "Deploy via cd beam && npm run deploy if any beam/ source changes were made",
         "Verify beam-privacy.com returns HTTP 200 for /, /js/beam.js, /demo",
         "Send email to steve@keylightdigital.dev via Resend API",
         "Email subject: clear and action-oriented about decisions needed",
-        "Email body includes 3 decisions with recommendations: (1) Domain — acquire beamanalytics.io or register clean domain, with urgency (shutdown Sep 1, outreach materials ready), (2) GSC — add beam-privacy.com, 5-minute guide at launch/gsc-setup.md, (3) Distribution — execute launch/30-minute-launch.md, all materials current",
+        "Email body includes 3 decisions with recommendations: (1) Domain \u2014 acquire beamanalytics.io or register clean domain, with urgency (shutdown Sep 1, outreach materials ready), (2) GSC \u2014 add beam-privacy.com, 5-minute guide at launch/gsc-setup.md, (3) Distribution \u2014 execute launch/30-minute-launch.md, all materials current",
         "Email includes honest assessment: 182 stories, 0 users, product is done, agent distribution exhausted, next moves are Steve's",
         "Email flags the beamanalytics.io acquisition window shrinking (5 months to Sep 1)",
         "Email mentions openalternative.co/submit as additional directory Steve can submit to (web form, 5.7K GitHub stars, lists analytics alternatives)"
@@ -3106,7 +3106,7 @@
         "next-product-candidates.md exists with multi-persona debate (CEO, CTO, CFO, CMO), ranked shortlist of 3 candidates with clear rationale, and strategic recommendation",
         "Control plane PWA is evaluated as a candidate per Steve's suggestion",
         "Analysis uses current competitive data (Plausible ~17K subscribers, Rybbit 11K+ stars, etc.)",
-        "Projections are honest, not optimistic — include failure scenario"
+        "Projections are honest, not optimistic \u2014 include failure scenario"
       ],
       "priority": 183,
       "passes": true,
@@ -3121,7 +3121,7 @@
         "Email includes market sizing summary: $10-15M SAM, Beam needs 200 Pro users for $12K ARR, realistic 12-month projection is $0-400/mo depending on distribution effort",
         "Email includes next-product recommendation: AI Agent Control Plane PWA as #1 candidate, with rationale (trending market, meta-narrative, distribution advantage)",
         "Email includes honest Beam assessment: 182 stories, 0 users, product is done, distribution is the only bottleneck, and it requires human effort regardless of product",
-        "Email asks Steve to make a decision: (A) invest 10-20 hours in Beam distribution to test market response, (B) pivot to agent control plane, or (C) both — test Beam launch while Ralph starts control plane",
+        "Email asks Steve to make a decision: (A) invest 10-20 hours in Beam distribution to test market response, (B) pivot to agent control plane, or (C) both \u2014 test Beam launch while Ralph starts control plane",
         "Email references launch/market-sizing.md and next-product-candidates.md for full analysis"
       ],
       "priority": 184,
@@ -3138,7 +3138,7 @@
         "Include capital flow: Samaya AI fundraise, Galileo open-source, JetBrains Central, Snowflake",
         "Include updated pricing landscape: Langfuse $29/mo, AgentOps free, Galileo $100/mo, Comet Opik $19/mo, LangSmith $39/mo",
         "Revise gap assessment: enterprise entering from top, open-source for power users, NO simple hosted affordable option for indie/SMB",
-        "Propose concrete positioning: Plausible for AI agents — $9/mo, 50K traces, Cloudflare-native",
+        "Propose concrete positioning: Plausible for AI agents \u2014 $9/mo, 50K traces, Cloudflare-native",
         "Note urgency: JetBrains EAP Q2 2026, EU AI Act August 2026, 3-6 month window"
       ],
       "priority": 185,
@@ -3148,7 +3148,7 @@
     {
       "id": "BEAM-186",
       "title": "Draft AI Agent Control Plane MVP PRD for Steve approval",
-      "description": "As Ralph, I need to create a concrete PRD for the AI Agent Control Plane so that if Steve approves the pivot, Ralph can start building immediately. The PRD should include product name, positioning, architecture, pricing, and 15-20 MVP user stories. Architecture: Cloudflare Workers + D1 + KV + Durable Objects. Positioning: simple, affordable agent observability for indie developers — the Plausible of AI agents.",
+      "description": "As Ralph, I need to create a concrete PRD for the AI Agent Control Plane so that if Steve approves the pivot, Ralph can start building immediately. The PRD should include product name, positioning, architecture, pricing, and 15-20 MVP user stories. Architecture: Cloudflare Workers + D1 + KV + Durable Objects. Positioning: simple, affordable agent observability for indie developers \u2014 the Plausible of AI agents.",
       "acceptanceCriteria": [
         "Create control-plane/prd.json with full product specification",
         "Product positioning: simple, affordable, privacy-aware agent observability for indie/SMB developers",
@@ -3174,7 +3174,7 @@
         "Email includes Beam status: 184 stories complete, 0 external users, 10 PRs open (0 merged), beam-privacy.com not indexed, maintenance mode",
         "Email asks for explicit go/no-go on AI Agent Control Plane pivot",
         "Email references next-product-candidates.md (updated) and control-plane/prd.json (new) for details",
-        "Email is concise — strategic memo, not a task list"
+        "Email is concise \u2014 strategic memo, not a task list"
       ],
       "priority": 187,
       "passes": true,
@@ -3182,7 +3182,7 @@
     },
     {
       "id": "BEAM-188",
-      "title": "COGS audit — D1 read optimization and usage report",
+      "title": "COGS audit \u2014 D1 read optimization and usage report",
       "priority": 188,
       "passes": true,
       "description": "Audit all D1 queries in Beam for unnecessary reads. The collect endpoint, dashboard analytics queries, and scheduled jobs may be doing excessive reads. Focus on: pageview aggregation queries (could use KV counters), dashboard breakdown queries (could cache popular ranges), digest queries (batch optimization). Generate a COGS report and email to Steve.",
@@ -3197,7 +3197,7 @@
     },
     {
       "id": "BEAM-189",
-      "title": "Integration guide — Next.js setup",
+      "title": "Integration guide \u2014 Next.js setup",
       "priority": 189,
       "passes": true,
       "description": "Create a page at /for/nextjs showing how to add Beam analytics to Next.js apps. Cover App Router, Pages Router, and static export. Include copy-paste code snippets.",
@@ -3211,7 +3211,7 @@
     },
     {
       "id": "BEAM-190",
-      "title": "Integration guide — Astro setup",
+      "title": "Integration guide \u2014 Astro setup",
       "priority": 190,
       "passes": true,
       "description": "Create a page at /for/astro showing how to add Beam analytics to Astro sites.",
@@ -3224,7 +3224,7 @@
     },
     {
       "id": "BEAM-191",
-      "title": "Integration guide — Remix setup",
+      "title": "Integration guide \u2014 Remix setup",
       "priority": 191,
       "passes": true,
       "description": "Create a page at /for/remix showing how to add Beam analytics to Remix applications.",
@@ -3237,14 +3237,14 @@
     },
     {
       "id": "BEAM-192",
-      "title": "Blog post — Why we built a Plausible alternative",
+      "title": "Blog post \u2014 Why we built a Plausible alternative",
       "priority": 192,
       "passes": true,
       "description": "Write a blog post comparing Beam to Plausible from a builder perspective. Cover: pricing differences, self-hosting complexity, feature parity, and what Beam does differently. Target SEO query \"plausible alternative\".",
       "acceptanceCriteria": [
         "Blog post accessible at /blog/plausible-alternative",
         "At least 800 words",
-        "Honest comparison — acknowledge Plausible strengths",
+        "Honest comparison \u2014 acknowledge Plausible strengths",
         "Internal links to /vs/plausible and /pricing",
         "tsc --noEmit passes"
       ]
@@ -3266,7 +3266,7 @@
     },
     {
       "id": "BEAM-194",
-      "title": "UX audit — dashboard and public pages",
+      "title": "UX audit \u2014 dashboard and public pages",
       "priority": 194,
       "passes": true,
       "description": "Audit Beam dashboard and public pages for UX issues: mobile responsiveness, empty states, loading performance, navigation, onboarding flow. Fix top 5 issues.",
@@ -3294,7 +3294,7 @@
     },
     {
       "id": "BEAM-196",
-      "title": "Push code to GitHub — create scobb/beam repository",
+      "title": "Push code to GitHub \u2014 create scobb/beam repository",
       "priority": 196,
       "passes": true,
       "description": "Create a public GitHub repository scobb/beam and push the Beam codebase. Include README with product description, features, quickstart, and links to live site. Add .gitignore for node_modules, .dev.vars, .wrangler. This is the prerequisite for all other distribution stories.",
@@ -3351,7 +3351,7 @@
       "title": "Fix /health endpoint returning 404 on beam-privacy.com",
       "priority": 200,
       "passes": true,
-      "description": "The /health endpoint on beam-privacy.com returns a 404 error. This is a production bug — uptime monitoring and automated health checks depend on this endpoint. Investigate the route mapping, fix the issue, and redeploy.",
+      "description": "The /health endpoint on beam-privacy.com returns a 404 error. This is a production bug \u2014 uptime monitoring and automated health checks depend on this endpoint. Investigate the route mapping, fix the issue, and redeploy.",
       "acceptanceCriteria": [
         "GET https://beam-privacy.com/health returns 200 with JSON body {status: 'ok'}",
         "Root cause identified and documented in progress.txt",
@@ -3374,7 +3374,7 @@
     },
     {
       "id": "BEAM-202",
-      "title": "GitHub project polish — badges, issue templates, contributing guide",
+      "title": "GitHub project polish \u2014 badges, issue templates, contributing guide",
       "priority": 202,
       "passes": true,
       "description": "Polish scobb/beam's GitHub presence with shields.io badges in README (license, version, CI status), issue templates (bug report, feature request), PR template, and CONTRIBUTING.md. When awesome-list maintainers review our PRs, a professional-looking repo increases merge probability.",
@@ -3389,10 +3389,10 @@
     },
     {
       "id": "BEAM-203",
-      "title": "Sync Beam changes to scobb/beam GitHub repo — deploy cross-promotion",
+      "title": "Sync Beam changes to scobb/beam GitHub repo \u2014 deploy cross-promotion",
       "priority": 203,
       "passes": true,
-      "description": "ACP-145 added a cross-promotion section to Beam's landing page ('Also from Keylight Digital' linking to Nexus), but the change was only committed locally in the worktree — it was never synced to scobb/beam GitHub repo. The live beam-privacy.com does not show the cross-promotion. Sync all local changes to scobb/beam so auto-deploy (BEAM-201 CI) picks them up.",
+      "description": "ACP-145 added a cross-promotion section to Beam's landing page ('Also from Keylight Digital' linking to Nexus), but the change was only committed locally in the worktree \u2014 it was never synced to scobb/beam GitHub repo. The live beam-privacy.com does not show the cross-promotion. Sync all local changes to scobb/beam so auto-deploy (BEAM-201 CI) picks them up.",
       "acceptanceCriteria": [
         "rsync beam/ to /tmp/beam-standalone (or existing clone) excluding .git, node_modules, .wrangler, .dev.vars",
         "Verify no secrets in pushed code",
@@ -3452,7 +3452,7 @@
       ],
       "priority": 1,
       "passes": true,
-      "notes": "npm auth is working (keylightdigital user). @keylightdigital/nexus v0.1.0 already published. beam.js on npm is NOT our package — it's 'realtime distributed broadcast emitter' by another author. The current landing page link sends visitors to the wrong package. Published @keylightdigital/beam@1.0.0 on 2026-04-13 using automation NPM_TOKEN."
+      "notes": "npm auth is working (keylightdigital user). @keylightdigital/nexus v0.1.0 already published. beam.js on npm is NOT our package \u2014 it's 'realtime distributed broadcast emitter' by another author. The current landing page link sends visitors to the wrong package. Published @keylightdigital/beam@1.0.0 on 2026-04-13 using automation NPM_TOKEN."
     },
     {
       "id": "BEAM-208",
@@ -3460,16 +3460,16 @@
       "description": "Create a GitHub examples repo (scobb/beam-examples) with practical integration examples for popular frameworks (Next.js, Astro, SvelteKit, Remix). Each example shows how to add Beam analytics using the @keylightdigital/beam npm package. Creates new GitHub search surfaces for 'nextjs analytics', 'privacy analytics example', etc.",
       "acceptanceCriteria": [
         "Create GitHub repo scobb/beam-examples with description and topics (analytics, privacy, nextjs, astro, sveltekit, cookie-free, gdpr)",
-        "examples/nextjs/ — Next.js app with Beam via Script component or npm package",
-        "examples/astro/ — Astro site with Beam in Layout head",
-        "examples/sveltekit/ — SvelteKit app with Beam in app.html",
+        "examples/nextjs/ \u2014 Next.js app with Beam via Script component or npm package",
+        "examples/astro/ \u2014 Astro site with Beam in Layout head",
+        "examples/sveltekit/ \u2014 SvelteKit app with Beam in app.html",
         "Each example has README with 'Run in 2 minutes' instructions and .env.example",
         "Set repo homepage to https://beam-privacy.com/docs",
         "Root README links to all examples with descriptions"
       ],
       "priority": 2,
       "passes": true,
-      "notes": "Follows same pattern as scobb/nexus-examples (ACP-155). Framework examples in beam-js/examples/ are markdown docs — this creates runnable code projects instead."
+      "notes": "Follows same pattern as scobb/nexus-examples (ACP-155). Framework examples in beam-js/examples/ are markdown docs \u2014 this creates runnable code projects instead."
     },
     {
       "id": "BEAM-209",
@@ -3590,7 +3590,7 @@
     {
       "id": "BEAM-217",
       "title": "Email users when approaching 80% of free plan pageview limit",
-      "description": "Free users have a 50K pageviews/month limit. When they hit 80% (40K pageviews), send a single warning email that month: 'You've used 40K of 50K pageviews this month — upgrade to Pro for unlimited.' This creates urgency to convert before data collection stops. Only send once per user per month.",
+      "description": "Free users have a 50K pageviews/month limit. When they hit 80% (40K pageviews), send a single warning email that month: 'You've used 40K of 50K pageviews this month \u2014 upgrade to Pro for unlimited.' This creates urgency to convert before data collection stops. Only send once per user per month.",
       "acceptanceCriteria": [
         "When a free user's site crosses 40K pageviews in the current month, an email is sent",
         "Email includes current count, limit, and a direct upgrade link",
@@ -3605,12 +3605,12 @@
     {
       "id": "BEAM-218",
       "title": "Add 'Share dashboard' button to public analytics pages",
-      "description": "Users who make their Beam dashboard public have no easy way to share it. Add a 'Share' button (copy link + optional Twitter/X share) to public dashboard pages at /share/:siteId. This turns satisfied users into distribution channels — someone shares their analytics dashboard, visitors see 'Powered by Beam', and click through to sign up.",
+      "description": "Users who make their Beam dashboard public have no easy way to share it. Add a 'Share' button (copy link + optional Twitter/X share) to public dashboard pages at /share/:siteId. This turns satisfied users into distribution channels \u2014 someone shares their analytics dashboard, visitors see 'Powered by Beam', and click through to sign up.",
       "acceptanceCriteria": [
         "A 'Share' button appears on public dashboard pages (/share/:siteId) for the site owner when logged in",
         "Clicking 'Copy link' copies the public URL to clipboard with visual feedback",
         "Optional 'Share on X' button pre-fills a tweet: 'Check out my site analytics, powered by @BeamPrivacy [URL]'",
-        "The public dashboard footer shows 'Analytics by Beam — Privacy-first, cookie-free' with link to beam-privacy.com",
+        "The public dashboard footer shows 'Analytics by Beam \u2014 Privacy-first, cookie-free' with link to beam-privacy.com",
         "Footer is visible to all visitors (not just the owner) to create discovery",
         "Works on mobile at 375px"
       ],
@@ -3622,7 +3622,7 @@
       "title": "Add Hacker News 'Show HN' post and submit to indie directories",
       "description": "Beam needs more distribution beyond the existing launch pages. Create a curated list of directories and communities to submit to, then execute the submissions: Hacker News Show HN post, BetaList, Untools.co, There's An AI For That (analytics category), Indie Hackers product page, and AppSumo marketplace inquiry. Document each submission in a launch log.",
       "acceptanceCriteria": [
-        "Submit Show HN post to Hacker News (title: 'Show HN: Beam – Privacy-first web analytics for $5/mo, no cookies, no GDPR consent banners')",
+        "Submit Show HN post to Hacker News (title: 'Show HN: Beam \u2013 Privacy-first web analytics for $5/mo, no cookies, no GDPR consent banners')",
         "Submit to BetaList at betalist.com/submit",
         "Submit to Indie Hackers product page",
         "Create an entry at alternativeto.net as alternative to Google Analytics",
@@ -3634,7 +3634,7 @@
     },
     {
       "id": "BEAM-220",
-      "title": "Dashboard site health indicators — show data freshness on sites overview",
+      "title": "Dashboard site health indicators \u2014 show data freshness on sites overview",
       "description": "Many users set up tracking and never verify it's actually working. The sites overview page should show a health indicator for each site: green (received data in last 7 days), yellow (no data in 7+ days but has historical data), red (no data ever received). This helps users self-diagnose the sendBeacon-style issues and take action.",
       "acceptanceCriteria": [
         "Sites overview page shows a colored dot or badge next to each site name",
@@ -3675,7 +3675,7 @@
         "Smoke test: GET / renders with a Blog link in the nav"
       ],
       "priority": "medium",
-      "passes": false
+      "passes": true
     },
     {
       "id": "BEAM-223",

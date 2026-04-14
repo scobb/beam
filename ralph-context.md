@@ -1,10 +1,9 @@
 ## Last completed
-BEAM-221 - Update changelog with April 2026 features (deployed prod, verified live)
+BEAM-222 - Add Blog link to main navigation (deployed prod, 4/4 smoke tests pass)
 
 ## Next up
-BEAM-222 (medium) — Add Blog link to main navigation
-- Several nav components exist across files; check which ones need updating
-- After that: BEAM-225 (upgrade nudge), BEAM-228 (per-site usage), BEAM-223 (/for/react), BEAM-224 (/vs/mixpanel), BEAM-226 (UTM share), BEAM-227 (blog post)
+BEAM-225 (medium) — Upgrade nudge banner for free users at 60%+ usage
+- After that: BEAM-228 (per-site usage), BEAM-223 (/for/react), BEAM-224 (/vs/mixpanel), BEAM-226 (UTM share), BEAM-227 (blog post)
 
 ## Active issues
 - BEAM-216 (auto-blocked): /for/sveltekit, /for/vue, /for/nuxt — blocked after 3 consecutive failures
