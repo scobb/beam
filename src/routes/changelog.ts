@@ -50,6 +50,26 @@ interface ChangelogGroup {
 
 const CHANGELOG: ChangelogGroup[] = [
   {
+    date: 'April 14, 2026',
+    entries: [
+      {
+        title: 'Site health indicators on the sites overview',
+        description: 'Each site on your sites overview now shows a colored health dot: green means data received in the last 7 days, yellow means tracking may be broken (no recent data), and red means no pageviews have ever been received. Hover or tap the dot for details. Clicking a red indicator takes you straight to the installation guide.',
+        tag: 'New',
+      },
+      {
+        title: 'Share button and Beam footer on public dashboards',
+        description: 'Public dashboard pages now include a Share button that copies the URL to your clipboard or opens a pre-filled tweet. All public dashboards also display an "Analytics by Beam — Privacy-first, cookie-free" footer so visitors can discover Beam naturally.',
+        tag: 'New',
+      },
+      {
+        title: 'Usage warning email at 80% of free plan limit',
+        description: 'Free plan users now receive a timely heads-up email when they reach 80% of their 50K monthly pageview limit. The email shows the current count and includes a direct upgrade link — sent once per month, asynchronously so it never slows down tracking.',
+        tag: 'Improvement',
+      },
+    ],
+  },
+  {
     date: 'April 3, 2026',
     entries: [
       {
