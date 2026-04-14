@@ -152,3 +152,18 @@ Started: Mon Apr 13 06:34:00 PM PDT 2026
   - Hub page auto-renders from GUIDE_SECTIONS — no separate template change needed
   - CDN propagation can cause flaky sitemap tests on first prod run after deploy; retry resolves it
 ---
+
+## 2026-04-14 - BEAM-224
+- Added `/vs/mixpanel` comparison page (cookie-free vs Mixpanel cookies, $5/mo flat vs per-event pricing, 5-min setup vs hours of instrumentation)
+- Structured: comparison table, prose analysis (where each wins), FAQ JSON-LD, related comparisons (PostHog, Plausible, Google Analytics)
+- Added to sitemap.xml and footer link list in vs.ts
+- Also fixed two pre-existing mobile issues while implementing:
+  - `comparisonTable()` now wraps table in `<div class="overflow-x-auto">` + `min-width:480px` for mobile scrollability
+  - Footer link container: `flex items-center gap-6` → `flex flex-wrap items-center gap-x-6 gap-y-2` so 20+ links wrap on mobile
+- 6 smoke tests pass on prod: content, sitemap, mobile 375px (both desktop and mobile Playwright projects)
+- Files changed: `src/routes/vs.ts`, `src/index.ts`, `test/smoke/smoke.spec.ts`
+- **Learnings for future iterations:**
+  - `assertNoHorizontalOverflow` at true 375px (desktop Chrome) is stricter than the Mobile project at 393px — catches more overflow issues
+  - The vs.ts footer inner link div was missing `flex-wrap` (pre-existing); now fixed
+  - `comparisonTable()` now has `overflow-x-auto` wrapper — all 12 /vs pages benefit from this
+---

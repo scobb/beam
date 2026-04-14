@@ -1,10 +1,10 @@
 ## Last completed
-BEAM-223 - /for/react guide (deployed prod; 6/6 smoke tests pass on second run)
+BEAM-224 - /vs/mixpanel comparison page (6/6 prod smoke tests pass)
 
 ## Next up
-BEAM-224 (medium) — /vs/mixpanel comparison page
-- After that: BEAM-226 (UTM share), BEAM-227 (blog post)
-- Adding a /for guide requires: GUIDES entry, GUIDE_SECTIONS slug, sitemap paths+meta, footer links
+BEAM-226 (low) — UTM attribution on public dashboard share links
+- After that: BEAM-227 (blog post)
+- vs.ts footer now has flex-wrap (was missing); comparisonTable() now has overflow-x-auto wrapper
 
 ## Active issues
 - BEAM-216 (auto-blocked): /for/sveltekit, /for/vue, /for/nuxt — blocked after 3 consecutive failures
