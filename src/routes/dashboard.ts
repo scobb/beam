@@ -1249,24 +1249,86 @@ dashboard.get('/dashboard/launch', async (c) => {
 
 // ── Sites list (/dashboard/sites) ────────────────────────────────────────────
 
+type SiteHealthStatus = 'green' | 'yellow' | 'red'
+
+function computeSiteHealth(lastPageviewAt: string | null, now: Date): SiteHealthStatus {
+  if (!lastPageviewAt) return 'red'
+  const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000)
+  return new Date(lastPageviewAt) >= sevenDaysAgo ? 'green' : 'yellow'
+}
+
+function renderHealthIndicator(health: SiteHealthStatus, siteId: string): string {
+  const colors: Record<SiteHealthStatus, string> = {
+    green: 'bg-green-500',
+    yellow: 'bg-yellow-400',
+    red: 'bg-gray-400',
+  }
+  const tooltips: Record<SiteHealthStatus, string> = {
+    green: 'Active — data received in the last 7 days',
+    yellow: 'Warning — no data in 7+ days (check your snippet)',
+    red: 'No data — snippet may not be installed yet',
+  }
+  const dot = `<span class="w-3 h-3 rounded-full ${colors[health]} shrink-0 block" aria-hidden="true"></span>`
+  const tooltip = `<span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 rounded bg-gray-900 text-white text-xs whitespace-nowrap z-10 pointer-events-none opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity" role="tooltip">${escHtml(tooltips[health])}</span>`
+
+  if (health === 'red') {
+    return `<a href="/dashboard/sites/${siteId}#verify-installation" class="relative group inline-flex items-center" data-testid="health-indicator-${siteId}" title="${escHtml(tooltips[health])}" aria-label="${escHtml(tooltips[health])}">${dot}${tooltip}</a>`
+  }
+  return `<span class="relative group inline-flex items-center" data-testid="health-indicator-${siteId}" title="${escHtml(tooltips[health])}" aria-label="${escHtml(tooltips[health])}" tabindex="0">${dot}${tooltip}</span>`
+}
+
 dashboard.get('/dashboard/sites', async (c) => {
   const user = c.get('user')
-  const sites = await c.env.DB.prepare(
-    'SELECT id, name, domain, created_at FROM sites WHERE user_id = ? ORDER BY created_at DESC'
-  ).bind(user.sub).all<{ id: string; name: string; domain: string; created_at: string }>()
+  const now = new Date()
+  const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000).toISOString()
 
-  const siteCards = (sites.results ?? []).map(s => `
+  const sites = await c.env.DB.prepare(
+    `SELECT s.id, s.name, s.domain, s.created_at,
+            MAX(p.timestamp) as last_pageview_at
+     FROM sites s
+     LEFT JOIN pageviews p ON p.site_id = s.id AND p.timestamp >= ?
+     WHERE s.user_id = ?
+     GROUP BY s.id, s.name, s.domain, s.created_at
+     ORDER BY s.created_at DESC`
+  ).bind(sevenDaysAgo, user.sub).all<{ id: string; name: string; domain: string; created_at: string; last_pageview_at: string | null }>()
+
+  // For yellow detection we also need to know if a site has ANY historical data
+  const siteIds = (sites.results ?? []).map(s => s.id)
+  const hasAnyDataMap = new Map<string, boolean>()
+  if (siteIds.length > 0) {
+    // Only query sites that returned no recent data (last_pageview_at is null from the JOIN above)
+    const sitesWithNoRecent = (sites.results ?? []).filter(s => s.last_pageview_at === null).map(s => s.id)
+    if (sitesWithNoRecent.length > 0) {
+      const placeholders = sitesWithNoRecent.map(() => '?').join(',')
+      const anyDataRows = await c.env.DB.prepare(
+        `SELECT DISTINCT site_id FROM pageviews WHERE site_id IN (${placeholders}) LIMIT ${sitesWithNoRecent.length}`
+      ).bind(...sitesWithNoRecent).all<{ site_id: string }>()
+      for (const row of anyDataRows.results ?? []) {
+        hasAnyDataMap.set(row.site_id, true)
+      }
+    }
+  }
+
+  const siteCards = (sites.results ?? []).map(s => {
+    const health: SiteHealthStatus = s.last_pageview_at !== null
+      ? 'green'
+      : hasAnyDataMap.get(s.id) ? 'yellow' : 'red'
+    return `
     <div class="bg-white rounded-xl border border-gray-200 p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-      <div class="min-w-0">
-        <p class="font-semibold text-gray-900 truncate">${escHtml(s.name)}</p>
-        <p class="text-sm text-gray-500 truncate">${escHtml(s.domain)}</p>
+      <div class="min-w-0 flex items-center gap-2.5">
+        ${renderHealthIndicator(health, s.id)}
+        <div class="min-w-0">
+          <p class="font-semibold text-gray-900 truncate">${escHtml(s.name)}</p>
+          <p class="text-sm text-gray-500 truncate">${escHtml(s.domain)}</p>
+        </div>
       </div>
       <div class="flex items-center gap-4 shrink-0">
         <a href="/dashboard/sites/${s.id}/analytics" class="text-indigo-600 hover:underline text-sm">Analytics</a>
         <a href="/dashboard/sites/${s.id}/goals" class="text-indigo-600 hover:underline text-sm">Goals</a>
         <a href="/dashboard/sites/${s.id}" class="text-indigo-600 hover:underline text-sm">Manage →</a>
       </div>
-    </div>`).join('')
+    </div>`
+  }).join('')
 
   const content = `
     <div class="p-4 sm:p-8">

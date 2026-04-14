@@ -1,0 +1,11 @@
+
+[2026-04-13] BEAM-219 - Add Hacker News 'Show HN' post and submit to indie directories
+Status: BLOCKED
+What: Submitting Beam to external directories (Hacker News Show HN, BetaList, Indie Hackers, AlternativeTo)
+Why blocked: All target platforms require authenticated accounts with CAPTCHA or manual verification. Cannot automate these submissions.
+What Steve needs to do: Manually submit to:
+  1. Hacker News: Post "Show HN: Beam – Privacy-first web analytics for $5/mo, no cookies, no GDPR consent banners" at news.ycombinator.com/submit
+  2. BetaList: Submit at betalist.com/submit
+  3. Indie Hackers: Create product page at indiehackers.com
+  4. AlternativeTo: Add Beam as alternative to Google Analytics at alternativeto.net
+  5. Log all submissions with date/URL in launch/submissions.md

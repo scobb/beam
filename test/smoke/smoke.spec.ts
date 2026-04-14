@@ -1390,4 +1390,60 @@ test.describe('API v1 authentication', () => {
     await expect(page.getByRole('heading', { name: 'Authentication' })).toBeVisible()
     await page.screenshot({ path: 'screenshots/smoke/desktop-api-docs.png' })
   })
+
+  // ── BEAM-220: Site health indicators ────────────────────────────────────────
+
+  test('BEAM-220: sites overview shows health indicator for a new site (red — no data)', async ({ page }) => {
+    const email = uniqueEmail()
+    await signupAndGetSession(page, email)
+
+    // Create a site
+    await page.goto('/dashboard/sites/new')
+    await page.fill('input[name="name"]', 'Health Smoke Site')
+    await page.fill('input[name="domain"]', 'health-smoke.example.com')
+    await page.click('button[type="submit"]')
+    await page.waitForURL(/\/dashboard\/sites\/[0-9a-f-]+$/)
+    const siteId = page.url().split('/dashboard/sites/')[1].split(/[?#]/)[0]
+
+    // Go to sites overview
+    await page.goto('/dashboard/sites')
+
+    // Health indicator must be present for this site
+    const indicator = page.locator(`[data-testid="health-indicator-${siteId}"]`)
+    await expect(indicator).toBeVisible()
+
+    // New site with no pageviews should be red (gray-400 dot)
+    const dot = indicator.locator('span.rounded-full')
+    await expect(dot).toHaveClass(/bg-gray-400/)
+
+    // Red indicator should be a link to the verify-installation page
+    await expect(indicator).toHaveAttribute('href', `/dashboard/sites/${siteId}#verify-installation`)
+
+    // No horizontal overflow on desktop
+    await assertNoHorizontalOverflow(page, 'sites overview desktop')
+  })
+
+  test('BEAM-220: sites overview is mobile-safe at 375px with health indicators', async ({ page }) => {
+    const email = uniqueEmail()
+    await signupAndGetSession(page, email)
+
+    // Create a site
+    await page.goto('/dashboard/sites/new')
+    await page.fill('input[name="name"]', 'Health Mobile Site')
+    await page.fill('input[name="domain"]', 'health-mobile.example.com')
+    await page.click('button[type="submit"]')
+    await page.waitForURL(/\/dashboard\/sites\/[0-9a-f-]+$/)
+    const siteId = page.url().split('/dashboard/sites/')[1].split(/[?#]/)[0]
+
+    // Resize to mobile
+    await page.setViewportSize({ width: 375, height: 812 })
+    await page.goto('/dashboard/sites')
+
+    const indicator = page.locator(`[data-testid="health-indicator-${siteId}"]`)
+    await expect(indicator).toBeVisible()
+
+    // No horizontal overflow at 375px
+    await assertNoHorizontalOverflow(page, 'sites overview mobile 375px')
+    await page.screenshot({ path: 'screenshots/smoke/mobile-health-indicators.png' })
+  })
 })

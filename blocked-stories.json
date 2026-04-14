@@ -1,3 +1,16 @@
 {
-  "blockedStories": []
+  "blockedStories": [
+    {
+      "id": "BEAM-216",
+      "blocker": "Auto-blocked after 3 consecutive failures",
+      "blockedAt": "2026-04-13",
+      "emailSent": true
+    },
+    {
+      "id": "BEAM-219",
+      "blocker": "Requires manual account auth for HN, BetaList, Indie Hackers, AlternativeTo — cannot automate external submissions",
+      "blockedAt": "2026-04-13",
+      "emailSent": true
+    }
+  ]
 }
