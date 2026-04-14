@@ -36,3 +36,23 @@ Started: Mon Apr 13 06:34:00 PM PDT 2026
   - `navigator.clipboard.writeText()` only works on HTTPS; fine for prod but local wrangler dev needs a secure origin
   - PRD userStories key is `userStories`, not `stories` — use `prd['userStories']` when scripting
 ---
+
+## 2026-04-14 - BEAM-220
+- Added site health indicators to the sites overview page (/dashboard/sites)
+- Modified `/dashboard/sites` route to LEFT JOIN pageviews for recent data (7-day window)
+- Added a second query for sites with no recent data to check if any historical data exists
+- Health status: green = data in last 7d, yellow = historical but none in 7d, red = no data ever
+- `renderHealthIndicator()`: renders a colored dot (green/yellow/gray) with hover+focus tooltip; red dots link to install verification page
+- `computeSiteHealth()`: pure function mapping (lastPageviewAt, now) → SiteHealthStatus
+- Mobile-safe: dot is inline-flex, no overflow at 375px
+- Added 2 smoke tests: red indicator for new site (no data), mobile overflow at 375px
+- Files changed: `src/routes/dashboard.ts`, `test/smoke/smoke.spec.ts`
+- Also blocked BEAM-219 (external directory submissions require manual auth), sent email to Steve
+- Deployed to prod via `deploy.sh prod` — worker upload succeeded (pre-existing CF route auth error)
+- Prod smoke tests: 4/4 new BEAM-220 tests pass, 180/180 full suite passes locally
+- **Learnings for future iterations:**
+  - Left JOIN with a timestamp filter is clean for "recent activity" queries; follow up with a second query only for the subset that needs historical check (avoids scanning all pageviews for active sites)
+  - `data-testid` attributes on the health indicator wrapper make it easy to target in tests even when the dot changes color
+  - Tooltip opacity via `group-hover:opacity-100 group-focus-within:opacity-100` works on both desktop hover and keyboard/tap focus
+  - `title` attribute on the tooltip wrapper provides accessible fallback
+---

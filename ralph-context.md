@@ -1,17 +1,22 @@
 ## Last completed
-BEAM-218 - Add 'Share dashboard' button to public analytics pages
+BEAM-220 - Dashboard site health indicators — show data freshness on sites overview
 
 ## Next up
-BEAM-219 - Add Hacker News 'Show HN' post and submit to indie directories — check blocked-stories.json first; may require manual submission (captcha/auth)
+No unblocked stories with passes: false remain in the current PRD.
+- BEAM-216: blocked (auto-blocked after 3 consecutive failures on /for/sveltekit etc.)
+- BEAM-219: blocked (external directory submissions need manual auth — emailed Steve)
+- All other stories pass: true
+
+Self-generation mode: audit the product and write new stories.
 
 ## Active issues
 - BEAM-216 (auto-blocked): /for/sveltekit, /for/vue, /for/nuxt — blocked after 3 consecutive failures.
-- Staging deploy route registration fails (CF auth error on zone routes API) — pre-existing. Worker upload on prod succeeds despite route error; routes already exist from prior deploys.
+- BEAM-219 (blocked): HN Show HN, BetaList, Indie Hackers, AlternativeTo submissions need manual auth. Steve emailed 2026-04-14.
+- Staging deploy route registration fails (CF auth error on zone routes API) — pre-existing.
 - CF API token lacks cache_purge permission — cannot programmatically purge Cloudflare edge cache.
-- ux-audit Journey 1 flaky on prod due to signup rate limit (10/hr/IP). Not a regression.
-- Staging domain beam-staging.keylightdigital.dev does not resolve via DNS — run smoke tests locally or against prod instead.
+- Staging domain beam-staging.keylightdigital.dev does not resolve via DNS — run smoke tests locally or against prod.
 
 ## Key decisions this session
-- BEAM-218: Owner detection on public pages uses getCookie + verifyJWT + DB check, no middleware
-- PRD userStories key is `userStories` (not `stories`) — important for scripting
-- Local smoke tests (wrangler dev) pass even when clipboard API unavailable; prod tests pass on HTTPS
+- BEAM-220: Two-pass query strategy — LEFT JOIN with 7d filter for recent data; second query only for sites with null result to check historical data (avoids full scan for active sites)
+- BEAM-219: Set emailSent: false initially, then updated to true after Resend confirmed delivery
+- Resend sender must use keylightdigital.dev domain (not .com — not verified)
