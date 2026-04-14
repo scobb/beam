@@ -51,3 +51,19 @@ Started: Mon Apr 13 04:41:19 PM PDT 2026
   - When creating a test site with a name that includes the button text (e.g., "Export CSV Site"), Playwright's getByRole link selector matches both the back link and the button — always use `exact: true` for button/link text matching in smoke tests
   - The export form uses POST (form submit) — page.request.post with `form: {...}` works correctly with the session cookie from signupAndGetSession
 ---
+
+## 2026-04-13 - BEAM-214
+- Published blog post: "Why sendBeacon Breaks Cross-Origin Analytics (and How to Fix It)" at /blog/senbeacon-cors-analytics-fix
+- Files changed: `src/routes/blog.ts`, `src/index.ts`, `test/smoke/smoke.spec.ts`
+- Changes:
+  - Added new post to POSTS array (newest first order)
+  - Added full route handler with: technical content, two code examples (broken sendBeacon vs fixed fetch), root cause explanation, diagnosis guide, and CTA
+  - Added to sitemap.xml with changefreq=monthly, priority=0.7
+  - Desktop smoke test: verifies heading, technical content, OG tags (og:type=article, article:published_time), blog index link, sitemap entry
+  - Mobile smoke test: verifies no horizontal overflow at 375px
+- Deployed to prod via `npx wrangler deploy -c wrangler.deploy.toml`
+- 102/102 smoke.spec.ts tests passed on prod
+- **Learnings for future iterations:**
+  - `page.getByText(/pattern/i)` fails in strict mode when the pattern matches multiple elements — use `.first()` or a more specific locator to avoid strict mode violations
+  - Blog post slug in AC was `senbeacon-cors-analytics-fix` (missing 'd' in "send") — matched exactly as specified
+---

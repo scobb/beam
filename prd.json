@@ -3555,7 +3555,7 @@
         "Has correct OG meta tags"
       ],
       "priority": "medium",
-      "passes": false
+      "passes": true
     },
     {
       "id": "BEAM-215",
