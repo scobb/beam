@@ -56,3 +56,25 @@ Started: Mon Apr 13 06:34:00 PM PDT 2026
   - Tooltip opacity via `group-hover:opacity-100 group-focus-within:opacity-100` works on both desktop hover and keyboard/tap focus
   - `title` attribute on the tooltip wrapper provides accessible fallback
 ---
+
+## 2026-04-14 - Self-generation (post-BEAM-220)
+- Audited beam-privacy.com with Playwright at desktop (1280px) and mobile (375px)
+- Checked landing, /for index, /changelog, /blog, /public/dfa32f6b... (public dashboard), /about, /vs/google-analytics
+- **Findings:**
+  - Changelog last updated April 3 — BEAM-217, 218, 220 all missing (stale credibility issue)
+  - "Blog" not linked in main nav — only in footer (discoverability gap)
+  - No /for/react guide — React+Vite is the #1 JS stack, high SEO value
+  - No /vs/mixpanel page — Mixpanel is a major competitor with high search volume
+  - Free users near the 50K limit have no in-dashboard nudge until they get the email at 80%
+  - Public dashboard share links have no UTM attribution
+  - Sites overview has no per-site monthly usage visibility (billing page only)
+- Generated 8 new stories: BEAM-221 through BEAM-228
+  - BEAM-221 (high): Update changelog with April 14 entries
+  - BEAM-222 (medium): Add Blog to main nav
+  - BEAM-223 (medium): /for/react guide
+  - BEAM-224 (medium): /vs/mixpanel comparison page
+  - BEAM-225 (medium): Upgrade nudge banner for free users at 60%+ usage
+  - BEAM-226 (low): UTM tags on share button links
+  - BEAM-227 (low): Blog post for April 2026 features
+  - BEAM-228 (medium): Per-site monthly usage on sites overview
+---

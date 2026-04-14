@@ -1,22 +1,23 @@
 ## Last completed
-BEAM-220 - Dashboard site health indicators — show data freshness on sites overview
+BEAM-220 - Dashboard site health indicators (deployed prod, 180/180 tests pass)
 
 ## Next up
-No unblocked stories with passes: false remain in the current PRD.
-- BEAM-216: blocked (auto-blocked after 3 consecutive failures on /for/sveltekit etc.)
-- BEAM-219: blocked (external directory submissions need manual auth — emailed Steve)
-- All other stories pass: true
+BEAM-221 (high priority) — Update changelog with April 14, 2026 entries for BEAM-217, BEAM-218, BEAM-220.
+- Hardcoded in `src/routes/changelog.ts` as `CHANGELOG: ChangelogGroup[]` array
+- Add a new group `{ date: 'April 14, 2026', entries: [...] }` at the top of the array
+- Tags: 'New' or 'Improvement'
+- Smoke test: GET /changelog shows the April 14 group
 
-Self-generation mode: audit the product and write new stories.
+After that: BEAM-222 (add Blog to nav), then BEAM-225 (upgrade nudge), then BEAM-223 (/for/react), BEAM-228 (per-site usage), BEAM-224 (/vs/mixpanel), BEAM-226 (UTM share), BEAM-227 (blog post).
 
 ## Active issues
 - BEAM-216 (auto-blocked): /for/sveltekit, /for/vue, /for/nuxt — blocked after 3 consecutive failures.
-- BEAM-219 (blocked): HN Show HN, BetaList, Indie Hackers, AlternativeTo submissions need manual auth. Steve emailed 2026-04-14.
-- Staging deploy route registration fails (CF auth error on zone routes API) — pre-existing.
-- CF API token lacks cache_purge permission — cannot programmatically purge Cloudflare edge cache.
-- Staging domain beam-staging.keylightdigital.dev does not resolve via DNS — run smoke tests locally or against prod.
+- BEAM-219 (blocked): HN Show HN, BetaList, Indie Hackers, AlternativeTo — manual auth required. Steve emailed.
+- Staging DNS does not resolve — run smoke tests locally or against prod only.
+- Prod CF route registration errors on deploy (pre-existing — routes exist, worker upload succeeds).
 
 ## Key decisions this session
-- BEAM-220: Two-pass query strategy — LEFT JOIN with 7d filter for recent data; second query only for sites with null result to check historical data (avoids full scan for active sites)
-- BEAM-219: Set emailSent: false initially, then updated to true after Resend confirmed delivery
-- Resend sender must use keylightdigital.dev domain (not .com — not verified)
+- Two-pass query strategy for BEAM-220: LEFT JOIN + 7d filter for green; second query for null results to detect yellow vs red
+- Changelog is hardcoded in changelog.ts (not DB-driven) — add entries directly to the CHANGELOG array
+- Resend sender must use keylightdigital.dev (not .com)
+- PRD key is userStories (not stories)
