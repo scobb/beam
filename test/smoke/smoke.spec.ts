@@ -568,7 +568,7 @@ test.describe('Desktop smoke', () => {
 
     // Analytics page: Export CSV button must be visible and link to export page with date params
     await page.goto(`/dashboard/sites/${siteId}/analytics`)
-    const exportLink = page.getByRole('link', { name: 'Export CSV' })
+    const exportLink = page.getByRole('link', { name: 'Export CSV', exact: true })
     await expect(exportLink).toBeVisible()
     const href = await exportLink.getAttribute('href')
     expect(href).toMatch(/\/export\?from=\d{4}-\d{2}-\d{2}&to=\d{4}-\d{2}-\d{2}/)
@@ -895,7 +895,7 @@ test.describe('Mobile smoke', () => {
 
     // Analytics page: Export CSV button must be reachable on mobile
     await page.goto(`/dashboard/sites/${siteId}/analytics`)
-    await expect(page.getByRole('link', { name: 'Export CSV' })).toBeVisible()
+    await expect(page.getByRole('link', { name: 'Export CSV', exact: true })).toBeVisible()
     await assertNoHorizontalOverflow(page, 'analytics page (mobile)')
 
     // Export form must be usable on mobile
