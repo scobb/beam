@@ -1645,6 +1645,23 @@ test.describe('API v1 authentication', () => {
     expect(decodeURIComponent(tweetHref)).toContain('utm_source=beam-share')
   })
 
+  // ── BEAM-233: /migrate/umami migration guide ─────────────────────────────
+
+  test('BEAM-233: /migrate/umami returns 200 with Umami migration content', async ({ page }) => {
+    const res = await page.goto('/migrate/umami')
+    expect(res?.status()).toBe(200)
+    await expect(page.getByRole('heading', { level: 1 })).toContainText('Umami')
+    await expect(page.locator('body')).toContainText('umami.track')
+    await expect(page.locator('body')).toContainText('window.beam')
+  })
+
+  test('BEAM-233: /migrate/umami is mobile-safe at 375px', async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 812 })
+    await page.goto('/migrate/umami')
+    await expect(page.getByRole('heading', { level: 1 })).toContainText('Umami')
+    await assertNoHorizontalOverflow(page, '/migrate/umami mobile 375px')
+  })
+
   // ── BEAM-232: Blog post GDPR analytics ───────────────────────────────────
 
   test('BEAM-232: /blog/gdpr-analytics-no-cookie-banner returns 200 with correct content', async ({ page }) => {

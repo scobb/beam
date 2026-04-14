@@ -72,6 +72,12 @@ app.get('/migrate', (c) => {
       bestFor: 'Fathom users validating lower-cost migration paths without losing clarity.',
     },
     {
+      href: '/migrate/umami',
+      label: 'Umami migration guide',
+      summary: 'Switch from self-hosted Umami to Beam with a script-swap checklist and honest self-hosting vs managed trade-off comparison.',
+      bestFor: 'Developers running self-hosted Umami who want a managed alternative with zero infrastructure maintenance.',
+    },
+    {
       href: '/migrate/import-history',
       label: 'Import historical traffic guide',
       summary: 'Bring daily traffic totals from Plausible or Fathom CSV exports into Beam so your dashboard shows trend context from day one.',
@@ -1368,6 +1374,185 @@ ${nav()}
       <a href="/for" class="inline-flex items-center justify-center rounded-xl border border-emerald-600 bg-white px-6 py-3 font-semibold text-emerald-800 hover:bg-emerald-100">Open setup guides</a>
       <a href="/demo" class="inline-flex items-center justify-center rounded-xl border border-emerald-600 bg-white px-6 py-3 font-semibold text-emerald-800 hover:bg-emerald-100">Try the live demo</a>
       <a href="/beam-analytics-alternative" class="inline-flex items-center justify-center rounded-xl border border-emerald-600 bg-white px-6 py-3 font-semibold text-emerald-800 hover:bg-emerald-100">Beam Analytics Alternative page</a>
+    </div>
+  </section>
+</main>
+
+${footer()}
+</body>
+</html>`
+  return c.html(html)
+})
+
+// ─── Migrate from Umami ───────────────────────────────────────────────────────
+
+app.get('/migrate/umami', (c) => {
+  const baseUrl = getPublicBaseUrl(c.env)
+  const BEAM_SITE_ID = c.env.BEAM_SELF_SITE_ID ?? BEAM_SITE_ID_FALLBACK
+  const howToJsonLd = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'HowTo',
+    name: 'Migrate from Umami to Beam',
+    description: 'Script-swap checklist for moving from self-hosted Umami to Beam: remove Umami tags, install Beam, verify first pageviews and events.',
+    step: [
+      { '@type': 'HowToStep', name: 'Locate Umami script tags', text: 'Find all pages where the Umami tracking script (script.js from your self-hosted server) is included.' },
+      { '@type': 'HowToStep', name: 'Create a Beam account and site', text: 'Sign up at beam-privacy.com, create a site for your domain, and copy your Beam site ID.' },
+      { '@type': 'HowToStep', name: 'Replace Umami script with Beam', text: 'Remove Umami script tags and add the Beam script tag with your site ID in the same deployment.' },
+      { '@type': 'HowToStep', name: 'Verify first pageviews', text: 'Load your site and confirm pageviews appear in the Beam dashboard within a minute.' },
+      { '@type': 'HowToStep', name: 'Decommission Umami server', text: 'Once traffic is confirmed in Beam, you can safely shut down your Umami server or container.' },
+    ],
+    totalTime: 'PT15M',
+  })
+  const faqJsonLd = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What does Beam cover that Umami covers?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Both Umami and Beam provide cookie-free, GDPR-compliant analytics with pageviews, unique visitors, referrers, countries, browser and device breakdowns, and custom events. Beam is fully managed — no server to run, no database to maintain.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'What does Umami offer that Beam does not?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Umami can be fully self-hosted, giving you complete control over your infrastructure and data residency. Umami also has a hosted cloud option (Umami Cloud). Beam is managed-only (runs on Cloudflare\'s edge network). If complete self-hosting is a hard requirement, Umami remains the right choice.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'How do I migrate Umami custom events to Beam?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Umami custom events use umami.track(). Beam events use window.beam.track(eventName, properties). The syntax is similar — update your event calls to use the Beam API and verify in the Beam dashboard after deployment.',
+        },
+      },
+    ],
+  })
+
+  const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Umami to Beam Migration Guide — Move from Self-Hosted to Managed Analytics</title>
+  <meta name="description" content="Migrate from self-hosted Umami to Beam: script swap, no server to maintain, same cookie-free privacy. Practical checklist with verified steps." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="${baseUrl}/migrate/umami" />
+  <meta property="og:title" content="Umami to Beam Migration Guide" />
+  <meta property="og:description" content="Move from self-hosted Umami to managed cookie-free analytics with Beam. No server, no maintenance, same privacy." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="${baseUrl}/migrate/umami" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Umami to Beam Migration Guide" />
+  <meta name="twitter:description" content="Swap self-hosted Umami for Beam's managed privacy-first analytics. Script replacement checklist with verification steps." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script type="application/ld+json">${howToJsonLd}</script>
+  <script type="application/ld+json">${faqJsonLd}</script>
+  <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
+</head>
+<body class="bg-white text-gray-900 antialiased">
+${nav()}
+
+<main class="max-w-4xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
+  <p class="text-sm font-semibold text-indigo-600 uppercase tracking-wide">Migration Guide</p>
+  <h1 class="mt-2 text-3xl sm:text-5xl font-extrabold tracking-tight text-gray-900">Umami to Beam: self-hosted to managed in 15 minutes</h1>
+  <p class="mt-6 text-lg text-gray-600 leading-relaxed">
+    This guide is for developers running self-hosted Umami who want to drop the infrastructure overhead without losing privacy-first analytics.
+    Beam covers the same core metrics — pageviews, referrers, countries, devices, events — with zero server maintenance.
+  </p>
+
+  <section class="mt-10 rounded-2xl border border-indigo-100 bg-indigo-50 p-6 sm:p-8">
+    <h2 class="text-xl font-bold text-gray-900">What carries over</h2>
+    <ul class="mt-4 space-y-2 text-sm text-gray-700">
+      <li class="flex items-start gap-2"><span class="text-green-600 font-bold mt-0.5 shrink-0">✓</span><span class="min-w-0 break-words">Cookie-free, GDPR-compliant tracking — no consent banner required</span></li>
+      <li class="flex items-start gap-2"><span class="text-green-600 font-bold mt-0.5 shrink-0">✓</span><span class="min-w-0 break-words">Pageviews, unique visitors, bounce rate, visit duration</span></li>
+      <li class="flex items-start gap-2"><span class="text-green-600 font-bold mt-0.5 shrink-0">✓</span><span class="min-w-0 break-words">Referrers, UTM source/medium/campaign breakdowns</span></li>
+      <li class="flex items-start gap-2"><span class="text-green-600 font-bold mt-0.5 shrink-0">✓</span><span class="min-w-0 break-words">Top pages, countries, browsers, device types, screen sizes</span></li>
+      <li class="flex items-start gap-2"><span class="text-green-600 font-bold mt-0.5 shrink-0">✓</span><span class="min-w-0 break-words">Custom events with properties (<code class="bg-white px-1 rounded font-mono">umami.track()</code> → <code class="bg-white px-1 rounded font-mono">beam.track()</code>)</span></li>
+    </ul>
+    <h2 class="text-xl font-bold text-gray-900 mt-6">What you're trading</h2>
+    <ul class="mt-4 space-y-2 text-sm text-gray-700">
+      <li class="flex items-start gap-2"><span class="text-amber-500 font-bold mt-0.5 shrink-0">→</span><span class="min-w-0 break-words"> <strong>Self-hosting control</strong> — Beam is managed (Cloudflare edge). If full data residency control is a hard requirement, Umami self-hosting remains the right call.</span></li>
+      <li class="flex items-start gap-2"><span class="text-amber-500 font-bold mt-0.5 shrink-0">→</span><span class="min-w-0 break-words"> <strong>Historical data</strong> — Umami data stays in your database. Beam starts fresh. Export Umami data before decommissioning your server.</span></li>
+    </ul>
+  </section>
+
+  <section class="mt-10">
+    <h2 class="text-2xl font-bold text-gray-900">Migration checklist</h2>
+    <ol class="mt-6 space-y-6">
+      <li class="flex gap-4">
+        <span class="flex-none w-8 h-8 rounded-full bg-indigo-100 text-indigo-700 font-bold text-sm flex items-center justify-center">1</span>
+        <div>
+          <h3 class="font-semibold text-gray-900">Find all Umami script tags</h3>
+          <p class="mt-1 text-sm text-gray-600">Search your codebase for <code class="bg-gray-100 px-1 rounded font-mono">script.js</code> or your Umami server domain. Common locations: HTML templates, layout files, CMS theme files.</p>
+        </div>
+      </li>
+      <li class="flex gap-4">
+        <span class="flex-none w-8 h-8 rounded-full bg-indigo-100 text-indigo-700 font-bold text-sm flex items-center justify-center">2</span>
+        <div>
+          <h3 class="font-semibold text-gray-900">Create a Beam account and site</h3>
+          <p class="mt-1 text-sm text-gray-600"><a href="/signup" class="text-indigo-600 hover:underline">Sign up at beam-privacy.com</a>, create a site for your domain, and copy the generated site ID. Free tier: 50K pageviews/mo.</p>
+        </div>
+      </li>
+      <li class="flex gap-4">
+        <span class="flex-none w-8 h-8 rounded-full bg-indigo-100 text-indigo-700 font-bold text-sm flex items-center justify-center">3</span>
+        <div class="min-w-0 flex-1">
+          <h3 class="font-semibold text-gray-900">Replace Umami script with Beam</h3>
+          <p class="mt-1 text-sm text-gray-600">Remove the Umami <code class="bg-gray-100 px-1 rounded font-mono">&lt;script&gt;</code> tag and add the Beam equivalent in the same deployment:</p>
+          <div class="mt-3 overflow-x-auto rounded-xl border border-gray-700">
+          <pre class="bg-gray-900 text-gray-100 p-4 text-sm"><code>&lt;!-- Remove: --&gt;
+&lt;script async src="https://your-umami-server.com/script.js"
+        data-website-id="YOUR_UMAMI_ID"&gt;&lt;/script&gt;
+
+&lt;!-- Add: --&gt;
+&lt;script defer src="${baseUrl}/js/beam.js"
+        data-site-id="YOUR_BEAM_SITE_ID"&gt;&lt;/script&gt;</code></pre>
+          </div>
+        </div>
+      </li>
+      <li class="flex gap-4">
+        <span class="flex-none w-8 h-8 rounded-full bg-indigo-100 text-indigo-700 font-bold text-sm flex items-center justify-center">4</span>
+        <div class="min-w-0 flex-1">
+          <h3 class="font-semibold text-gray-900">Update custom event calls (if any)</h3>
+          <p class="mt-1 text-sm text-gray-600">If you're using Umami's <code class="bg-gray-100 px-1 rounded font-mono">umami.track()</code> for custom events, update to the Beam equivalent:</p>
+          <div class="mt-3 overflow-x-auto rounded-xl border border-gray-700">
+          <pre class="bg-gray-900 text-gray-100 p-4 text-sm"><code>// Umami:
+umami.track('signup_click', { plan: 'pro' })
+
+// Beam:
+window.beam?.track?.('signup_click', { plan: 'pro' })</code></pre>
+          </div>
+        </div>
+      </li>
+      <li class="flex gap-4">
+        <span class="flex-none w-8 h-8 rounded-full bg-indigo-100 text-indigo-700 font-bold text-sm flex items-center justify-center">5</span>
+        <div>
+          <h3 class="font-semibold text-gray-900">Verify first pageviews in Beam</h3>
+          <p class="mt-1 text-sm text-gray-600">After deploying, open your site in a private window and navigate to two pages. Check the Beam dashboard — pageviews should appear within 30 seconds. Confirm top pages and a key event if you migrated events.</p>
+        </div>
+      </li>
+      <li class="flex gap-4">
+        <span class="flex-none w-8 h-8 rounded-full bg-indigo-100 text-indigo-700 font-bold text-sm flex items-center justify-center">6</span>
+        <div>
+          <h3 class="font-semibold text-gray-900">Export Umami data and decommission server</h3>
+          <p class="mt-1 text-sm text-gray-600">Export your Umami database or use Umami's built-in data export before shutting down. Once Beam is confirmed working, you can safely stop your Umami server, container, or VM.</p>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <section class="mt-12 rounded-2xl border border-emerald-100 bg-emerald-50 p-6 sm:p-8">
+    <h2 class="text-2xl font-bold text-gray-900">Start the migration now</h2>
+    <p class="mt-3 text-gray-700">Sign up free — 50K pageviews/mo included. No credit card needed. Your Beam site is ready in under a minute.</p>
+    <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+      <a href="/signup" class="inline-flex items-center justify-center rounded-xl bg-emerald-700 px-6 py-3 font-semibold text-white hover:bg-emerald-800">Create Beam account</a>
+      <a href="/vs/umami" class="inline-flex items-center justify-center rounded-xl border border-emerald-600 bg-white px-6 py-3 font-semibold text-emerald-800 hover:bg-emerald-100">Beam vs Umami comparison</a>
+      <a href="/demo" class="inline-flex items-center justify-center rounded-xl border border-emerald-600 bg-white px-6 py-3 font-semibold text-emerald-800 hover:bg-emerald-100">Try the live demo</a>
     </div>
   </section>
 </main>
