@@ -1603,4 +1603,45 @@ test.describe('API v1 authentication', () => {
     await assertNoHorizontalOverflow(page, '/vs/mixpanel mobile 375px')
     await page.screenshot({ path: 'screenshots/smoke/mobile-demo.png' })
   })
+
+  // ── BEAM-226: UTM attribution on share links ──────────────────────────────
+
+  test('BEAM-226: Copy link on public dashboard includes utm_source=beam-share', async ({ page, context }) => {
+    // Grant clipboard permissions so we can read what was copied
+    await context.grantPermissions(['clipboard-read', 'clipboard-write'])
+
+    const email = uniqueEmail()
+    await signupAndGetSession(page, email)
+
+    // Create and enable public dashboard
+    await page.goto('/dashboard/sites/new')
+    await page.fill('input[name="name"]', 'UTM Share Test Site')
+    await page.fill('input[name="domain"]', 'utm-share-test.example.com')
+    await page.click('button[type="submit"]')
+    await page.waitForURL(/\/dashboard\/sites\/[0-9a-f-]+$/)
+    const siteId = page.url().split('/dashboard/sites/')[1].split(/[?#]/)[0]
+
+    await page.click('button[type="submit"]:has-text("Public: Off")')
+    await page.waitForURL(/\/dashboard\/sites\/[0-9a-f-]+$/)
+
+    await page.goto(`/public/${siteId}`)
+
+    // Open share dropdown
+    await page.getByRole('button', { name: /Share/i }).click()
+    await expect(page.getByRole('button', { name: /Copy link/i })).toBeVisible()
+
+    // Click Copy link and read clipboard
+    await page.getByRole('button', { name: /Copy link/i }).click()
+    const copied = await page.evaluate(() => navigator.clipboard.readText())
+
+    expect(copied).toContain(`/public/${siteId}`)
+    expect(copied).toContain('utm_source=beam-share')
+    expect(copied).toContain('utm_medium=referral')
+
+    // Share on X tweet URL must also use UTM-tagged link
+    const tweetLink = page.getByRole('link', { name: /Share on X/i })
+    await expect(tweetLink).toBeVisible()
+    const tweetHref = await tweetLink.getAttribute('href') ?? ''
+    expect(decodeURIComponent(tweetHref)).toContain('utm_source=beam-share')
+  })
 })

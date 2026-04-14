@@ -474,7 +474,8 @@ publicDash.get('/public/:site_id', async (c) => {
 
   const baseUrl = getPublicBaseUrl(c.env)
   const shareUrl = publicUrl(baseUrl, `/public/${siteId}`)
-  const tweetText = encodeURIComponent(`Check out my site analytics, powered by @BeamPrivacy ${shareUrl}`)
+  const shareUrlWithUtm = `${shareUrl}?utm_source=beam-share&utm_medium=referral`
+  const tweetText = encodeURIComponent(`Check out my site analytics, powered by @BeamPrivacy ${shareUrlWithUtm}`)
   const tweetHref = `https://x.com/intent/tweet?text=${tweetText}`
 
   const shareButtonHtml = isOwner ? `
@@ -505,7 +506,7 @@ publicDash.get('/public/:site_id', async (c) => {
     </div>
     <script>
       (function() {
-        var shareUrl = ${JSON.stringify(shareUrl)};
+        var shareUrl = ${JSON.stringify(shareUrlWithUtm)};
         window.toggleShareMenu = function(e) {
           e.stopPropagation();
           document.getElementById('share-menu').classList.toggle('hidden');
