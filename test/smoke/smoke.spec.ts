@@ -603,9 +603,9 @@ test.describe('Desktop smoke', () => {
     // Blog post page loads with correct heading and technical content
     await page.goto(`/blog/${slug}`)
     await expect(page.getByRole('heading', { level: 1 })).toContainText('sendBeacon')
-    await expect(page.getByText(/credentials:include/i)).toBeVisible()
-    await expect(page.getByText(/credentials: 'omit'/i)).toBeVisible()
-    await expect(page.getByText(/keepalive/i)).toBeVisible()
+    await expect(page.getByText(/credentials:include/i).first()).toBeVisible()
+    await expect(page.getByText(/credentials: 'omit'/i).first()).toBeVisible()
+    await expect(page.getByText(/keepalive/i).first()).toBeVisible()
 
     // OG meta tags
     const ogTitle = await page.$eval('meta[property="og:title"]', (el) => el.getAttribute('content'))
