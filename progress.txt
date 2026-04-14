@@ -78,3 +78,17 @@ Started: Mon Apr 13 06:34:00 PM PDT 2026
   - BEAM-227 (low): Blog post for April 2026 features
   - BEAM-228 (medium): Per-site monthly usage on sites overview
 ---
+
+## 2026-04-14 - BEAM-221
+- Added April 14, 2026 changelog group at the top of CHANGELOG array in `src/routes/changelog.ts`
+- Three entries added:
+  - "Site health indicators on the sites overview" (tag: New) — BEAM-220
+  - "Share button and Beam footer on public dashboards" (tag: New) — BEAM-218
+  - "Usage warning email at 80% of free plan limit" (tag: Improvement) — BEAM-217
+- Files changed: `src/routes/changelog.ts`, `prd.json`
+- Deployed to prod via `deploy.sh prod` — worker upload succeeded, route registration fails (pre-existing)
+- Verified: `GET https://beam-privacy.com/changelog` returns 200 and shows all three new April 14 entries
+- **Learnings for future iterations:**
+  - Changelog is fully hardcoded in `src/routes/changelog.ts` as a `CHANGELOG: ChangelogGroup[]` array — no DB
+  - New date groups go at the TOP of the array (most recent first)
+---
