@@ -24,7 +24,7 @@ const GUIDE_SECTIONS = [
   {
     title: 'Developer frameworks',
     subtitle: 'Implementation guides for teams that control source code and deploy pipelines.',
-    slugs: ['nextjs', 'react', 'vue', 'wordpress', 'astro', 'gatsby', 'hugo', 'remix'],
+    slugs: ['nextjs', 'react', 'vue', 'nuxt', 'wordpress', 'astro', 'gatsby', 'hugo', 'remix'],
   },
   {
     title: 'No-code builders',
@@ -245,6 +245,78 @@ export default router`,
     ],
     others: [
       { slug: 'react', name: 'React' },
+      { slug: 'nuxt', name: 'Nuxt' },
+      { slug: 'nextjs', name: 'Next.js' },
+      { slug: 'astro', name: 'Astro' },
+    ],
+  },
+
+  nuxt: {
+    slug: 'nuxt',
+    name: 'Nuxt',
+    icon: '💚',
+    tagline: 'Privacy-first analytics for Nuxt 3 apps',
+    hubDescription: 'Nuxt 3 client plugin with useRouter afterEach for SPA navigation tracking — no consent banner required.',
+    description: 'Add cookie-free, GDPR-compliant analytics to your Nuxt 3 app in under 2 minutes. No consent banner required. Uses the Nuxt plugin system and Vue Router\'s afterEach guard for full SPA route coverage.',
+    metaDescription: 'Add privacy-first analytics to your Nuxt 3 app. Cookie-free, GDPR-compliant, <2KB script. Uses Nuxt client plugin with Vue Router afterEach. No consent banner needed.',
+    installSteps: [
+      {
+        title: 'Create a Nuxt client plugin: plugins/beam.client.ts',
+        code: `// plugins/beam.client.ts
+// The .client.ts suffix ensures this runs only in the browser (not during SSR).
+
+export default defineNuxtPlugin((nuxtApp) => {
+  // Inject the Beam script once on app init
+  const script = document.createElement('script')
+  script.defer = true
+  script.src = '${DEFAULT_PUBLIC_BASE_URL}/js/beam.js'
+  script.setAttribute('data-site-id', 'YOUR_SITE_ID')
+  document.head.appendChild(script)
+
+  // Track SPA navigations with Vue Router afterEach
+  const router = useRouter()
+  router.afterEach((to) => {
+    // Wait a tick for the script to initialise on first load
+    nextTick(() => {
+      window.beam?.track?.('pageview', { path: to.fullPath })
+    })
+  })
+})`,
+        lang: 'ts',
+        explanation: 'Nuxt auto-discovers plugins in the <code>plugins/</code> directory. The <code>.client.ts</code> suffix tells Nuxt to skip this plugin during server-side rendering, so <code>document</code> and <code>window</code> are always available.',
+      },
+      {
+        title: 'Alternative: npm package install',
+        code: `# Install the Beam npm package
+npm install @keylightdigital/beam
+
+# Then in plugins/beam.client.ts, import directly:
+import { trackPageview } from '@keylightdigital/beam'
+
+export default defineNuxtPlugin(() => {
+  const router = useRouter()
+  router.afterEach((to) => {
+    nextTick(() => trackPageview(to.fullPath))
+  })
+})`,
+        lang: 'bash',
+        explanation: 'The npm package is available for teams that prefer build-tool integration. The script-tag approach above is simpler and needs no bundler changes.',
+      },
+    ],
+    verificationChecklist: [
+      'Run nuxi dev and open the app in a browser.',
+      'Navigate between two routes using <NuxtLink> components (not browser refresh).',
+      'Open your Beam dashboard and confirm both paths appear in Top Pages within a minute.',
+      'Check that no cookies or localStorage keys are set by the Beam script.',
+    ],
+    whyPoints: [
+      { icon: '🍪', title: 'No cookie banner required', body: 'Beam is cookie-free by design — no consent UI to build, no GDPR overhead for your Nuxt 3 app.' },
+      { icon: '⚡', title: 'Sub-2KB, SSR-safe', body: 'The .client.ts plugin pattern keeps Beam out of SSR entirely, so your Nuxt server render is never affected.' },
+      { icon: '🧭', title: 'Full SPA route tracking', body: 'The afterEach guard captures every Vue Router navigation in your Nuxt app so Top Pages stays accurate across all routes.' },
+      { icon: '🔒', title: 'Privacy by default', body: 'No PII, no fingerprinting, no ad-tech — just page-level metrics your team can act on.' },
+    ],
+    others: [
+      { slug: 'vue', name: 'Vue.js' },
       { slug: 'nextjs', name: 'Next.js' },
       { slug: 'astro', name: 'Astro' },
       { slug: 'remix', name: 'Remix' },

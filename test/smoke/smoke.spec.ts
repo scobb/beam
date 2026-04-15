@@ -1920,4 +1920,51 @@ test.describe('API v1 authentication', () => {
     await expect(page.locator('body')).toContainText('$5')
     await expect(page.locator('a[href="/signup"]').first()).toBeVisible()
   })
+
+  // ── BEAM-238: /for/nuxt integration guide ─────────────────────────────────
+
+  test('BEAM-238: /for/nuxt returns 200 and heading contains Nuxt', async ({ page }) => {
+    const res = await page.goto('/for/nuxt')
+    expect(res?.status()).toBe(200)
+    await expect(page.getByRole('heading', { level: 1 })).toContainText('Nuxt')
+  })
+
+  test('BEAM-238: /for/nuxt shows Nuxt 3 plugin and router content', async ({ page }) => {
+    await page.goto('/for/nuxt')
+    // Plugin file pattern
+    await expect(page.locator('body')).toContainText('plugins/beam.client.ts')
+    // SPA navigation tracking
+    await expect(page.locator('body')).toContainText('afterEach')
+    // npm alternative
+    await expect(page.locator('body')).toContainText('@keylightdigital/beam')
+    // Verification section
+    await expect(page.locator('body')).toContainText('Verify')
+  })
+
+  test('BEAM-238: /for/nuxt linked from /for hub', async ({ page }) => {
+    await page.goto('/for')
+    await expect(page.locator('a[href="/for/nuxt"]')).toBeVisible()
+  })
+
+  test('BEAM-238: /for/nuxt linked from landing page step 1', async ({ page }) => {
+    await page.goto('/')
+    await expect(page.locator('a[href="/for/nuxt"]')).toBeVisible()
+  })
+
+  test('BEAM-238: /for/nuxt appears in sitemap', async ({ page }) => {
+    const res = await page.goto('/sitemap.xml')
+    expect(res?.status()).toBe(200)
+    const text = await page.content()
+    expect(text).toContain('/for/nuxt')
+  })
+
+  test('BEAM-238: /for/nuxt is mobile-safe at 375px', async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 812 })
+    await page.goto('/for/nuxt')
+    const hasOverflow = await page.evaluate(
+      () => document.documentElement.scrollWidth > window.innerWidth
+    )
+    expect(hasOverflow, '/for/nuxt must not overflow horizontally at 375px').toBe(false)
+    await expect(page.getByRole('heading', { level: 1 })).toContainText('Nuxt')
+  })
 })
