@@ -402,6 +402,72 @@ dashboard.get('/dashboard', async (c) => {
       </div>
     </div>`).join('')
 
+  // ── Empty state: user has no sites yet ───────────────────────────────────
+  if (!hasSite) {
+    const emptyContent = `
+      <div class="p-4 sm:p-8 max-w-2xl mx-auto">
+        <div class="text-center py-12 sm:py-16">
+          <!-- Icon -->
+          <div class="w-16 h-16 bg-indigo-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
+            <svg class="w-8 h-8 text-indigo-600" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
+            </svg>
+          </div>
+
+          <!-- Heading -->
+          <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">Welcome to Beam!</h1>
+          <p class="text-gray-500 text-base sm:text-lg mb-8 max-w-md mx-auto">
+            Add your first site to start tracking pageviews, referrers, and countries — with no cookies and no consent banner.
+          </p>
+
+          <!-- Primary CTA -->
+          <a href="/dashboard/sites/new"
+             data-testid="empty-state-add-site"
+             class="inline-block bg-indigo-600 text-white px-6 py-3 rounded-xl text-sm font-semibold hover:bg-indigo-700 transition">
+            Add your first site
+          </a>
+          <p class="text-xs text-gray-400 mt-3">Takes about 60 seconds</p>
+        </div>
+
+        <!-- How it works steps -->
+        <div class="bg-white rounded-xl border border-gray-200 p-6">
+          <h2 class="text-sm font-semibold text-gray-700 mb-5">How it works</h2>
+          <div class="space-y-5">
+            <div class="flex items-start gap-4">
+              <div class="w-7 h-7 rounded-full bg-indigo-600 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">1</div>
+              <div>
+                <p class="text-sm font-medium text-gray-800">Add a site</p>
+                <p class="text-xs text-gray-500 mt-0.5">Enter your domain and Beam generates a unique tracking ID.</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <div class="w-7 h-7 rounded-full bg-indigo-100 text-indigo-600 text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">2</div>
+              <div>
+                <p class="text-sm font-medium text-gray-800">Paste one script tag</p>
+                <p class="text-xs text-gray-500 mt-0.5">Copy the snippet into your site&rsquo;s <code class="bg-gray-100 px-1 rounded">&lt;head&gt;</code>. No build step needed.</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <div class="w-7 h-7 rounded-full bg-indigo-100 text-indigo-600 text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">3</div>
+              <div>
+                <p class="text-sm font-medium text-gray-800">See your traffic</p>
+                <p class="text-xs text-gray-500 mt-0.5">Pageviews, referrers, countries, and devices appear in real time — cookie-free.</p>
+              </div>
+            </div>
+          </div>
+          <div class="mt-6 pt-5 border-t border-gray-100">
+            <a href="/dashboard/sites/new"
+               class="inline-block bg-indigo-600 text-white px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-indigo-700 transition">
+              Add your first site
+            </a>
+            <a href="/for" class="ml-4 text-sm text-indigo-600 hover:underline">View setup guides →</a>
+          </div>
+        </div>
+      </div>`
+    return c.html(layout('Welcome', '/dashboard', emptyContent))
+  }
+
+  // ── Normal dashboard: user has at least one site ──────────────────────────
   const content = `
     <div class="p-4 sm:p-8">
       <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
@@ -426,14 +492,7 @@ dashboard.get('/dashboard', async (c) => {
         </div>
       ` : ''}
 
-      ${(sites.results ?? []).length === 0 ? `
-        <div class="bg-white rounded-xl border border-gray-200 p-12 text-center">
-          <p class="text-gray-400 text-lg mb-4">No sites yet</p>
-          <a href="/dashboard/sites/new" class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700 transition">
-            Add your first site
-          </a>
-        </div>
-      ` : `<div class="space-y-3 mb-5">${siteCards}</div>`}
+      <div class="space-y-3 mb-5">${siteCards}</div>
 
       <!-- Usage bar -->
       <div class="bg-white rounded-xl border border-gray-200 p-4 mb-5">

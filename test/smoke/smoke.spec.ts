@@ -2113,4 +2113,35 @@ test.describe('API v1 authentication', () => {
     await expect(page.locator('body')).toContainText('Password updated successfully')
     // UNVERIFIED: security email delivery cannot be checked in smoke suite
   })
+
+  // ── BEAM-242: Dashboard empty state ──────────────────────────────────────
+
+  test('BEAM-242: newly signed up user sees empty state on /dashboard', async ({ page }) => {
+    const email = uniqueEmail()
+    await signupAndGetSession(page, email)
+    await page.goto('/dashboard')
+    // Should show empty state, not the analytics layout
+    await expect(page.locator('[data-testid="empty-state-add-site"]')).toBeVisible()
+    await expect(page.locator('body')).toContainText('Welcome to Beam')
+    await expect(page.locator('body')).toContainText('Add your first site')
+  })
+
+  test('BEAM-242: empty state CTA links to /dashboard/sites/new', async ({ page }) => {
+    const email = uniqueEmail()
+    await signupAndGetSession(page, email)
+    await page.goto('/dashboard')
+    const cta = page.locator('[data-testid="empty-state-add-site"]')
+    await expect(cta).toHaveAttribute('href', '/dashboard/sites/new')
+  })
+
+  test('BEAM-242: mobile — empty state at 375px has no horizontal overflow', async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 812 })
+    const email = uniqueEmail()
+    await signupAndGetSession(page, email)
+    await page.goto('/dashboard')
+    await expect(page.locator('[data-testid="empty-state-add-site"]')).toBeVisible()
+    const scrollWidth = await page.evaluate(() => document.documentElement.scrollWidth)
+    const clientWidth = await page.evaluate(() => document.documentElement.clientWidth)
+    expect(scrollWidth).toBeLessThanOrEqual(clientWidth)
+  })
 })
