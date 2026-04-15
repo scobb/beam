@@ -1875,4 +1875,49 @@ test.describe('API v1 authentication', () => {
     expect(text).toContain('april-2026-updates')
     expect(text).toContain('April 2026 Product Updates')
   })
+
+  // ── BEAM-237: /pricing page ───────────────────────────────────────────────
+
+  test('BEAM-237: /pricing returns 200 with plan and price content', async ({ page }) => {
+    const res = await page.goto('/pricing')
+    expect(res?.status()).toBe(200)
+    await expect(page.locator('body')).toContainText('Pro')
+    await expect(page.locator('body')).toContainText('$5')
+    await expect(page.locator('body')).toContainText('Free')
+  })
+
+  test('BEAM-237: /pricing shows plan details and FAQ', async ({ page }) => {
+    await page.goto('/pricing')
+    await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
+    // Check both plans
+    await expect(page.locator('body')).toContainText('50,000 pageviews')
+    await expect(page.locator('body')).toContainText('500,000 pageviews')
+    // Check FAQ questions
+    await expect(page.locator('body')).toContainText('Is there a free trial?')
+    await expect(page.locator('body')).toContainText('What happens when I hit the pageview limit?')
+    await expect(page.locator('body')).toContainText('Can I cancel anytime?')
+    await expect(page.locator('body')).toContainText('Is a credit card required')
+    // Check CTAs
+    await expect(page.locator('a[href="/signup"]').first()).toBeVisible()
+  })
+
+  test('BEAM-237: /pricing appears in sitemap', async ({ page }) => {
+    const res = await page.goto('/sitemap.xml')
+    expect(res?.status()).toBe(200)
+    const text = await page.content()
+    expect(text).toContain('/pricing')
+  })
+
+  test('BEAM-237: /pricing is mobile-safe at 375px', async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 812 })
+    await page.goto('/pricing')
+    const hasOverflow = await page.evaluate(
+      () => document.documentElement.scrollWidth > window.innerWidth
+    )
+    expect(hasOverflow, '/pricing must not overflow horizontally at 375px').toBe(false)
+    // Plan cards and CTA should be visible
+    await expect(page.locator('body')).toContainText('Pro')
+    await expect(page.locator('body')).toContainText('$5')
+    await expect(page.locator('a[href="/signup"]').first()).toBeVisible()
+  })
 })

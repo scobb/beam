@@ -23,6 +23,7 @@ import { tools } from './routes/tools'
 import { og } from './routes/og'
 import { howItWorks } from './routes/howItWorks'
 import { launch } from './routes/launch'
+import { pricing } from './routes/pricing'
 import { authMiddleware } from './middleware/authMiddleware'
 import { firstTouchAttributionMiddleware } from './middleware/attribution'
 import { handleScheduled } from './scheduled'
@@ -152,6 +153,7 @@ app.get('/sitemap.xml', (c) => {
     '/vs/amplitude',
     '/vs/pirsch',
     '/vs/cabin',
+    '/pricing',
     '/signup',
     '/login',
     '/about',
@@ -215,6 +217,7 @@ app.get('/sitemap.xml', (c) => {
     '/vs/amplitude': { changefreq: 'monthly', priority: '0.8' },
     '/vs/pirsch': { changefreq: 'monthly', priority: '0.8' },
     '/vs/cabin': { changefreq: 'monthly', priority: '0.8' },
+    '/pricing': { changefreq: 'monthly', priority: '0.9' },
     '/signup': { changefreq: 'yearly', priority: '0.7' },
     '/login': { changefreq: 'yearly', priority: '0.5' },
     '/about': { changefreq: 'monthly', priority: '0.6' },
@@ -309,6 +312,7 @@ app.route('/', tools)
 app.route('/', og)
 app.route('/', howItWorks)
 app.route('/', launch)
+app.route('/', pricing)
 
 // Public shareable dashboards (no auth required)
 app.route('/', publicDash)
