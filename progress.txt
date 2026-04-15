@@ -43,3 +43,17 @@ Started: Wed Apr 15 03:01:00 PM PDT 2026
   - Cloudflare Workers deployment can have ~10-30s propagation delay — if prod smoke tests fail immediately after deploy, wait and retry before blocking the story
   - GUIDE_SECTIONS `as const` restriction: both slugs must exist in GUIDES before adding to slugs array
 ---
+
+## 2026-04-15 - BEAM-240
+- Added og:image, twitter:card, twitter:title, twitter:description to all 9 blog post pages (replace_all pattern on shared template literal)
+- Added og:image + twitter tags to blog index, /about, /pricing, /changelog, /privacy, /terms
+- Upgraded landing page twitter:card from 'summary' to 'summary_large_image'
+- og:image uses /og-image.svg (already served at that path — no new asset needed)
+- Blog posts use twitter:card=summary_large_image; other pages use summary
+- Files: src/routes/blog.ts, about.ts, pricing.ts, changelog.ts, legal.ts, src/landing.ts
+- 6 smoke tests (12 desktop+mobile), all pass on prod
+- **Learnings for future iterations:**
+  - blog.ts has 9 posts each with identical template literal patterns — `replace_all: true` handles all at once without touching each handler individually
+  - /og-image.svg is already served and suitable for og:image across all pages; no need to create /og-image.png
+  - vs.ts, migrate.ts, for.ts, howItWorks.ts, tools.ts, wordpressPlugin.ts were already complete; only blog/about/pricing/changelog/legal/landing needed fixes
+---

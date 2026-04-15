@@ -3948,7 +3948,7 @@
         "Smoke test: landing page HTML contains og:title and og:description meta tags"
       ],
       "priority": "medium",
-      "passes": false
+      "passes": true
     },
     {
       "id": "BEAM-241",
