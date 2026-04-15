@@ -1,11 +1,12 @@
 ## Last completed
-BEAM-242 - Dashboard empty state: add setup guide CTA when user has no sites
+BEAM-244 - Add /pricing to nav and footer
 
 ## Next up
-BEAM-244 - Add /pricing to nav and footer
-- The /pricing page exists but is not linked from nav or footer
-- Add it to the main nav (header) and footer links on landing pages and dashboard
-- Look at nav/footer helpers in src/routes/*.ts and src/landing.ts
+BEAM-246 - GDPR data export: add "Export my data" to dashboard settings
+- Add an "Export my data" button/section to /dashboard/settings
+- Should export the user's data (sites, pageviews, etc.) as JSON or CSV
+- Look at /dashboard/settings route in dashboard.ts for the settings page structure
+- BEAM-243 and BEAM-245 are blog posts (lower priority); BEAM-246 is a feature
 
 ## Active issues
 - BEAM-216 (auto-blocked): superseded by BEAM-239 (complete)
@@ -25,3 +26,4 @@ BEAM-244 - Add /pricing to nav and footer
 - Resend sender: ralph@keylightdigital.dev
 - PRD key: userStories
 - Empty state uses early return before content variable — cleaner than conditional within content block
+- Each route file has its own nav()/footer() helper — no shared component, changes must be applied per file

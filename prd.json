@@ -4008,7 +4008,7 @@
         "Smoke test: landing page contains a nav link to /pricing"
       ],
       "priority": "low",
-      "passes": false,
+      "passes": true,
       "notes": "Implement after BEAM-237. The nav and footer are shared components in src/landing.ts and other layout files."
     },
     {

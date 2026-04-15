@@ -89,3 +89,15 @@ Started: Wed Apr 15 03:01:00 PM PDT 2026
   - Empty state uses early return before `const content = ...` — cleanest pattern for divergent layouts
   - Prod smoke tests that require signup will 429 if run frequently in same session (10/hour/IP limit)
 ---
+
+## 2026-04-15 - BEAM-244
+- Added /pricing link to landing page nav and footer, and all public route footers
+- Files changed: src/landing.ts, src/routes/about.ts, src/routes/blog.ts, src/routes/changelog.ts, src/routes/for.ts, src/routes/howItWorks.ts, src/routes/legal.ts, src/routes/migrate.ts, src/routes/vs.ts, src/routes/wordpressPlugin.ts, test/smoke/smoke.spec.ts
+- Landing nav: /pricing added before "Log in"
+- Landing footer: /pricing added after "About"
+- All other route footers: /pricing added after "About" link
+- 8 smoke tests pass (desktop + mobile)
+- **Learnings for future iterations:**
+  - Each route file has its own local nav()/footer() helper — no shared component, so changes must be applied to each file individually
+  - pricing.ts footer already had /pricing (it's own page link) — confirmed no duplication
+---
