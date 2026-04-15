@@ -1,57 +1,18 @@
 # Ralph Progress Log
-Started: Mon Apr 13 08:46:23 PM PDT 2026
+Started: Wed Apr 15 03:01:00 PM PDT 2026
 ---
 
-## 2026-04-15 - BEAM-235
-- Added `/for/react` and `/for/astro` links to the setup guides list in landing page step 1 (src/landing.ts:161)
-- React placed after Next.js, Astro placed after Hugo, per AC ordering
-- Added smoke test assertions: `a[href="/for/react"]` and `a[href="/for/astro"]` visible on landing
-- Verified mobile at 375px — no overflow, all elements fit
-- Deployed to staging + prod; pre-existing CF route registration errors (worker upload succeeded)
-- All 4 landing page smoke tests pass on prod
+## 2026-04-15 - BEAM-237
+- Implemented GET /pricing page with Free ($0) and Pro ($5/mo) plan comparison
+- Added feature comparison table covering 11 features across both plans
+- Added FAQ section: free trial, pageview limits, cancellation, credit card, comparisons, refunds
+- Added CTAs: "Start free" → /signup, "Get Pro" → /signup, bottom section with demo link
+- Added /pricing to sitemap.xml with priority 0.9 (high SEO page)
+- Files changed: src/routes/pricing.ts (new), src/index.ts (import + route + sitemap)
+- Added 4 smoke tests (8 total across desktop+mobile): 200 response, content, sitemap, mobile overflow
+- Smoke tests pass locally and on prod (beam-privacy.com)
 - **Learnings for future iterations:**
-  - Landing page setup guides list is on line 161 of src/landing.ts — one-line edit
-  - Pre-existing CF route registration error on deploy is cosmetic — worker uploads succeed
----
-
-## 2026-04-15 - BEAM-236
-- Added change password form to /dashboard/settings (current, new, confirm fields)
-- Added delete account section with password confirmation and JS confirm dialog
-- POST /dashboard/settings/password — validates current password, checks length ≥8, checks match, updates hash
-- POST /dashboard/settings/delete — verifies password, deletes pageviews/goals/custom_events/sites/user, clears session cookie
-- Added imports: `deleteCookie` from hono/cookie, `hashPassword`/`verifyPassword` from ../auth
-- Status banners: pw-changed, pw-wrong, pw-mismatch, pw-empty, pw-short, del-wrong, del-empty
-- 10 smoke tests, all passing locally and on prod (162 total tests pass on prod)
-- Mobile verified at 375px — no overflow
-- **Learnings for future iterations:**
-  - `hashPassword` and `verifyPassword` are in src/auth.ts — just import them
-  - `deleteCookie` from hono/cookie (not built-in to dashboard.ts)
-  - D1 doesn't support multi-bind with spread for variable-length IN clauses directly — build placeholder string manually
-  - Delete cascade order: pageviews/goals/custom_events (site-level) → sites → user (import_jobs CASCADE automatically)
----
-
-## 2026-04-15 - Self-generation
-All non-blocked stories are complete. Entering self-generation mode.
-
-Audit findings:
-- /pricing returns 404 — no dedicated pricing page
-- /for/nuxt returns 404 — Nuxt.js guide missing despite being a top Vue framework
-- /for/svelte, /for/sveltekit return 404 — Svelte missing
-- No Open Graph / Twitter Card meta tags on any page (blank social unfurls)
-- New users with no sites see confusing empty analytics dashboard
-- No security email sent on password change
-- No data export (GDPR Art. 20 right to portability)
-- No /pricing link in nav or footer
-
-Self-generated stories BEAM-237 through BEAM-246 covering:
-- BEAM-237: /pricing page (broken 404 → high SEO value)
-- BEAM-238: /for/nuxt guide
-- BEAM-239: /for/svelte + /for/sveltekit guides
-- BEAM-240: Open Graph / Twitter Card meta tags
-- BEAM-241: Security email on password change
-- BEAM-242: Dashboard empty state for new users with no sites
-- BEAM-243: Blog post: Nuxt.js privacy analytics
-- BEAM-244: Add /pricing to nav + footer
-- BEAM-245: Blog post: Beam vs Matomo
-- BEAM-246: GDPR data export from dashboard settings
+  - Pricing numbers in the live site: Free = 50K pageviews/mo, Pro = $5/mo 500K — the PRD story had stale numbers (5K/100K); always check the landing page for authoritative values
+  - New route pattern: create src/routes/foo.ts, import in src/index.ts, add `app.route('/', foo)`, add to sitemap paths + meta objects
+  - Route registration error on deploy is pre-existing (auth token lacks zone:edit); worker upload still succeeds and routes work in prod
 ---

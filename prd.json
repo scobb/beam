@@ -3899,7 +3899,7 @@
         "Smoke test: GET /pricing returns 200 and contains 'Pro' and '$5'"
       ],
       "priority": "high",
-      "passes": false
+      "passes": true
     },
     {
       "id": "BEAM-238",
