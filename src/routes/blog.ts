@@ -44,6 +44,20 @@ function footer(): string {
 
 const POSTS = [
   {
+    slug: 'matomo-alternative',
+    title: 'Beam vs Matomo: The Privacy Analytics Showdown for 2026',
+    date: '2026-04-15',
+    excerpt: 'Matomo is the gold standard for open-source analytics — but self-hosting is a real commitment and the cloud plan starts at €19/month. Here\'s an honest comparison of Beam and Matomo for teams that care about privacy without the complexity.',
+    author: 'Keylight Digital',
+  },
+  {
+    slug: 'nuxt-privacy-analytics',
+    title: 'Add Privacy-First Analytics to Nuxt 3 Without Cookies',
+    date: '2026-04-15',
+    excerpt: 'Nuxt 3 apps often break traditional analytics — route changes don\'t trigger page reloads, and cookie banners annoy European users. Here\'s how to add GDPR-compliant, cookie-free analytics to Nuxt 3 with SPA tracking that actually works.',
+    author: 'Keylight Digital',
+  },
+  {
     slug: 'gdpr-analytics-no-cookie-banner',
     title: 'GDPR-Compliant Analytics Without a Cookie Banner — What the Law Actually Requires',
     date: '2026-04-14',
@@ -164,7 +178,7 @@ app.get('/blog', (c) => {
 app.get('/blog/cookie-free-analytics-guide', (c) => {
   const baseUrl = getPublicBaseUrl(c.env)
   const BEAM_SITE_ID = c.env.BEAM_SELF_SITE_ID ?? 'dfa32f6b-0775-43df-a2c4-eb23787e5f03'
-  const post = POSTS[0]!
+  const post = POSTS.find(p => p.slug === 'cookie-free-analytics-guide')!
   const jsonLd = JSON.stringify({
     '@context': 'https://schema.org',
     '@type': 'Article',
@@ -305,7 +319,7 @@ app.get('/blog/cookie-free-analytics-guide', (c) => {
 app.get('/blog/add-analytics-in-5-minutes', (c) => {
   const baseUrl = getPublicBaseUrl(c.env)
   const BEAM_SITE_ID = c.env.BEAM_SELF_SITE_ID ?? 'dfa32f6b-0775-43df-a2c4-eb23787e5f03'
-  const post = POSTS[1]!
+  const post = POSTS.find(p => p.slug === 'add-analytics-in-5-minutes')!
   const jsonLd = JSON.stringify({
     '@context': 'https://schema.org',
     '@type': 'Article',
@@ -514,7 +528,7 @@ app.get('/blog/nextjs-privacy-analytics', (c) => {
   const baseUrl = getPublicBaseUrl(c.env)
   const baseHost = publicHost(baseUrl)
   const BEAM_SITE_ID = c.env.BEAM_SELF_SITE_ID ?? 'dfa32f6b-0775-43df-a2c4-eb23787e5f03'
-  const post = POSTS[2]!
+  const post = POSTS.find(p => p.slug === 'nextjs-privacy-analytics')!
   const jsonLd = JSON.stringify({
     '@context': 'https://schema.org',
     '@type': 'Article',
@@ -2104,6 +2118,430 @@ function escXml(str: string): string {
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&apos;')
 }
+
+// ── BEAM-243: Nuxt 3 privacy analytics ───────────────────────────────────────
+
+app.get('/blog/nuxt-privacy-analytics', (c) => {
+  const baseUrl = getPublicBaseUrl(c.env)
+  const BEAM_SITE_ID = c.env.BEAM_SELF_SITE_ID ?? 'dfa32f6b-0775-43df-a2c4-eb23787e5f03'
+  const post = POSTS.find(p => p.slug === 'nuxt-privacy-analytics')!
+  const jsonLd = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: post.title,
+    datePublished: post.date,
+    dateModified: post.date,
+    author: { '@type': 'Organization', name: 'Keylight Digital LLC', url: baseUrl },
+    publisher: { '@type': 'Organization', name: 'Keylight Digital LLC', url: baseUrl },
+    description: post.excerpt,
+    url: `${baseUrl}/blog/${post.slug}`,
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `${baseUrl}/blog/${post.slug}` },
+  })
+
+  const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>${post.title} — Beam</title>
+  <meta name="description" content="${post.excerpt}" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="${baseUrl}/blog/${post.slug}" />
+  <link rel="alternate" type="application/rss+xml" title="Beam Blog" href="/blog/rss.xml" />
+  <meta property="og:title" content="${post.title}" />
+  <meta property="og:description" content="${post.excerpt}" />
+  <meta property="og:url" content="${baseUrl}/blog/${post.slug}" />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="${post.date}" />
+  <meta property="og:image" content="${baseUrl}/og-image.svg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="${post.title}" />
+  <meta name="twitter:description" content="${post.excerpt}" />
+  <script type="application/ld+json">${jsonLd}</script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
+</head>
+<body class="bg-white text-gray-900">
+  ${nav()}
+  <main class="max-w-3xl mx-auto px-6 py-16">
+    <div class="mb-8">
+      <a href="/blog" class="text-sm text-indigo-600 hover:text-indigo-700">← Back to blog</a>
+    </div>
+    <article>
+      <header class="mb-10">
+        <time class="text-sm text-gray-400">${post.date}</time>
+        <h1 class="mt-2 text-3xl font-bold text-gray-900 leading-snug">${post.title}</h1>
+        <p class="mt-3 text-lg text-gray-500">${post.excerpt}</p>
+      </header>
+
+      <div class="prose prose-gray max-w-none space-y-6 text-gray-700 leading-relaxed">
+
+        <h2 class="text-xl font-bold text-gray-900 mt-10">Why Nuxt 3 Breaks Traditional Analytics</h2>
+        <p>
+          Nuxt 3 is a server-side rendering framework built on Vue 3. When you navigate between pages, the router intercepts the navigation and updates the DOM without a full page reload. This is great for performance — but it completely breaks analytics tools that rely on traditional page load events.
+        </p>
+        <p>
+          Google Analytics, for example, fires a pageview when the page loads. In a Nuxt 3 app, only the first page load triggers that event. Every subsequent navigation is invisible to analytics. You end up with wildly inaccurate data: 80% of your traffic looks like a single-page session.
+        </p>
+        <p>
+          On top of that, traditional analytics tools set cookies to track users across sessions. In the EU, this requires a consent banner. If your Nuxt app has European users, you're either showing an annoying banner or breaking GDPR.
+        </p>
+        <p>
+          Cookie-free, SPA-aware analytics solves both problems at once.
+        </p>
+
+        <h2 class="text-xl font-bold text-gray-900 mt-10">Why Cookie-Free Analytics Matters for EU Sites</h2>
+        <p>
+          GDPR's cookie rules come from the ePrivacy Directive, which requires consent before storing identifiers in a user's browser. Analytics cookies — including the GA4 <code>_ga</code> cookie — fall squarely in this category.
+        </p>
+        <p>
+          Cookie-free analytics sidesteps this entirely. Beam doesn't set cookies, doesn't use localStorage, and doesn't generate persistent user IDs. Each pageview is counted independently. There's nothing to consent to, so there's nothing to banner for.
+        </p>
+        <p>
+          This isn't a legal grey area — it's a principled architectural choice that eliminates the compliance burden from the start.
+        </p>
+
+        <h2 class="text-xl font-bold text-gray-900 mt-10">Installing Beam in a Nuxt 3 Project</h2>
+        <p>
+          Beam provides a lightweight tracking script that you include once and then hook into the Nuxt router for SPA tracking. Here's the complete setup:
+        </p>
+
+        <h3 class="text-lg font-semibold text-gray-900 mt-8">Step 1: Create a Nuxt Plugin</h3>
+        <p>
+          Nuxt plugins run automatically when your app starts. The <code>.client.ts</code> suffix tells Nuxt to only run this plugin in the browser (not during SSR), which is exactly what you want for analytics.
+        </p>
+        <p>Create <code>plugins/beam.client.ts</code>:</p>
+        <pre class="bg-gray-50 border border-gray-200 rounded-lg p-4 overflow-x-auto text-sm font-mono"><code>// plugins/beam.client.ts
+import { defineNuxtPlugin, useRouter } from '#app'
+
+export default defineNuxtPlugin((nuxtApp) => {
+  const SITE_ID = 'your-site-id-here'
+
+  // Load the Beam tracking script
+  const script = document.createElement('script')
+  script.src = 'https://beam-privacy.com/js/beam.js'
+  script.setAttribute('data-site-id', SITE_ID)
+  script.defer = true
+  document.head.appendChild(script)
+
+  // Track SPA route changes after the script has loaded
+  script.onload = () => {
+    const router = useRouter()
+    router.afterEach((to) => {
+      if (typeof window.beam === 'function') {
+        window.beam('pageview', { path: to.path })
+      }
+    })
+  }
+})</code></pre>
+
+        <h3 class="text-lg font-semibold text-gray-900 mt-8">Step 2: Declare the beam Global Type (Optional)</h3>
+        <p>
+          If you're using TypeScript, add a type declaration to avoid "Property 'beam' does not exist on type 'Window'" errors:
+        </p>
+        <pre class="bg-gray-50 border border-gray-200 rounded-lg p-4 overflow-x-auto text-sm font-mono"><code>// types/beam.d.ts
+declare global {
+  interface Window {
+    beam?: (event: string, props?: Record&lt;string, unknown&gt;) => void
+  }
+}</code></pre>
+
+        <h3 class="text-lg font-semibold text-gray-900 mt-8">Step 3: Get Your Site ID</h3>
+        <p>
+          Sign up for a free Beam account, add your site, and copy the site ID from the setup guide. Replace <code>'your-site-id-here'</code> in the plugin with your actual site ID.
+        </p>
+
+        <h3 class="text-lg font-semibold text-gray-900 mt-8">Alternative: Using the npm Package</h3>
+        <p>If you prefer a package-based approach:</p>
+        <pre class="bg-gray-50 border border-gray-200 rounded-lg p-4 overflow-x-auto text-sm font-mono"><code>npm install @keylightdigital/beam</code></pre>
+        <pre class="bg-gray-50 border border-gray-200 rounded-lg p-4 overflow-x-auto text-sm font-mono"><code>// plugins/beam.client.ts
+import { defineNuxtPlugin, useRouter } from '#app'
+import { track } from '@keylightdigital/beam'
+
+export default defineNuxtPlugin(() => {
+  const router = useRouter()
+  router.afterEach((to) => {
+    track('pageview', { path: to.path })
+  })
+})</code></pre>
+
+        <h2 class="text-xl font-bold text-gray-900 mt-10">How useRouter().afterEach Tracks SPA Navigations</h2>
+        <p>
+          Vue Router's <code>afterEach</code> guard fires after every successful navigation, including:
+        </p>
+        <ul class="list-disc list-inside space-y-1 ml-4">
+          <li>Initial page load</li>
+          <li><code>&lt;NuxtLink&gt;</code> clicks (client-side navigation)</li>
+          <li>Programmatic navigation via <code>navigateTo()</code> or <code>router.push()</code></li>
+          <li>Browser back/forward buttons</li>
+        </ul>
+        <p>
+          This means every route change in your Nuxt app gets recorded as a pageview. You'll see accurate per-page traffic instead of everything lumped into the entry page.
+        </p>
+
+        <h2 class="text-xl font-bold text-gray-900 mt-10">Verifying in the Beam Dashboard</h2>
+        <p>
+          After deploying, visit your Nuxt app and navigate between a few pages. Then open your Beam dashboard. Within seconds you should see:
+        </p>
+        <ul class="list-disc list-inside space-y-1 ml-4">
+          <li>Pageviews logged for each route you visited</li>
+          <li>The specific paths (e.g., <code>/</code>, <code>/about</code>, <code>/blog/post-1</code>)</li>
+          <li>Your referrer (or "Direct" if you navigated directly)</li>
+          <li>Country detection based on IP (no cookies involved)</li>
+        </ul>
+        <p>
+          If you don't see data after 30 seconds, check your browser's network tab for requests to <code>beam-privacy.com/collect</code>. A 200 response means tracking is working.
+        </p>
+
+        <h2 class="text-xl font-bold text-gray-900 mt-10">Tracking Custom Events</h2>
+        <p>
+          Beyond pageviews, you can track custom events like form submissions, button clicks, or conversions:
+        </p>
+        <pre class="bg-gray-50 border border-gray-200 rounded-lg p-4 overflow-x-auto text-sm font-mono"><code>// In any Vue component
+&lt;script setup&gt;
+const trackSignup = () => {
+  if (typeof window.beam === 'function') {
+    window.beam('signup_click', { plan: 'pro' })
+  }
+}
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;button @click="trackSignup"&gt;Sign up for Pro&lt;/button&gt;
+&lt;/template&gt;</code></pre>
+
+        <div class="mt-12 p-6 bg-indigo-50 border border-indigo-100 rounded-xl">
+          <h3 class="text-lg font-semibold text-gray-900 mb-2">Ready to add privacy-first analytics to your Nuxt app?</h3>
+          <p class="text-gray-600 mb-4">Beam is free for up to 50,000 pageviews/month. No cookie banner needed, no GDPR headaches.</p>
+          <a href="/signup" class="inline-block bg-indigo-600 text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-indigo-700 transition">Get started free →</a>
+        </div>
+
+      </div>
+    </article>
+  </main>
+  ${footer()}
+  </body>
+</html>`
+
+  return c.html(html)
+})
+
+// ── BEAM-245: Beam vs Matomo ──────────────────────────────────────────────────
+
+app.get('/blog/matomo-alternative', (c) => {
+  const baseUrl = getPublicBaseUrl(c.env)
+  const BEAM_SITE_ID = c.env.BEAM_SELF_SITE_ID ?? 'dfa32f6b-0775-43df-a2c4-eb23787e5f03'
+  const post = POSTS.find(p => p.slug === 'matomo-alternative')!
+  const jsonLd = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: post.title,
+    datePublished: post.date,
+    dateModified: post.date,
+    author: { '@type': 'Organization', name: 'Keylight Digital LLC', url: baseUrl },
+    publisher: { '@type': 'Organization', name: 'Keylight Digital LLC', url: baseUrl },
+    description: post.excerpt,
+    url: `${baseUrl}/blog/${post.slug}`,
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `${baseUrl}/blog/${post.slug}` },
+  })
+
+  const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>${post.title} — Beam</title>
+  <meta name="description" content="${post.excerpt}" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="${baseUrl}/blog/${post.slug}" />
+  <link rel="alternate" type="application/rss+xml" title="Beam Blog" href="/blog/rss.xml" />
+  <meta property="og:title" content="${post.title}" />
+  <meta property="og:description" content="${post.excerpt}" />
+  <meta property="og:url" content="${baseUrl}/blog/${post.slug}" />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="${post.date}" />
+  <meta property="og:image" content="${baseUrl}/og-image.svg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="${post.title}" />
+  <meta name="twitter:description" content="${post.excerpt}" />
+  <script type="application/ld+json">${jsonLd}</script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
+</head>
+<body class="bg-white text-gray-900">
+  ${nav()}
+  <main class="max-w-3xl mx-auto px-6 py-16">
+    <div class="mb-8">
+      <a href="/blog" class="text-sm text-indigo-600 hover:text-indigo-700">← Back to blog</a>
+    </div>
+    <article>
+      <header class="mb-10">
+        <time class="text-sm text-gray-400">${post.date}</time>
+        <h1 class="mt-2 text-3xl font-bold text-gray-900 leading-snug">${post.title}</h1>
+        <p class="mt-3 text-lg text-gray-500">${post.excerpt}</p>
+      </header>
+
+      <div class="prose prose-gray max-w-none space-y-6 text-gray-700 leading-relaxed">
+
+        <h2 class="text-xl font-bold text-gray-900 mt-10">Matomo Is Genuinely Excellent — For the Right Team</h2>
+        <p>
+          Let's be clear upfront: Matomo is one of the best analytics tools ever built. It's open-source, privacy-focused, battle-tested, and has a feature depth that would take years to replicate. If you need funnel analysis, heatmaps, session recordings, A/B testing, and full raw data access — Matomo is probably the right answer.
+        </p>
+        <p>
+          This comparison isn't "Matomo is bad." It's an honest look at the trade-offs for teams who want simple, reliable, privacy-respecting traffic data without the operational overhead.
+        </p>
+
+        <h2 class="text-xl font-bold text-gray-900 mt-10">The Matomo Self-Hosting Reality</h2>
+        <p>
+          Matomo's self-hosted option is free to download, but free to run it is not. You need:
+        </p>
+        <ul class="list-disc list-inside space-y-1 ml-4">
+          <li>A PHP server (or container) with MySQL/MariaDB</li>
+          <li>Regular updates and security patches</li>
+          <li>Database backups</li>
+          <li>Server monitoring</li>
+          <li>Disk space that grows proportionally to traffic</li>
+        </ul>
+        <p>
+          For a high-traffic site, this is manageable — you already have DevOps. For an indie developer or small startup, it's a meaningful time commitment every month.
+        </p>
+        <p>
+          Matomo Cloud (their hosted option) starts at €19/month for 50,000 hits. That's not expensive in absolute terms, but it's 4× more than Beam Pro and requires no infrastructure.
+        </p>
+
+        <h2 class="text-xl font-bold text-gray-900 mt-10">Cookies, Consent, and GDPR</h2>
+        <p>
+          By default, Matomo sets tracking cookies (<code>_pk_id</code>, <code>_pk_ses</code>). These are analytics cookies that require consent under the ePrivacy Directive. You can configure Matomo to work without cookies using "cookieless tracking" mode, but this is not the default and requires deliberate configuration.
+        </p>
+        <p>
+          Beam is cookie-free by default. There's nothing to configure, no consent banner needed, and no GDPR consent flow to build.
+        </p>
+
+        <h2 class="text-xl font-bold text-gray-900 mt-10">Feature Comparison</h2>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm border border-gray-200 rounded-lg overflow-hidden mt-2">
+            <thead class="bg-gray-50">
+              <tr>
+                <th class="text-left px-4 py-3 font-semibold text-gray-700">Feature</th>
+                <th class="text-center px-4 py-3 font-semibold text-gray-700">Beam</th>
+                <th class="text-center px-4 py-3 font-semibold text-gray-700">Matomo</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100">
+              <tr>
+                <td class="px-4 py-3 text-gray-600">Cookie-free by default</td>
+                <td class="px-4 py-3 text-center text-green-600">✓</td>
+                <td class="px-4 py-3 text-center text-gray-400">Opt-in config</td>
+              </tr>
+              <tr class="bg-gray-50">
+                <td class="px-4 py-3 text-gray-600">No consent banner required</td>
+                <td class="px-4 py-3 text-center text-green-600">✓</td>
+                <td class="px-4 py-3 text-center text-gray-400">Default: no</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 text-gray-600">Pageviews, referrers, countries</td>
+                <td class="px-4 py-3 text-center text-green-600">✓</td>
+                <td class="px-4 py-3 text-center text-green-600">✓</td>
+              </tr>
+              <tr class="bg-gray-50">
+                <td class="px-4 py-3 text-gray-600">Custom events</td>
+                <td class="px-4 py-3 text-center text-green-600">✓</td>
+                <td class="px-4 py-3 text-center text-green-600">✓</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 text-gray-600">Funnels &amp; goals</td>
+                <td class="px-4 py-3 text-center text-gray-400">Basic</td>
+                <td class="px-4 py-3 text-center text-green-600">✓ Advanced</td>
+              </tr>
+              <tr class="bg-gray-50">
+                <td class="px-4 py-3 text-gray-600">Heatmaps &amp; session recordings</td>
+                <td class="px-4 py-3 text-center text-gray-400">✗</td>
+                <td class="px-4 py-3 text-center text-green-600">✓ (paid add-on)</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 text-gray-600">Free tier</td>
+                <td class="px-4 py-3 text-center text-green-600">50K pv/mo</td>
+                <td class="px-4 py-3 text-center text-gray-400">Self-host only</td>
+              </tr>
+              <tr class="bg-gray-50">
+                <td class="px-4 py-3 text-gray-600">Cloud pricing</td>
+                <td class="px-4 py-3 text-center text-green-600">$5/mo</td>
+                <td class="px-4 py-3 text-center text-gray-500">€19/mo</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 text-gray-600">Setup time</td>
+                <td class="px-4 py-3 text-center text-green-600">5 minutes</td>
+                <td class="px-4 py-3 text-center text-gray-400">Hours (self-host)</td>
+              </tr>
+              <tr class="bg-gray-50">
+                <td class="px-4 py-3 text-gray-600">Data ownership</td>
+                <td class="px-4 py-3 text-center text-gray-400">SaaS (export available)</td>
+                <td class="px-4 py-3 text-center text-green-600">Full (self-host)</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 text-gray-600">SPA tracking</td>
+                <td class="px-4 py-3 text-center text-green-600">✓ Built-in</td>
+                <td class="px-4 py-3 text-center text-green-600">✓ Requires config</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2 class="text-xl font-bold text-gray-900 mt-10">Where Matomo Wins</h2>
+        <p>
+          Matomo is objectively stronger in several categories, and we'd be dishonest not to say so:
+        </p>
+        <ul class="list-disc list-inside space-y-1 ml-4">
+          <li><strong>Raw data sovereignty</strong> — Self-hosted Matomo means your data never leaves your server. Beam is a SaaS product.</li>
+          <li><strong>Event depth</strong> — Matomo's event taxonomy (category, action, name, value) is more structured than Beam's flat event model.</li>
+          <li><strong>Funnel and cohort analysis</strong> — If you need multi-step conversion funnels, Matomo has years of development behind these features.</li>
+          <li><strong>Ecosystem</strong> — Matomo has plugins for Shopify, WordPress, WooCommerce, and dozens of platforms with dedicated integrations.</li>
+        </ul>
+
+        <h2 class="text-xl font-bold text-gray-900 mt-10">Where Beam Wins</h2>
+        <p>
+          For developers and small teams who need reliable traffic data without infrastructure:
+        </p>
+        <ul class="list-disc list-inside space-y-1 ml-4">
+          <li><strong>Zero maintenance</strong> — No server to patch, no database to back up, no PHP to update.</li>
+          <li><strong>Cookie-free by design</strong> — Not a mode to enable, not a config flag. The default behavior is GDPR-safe.</li>
+          <li><strong>5-minute setup</strong> — One script tag. No MySQL, no PHP, no Docker compose file.</li>
+          <li><strong>Free at 50K pageviews</strong> — Matomo Cloud doesn't have a free tier; self-hosting has hidden costs.</li>
+          <li><strong>Tracking script is open source</strong> — You can audit exactly what gets sent.</li>
+        </ul>
+
+        <h2 class="text-xl font-bold text-gray-900 mt-10">Who Should Use Each</h2>
+        <p><strong>Choose Matomo if:</strong></p>
+        <ul class="list-disc list-inside space-y-1 ml-4">
+          <li>You need full data sovereignty and are comfortable self-hosting</li>
+          <li>Your team relies on advanced funnel analysis, cohorts, or A/B testing</li>
+          <li>You're already running the LAMP/LEMP stack and can absorb the overhead</li>
+          <li>You need heatmaps or session recordings</li>
+        </ul>
+        <p class="mt-4"><strong>Choose Beam if:</strong></p>
+        <ul class="list-disc list-inside space-y-1 ml-4">
+          <li>You want analytics running in 5 minutes, not 5 hours</li>
+          <li>You have EU users and want zero consent banner complexity</li>
+          <li>You're building a side project or early-stage startup and don't want to run a database</li>
+          <li>Pageviews, referrers, and country data covers your needs</li>
+        </ul>
+
+        <div class="mt-12 p-6 bg-indigo-50 border border-indigo-100 rounded-xl">
+          <h3 class="text-lg font-semibold text-gray-900 mb-2">Try Beam free — no credit card, no cookie banner</h3>
+          <p class="text-gray-600 mb-4">50,000 pageviews/month free. Add the script tag in 5 minutes and see your first data immediately.</p>
+          <a href="/signup" class="inline-block bg-indigo-600 text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-indigo-700 transition">Start for free →</a>
+          <a href="/vs/matomo" class="inline-block ml-4 text-sm text-indigo-600 hover:text-indigo-700 font-medium">Full detailed comparison →</a>
+        </div>
+
+      </div>
+    </article>
+  </main>
+  ${footer()}
+  </body>
+</html>`
+
+  return c.html(html)
+})
 
 app.get('/blog/rss.xml', (c) => {
   const baseUrl = getPublicBaseUrl(c.env)

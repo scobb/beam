@@ -2209,4 +2209,32 @@ test.describe('API v1 authentication', () => {
     await page.goto('/dashboard/settings')
     await expect(page.locator('[data-testid="export-my-data"]')).toBeVisible()
   })
+
+  // ── BEAM-243: Blog post — Nuxt 3 privacy analytics ───────────────────────
+
+  test('BEAM-243: /blog/nuxt-privacy-analytics returns 200 with correct heading', async ({ page }) => {
+    await page.goto('/blog/nuxt-privacy-analytics')
+    await expect(page).toHaveTitle(/Nuxt/)
+    await expect(page.locator('h1')).toContainText('Nuxt')
+    await expect(page.locator('body')).toContainText('useRouter')
+  })
+
+  test('BEAM-243: /blog/nuxt-privacy-analytics appears in /blog listing', async ({ page }) => {
+    await page.goto('/blog')
+    await expect(page.locator('body')).toContainText('Nuxt')
+  })
+
+  // ── BEAM-245: Blog post — Beam vs Matomo ─────────────────────────────────
+
+  test('BEAM-245: /blog/matomo-alternative returns 200 with correct heading', async ({ page }) => {
+    await page.goto('/blog/matomo-alternative')
+    await expect(page).toHaveTitle(/Matomo/)
+    await expect(page.locator('h1')).toContainText('Matomo')
+    await expect(page.locator('body')).toContainText('comparison')
+  })
+
+  test('BEAM-245: /blog/matomo-alternative appears in /blog listing', async ({ page }) => {
+    await page.goto('/blog')
+    await expect(page.locator('body')).toContainText('Matomo')
+  })
 })
