@@ -74,3 +74,18 @@ Started: Wed Apr 15 03:01:00 PM PDT 2026
   - `fetch()` with `redirect: 'manual'` in browser context returns type=opaqueredirect with status 0, not the actual status code — use page navigation instead
   - prod signup rate limit (10/hr/IP) gets exhausted across a session with many smoke runs; space out prod test runs between stories
 ---
+
+## 2026-04-15 - BEAM-242
+- Implemented full-page empty state on /dashboard for users with 0 sites
+- Files changed: src/routes/dashboard.ts, test/smoke/smoke.spec.ts
+- Dashboard GET handler now early-returns a welcome page when `hasSite === false`:
+  - Bar chart SVG icon, "Welcome to Beam!" heading, CTA to /dashboard/sites/new (data-testid="empty-state-add-site")
+  - 3-step "How it works" card with numbered circles (1. Add site, 2. Install snippet, 3. Start tracking)
+  - Secondary CTA + "View setup guides →" link to /for
+- When user has 1+ sites, normal analytics layout renders unchanged (no regression)
+- 6 smoke tests added (3 desktop, 3 mobile): visible empty state, CTA href, no 375px overflow
+- All 6 pass locally; prod tests 429'd due to known signup rate limit (infra constraint)
+- **Learnings for future iterations:**
+  - Empty state uses early return before `const content = ...` — cleanest pattern for divergent layouts
+  - Prod smoke tests that require signup will 429 if run frequently in same session (10/hour/IP limit)
+---

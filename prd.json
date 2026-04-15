@@ -3978,7 +3978,7 @@
         "Smoke test: newly signed up user sees empty state on /dashboard"
       ],
       "priority": "medium",
-      "passes": false
+      "passes": true
     },
     {
       "id": "BEAM-243",

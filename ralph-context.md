@@ -1,12 +1,11 @@
 ## Last completed
-BEAM-241 - Send security email on password change
+BEAM-242 - Dashboard empty state: add setup guide CTA when user has no sites
 
 ## Next up
-BEAM-242 - Dashboard empty state: add setup guide CTA when user has no sites
-- When a user logs in and has no sites registered, the dashboard shows nothing useful
-- Add a clear empty state with a CTA to add their first site
-- Look at /dashboard route in dashboard.ts for where sites are listed
-- The empty state should link to /dashboard/sites/new or show setup instructions
+BEAM-244 - Add /pricing to nav and footer
+- The /pricing page exists but is not linked from nav or footer
+- Add it to the main nav (header) and footer links on landing pages and dashboard
+- Look at nav/footer helpers in src/routes/*.ts and src/landing.ts
 
 ## Active issues
 - BEAM-216 (auto-blocked): superseded by BEAM-239 (complete)
@@ -25,3 +24,4 @@ BEAM-242 - Dashboard empty state: add setup guide CTA when user has no sites
 - Sitemap in src/index.ts (both paths array AND meta object)
 - Resend sender: ralph@keylightdigital.dev
 - PRD key: userStories
+- Empty state uses early return before content variable — cleaner than conditional within content block
