@@ -3917,7 +3917,7 @@
         "Smoke test: GET /for/nuxt returns 200 and heading contains 'Nuxt'"
       ],
       "priority": "medium",
-      "passes": false
+      "passes": true
     },
     {
       "id": "BEAM-239",

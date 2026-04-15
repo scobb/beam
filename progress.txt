@@ -16,3 +16,18 @@ Started: Wed Apr 15 03:01:00 PM PDT 2026
   - New route pattern: create src/routes/foo.ts, import in src/index.ts, add `app.route('/', foo)`, add to sitemap paths + meta objects
   - Route registration error on deploy is pre-existing (auth token lacks zone:edit); worker upload still succeeds and routes work in prod
 ---
+
+## 2026-04-15 - BEAM-238
+- Added /for/nuxt Nuxt 3 integration guide
+- Guide uses Nuxt plugin system (plugins/beam.client.ts) with .client.ts SSR exclusion
+- Two install options: script-tag client plugin and npm package
+- Added nuxt to GUIDE_SECTIONS 'Developer frameworks' list (between vue and wordpress)
+- Added /for/nuxt to sitemap.xml
+- Added /for/vue and /for/nuxt links to landing page step 1 inline list
+- Vue's related guides updated to include nuxt
+- Files: src/routes/for.ts, src/index.ts, src/landing.ts, test/smoke/smoke.spec.ts
+- 6 smoke tests (12 desktop+mobile), all pass locally and on prod
+- **Learnings for future iterations:**
+  - Adding a /for/* guide requires: (1) add to GUIDES object, (2) add slug to GUIDE_SECTIONS.slugs, (3) add to sitemap paths+meta, (4) optionally link from landing.ts step 1 list
+  - GUIDE_SECTIONS uses `as const` — TypeScript will error if a slug doesn't exist in GUIDES
+---
