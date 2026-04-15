@@ -1,12 +1,12 @@
 ## Last completed
-BEAM-244 - Add /pricing to nav and footer
+BEAM-243 & BEAM-245 — Blog posts: Nuxt 3 privacy analytics and Beam vs Matomo
 
 ## Next up
-BEAM-246 - GDPR data export: add "Export my data" to dashboard settings
-- Add an "Export my data" button/section to /dashboard/settings
-- Should export the user's data (sites, pageviews, etc.) as JSON or CSV
-- Look at /dashboard/settings route in dashboard.ts for the settings page structure
-- BEAM-243 and BEAM-245 are blog posts (lower priority); BEAM-246 is a feature
+All remaining stories are blocked:
+- BEAM-216 (auto-blocked): superseded by BEAM-239 (complete) — but blocked-stories.json hasn't been updated. Steve may want to mark this resolved.
+- BEAM-219 (blocked): HN/BetaList/Indie Hackers/AlternativeTo — manual auth required
+
+No unblocked stories remain. All self-implementable stories are complete.
 
 ## Active issues
 - BEAM-216 (auto-blocked): superseded by BEAM-239 (complete)
@@ -27,3 +27,5 @@ BEAM-246 - GDPR data export: add "Export my data" to dashboard settings
 - PRD key: userStories
 - Empty state uses early return before content variable — cleaner than conditional within content block
 - Each route file has its own nav()/footer() helper — no shared component, changes must be applied per file
+- Blog POSTS array: new posts go at beginning (newest first). Use .find(slug) not numeric index in handlers.
+- page.evaluate(() => fetch(..., {credentials: 'include'})) to test fetch endpoints with session cookies in Playwright

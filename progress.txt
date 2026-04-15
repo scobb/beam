@@ -101,3 +101,33 @@ Started: Wed Apr 15 03:01:00 PM PDT 2026
   - Each route file has its own local nav()/footer() helper — no shared component, so changes must be applied to each file individually
   - pricing.ts footer already had /pricing (it's own page link) — confirmed no duplication
 ---
+
+## 2026-04-15 - BEAM-246
+- Implemented GDPR data export: GET /dashboard/settings/export endpoint + "Export my data" button
+- Files changed: src/routes/dashboard.ts, test/smoke/smoke.spec.ts
+- New route: GET /dashboard/settings/export (auth-gated)
+  - Queries user's sites (id, name, domain, created_at)
+  - For each site: daily pageview counts (strftime + GROUP BY date) for last 90 days
+  - Returns JSON with Content-Disposition: attachment; filename="beam-export-{date}.json"
+- Settings page: added "Export my data" section with anchor tag linking to the export route
+  - data-testid="export-my-data" for test targeting
+- 6 smoke tests added (3 desktop, 3 mobile): response headers, JSON shape, button visibility
+- All 6 pass locally; prod tests 429'd (known signup rate limit)
+- **Learnings for future iterations:**
+  - Use `page.evaluate(() => fetch(..., {credentials: 'include'}))` to test fetch endpoints in Playwright with session cookies
+  - `new Response(JSON.stringify(...), { headers: {...} })` works directly in Hono Workers context
+---
+
+## 2026-04-15 - BEAM-243 & BEAM-245
+- Added two new blog posts: Nuxt 3 privacy analytics and Beam vs Matomo
+- Files changed: src/routes/blog.ts, src/index.ts, test/smoke/smoke.spec.ts
+- BEAM-243 (/blog/nuxt-privacy-analytics): Covers SPA tracking with useRouter().afterEach, .client.ts plugin pattern, TypeScript type declaration, npm package alternative, custom events
+- BEAM-245 (/blog/matomo-alternative): Honest comparison with feature table, self-hosting costs, cookie/consent differences, who should use each
+- Both added to POSTS array (newest first) and sitemap
+- Fixed 3 existing broken POSTS[n] numeric index references to use .find() — handlers for cookie-free-analytics-guide, add-analytics-in-5-minutes, nextjs-privacy-analytics had wrong indices
+- 8 smoke tests pass (4 per post × desktop + mobile)
+- **Learnings for future iterations:**
+  - POSTS array uses numeric indices in 3 old handlers (now fixed to .find()) — always use .find() for new posts
+  - New posts go at the BEGINNING of POSTS array so they appear first in blog listing
+  - Blog post route handler pattern: getPublicBaseUrl, POSTS.find(), jsonLd, html template, nav()/footer()
+---

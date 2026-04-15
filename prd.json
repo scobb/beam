@@ -3994,7 +3994,7 @@
         "Smoke test: /blog/nuxt-privacy-analytics returns 200 with correct heading"
       ],
       "priority": "low",
-      "passes": false
+      "passes": true
     },
     {
       "id": "BEAM-244",
@@ -4025,7 +4025,7 @@
         "Smoke test: /blog/matomo-alternative returns 200 with correct heading"
       ],
       "priority": "low",
-      "passes": false
+      "passes": true
     },
     {
       "id": "BEAM-246",
@@ -4040,7 +4040,7 @@
         "Smoke test: authenticated GET /dashboard/settings/export returns 200 with Content-Disposition attachment header"
       ],
       "priority": "low",
-      "passes": false
+      "passes": true
     }
   ]
 }
