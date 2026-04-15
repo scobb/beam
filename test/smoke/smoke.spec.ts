@@ -2144,4 +2144,30 @@ test.describe('API v1 authentication', () => {
     const clientWidth = await page.evaluate(() => document.documentElement.clientWidth)
     expect(scrollWidth).toBeLessThanOrEqual(clientWidth)
   })
+
+  // ── BEAM-244: /pricing in nav and footer ─────────────────────────────────
+
+  test('BEAM-244: landing page nav contains a link to /pricing', async ({ page }) => {
+    await page.goto('/')
+    const navPricingLink = page.locator('nav a[href="/pricing"]')
+    await expect(navPricingLink).toBeVisible()
+  })
+
+  test('BEAM-244: landing page footer contains a link to /pricing', async ({ page }) => {
+    await page.goto('/')
+    const footerPricingLink = page.locator('footer a[href="/pricing"]')
+    await expect(footerPricingLink).toBeVisible()
+  })
+
+  test('BEAM-244: /blog footer contains a link to /pricing', async ({ page }) => {
+    await page.goto('/blog')
+    const footerPricingLink = page.locator('footer a[href="/pricing"]')
+    await expect(footerPricingLink).toBeVisible()
+  })
+
+  test('BEAM-244: /about footer contains a link to /pricing', async ({ page }) => {
+    await page.goto('/about')
+    const footerPricingLink = page.locator('footer a[href="/pricing"]')
+    await expect(footerPricingLink).toBeVisible()
+  })
 })

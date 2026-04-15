@@ -152,6 +152,7 @@ function wordpressPluginPage(baseUrl: string, selfSiteId?: string): string {
       <span>&copy; ${new Date().getFullYear()} Keylight Digital LLC. All rights reserved.</span>
       <div class="flex flex-wrap items-center justify-center md:justify-end gap-x-6 gap-y-2">
         <a href="/about" class="hover:text-gray-600">About</a>
+        <a href="/pricing" class="hover:text-gray-600">Pricing</a>
         <a href="/privacy" class="hover:text-gray-600">Privacy</a>
         <a href="/terms" class="hover:text-gray-600">Terms</a>
         <a href="/for" class="hover:text-gray-600">All guides</a>

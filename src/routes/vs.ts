@@ -26,6 +26,7 @@ function footer(): string {
       <span>&copy; ${new Date().getFullYear()} Keylight Digital LLC. All rights reserved.</span>
       <div class="flex flex-wrap items-center gap-x-6 gap-y-2 justify-center md:justify-end">
         <a href="/about" class="hover:text-gray-600">About</a>
+        <a href="/pricing" class="hover:text-gray-600">Pricing</a>
         <a href="/privacy" class="hover:text-gray-600">Privacy</a>
         <a href="/terms" class="hover:text-gray-600">Terms</a>
         <a href="/alternatives" class="hover:text-gray-600">Alternatives hub</a>

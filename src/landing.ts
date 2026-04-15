@@ -100,6 +100,7 @@ export function landingPage(
         <a href="/tools/stack-scanner" class="text-gray-600 hover:text-gray-900">Stack Scanner</a>
         <a href="/changelog" class="text-gray-600 hover:text-gray-900">Changelog</a>
         <a href="/blog" class="text-gray-600 hover:text-gray-900">Blog</a>
+        <a href="/pricing" class="text-gray-600 hover:text-gray-900">Pricing</a>
         <a href="/login" class="text-gray-600 hover:text-gray-900">Log in</a>
         <a href="/signup" data-beam-cta="nav_get_started" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700">Get Started</a>
       </div>
@@ -424,6 +425,7 @@ export function landingPage(
       <span>&copy; ${new Date().getFullYear()} Keylight Digital LLC. All rights reserved.</span>
       <div class="flex flex-wrap items-center justify-center md:justify-end gap-x-6 gap-y-2">
         <a href="/about" class="hover:text-gray-600">About</a>
+        <a href="/pricing" class="hover:text-gray-600">Pricing</a>
         <a href="/how-it-works" class="hover:text-gray-600">How it works</a>
         <a href="/changelog" class="hover:text-gray-600">Changelog</a>
         <a href="/privacy" class="hover:text-gray-600">Privacy</a>
