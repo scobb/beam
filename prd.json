@@ -3802,7 +3802,7 @@
     {
       "id": "BEAM-231",
       "title": "Add weekly digest opt-in/opt-out toggle to dashboard settings",
-      "description": "The weekly digest unsubscribe page (reached via email link) tells users to 'Log in to re-enable digests in settings' — but the settings page only shows email and plan with no toggle. The DB already has a digest_opt_out column. Add a POST handler and toggle UI to /dashboard/settings so users can subscribe and unsubscribe without going through email.",
+      "description": "The weekly digest unsubscribe page (reached via email link) tells users to 'Log in to re-enable digests in settings' \u2014 but the settings page only shows email and plan with no toggle. The DB already has a digest_opt_out column. Add a POST handler and toggle UI to /dashboard/settings so users can subscribe and unsubscribe without going through email.",
       "acceptanceCriteria": [
         "GET /dashboard/settings shows a 'Weekly digest emails' section with a toggle reflecting current opt-out status",
         "POST /dashboard/settings/digest toggles digest_opt_out for the authenticated user",
@@ -3815,7 +3815,7 @@
     },
     {
       "id": "BEAM-232",
-      "title": "Blog post: GDPR-compliant analytics without a cookie banner — what the law actually requires",
+      "title": "Blog post: GDPR-compliant analytics without a cookie banner \u2014 what the law actually requires",
       "description": "High-intent search term missing from the blog: 'GDPR analytics no cookie banner', 'do I need a cookie banner for analytics', 'GDPR compliant analytics 2026'. The existing cookie-free guide explains how cookie-free works technically; this post covers the legal angle: what GDPR/ePrivacy actually requires for analytics cookies, why cookieless tools don't trigger consent requirements, and common misconceptions.",
       "acceptanceCriteria": [
         "GET /blog/gdpr-analytics-no-cookie-banner returns 200",
@@ -3845,7 +3845,7 @@
     {
       "id": "BEAM-234",
       "title": "Add /for/vue integration guide",
-      "description": "Vue.js is the second most popular JavaScript framework. 'Add analytics to Vue.js', 'vue analytics without cookies', and 'gdpr analytics vue' are searched. BEAM-216 bundled Vue with SvelteKit and Nuxt and was auto-blocked after 3 failures — this is a standalone story for Vue only. Cover Vue 3 Options API and Composition API (onMounted hook), and the Vue Router integration for SPA tracking.",
+      "description": "Vue.js is the second most popular JavaScript framework. 'Add analytics to Vue.js', 'vue analytics without cookies', and 'gdpr analytics vue' are searched. BEAM-216 bundled Vue with SvelteKit and Nuxt and was auto-blocked after 3 failures \u2014 this is a standalone story for Vue only. Cover Vue 3 Options API and Composition API (onMounted hook), and the Vue Router integration for SPA tracking.",
       "acceptanceCriteria": [
         "GET /for/vue returns 200 with Vue.js-specific setup instructions",
         "Page covers: script tag in index.html, onMounted hook for manual tracking, Vue Router afterEach guard for SPA route tracking",
@@ -3855,25 +3855,25 @@
         "Smoke test: GET /for/vue returns 200 and contains Vue-specific content"
       ],
       "priority": "medium",
-      "passes": false
+      "passes": true
     },
     {
       "id": "BEAM-235",
       "title": "Add React and Astro to the landing page setup guides list",
-      "description": "The landing page step 1 ('Add our script tag') lists setup guides for Next.js, WordPress, Hugo, Webflow, Shopify, Ghost, Framer, and Carrd — but omits React and Astro even though /for/react and /for/astro exist. React is the most popular JS library; Astro is the fastest-growing static site framework. A one-line fix to src/landing.ts.",
+      "description": "The landing page step 1 ('Add our script tag') lists setup guides for Next.js, WordPress, Hugo, Webflow, Shopify, Ghost, Framer, and Carrd \u2014 but omits React and Astro even though /for/react and /for/astro exist. React is the most popular JS library; Astro is the fastest-growing static site framework. A one-line fix to src/landing.ts.",
       "acceptanceCriteria": [
         "Landing page step 1 inline list includes links to /for/react and /for/astro",
         "Links placed logically (React after Next.js, Astro after Hugo)",
-        "Mobile-safe at 375px — no overflow from the longer list",
+        "Mobile-safe at 375px \u2014 no overflow from the longer list",
         "Smoke test: landing page contains links to /for/react and /for/astro"
       ],
       "priority": "low",
-      "passes": false
+      "passes": true
     },
     {
       "id": "BEAM-236",
       "title": "Dashboard settings: add change password and delete account",
-      "description": "The /dashboard/settings page currently shows only account email and plan — it has no interactive elements. Users have no self-serve way to change their password or delete their account. Add a change password form (POST /dashboard/settings/password) and a delete account confirmation flow (POST /dashboard/settings/delete).",
+      "description": "The /dashboard/settings page currently shows only account email and plan \u2014 it has no interactive elements. Users have no self-serve way to change their password or delete their account. Add a change password form (POST /dashboard/settings/password) and a delete account confirmation flow (POST /dashboard/settings/delete).",
       "acceptanceCriteria": [
         "GET /dashboard/settings shows a 'Change Password' form with current password, new password, confirm fields",
         "POST /dashboard/settings/password validates current password, updates to new password, returns success or error",
