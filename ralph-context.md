@@ -1,8 +1,11 @@
 ## Last completed
-BEAM-236 - Dashboard settings: change password + delete account
+Self-generation: added BEAM-237 through BEAM-246
 
 ## Next up
-No incomplete non-blocked stories remain. All stories pass or are blocked. Enter self-generation mode.
+BEAM-237 - Add dedicated /pricing page (currently 404; high SEO value)
+- Single route GET /pricing with plan comparison, FAQ, CTAs
+- Add to sitemap.xml
+- Add to nav + footer (or save nav for BEAM-244 which depends on 237)
 
 ## Active issues
 - BEAM-216 (auto-blocked): /for/sveltekit, /for/vue, /for/nuxt — blocked after 3 consecutive failures
@@ -18,3 +21,4 @@ No incomplete non-blocked stories remain. All stories pass or are blocked. Enter
 - PRD key is userStories (not stories)
 - Delete cascade order: pageviews/goals/custom_events → sites → user (import_jobs CASCADE automatically)
 - `hashPassword`/`verifyPassword` live in src/auth.ts; `deleteCookie` from hono/cookie
+- Sitemap is in a route file — grep for 'sitemap' in src/ to find it

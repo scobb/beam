@@ -3884,6 +3884,163 @@
       ],
       "priority": "low",
       "passes": true
+    },
+    {
+      "id": "BEAM-237",
+      "title": "Add dedicated /pricing page",
+      "description": "GET /pricing currently returns 404. Users searching for 'beam analytics pricing' hit a dead end. Add a dedicated /pricing page with full plan details, FAQ, and clear CTAs. This is a high-value SEO page \u2014 competitors rank for '[product] pricing' queries.",
+      "acceptanceCriteria": [
+        "GET /pricing returns 200 with a full pricing page",
+        "Shows Free tier (1 site, 5K pageviews/mo) and Pro tier ($5/mo \u2014 unlimited sites, 100K pageviews/mo)",
+        "Includes FAQ: 'Is there a free trial?', 'What happens when I hit the limit?', 'Can I cancel anytime?', 'Is credit card required for free?'",
+        "Includes CTAs: 'Start free' -> /signup, 'Get Pro' -> /signup",
+        "Page added to sitemap.xml",
+        "Mobile-responsive at 375px \u2014 no overflow",
+        "Smoke test: GET /pricing returns 200 and contains 'Pro' and '$5'"
+      ],
+      "priority": "high",
+      "passes": false
+    },
+    {
+      "id": "BEAM-238",
+      "title": "Add /for/nuxt integration guide",
+      "description": "Nuxt.js is the most popular Vue meta-framework (2M+ weekly downloads). /for/nuxt currently returns 404. Add a full integration guide with Nuxt 3 Composition API, nuxtApp plugin pattern, and useRoute for SPA navigation tracking.",
+      "acceptanceCriteria": [
+        "GET /for/nuxt returns 200 with a complete integration guide",
+        "Shows Nuxt 3 plugin installation: create plugins/beam.client.ts",
+        "Shows useRouter().afterEach for SPA navigation tracking",
+        "Shows npm package installation path as alternative",
+        "Includes verify section: 'Go to your Nuxt app, navigate between pages, check dashboard'",
+        "Guide linked from /for hub page",
+        "Guide linked from landing page step 1 inline list (after Vue, before WordPress)",
+        "/for/nuxt added to sitemap.xml",
+        "Smoke test: GET /for/nuxt returns 200 and heading contains 'Nuxt'"
+      ],
+      "priority": "medium",
+      "passes": false
+    },
+    {
+      "id": "BEAM-239",
+      "title": "Add /for/svelte and /for/sveltekit integration guides",
+      "description": "Svelte and SvelteKit are the fastest-growing JS frameworks. Both /for/svelte and /for/sveltekit return 404. Note: BEAM-216 was auto-blocked for a multi-framework bundle that included SvelteKit and caused failures \u2014 this story implements them as separate, simple guides following the same pattern as /for/react and /for/vue which were successfully shipped.",
+      "acceptanceCriteria": [
+        "GET /for/svelte returns 200 \u2014 shows onMount hook for Svelte 5 rune pattern",
+        "GET /for/sveltekit returns 200 \u2014 shows +layout.svelte afterNavigate hook for SPA tracking",
+        "Both guides linked from /for hub page under 'JS Frameworks' category",
+        "Both added to sitemap.xml",
+        "Smoke test: GET /for/svelte and GET /for/sveltekit both return 200 with correct headings"
+      ],
+      "priority": "medium",
+      "passes": false,
+      "notes": "BEAM-216 was blocked because it tried to add SvelteKit, Vue, and Nuxt as one big bundle and something broke in the smoke suite. This story is scoped to only Svelte + SvelteKit and should be simpler."
+    },
+    {
+      "id": "BEAM-240",
+      "title": "Add Open Graph and Twitter Card meta tags to all public pages",
+      "description": "Currently all public pages (landing, blog posts, /for guides, /vs pages, /migrate guides) lack og:title, og:description, og:image, and twitter:card meta tags. Every social share shows a blank unfurl. Adding these will dramatically improve click-through rates when content is shared on Twitter, LinkedIn, Slack, etc.",
+      "acceptanceCriteria": [
+        "All public pages include og:title, og:description, og:type, og:url",
+        "twitter:card set to 'summary_large_image' on blog posts and landing, 'summary' elsewhere",
+        "Blog posts use their own title/description as og:title/og:description",
+        "/for guides and /vs pages use page-specific titles",
+        "Landing page og:description summarizes the product pitch",
+        "og:image points to a static /og-image.png (create a simple text-based 1200x630 image or use a placeholder URL that returns 200)",
+        "Smoke test: landing page HTML contains og:title and og:description meta tags"
+      ],
+      "priority": "medium",
+      "passes": false
+    },
+    {
+      "id": "BEAM-241",
+      "title": "Send security email on password change",
+      "description": "When a user changes their password, no notification is sent. This is a basic security measure \u2014 if someone's session is hijacked and their password is changed, the account owner needs to know. Send a plain-text email via Resend to the account email when POST /dashboard/settings/password succeeds.",
+      "acceptanceCriteria": [
+        "On successful password change, send email to account email via Resend API",
+        "Email from: 'Beam Security <ralph@keylightdigital.dev>'",
+        "Subject: 'Your Beam password was changed'",
+        "Body: plain text explaining the password was changed, with time/date, and instructions to contact support if this wasn't them",
+        "Email failure does NOT block the password change \u2014 fire-and-forget",
+        "Smoke test: password change completes successfully (email fire-and-forget, not testable in smoke suite \u2014 note as UNVERIFIED)"
+      ],
+      "priority": "low",
+      "passes": false
+    },
+    {
+      "id": "BEAM-242",
+      "title": "Dashboard empty state: add setup guide CTA when user has no sites",
+      "description": "When a new user signs up and visits /dashboard, they see a confusing empty analytics page with no guidance on what to do next. Add a full-page empty state that shows when the user has zero sites: explains what to do, links to /dashboard/sites to add a site, and shows the tracking snippet.",
+      "acceptanceCriteria": [
+        "When user has 0 sites, /dashboard shows an empty state instead of the analytics layout",
+        "Empty state includes: welcome heading, brief explanation of next steps, 'Add your first site' button linking to /dashboard/sites",
+        "Empty state is visually consistent with the dashboard design",
+        "Mobile-responsive at 375px",
+        "When user has 1+ sites, dashboard renders normally (no regression)",
+        "Smoke test: newly signed up user sees empty state on /dashboard"
+      ],
+      "priority": "medium",
+      "passes": false
+    },
+    {
+      "id": "BEAM-243",
+      "title": "Blog post: Nuxt.js privacy analytics without cookies",
+      "description": "Add a blog post targeting the query 'nuxt analytics without cookies' / 'nuxt gdpr analytics'. The Nuxt audience is underserved \u2014 there's very little content on privacy-first analytics for Nuxt 3. This complements the /for/nuxt guide (BEAM-238) with SEO-friendly long-form content.",
+      "acceptanceCriteria": [
+        "POST at /blog/nuxt-privacy-analytics returns 200",
+        "Title: 'Add Privacy-First Analytics to Nuxt 3 Without Cookies'",
+        "Covers: why cookie-free matters for EU sites, Nuxt 3 plugin installation, useRouter().afterEach for SPA tracking, verifying in dashboard",
+        "Code blocks show complete nuxt plugin file",
+        "Includes CTA to sign up",
+        "Added to /blog listing and sitemap.xml",
+        "Smoke test: /blog/nuxt-privacy-analytics returns 200 with correct heading"
+      ],
+      "priority": "low",
+      "passes": false
+    },
+    {
+      "id": "BEAM-244",
+      "title": "Add /pricing to nav and footer",
+      "description": "The main navigation and footer currently have no link to /pricing (once BEAM-237 adds the page). The landing page has pricing inline, but users scanning the nav for a pricing link will not find it. Add a 'Pricing' link to the public nav and footer.",
+      "acceptanceCriteria": [
+        "Public nav (visible on landing, blog, /for, /vs, /migrate pages) includes a 'Pricing' link to /pricing",
+        "Footer includes a 'Pricing' link",
+        "Link is mobile-accessible (visible in mobile nav or hamburger menu)",
+        "Depends on BEAM-237 being complete first",
+        "Smoke test: landing page contains a nav link to /pricing"
+      ],
+      "priority": "low",
+      "passes": false,
+      "notes": "Implement after BEAM-237. The nav and footer are shared components in src/landing.ts and other layout files."
+    },
+    {
+      "id": "BEAM-245",
+      "title": "Blog post: 'Beam vs Matomo: privacy analytics showdown 2026'",
+      "description": "Matomo is the most popular open-source GA alternative with massive brand recognition. 'matomo alternative' and 'matomo vs [x]' are high-volume queries. A thorough, honest comparison targeting teams evaluating Matomo (self-hosted complexity, GDPR concerns) would drive qualified traffic. We already have /vs/matomo but no long-form blog post.",
+      "acceptanceCriteria": [
+        "POST at /blog/matomo-alternative returns 200",
+        "Title: 'Beam vs Matomo: The Privacy Analytics Showdown for 2026'",
+        "Covers: Matomo setup complexity, self-hosting vs cloud cost, cookie requirements, GDPR compliance differences, Beam's simpler approach",
+        "Honest \u2014 acknowledges where Matomo is stronger (event depth, self-hosted data sovereignty)",
+        "Includes comparison table",
+        "Added to /blog listing and sitemap.xml",
+        "Smoke test: /blog/matomo-alternative returns 200 with correct heading"
+      ],
+      "priority": "low",
+      "passes": false
+    },
+    {
+      "id": "BEAM-246",
+      "title": "GDPR data export: add 'Export my data' to dashboard settings",
+      "description": "GDPR Article 20 grants users the right to data portability. Currently there is no way to export account data from Beam. Add an 'Export my data' button to /dashboard/settings that generates a JSON download containing the user's account info, sites list, and aggregate pageview data (not raw rows).",
+      "acceptanceCriteria": [
+        "GET /dashboard/settings/export (authenticated) returns a JSON file download",
+        "Response has Content-Disposition: attachment; filename='beam-export-{date}.json'",
+        "JSON includes: account email, plan, sites (id, domain, name, created_at), and per-site pageview counts by day for the last 90 days",
+        "Button 'Export my data' on /dashboard/settings triggers download",
+        "Mobile-usable \u2014 button is accessible at 375px",
+        "Smoke test: authenticated GET /dashboard/settings/export returns 200 with Content-Disposition attachment header"
+      ],
+      "priority": "low",
+      "passes": false
     }
   ]
 }

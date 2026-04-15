@@ -29,3 +29,29 @@ Started: Mon Apr 13 08:46:23 PM PDT 2026
   - D1 doesn't support multi-bind with spread for variable-length IN clauses directly — build placeholder string manually
   - Delete cascade order: pageviews/goals/custom_events (site-level) → sites → user (import_jobs CASCADE automatically)
 ---
+
+## 2026-04-15 - Self-generation
+All non-blocked stories are complete. Entering self-generation mode.
+
+Audit findings:
+- /pricing returns 404 — no dedicated pricing page
+- /for/nuxt returns 404 — Nuxt.js guide missing despite being a top Vue framework
+- /for/svelte, /for/sveltekit return 404 — Svelte missing
+- No Open Graph / Twitter Card meta tags on any page (blank social unfurls)
+- New users with no sites see confusing empty analytics dashboard
+- No security email sent on password change
+- No data export (GDPR Art. 20 right to portability)
+- No /pricing link in nav or footer
+
+Self-generated stories BEAM-237 through BEAM-246 covering:
+- BEAM-237: /pricing page (broken 404 → high SEO value)
+- BEAM-238: /for/nuxt guide
+- BEAM-239: /for/svelte + /for/sveltekit guides
+- BEAM-240: Open Graph / Twitter Card meta tags
+- BEAM-241: Security email on password change
+- BEAM-242: Dashboard empty state for new users with no sites
+- BEAM-243: Blog post: Nuxt.js privacy analytics
+- BEAM-244: Add /pricing to nav + footer
+- BEAM-245: Blog post: Beam vs Matomo
+- BEAM-246: GDPR data export from dashboard settings
+---
