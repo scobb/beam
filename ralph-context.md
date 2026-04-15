@@ -1,20 +1,18 @@
 ## Last completed
-BEAM-243 & BEAM-245 — Blog posts: Nuxt 3 privacy analytics and Beam vs Matomo
+BEAM-216 (retrospective close) — All framework guides verified complete via BEAM-238/239
 
-## Next up
-All remaining stories are blocked:
-- BEAM-216 (auto-blocked): superseded by BEAM-239 (complete) — but blocked-stories.json hasn't been updated. Steve may want to mark this resolved.
-- BEAM-219 (blocked): HN/BetaList/Indie Hackers/AlternativeTo — manual auth required
+## Status
+ALL STORIES COMPLETE except BEAM-219 (blocked — requires manual auth).
 
-No unblocked stories remain. All self-implementable stories are complete.
+Remaining:
+- BEAM-219 (blocked): HN/BetaList/Indie Hackers/AlternativeTo — Steve needs to create accounts and provide credentials or do these submissions manually
 
 ## Active issues
-- BEAM-216 (auto-blocked): superseded by BEAM-239 (complete)
 - BEAM-219 (blocked): HN/BetaList/Indie Hackers/AlternativeTo — manual auth required
 - Staging DNS does not resolve — run smoke tests locally or against prod only
 - Prod CF route registration errors on deploy (pre-existing — worker upload succeeds)
 - Prod propagation delay ~10-30s — wait and retry if smoke tests fail immediately
-- PROD SIGNUP RATE LIMIT: hit 429 today — if running many stories in same session, prod tests that require signup will fail. Wait for the hour to reset between smoke batches, or note as known infra limitation.
+- PROD SIGNUP RATE LIMIT: 10/hour/IP — prod tests that require signup will fail if run too frequently
 
 ## Key decisions this session
 - Security email: fire-and-forget (no await), gated on RESEND_API_KEY presence, catch swallows errors

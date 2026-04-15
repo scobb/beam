@@ -131,3 +131,10 @@ Started: Wed Apr 15 03:01:00 PM PDT 2026
   - New posts go at the BEGINNING of POSTS array so they appear first in blog listing
   - Blog post route handler pattern: getPublicBaseUrl, POSTS.find(), jsonLd, html template, nav()/footer()
 ---
+
+## 2026-04-15 - BEAM-216 (retrospective close)
+- Marked BEAM-216 as passes=true — fully superseded by BEAM-238 and BEAM-239
+- /for/vue (BEAM-234/238), /for/nuxt (BEAM-238), /for/svelte (BEAM-239), /for/sveltekit (BEAM-239) all implemented and passing
+- All BEAM-216 acceptance criteria verified: 200 responses, correct framework idioms, sitemap, /for hub links
+- Removed from blocked-stories.json as it no longer needs Steve's action
+---

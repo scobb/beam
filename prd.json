@@ -3585,7 +3585,7 @@
         "beam.js tracking snippet and self-tracking snippet on each page"
       ],
       "priority": "medium",
-      "passes": false
+      "passes": true
     },
     {
       "id": "BEAM-217",
