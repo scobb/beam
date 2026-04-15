@@ -1,5 +1,7 @@
 import { Hono } from 'hono'
+import { deleteCookie } from 'hono/cookie'
 import type { Env, AuthUser } from '../types'
+import { hashPassword, verifyPassword } from '../auth'
 import { buildAnalyticsWindow, selectAnalyticsEmptyState } from '../lib/analytics'
 import { buildAcquisitionUserScopeClause, buildAcquisitionWindow } from '../lib/acquisition'
 import { buildTrafficChannelSql, normalizeTrafficChannel, type TrafficChannel } from '../lib/channels'
@@ -4163,6 +4165,20 @@ dashboard.get('/dashboard/settings', async (c) => {
     ? `<div class="mb-4 px-4 py-3 bg-green-50 border border-green-200 rounded-lg text-sm text-green-800">Weekly digest emails re-enabled.</div>`
     : statusMsg === 'digest-off'
     ? `<div class="mb-4 px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm text-gray-700">Weekly digest emails disabled. You can re-enable any time here.</div>`
+    : statusMsg === 'pw-changed'
+    ? `<div class="mb-4 px-4 py-3 bg-green-50 border border-green-200 rounded-lg text-sm text-green-800">Password updated successfully.</div>`
+    : statusMsg === 'pw-wrong'
+    ? `<div class="mb-4 px-4 py-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-800">Current password is incorrect.</div>`
+    : statusMsg === 'pw-mismatch'
+    ? `<div class="mb-4 px-4 py-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-800">New passwords do not match.</div>`
+    : statusMsg === 'pw-empty'
+    ? `<div class="mb-4 px-4 py-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-800">All password fields are required.</div>`
+    : statusMsg === 'pw-short'
+    ? `<div class="mb-4 px-4 py-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-800">New password must be at least 8 characters.</div>`
+    : statusMsg === 'del-wrong'
+    ? `<div class="mb-4 px-4 py-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-800">Password is incorrect. Account not deleted.</div>`
+    : statusMsg === 'del-empty'
+    ? `<div class="mb-4 px-4 py-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-800">Please enter your password to confirm deletion.</div>`
     : ''
 
   const content = `
@@ -4191,6 +4207,43 @@ dashboard.get('/dashboard/settings', async (c) => {
           <p class="text-xs text-gray-400 mt-2">Currently: <strong>${digestOptOut ? 'unsubscribed' : 'subscribed'}</strong></p>
         </form>
       </div>
+
+      <div class="bg-white rounded-xl border border-gray-200 p-6 mt-4">
+        <h2 class="text-base font-semibold text-gray-900 mb-1">Change password</h2>
+        <p class="text-sm text-gray-500 mb-4">Update your account password.</p>
+        <form method="POST" action="/dashboard/settings/password" class="space-y-3">
+          <div>
+            <label class="block text-xs font-medium text-gray-700 mb-1" for="current_password">Current password</label>
+            <input type="password" id="current_password" name="current_password" required
+              class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-gray-700 mb-1" for="new_password">New password</label>
+            <input type="password" id="new_password" name="new_password" required minlength="8"
+              class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-gray-700 mb-1" for="confirm_password">Confirm new password</label>
+            <input type="password" id="confirm_password" name="confirm_password" required minlength="8"
+              class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          </div>
+          <button type="submit" class="px-4 py-2 text-sm font-medium bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">Update password</button>
+        </form>
+      </div>
+
+      <div class="bg-white rounded-xl border border-red-200 p-6 mt-4">
+        <h2 class="text-base font-semibold text-red-700 mb-1">Delete account</h2>
+        <p class="text-sm text-gray-500 mb-4">Permanently delete your account and all associated data. This cannot be undone.</p>
+        <form method="POST" action="/dashboard/settings/delete" class="space-y-3"
+          onsubmit="return confirm('Are you sure? This will permanently delete your account and all data.')">
+          <div>
+            <label class="block text-xs font-medium text-gray-700 mb-1" for="delete_password">Enter your password to confirm</label>
+            <input type="password" id="delete_password" name="password" required
+              class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500">
+          </div>
+          <button type="submit" class="px-4 py-2 text-sm font-medium bg-red-600 text-white rounded-lg hover:bg-red-700">Delete my account</button>
+        </form>
+      </div>
     </div>`
   return c.html(layout('Settings', '/dashboard/settings', content))
 })
@@ -4205,6 +4258,75 @@ dashboard.post('/dashboard/settings/digest', async (c) => {
   ).bind(optOut, new Date().toISOString(), user.sub).run()
   const status = optOut === 1 ? 'digest-off' : 'digest-on'
   return c.redirect(`/dashboard/settings?status=${status}`, 303)
+})
+
+dashboard.post('/dashboard/settings/password', async (c) => {
+  const user = c.get('user')
+  const body = await c.req.parseBody()
+  const currentPassword = (body['current_password'] as string) ?? ''
+  const newPassword = (body['new_password'] as string) ?? ''
+  const confirmPassword = (body['confirm_password'] as string) ?? ''
+
+  if (!currentPassword || !newPassword || !confirmPassword) {
+    return c.redirect('/dashboard/settings?status=pw-empty', 303)
+  }
+  if (newPassword.length < 8) {
+    return c.redirect('/dashboard/settings?status=pw-short', 303)
+  }
+  if (newPassword !== confirmPassword) {
+    return c.redirect('/dashboard/settings?status=pw-mismatch', 303)
+  }
+
+  const dbUser = await c.env.DB.prepare(
+    'SELECT password_hash FROM users WHERE id = ?'
+  ).bind(user.sub).first<{ password_hash: string }>()
+
+  if (!dbUser || !(await verifyPassword(currentPassword, dbUser.password_hash))) {
+    return c.redirect('/dashboard/settings?status=pw-wrong', 303)
+  }
+
+  const newHash = await hashPassword(newPassword)
+  await c.env.DB.prepare(
+    'UPDATE users SET password_hash = ?, updated_at = ? WHERE id = ?'
+  ).bind(newHash, new Date().toISOString(), user.sub).run()
+
+  return c.redirect('/dashboard/settings?status=pw-changed', 303)
+})
+
+dashboard.post('/dashboard/settings/delete', async (c) => {
+  const user = c.get('user')
+  const body = await c.req.parseBody()
+  const password = (body['password'] as string) ?? ''
+
+  if (!password) {
+    return c.redirect('/dashboard/settings?status=del-empty', 303)
+  }
+
+  const dbUser = await c.env.DB.prepare(
+    'SELECT password_hash FROM users WHERE id = ?'
+  ).bind(user.sub).first<{ password_hash: string }>()
+
+  if (!dbUser || !(await verifyPassword(password, dbUser.password_hash))) {
+    return c.redirect('/dashboard/settings?status=del-wrong', 303)
+  }
+
+  // Delete all user data: pageviews → goals/custom_events → sites → user
+  const sites = await c.env.DB.prepare(
+    'SELECT id FROM sites WHERE user_id = ?'
+  ).bind(user.sub).all<{ id: string }>()
+  const siteIds = sites.results.map(s => s.id)
+
+  if (siteIds.length > 0) {
+    const placeholders = siteIds.map(() => '?').join(',')
+    await c.env.DB.prepare(`DELETE FROM pageviews WHERE site_id IN (${placeholders})`).bind(...siteIds).run()
+    await c.env.DB.prepare(`DELETE FROM goals WHERE site_id IN (${placeholders})`).bind(...siteIds).run()
+    await c.env.DB.prepare(`DELETE FROM custom_events WHERE site_id IN (${placeholders})`).bind(...siteIds).run()
+  }
+  await c.env.DB.prepare('DELETE FROM sites WHERE user_id = ?').bind(user.sub).run()
+  await c.env.DB.prepare('DELETE FROM users WHERE id = ?').bind(user.sub).run()
+
+  deleteCookie(c, 'beam_session', { path: '/' })
+  return c.redirect('/?deleted=1', 303)
 })
 
 // ── Helpers ───────────────────────────────────────────────────────────────────

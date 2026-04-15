@@ -1785,6 +1785,72 @@ test.describe('API v1 authentication', () => {
     await expect(page.getByRole('button', { name: /Unsubscribe from digest/i })).toBeVisible()
   })
 
+  // ── BEAM-236: Dashboard settings — change password + delete account ──────
+
+  test('BEAM-236: /dashboard/settings shows change password and delete account sections', async ({ page }) => {
+    const email = uniqueEmail()
+    await signupAndGetSession(page, email)
+    await page.goto('/dashboard/settings')
+    await expect(page.locator('h2').filter({ hasText: /Change password/i })).toBeVisible()
+    await expect(page.getByRole('textbox', { name: /Current password/i })).toBeVisible()
+    await expect(page.getByRole('textbox', { name: /New password/i }).first()).toBeVisible()
+    await expect(page.getByRole('textbox', { name: /Confirm new password/i })).toBeVisible()
+    await expect(page.getByRole('button', { name: /Update password/i })).toBeVisible()
+    await expect(page.locator('h2').filter({ hasText: /Delete account/i })).toBeVisible()
+    await expect(page.getByRole('button', { name: /Delete my account/i })).toBeVisible()
+  })
+
+  test('BEAM-236: Change password — wrong current password shows error', async ({ page }) => {
+    const email = uniqueEmail()
+    await signupAndGetSession(page, email)
+    await page.goto('/dashboard/settings')
+    await page.getByRole('textbox', { name: /Current password/i }).fill('wrongpassword')
+    await page.getByRole('textbox', { name: /New password/i }).first().fill('newpass456')
+    await page.getByRole('textbox', { name: /Confirm new password/i }).fill('newpass456')
+    await page.getByRole('button', { name: /Update password/i }).click()
+    await page.waitForURL(/status=pw-wrong/)
+    await expect(page.locator('body')).toContainText('Current password is incorrect')
+  })
+
+  test('BEAM-236: Change password — mismatch shows error', async ({ page }) => {
+    const email = uniqueEmail()
+    await signupAndGetSession(page, email)
+    await page.goto('/dashboard/settings')
+    await page.getByRole('textbox', { name: /Current password/i }).fill(PASSWORD)
+    await page.getByRole('textbox', { name: /New password/i }).first().fill('newpass456')
+    await page.getByRole('textbox', { name: /Confirm new password/i }).fill('different789')
+    await page.getByRole('button', { name: /Update password/i }).click()
+    await page.waitForURL(/status=pw-mismatch/)
+    await expect(page.locator('body')).toContainText('do not match')
+  })
+
+  test('BEAM-236: Change password — success updates password', async ({ page }) => {
+    const email = uniqueEmail()
+    await signupAndGetSession(page, email)
+    await page.goto('/dashboard/settings')
+    await page.getByRole('textbox', { name: /Current password/i }).fill(PASSWORD)
+    await page.getByRole('textbox', { name: /New password/i }).first().fill('newpass456')
+    await page.getByRole('textbox', { name: /Confirm new password/i }).fill('newpass456')
+    await page.getByRole('button', { name: /Update password/i }).click()
+    await page.waitForURL(/status=pw-changed/)
+    await expect(page.locator('body')).toContainText('Password updated successfully')
+  })
+
+  test('BEAM-236: Delete account — wrong password shows error', async ({ page }) => {
+    const email = uniqueEmail()
+    await signupAndGetSession(page, email)
+    await page.goto('/dashboard/settings')
+    await page.getByRole('textbox', { name: /Enter your password to confirm/i }).fill('wrongpassword')
+    // Submit without the confirm dialog by evaluating directly
+    await page.evaluate(() => {
+      const form = document.querySelector<HTMLFormElement>('form[action="/dashboard/settings/delete"]')
+      form?.removeAttribute('onsubmit')
+    })
+    await page.getByRole('button', { name: /Delete my account/i }).click()
+    await page.waitForURL(/status=del-wrong/)
+    await expect(page.locator('body')).toContainText('Password is incorrect')
+  })
+
   // ── BEAM-227: April 2026 product update blog post ─────────────────────────
 
   test('BEAM-227: /blog/april-2026-updates returns 200 with correct content', async ({ page }) => {
