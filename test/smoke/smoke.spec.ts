@@ -2029,4 +2029,67 @@ test.describe('API v1 authentication', () => {
     expect(hasOverflow, '/for/sveltekit must not overflow horizontally at 375px').toBe(false)
     await expect(page.getByRole('heading', { level: 1 })).toContainText('SvelteKit')
   })
+
+  // ── BEAM-240: Open Graph and Twitter Card meta tags ───────────────────────
+
+  test('BEAM-240: landing page has og:title and og:description', async ({ page }) => {
+    await page.goto('/')
+    const ogTitle = await page.locator('meta[property="og:title"]').getAttribute('content')
+    const ogDesc = await page.locator('meta[property="og:description"]').getAttribute('content')
+    expect(ogTitle).toBeTruthy()
+    expect(ogDesc).toBeTruthy()
+    // Landing page should use summary_large_image
+    const twCard = await page.locator('meta[name="twitter:card"]').getAttribute('content')
+    expect(twCard).toBe('summary_large_image')
+  })
+
+  test('BEAM-240: blog posts have og:image and twitter:card=summary_large_image', async ({ page }) => {
+    await page.goto('/blog/cookie-free-analytics-guide')
+    const ogImage = await page.locator('meta[property="og:image"]').getAttribute('content')
+    const twCard = await page.locator('meta[name="twitter:card"]').getAttribute('content')
+    const twTitle = await page.locator('meta[name="twitter:title"]').getAttribute('content')
+    const twDesc = await page.locator('meta[name="twitter:description"]').getAttribute('content')
+    expect(ogImage).toBeTruthy()
+    expect(twCard).toBe('summary_large_image')
+    expect(twTitle).toBeTruthy()
+    expect(twDesc).toBeTruthy()
+  })
+
+  test('BEAM-240: /about has og:image and twitter tags', async ({ page }) => {
+    await page.goto('/about')
+    const ogImage = await page.locator('meta[property="og:image"]').getAttribute('content')
+    const twTitle = await page.locator('meta[name="twitter:title"]').getAttribute('content')
+    expect(ogImage).toBeTruthy()
+    expect(twTitle).toBeTruthy()
+  })
+
+  test('BEAM-240: /pricing has og:image and twitter tags', async ({ page }) => {
+    await page.goto('/pricing')
+    const ogImage = await page.locator('meta[property="og:image"]').getAttribute('content')
+    const twTitle = await page.locator('meta[name="twitter:title"]').getAttribute('content')
+    expect(ogImage).toBeTruthy()
+    expect(twTitle).toBeTruthy()
+  })
+
+  test('BEAM-240: /changelog has twitter:card and og:image', async ({ page }) => {
+    await page.goto('/changelog')
+    const ogImage = await page.locator('meta[property="og:image"]').getAttribute('content')
+    const twCard = await page.locator('meta[name="twitter:card"]').getAttribute('content')
+    expect(ogImage).toBeTruthy()
+    expect(twCard).toBe('summary')
+  })
+
+  test('BEAM-240: /privacy and /terms have twitter:card and og:image', async ({ page }) => {
+    await page.goto('/privacy')
+    const ogImage = await page.locator('meta[property="og:image"]').getAttribute('content')
+    const twCard = await page.locator('meta[name="twitter:card"]').getAttribute('content')
+    expect(ogImage).toBeTruthy()
+    expect(twCard).toBe('summary')
+
+    await page.goto('/terms')
+    const ogImage2 = await page.locator('meta[property="og:image"]').getAttribute('content')
+    const twCard2 = await page.locator('meta[name="twitter:card"]').getAttribute('content')
+    expect(ogImage2).toBeTruthy()
+    expect(twCard2).toBe('summary')
+  })
 })

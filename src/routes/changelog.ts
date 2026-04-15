@@ -238,6 +238,10 @@ app.get('/changelog', (c) => {
   <meta property="og:description" content="See what's new in Beam — the latest features, improvements, and updates." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="${baseUrl}/changelog" />
+  <meta property="og:image" content="${baseUrl}/og-image.svg" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Changelog — Beam" />
+  <meta name="twitter:description" content="See what's new in Beam — the latest features, improvements, and updates." />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="${baseUrl}/changelog" />
   <script src="https://cdn.tailwindcss.com"></script>

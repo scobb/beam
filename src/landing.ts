@@ -75,7 +75,7 @@ export function landingPage(
   <meta property="og:description" content="Lightweight, cookie-free, GDPR-compliant web analytics for your website. No tracking, no cookies, just clean data." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="${homeUrl}" />
-  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Beam — Privacy-First Web Analytics" />
   <meta name="twitter:description" content="Lightweight, cookie-free, GDPR-compliant web analytics. No cookies, no consent banners." />
   <meta name="robots" content="index, follow" />

@@ -56,7 +56,10 @@ app.get('/about', (c) => {
   <meta property="og:description" content="Beam is a lightweight, cookie-free, GDPR-compliant analytics service. No cookies, no consent banners, just clean data." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="${baseUrl}/about" />
+  <meta property="og:image" content="${baseUrl}/og-image.svg" />
   <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="About Beam — Privacy-First Web Analytics" />
+  <meta name="twitter:description" content="Beam is a lightweight, cookie-free, GDPR-compliant analytics service. No cookies, no consent banners, just clean data." />
   <script src="https://cdn.tailwindcss.com"></script>
   <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
 </head>

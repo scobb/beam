@@ -136,6 +136,10 @@ app.get('/blog', (c) => {
   <meta property="og:description" content="Insights on privacy-first web analytics, GDPR compliance, and cookie-free tracking from the Beam team." />
   <meta property="og:url" content="${baseUrl}/blog" />
   <meta property="og:type" content="website" />
+  <meta property="og:image" content="${baseUrl}/og-image.svg" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Blog — Beam" />
+  <meta name="twitter:description" content="Insights on privacy-first web analytics, GDPR compliance, and cookie-free tracking from the Beam team." />
   <script src="https://cdn.tailwindcss.com"></script>
   <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
 </head>
@@ -188,6 +192,10 @@ app.get('/blog/cookie-free-analytics-guide', (c) => {
   <meta property="og:url" content="${baseUrl}/blog/${post.slug}" />
   <meta property="og:type" content="article" />
   <meta property="article:published_time" content="${post.date}" />
+  <meta property="og:image" content="${baseUrl}/og-image.svg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="${post.title}" />
+  <meta name="twitter:description" content="${post.excerpt}" />
   <script type="application/ld+json">${jsonLd}</script>
   <script src="https://cdn.tailwindcss.com"></script>
   <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
@@ -325,6 +333,10 @@ app.get('/blog/add-analytics-in-5-minutes', (c) => {
   <meta property="og:url" content="${baseUrl}/blog/${post.slug}" />
   <meta property="og:type" content="article" />
   <meta property="article:published_time" content="${post.date}" />
+  <meta property="og:image" content="${baseUrl}/og-image.svg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="${post.title}" />
+  <meta name="twitter:description" content="${post.excerpt}" />
   <script type="application/ld+json">${jsonLd}</script>
   <script src="https://cdn.tailwindcss.com"></script>
   <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
@@ -530,6 +542,10 @@ app.get('/blog/nextjs-privacy-analytics', (c) => {
   <meta property="og:url" content="${baseUrl}/blog/${post.slug}" />
   <meta property="og:type" content="article" />
   <meta property="article:published_time" content="${post.date}" />
+  <meta property="og:image" content="${baseUrl}/og-image.svg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="${post.title}" />
+  <meta name="twitter:description" content="${post.excerpt}" />
   <script type="application/ld+json">${jsonLd}</script>
   <script src="https://cdn.tailwindcss.com"></script>
   <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
@@ -772,6 +788,10 @@ app.get('/blog/google-analytics-alternatives-2026', (c) => {
   <meta property="og:url" content="${baseUrl}/blog/${post.slug}" />
   <meta property="og:type" content="article" />
   <meta property="article:published_time" content="${post.date}" />
+  <meta property="og:image" content="${baseUrl}/og-image.svg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="${post.title}" />
+  <meta name="twitter:description" content="${post.excerpt}" />
   <script type="application/ld+json">${jsonLd}</script>
   <script src="https://cdn.tailwindcss.com"></script>
   <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
@@ -1090,6 +1110,10 @@ app.get('/blog/beam-analytics-shutdown-migration-guide', (c) => {
   <meta property="og:url" content="${baseUrl}/blog/${post.slug}" />
   <meta property="og:type" content="article" />
   <meta property="article:published_time" content="${post.date}" />
+  <meta property="og:image" content="${baseUrl}/og-image.svg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="${post.title}" />
+  <meta name="twitter:description" content="${post.excerpt}" />
   <script type="application/ld+json">${jsonLd}</script>
   <script src="https://cdn.tailwindcss.com"></script>
   <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
@@ -1340,6 +1364,10 @@ app.get('/blog/plausible-alternative', (c) => {
   <meta property="og:url" content="${baseUrl}/blog/${post.slug}" />
   <meta property="og:type" content="article" />
   <meta property="article:published_time" content="${post.date}" />
+  <meta property="og:image" content="${baseUrl}/og-image.svg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="${post.title}" />
+  <meta name="twitter:description" content="${post.excerpt}" />
   <script type="application/ld+json">${jsonLd}</script>
   <script src="https://cdn.tailwindcss.com"></script>
   <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
@@ -1599,6 +1627,10 @@ app.get('/blog/senbeacon-cors-analytics-fix', (c) => {
   <meta property="og:url" content="${baseUrl}/blog/${post.slug}" />
   <meta property="og:type" content="article" />
   <meta property="article:published_time" content="${post.date}" />
+  <meta property="og:image" content="${baseUrl}/og-image.svg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="${post.title}" />
+  <meta name="twitter:description" content="${post.excerpt}" />
   <script type="application/ld+json">${jsonLd}</script>
   <script src="https://cdn.tailwindcss.com"></script>
   <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
@@ -1788,6 +1820,10 @@ app.get('/blog/gdpr-analytics-no-cookie-banner', (c) => {
   <meta property="og:url" content="${baseUrl}/blog/${post.slug}" />
   <meta property="og:type" content="article" />
   <meta property="article:published_time" content="${post.date}" />
+  <meta property="og:image" content="${baseUrl}/og-image.svg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="${post.title}" />
+  <meta name="twitter:description" content="${post.excerpt}" />
   <script type="application/ld+json">${jsonLd}</script>
   <script src="https://cdn.tailwindcss.com"></script>
   <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
@@ -1957,6 +1993,10 @@ app.get('/blog/april-2026-updates', (c) => {
   <meta property="og:url" content="${baseUrl}/blog/${post.slug}" />
   <meta property="og:type" content="article" />
   <meta property="article:published_time" content="${post.date}" />
+  <meta property="og:image" content="${baseUrl}/og-image.svg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="${post.title}" />
+  <meta name="twitter:description" content="${post.excerpt}" />
   <script type="application/ld+json">${jsonLd}</script>
   <script src="https://cdn.tailwindcss.com"></script>
   <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>

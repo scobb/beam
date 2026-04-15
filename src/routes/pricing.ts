@@ -56,7 +56,10 @@ app.get('/pricing', (c) => {
   <meta property="og:description" content="Simple, honest pricing. Free forever for small sites. Pro at $5/month for unlimited sites." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="${baseUrl}/pricing" />
+  <meta property="og:image" content="${baseUrl}/og-image.svg" />
   <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Pricing — Beam Privacy-First Web Analytics" />
+  <meta name="twitter:description" content="Simple, honest pricing. Free forever for small sites. Pro at $5/month for unlimited sites and 500K pageviews." />
   <script src="https://cdn.tailwindcss.com"></script>
   <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
 </head>
