@@ -63,6 +63,9 @@ test.describe('Desktop smoke', () => {
     await expect(page.getByText('Privacy-first web analytics')).toBeVisible()
     // CTA button links to signup
     await expect(page.getByRole('link', { name: /get started/i }).first()).toBeVisible()
+    // Setup guide links include React and Astro (BEAM-235)
+    await expect(page.locator('a[href="/for/react"]')).toBeVisible()
+    await expect(page.locator('a[href="/for/astro"]')).toBeVisible()
     await page.screenshot({ path: 'screenshots/smoke/desktop-landing.png' })
   })
 
