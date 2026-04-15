@@ -2092,4 +2092,25 @@ test.describe('API v1 authentication', () => {
     expect(ogImage2).toBeTruthy()
     expect(twCard2).toBe('summary')
   })
+
+  // ── BEAM-241: Security email on password change ───────────────────────────
+  // NOTE: The email notification is fire-and-forget via Resend and cannot be
+  // verified in the smoke suite. The test below verifies the password change
+  // itself still completes successfully.
+
+  test('BEAM-241: password change completes and shows success confirmation', async ({ page }) => {
+    const email = uniqueEmail()
+    await signupAndGetSession(page, email)
+    await page.goto('/dashboard/settings')
+    // Scope to the password change form specifically
+    const pwForm = page.locator('form[action="/dashboard/settings/password"]')
+    await pwForm.locator('input[name="current_password"]').fill('smoketest123')
+    await pwForm.locator('input[name="new_password"]').fill('newsmokepass456')
+    await pwForm.locator('input[name="confirm_password"]').fill('newsmokepass456')
+    await pwForm.locator('button[type="submit"]').click()
+    // After redirect, should land on settings page with pw-changed status
+    await page.waitForURL(/status=pw-changed/)
+    await expect(page.locator('body')).toContainText('Password updated successfully')
+    // UNVERIFIED: security email delivery cannot be checked in smoke suite
+  })
 })

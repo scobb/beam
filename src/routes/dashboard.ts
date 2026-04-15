@@ -4286,9 +4286,43 @@ dashboard.post('/dashboard/settings/password', async (c) => {
   }
 
   const newHash = await hashPassword(newPassword)
+  const changedAt = new Date().toISOString()
   await c.env.DB.prepare(
     'UPDATE users SET password_hash = ?, updated_at = ? WHERE id = ?'
-  ).bind(newHash, new Date().toISOString(), user.sub).run()
+  ).bind(newHash, changedAt, user.sub).run()
+
+  // Fire-and-forget security notification — email failure must not block the response
+  if (c.env.RESEND_API_KEY) {
+    const emailBody = [
+      `Hi,`,
+      ``,
+      `The password on your Beam account (${user.email}) was just changed.`,
+      ``,
+      `Time: ${new Date(changedAt).toUTCString()}`,
+      ``,
+      `If you made this change, no action is needed.`,
+      ``,
+      `If you did NOT change your password, please contact us immediately at ralph@keylightdigital.dev so we can secure your account.`,
+      ``,
+      `— The Beam team`,
+      `beam-privacy.com`,
+    ].join('\n')
+    fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${c.env.RESEND_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        from: 'Beam Security <ralph@keylightdigital.dev>',
+        to: user.email,
+        subject: 'Your Beam password was changed',
+        text: emailBody,
+      }),
+    }).catch(() => {
+      // Swallow errors — this is fire-and-forget
+    })
+  }
 
   return c.redirect('/dashboard/settings?status=pw-changed', 303)
 })
