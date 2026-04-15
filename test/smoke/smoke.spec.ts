@@ -2170,4 +2170,43 @@ test.describe('API v1 authentication', () => {
     const footerPricingLink = page.locator('footer a[href="/pricing"]')
     await expect(footerPricingLink).toBeVisible()
   })
+
+  // ── BEAM-246: GDPR data export ────────────────────────────────────────────
+
+  test('BEAM-246: GET /dashboard/settings/export returns 200 with Content-Disposition attachment', async ({ page }) => {
+    const email = uniqueEmail()
+    await signupAndGetSession(page, email)
+    // Use fetch with credentials (cookies are set on the page context)
+    const response = await page.evaluate(async () => {
+      const res = await fetch('/dashboard/settings/export', { credentials: 'include' })
+      return {
+        status: res.status,
+        contentDisposition: res.headers.get('content-disposition'),
+        contentType: res.headers.get('content-type'),
+      }
+    })
+    expect(response.status).toBe(200)
+    expect(response.contentDisposition).toMatch(/attachment/)
+    expect(response.contentDisposition).toMatch(/beam-export-.+\.json/)
+    expect(response.contentType).toContain('application/json')
+  })
+
+  test('BEAM-246: export JSON includes account email and sites array', async ({ page }) => {
+    const email = uniqueEmail()
+    await signupAndGetSession(page, email)
+    const data = await page.evaluate(async () => {
+      const res = await fetch('/dashboard/settings/export', { credentials: 'include' })
+      return res.json()
+    })
+    expect(data.account).toBeDefined()
+    expect(data.account.email).toBeTruthy()
+    expect(Array.isArray(data.sites)).toBe(true)
+  })
+
+  test('BEAM-246: /dashboard/settings shows "Export my data" button', async ({ page }) => {
+    const email = uniqueEmail()
+    await signupAndGetSession(page, email)
+    await page.goto('/dashboard/settings')
+    await expect(page.locator('[data-testid="export-my-data"]')).toBeVisible()
+  })
 })

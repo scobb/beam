@@ -4290,6 +4290,16 @@ dashboard.get('/dashboard/settings', async (c) => {
         </form>
       </div>
 
+      <div class="bg-white rounded-xl border border-gray-200 p-6 mt-4">
+        <h2 class="text-base font-semibold text-gray-900 mb-1">Export my data</h2>
+        <p class="text-sm text-gray-500 mb-4">Download a copy of your account data including sites and aggregate pageview counts (last 90 days). Your data is yours.</p>
+        <a href="/dashboard/settings/export"
+           data-testid="export-my-data"
+           class="inline-block px-4 py-2 text-sm font-medium bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50">
+          Export my data
+        </a>
+      </div>
+
       <div class="bg-white rounded-xl border border-red-200 p-6 mt-4">
         <h2 class="text-base font-semibold text-red-700 mb-1">Delete account</h2>
         <p class="text-sm text-gray-500 mb-4">Permanently delete your account and all associated data. This cannot be undone.</p>
@@ -4384,6 +4394,51 @@ dashboard.post('/dashboard/settings/password', async (c) => {
   }
 
   return c.redirect('/dashboard/settings?status=pw-changed', 303)
+})
+
+dashboard.get('/dashboard/settings/export', async (c) => {
+  const user = c.get('user')
+
+  // Fetch user's sites
+  const sites = await c.env.DB.prepare(
+    'SELECT id, name, domain, created_at FROM sites WHERE user_id = ? ORDER BY created_at ASC'
+  ).bind(user.sub).all<{ id: string; name: string; domain: string; created_at: string }>()
+
+  // For each site, fetch daily pageview counts for the last 90 days
+  const ninetyDaysAgo = new Date(Date.now() - 90 * 24 * 60 * 60 * 1000).toISOString()
+  const sitesWithPageviews = await Promise.all(
+    sites.results.map(async (site) => {
+      const rows = await c.env.DB.prepare(
+        `SELECT strftime('%Y-%m-%d', timestamp) as date, COUNT(*) as pageviews
+         FROM pageviews WHERE site_id = ? AND timestamp >= ?
+         GROUP BY date ORDER BY date`
+      ).bind(site.id, ninetyDaysAgo).all<{ date: string; pageviews: number }>()
+      return {
+        id: site.id,
+        name: site.name,
+        domain: site.domain,
+        created_at: site.created_at,
+        pageviews_last_90_days: rows.results,
+      }
+    })
+  )
+
+  const exportData = {
+    exported_at: new Date().toISOString(),
+    account: {
+      email: user.email,
+      plan: user.plan,
+    },
+    sites: sitesWithPageviews,
+  }
+
+  const date = new Date().toISOString().slice(0, 10)
+  return new Response(JSON.stringify(exportData, null, 2), {
+    headers: {
+      'Content-Type': 'application/json',
+      'Content-Disposition': `attachment; filename="beam-export-${date}.json"`,
+    },
+  })
 })
 
 dashboard.post('/dashboard/settings/delete', async (c) => {
