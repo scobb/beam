@@ -13,3 +13,19 @@ Started: Mon Apr 13 08:46:23 PM PDT 2026
   - Landing page setup guides list is on line 161 of src/landing.ts — one-line edit
   - Pre-existing CF route registration error on deploy is cosmetic — worker uploads succeed
 ---
+
+## 2026-04-15 - BEAM-236
+- Added change password form to /dashboard/settings (current, new, confirm fields)
+- Added delete account section with password confirmation and JS confirm dialog
+- POST /dashboard/settings/password — validates current password, checks length ≥8, checks match, updates hash
+- POST /dashboard/settings/delete — verifies password, deletes pageviews/goals/custom_events/sites/user, clears session cookie
+- Added imports: `deleteCookie` from hono/cookie, `hashPassword`/`verifyPassword` from ../auth
+- Status banners: pw-changed, pw-wrong, pw-mismatch, pw-empty, pw-short, del-wrong, del-empty
+- 10 smoke tests, all passing locally and on prod (162 total tests pass on prod)
+- Mobile verified at 375px — no overflow
+- **Learnings for future iterations:**
+  - `hashPassword` and `verifyPassword` are in src/auth.ts — just import them
+  - `deleteCookie` from hono/cookie (not built-in to dashboard.ts)
+  - D1 doesn't support multi-bind with spread for variable-length IN clauses directly — build placeholder string manually
+  - Delete cascade order: pageviews/goals/custom_events (site-level) → sites → user (import_jobs CASCADE automatically)
+---

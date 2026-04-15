@@ -3883,7 +3883,7 @@
         "Error states: wrong current password, password mismatch, empty fields all show clear error messages"
       ],
       "priority": "low",
-      "passes": false
+      "passes": true
     }
   ]
 }

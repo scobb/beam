@@ -1,10 +1,8 @@
 ## Last completed
-BEAM-233 - /migrate/umami migration guide (local 4/4; prod 4/4 on retry)
+BEAM-236 - Dashboard settings: change password + delete account
 
 ## Next up
-BEAM-234 (medium) — /for/vue integration guide
-- Vue 3 Composition API, onMounted hook, Vue Router afterEach guard
-- Standalone story (not bundled with SvelteKit/Nuxt that caused BEAM-216 failures)
+No incomplete non-blocked stories remain. All stories pass or are blocked. Enter self-generation mode.
 
 ## Active issues
 - BEAM-216 (auto-blocked): /for/sveltekit, /for/vue, /for/nuxt — blocked after 3 consecutive failures
@@ -18,3 +16,5 @@ BEAM-234 (medium) — /for/vue integration guide
 - New date groups go at TOP of array (most recent first)
 - Resend sender must use keylightdigital.dev (not .com)
 - PRD key is userStories (not stories)
+- Delete cascade order: pageviews/goals/custom_events → sites → user (import_jobs CASCADE automatically)
+- `hashPassword`/`verifyPassword` live in src/auth.ts; `deleteCookie` from hono/cookie
