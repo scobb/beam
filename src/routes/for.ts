@@ -24,7 +24,7 @@ const GUIDE_SECTIONS = [
   {
     title: 'Developer frameworks',
     subtitle: 'Implementation guides for teams that control source code and deploy pipelines.',
-    slugs: ['nextjs', 'react', 'vue', 'nuxt', 'wordpress', 'astro', 'gatsby', 'hugo', 'remix'],
+    slugs: ['nextjs', 'react', 'vue', 'nuxt', 'svelte', 'sveltekit', 'wordpress', 'astro', 'gatsby', 'hugo', 'remix'],
   },
   {
     title: 'No-code builders',
@@ -317,9 +317,159 @@ export default defineNuxtPlugin(() => {
     ],
     others: [
       { slug: 'vue', name: 'Vue.js' },
+      { slug: 'sveltekit', name: 'SvelteKit' },
       { slug: 'nextjs', name: 'Next.js' },
       { slug: 'astro', name: 'Astro' },
-      { slug: 'remix', name: 'Remix' },
+    ],
+  },
+
+  svelte: {
+    slug: 'svelte',
+    name: 'Svelte',
+    icon: '🔥',
+    tagline: 'Privacy-first analytics for Svelte apps',
+    hubDescription: 'onMount hook for script injection and page-level tracking with no SSR interference.',
+    description: 'Add cookie-free, GDPR-compliant analytics to your Svelte app in under 2 minutes. No consent banner required. Uses onMount to safely inject the Beam script in the browser only.',
+    metaDescription: 'Add privacy-first analytics to your Svelte app. Cookie-free, GDPR-compliant, <2KB script. Uses onMount for browser-safe injection. No consent banner needed.',
+    installSteps: [
+      {
+        title: 'Add Beam in your root component using onMount',
+        code: `<!-- src/App.svelte -->
+<script>
+  import { onMount } from 'svelte'
+
+  onMount(() => {
+    // onMount only runs in the browser — safe for SSR-aware Svelte builds
+    const script = document.createElement('script')
+    script.defer = true
+    script.src = '${DEFAULT_PUBLIC_BASE_URL}/js/beam.js'
+    script.setAttribute('data-site-id', 'YOUR_SITE_ID')
+    document.head.appendChild(script)
+  })
+</script>
+
+<slot />`,
+        lang: 'svelte',
+        explanation: 'Svelte\'s <code>onMount</code> lifecycle only runs in the browser, never during server-side rendering. This keeps <code>document</code> and <code>window</code> always available when Beam initialises.',
+      },
+      {
+        title: 'Alternative: script tag in app.html (SvelteKit-free Vite projects)',
+        code: `<!-- index.html (Vite + Svelte) -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      defer
+      src="${DEFAULT_PUBLIC_BASE_URL}/js/beam.js"
+      data-site-id="YOUR_SITE_ID">
+    </script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>`,
+        lang: 'html',
+        explanation: 'For plain Vite + Svelte projects (without SvelteKit), placing the script in <code>index.html</code> is the simplest approach — no component logic needed.',
+      },
+    ],
+    verificationChecklist: [
+      'Run npm run dev and open the app in a browser.',
+      'Navigate between two routes (or reload) to confirm tracking fires on each view.',
+      'Open your Beam dashboard and confirm paths appear in Top Pages within a minute.',
+      'Check that no cookies or localStorage keys are set by the Beam script.',
+    ],
+    whyPoints: [
+      { icon: '🍪', title: 'No cookie banner required', body: 'Beam is cookie-free by design — no consent UI to build, no GDPR overhead for your Svelte app.' },
+      { icon: '⚡', title: 'Sub-2KB, zero framework overhead', body: 'Beam\'s script is tiny and deferred, so it adds no noticeable impact to Svelte\'s already-lean bundle.' },
+      { icon: '🔒', title: 'SSR-safe with onMount', body: 'Using onMount ensures Beam only runs in the browser — no server-side errors or hydration mismatches.' },
+      { icon: '📊', title: 'Decision-ready metrics', body: 'See top pages, referrers, countries, and devices without the complexity of GA-style report sprawl.' },
+    ],
+    others: [
+      { slug: 'sveltekit', name: 'SvelteKit' },
+      { slug: 'vue', name: 'Vue.js' },
+      { slug: 'nuxt', name: 'Nuxt' },
+      { slug: 'astro', name: 'Astro' },
+    ],
+  },
+
+  sveltekit: {
+    slug: 'sveltekit',
+    name: 'SvelteKit',
+    icon: '🚀',
+    tagline: 'Privacy-first analytics for SvelteKit apps',
+    hubDescription: '+layout.svelte with afterNavigate for full SPA route tracking across server and client renders.',
+    description: 'Add cookie-free, GDPR-compliant analytics to your SvelteKit app in under 2 minutes. No consent banner required. Uses +layout.svelte with afterNavigate to capture every client-side navigation.',
+    metaDescription: 'Add privacy-first analytics to your SvelteKit app. Cookie-free, GDPR-compliant, <2KB script. Uses afterNavigate in +layout.svelte for SPA tracking. No consent banner needed.',
+    installSteps: [
+      {
+        title: 'Add Beam to src/routes/+layout.svelte',
+        code: `<!-- src/routes/+layout.svelte -->
+<script>
+  import { onMount } from 'svelte'
+  import { afterNavigate } from '$app/navigation'
+
+  onMount(() => {
+    // Inject the Beam script once on first browser load
+    const script = document.createElement('script')
+    script.defer = true
+    script.src = '${DEFAULT_PUBLIC_BASE_URL}/js/beam.js'
+    script.setAttribute('data-site-id', 'YOUR_SITE_ID')
+    document.head.appendChild(script)
+  })
+
+  // Fire a pageview on every SvelteKit client-side navigation
+  afterNavigate(({ to }) => {
+    window.beam?.track?.('pageview', { path: to?.url.pathname ?? window.location.pathname })
+  })
+</script>
+
+<slot />`,
+        lang: 'svelte',
+        explanation: '<code>onMount</code> runs once on initial browser load. <code>afterNavigate</code> fires after every SvelteKit client-side route transition — keeping Top Pages accurate across your entire app without a full page reload.',
+      },
+      {
+        title: 'Alternative: add script to app.html (simpler, no SPA route tracking)',
+        code: `<!-- src/app.html -->
+<!DOCTYPE html>
+<html lang="%sveltekit.lang%">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    %sveltekit.head%
+    <script
+      defer
+      src="${DEFAULT_PUBLIC_BASE_URL}/js/beam.js"
+      data-site-id="YOUR_SITE_ID">
+    </script>
+  </head>
+  <body data-sveltekit-preload-data="hover">
+    <div style="display: contents">%sveltekit.body%</div>
+  </body>
+</html>`,
+        lang: 'html',
+        explanation: 'This approach works for mostly server-rendered SvelteKit sites where full-page navigations are the norm. For SPAs with client-side routing, use the +layout.svelte approach above to capture route changes.',
+      },
+    ],
+    verificationChecklist: [
+      'Run npm run dev and open the app in a browser.',
+      'Navigate between two routes using SvelteKit <a> links (not browser refresh) to trigger afterNavigate.',
+      'Open your Beam dashboard and confirm both paths appear in Top Pages within a minute.',
+      'Check that no cookies or localStorage keys are set by the Beam script.',
+    ],
+    whyPoints: [
+      { icon: '🍪', title: 'No cookie banner required', body: 'Beam is cookie-free by design — no consent UI to build, no GDPR overhead for your SvelteKit app.' },
+      { icon: '⚡', title: 'Sub-2KB, SSR-safe', body: 'onMount keeps Beam out of server-side rendering entirely, so your SvelteKit SSR output is never affected.' },
+      { icon: '🧭', title: 'Full SPA route tracking', body: 'afterNavigate captures every client-side navigation in SvelteKit so your Top Pages report is complete and accurate.' },
+      { icon: '🔒', title: 'Privacy by default', body: 'No PII, no fingerprinting, no ad-tech — just page-level metrics your team can act on without a consent banner.' },
+    ],
+    others: [
+      { slug: 'svelte', name: 'Svelte' },
+      { slug: 'vue', name: 'Vue.js' },
+      { slug: 'nuxt', name: 'Nuxt' },
+      { slug: 'nextjs', name: 'Next.js' },
     ],
   },
 

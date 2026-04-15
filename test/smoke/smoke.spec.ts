@@ -1967,4 +1967,66 @@ test.describe('API v1 authentication', () => {
     expect(hasOverflow, '/for/nuxt must not overflow horizontally at 375px').toBe(false)
     await expect(page.getByRole('heading', { level: 1 })).toContainText('Nuxt')
   })
+
+  // ── BEAM-239: /for/svelte and /for/sveltekit integration guides ───────────
+
+  test('BEAM-239: /for/svelte returns 200 and heading contains Svelte', async ({ page }) => {
+    const res = await page.goto('/for/svelte')
+    expect(res?.status()).toBe(200)
+    await expect(page.getByRole('heading', { level: 1 })).toContainText('Svelte')
+  })
+
+  test('BEAM-239: /for/svelte shows onMount pattern and key content', async ({ page }) => {
+    await page.goto('/for/svelte')
+    await expect(page.locator('body')).toContainText('onMount')
+    await expect(page.locator('body')).toContainText('YOUR_SITE_ID')
+    await expect(page.locator('body')).toContainText('Verify')
+  })
+
+  test('BEAM-239: /for/sveltekit returns 200 and heading contains SvelteKit', async ({ page }) => {
+    const res = await page.goto('/for/sveltekit')
+    expect(res?.status()).toBe(200)
+    await expect(page.getByRole('heading', { level: 1 })).toContainText('SvelteKit')
+  })
+
+  test('BEAM-239: /for/sveltekit shows afterNavigate and +layout.svelte content', async ({ page }) => {
+    await page.goto('/for/sveltekit')
+    await expect(page.locator('body')).toContainText('afterNavigate')
+    await expect(page.locator('body')).toContainText('+layout.svelte')
+    await expect(page.locator('body')).toContainText('YOUR_SITE_ID')
+  })
+
+  test('BEAM-239: both guides linked from /for hub', async ({ page }) => {
+    await page.goto('/for')
+    await expect(page.locator('a[href="/for/svelte"]')).toBeVisible()
+    await expect(page.locator('a[href="/for/sveltekit"]')).toBeVisible()
+  })
+
+  test('BEAM-239: both guides appear in sitemap', async ({ page }) => {
+    const res = await page.goto('/sitemap.xml')
+    expect(res?.status()).toBe(200)
+    const text = await page.content()
+    expect(text).toContain('/for/svelte')
+    expect(text).toContain('/for/sveltekit')
+  })
+
+  test('BEAM-239: /for/svelte is mobile-safe at 375px', async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 812 })
+    await page.goto('/for/svelte')
+    const hasOverflow = await page.evaluate(
+      () => document.documentElement.scrollWidth > window.innerWidth
+    )
+    expect(hasOverflow, '/for/svelte must not overflow horizontally at 375px').toBe(false)
+    await expect(page.getByRole('heading', { level: 1 })).toContainText('Svelte')
+  })
+
+  test('BEAM-239: /for/sveltekit is mobile-safe at 375px', async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 812 })
+    await page.goto('/for/sveltekit')
+    const hasOverflow = await page.evaluate(
+      () => document.documentElement.scrollWidth > window.innerWidth
+    )
+    expect(hasOverflow, '/for/sveltekit must not overflow horizontally at 375px').toBe(false)
+    await expect(page.getByRole('heading', { level: 1 })).toContainText('SvelteKit')
+  })
 })
