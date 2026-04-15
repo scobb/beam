@@ -1,13 +1,12 @@
 ## Last completed
-BEAM-240 - Add Open Graph and Twitter Card meta tags to all public pages
+BEAM-241 - Send security email on password change
 
 ## Next up
-BEAM-241 - Send security email on password change
-- When user changes password in dashboard settings, send an email notification via Resend API
-- Email should say "Your Beam password was just changed. If this wasn't you, contact us."
-- Check dashboard.ts and auth.ts for the password change endpoint
-- Use Resend API with sender ralph@keylightdigital.dev
-- Priority: low
+BEAM-242 - Dashboard empty state: add setup guide CTA when user has no sites
+- When a user logs in and has no sites registered, the dashboard shows nothing useful
+- Add a clear empty state with a CTA to add their first site
+- Look at /dashboard route in dashboard.ts for where sites are listed
+- The empty state should link to /dashboard/sites/new or show setup instructions
 
 ## Active issues
 - BEAM-216 (auto-blocked): superseded by BEAM-239 (complete)
@@ -15,13 +14,14 @@ BEAM-241 - Send security email on password change
 - Staging DNS does not resolve — run smoke tests locally or against prod only
 - Prod CF route registration errors on deploy (pre-existing — worker upload succeeds)
 - Prod propagation delay ~10-30s — wait and retry if smoke tests fail immediately
+- PROD SIGNUP RATE LIMIT: hit 429 today — if running many stories in same session, prod tests that require signup will fail. Wait for the hour to reset between smoke batches, or note as known infra limitation.
 
 ## Key decisions this session
-- og:image uses /og-image.svg (already served) — no need to create /og-image.png
-- Blog posts use twitter:card=summary_large_image; static/utility pages use summary
-- blog.ts has 9 posts with identical template literal patterns — replace_all covers all at once
-- vs.ts, migrate.ts, for.ts, howItWorks.ts, tools.ts, wordpressPlugin.ts were already complete for OG tags
-- Sitemap is in src/index.ts (both paths array and meta object must be updated)
-- Resend sender: ralph@keylightdigital.dev (not .com)
-- PRD key is userStories
-- hashPassword/verifyPassword live in src/auth.ts
+- Security email: fire-and-forget (no await), gated on RESEND_API_KEY presence, catch swallows errors
+- Email from: 'Beam Security <ralph@keylightdigital.dev>'
+- Scope form locators by action attr: `page.locator('form[action="/path"]').locator('button[type="submit"]')`
+- fetch with redirect:manual returns status 0 in browser — use page navigation for redirect tests
+- og:image uses /og-image.svg; blog posts use twitter:card=summary_large_image; others use summary
+- Sitemap in src/index.ts (both paths array AND meta object)
+- Resend sender: ralph@keylightdigital.dev
+- PRD key: userStories
