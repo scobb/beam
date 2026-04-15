@@ -31,3 +31,15 @@ Started: Wed Apr 15 03:01:00 PM PDT 2026
   - Adding a /for/* guide requires: (1) add to GUIDES object, (2) add slug to GUIDE_SECTIONS.slugs, (3) add to sitemap paths+meta, (4) optionally link from landing.ts step 1 list
   - GUIDE_SECTIONS uses `as const` — TypeScript will error if a slug doesn't exist in GUIDES
 ---
+
+## 2026-04-15 - BEAM-239
+- Added /for/svelte: onMount-based script injection (SSR-safe), index.html alternative for Vite+Svelte
+- Added /for/sveltekit: +layout.svelte with afterNavigate for SPA tracking, app.html alternative
+- Added svelte and sveltekit to GUIDE_SECTIONS developer frameworks list (between nuxt and wordpress)
+- Added /for/svelte and /for/sveltekit to sitemap.xml
+- Files: src/routes/for.ts, src/index.ts, test/smoke/smoke.spec.ts
+- 8 smoke tests (16 desktop+mobile), all pass on prod after brief propagation delay
+- **Learnings for future iterations:**
+  - Cloudflare Workers deployment can have ~10-30s propagation delay — if prod smoke tests fail immediately after deploy, wait and retry before blocking the story
+  - GUIDE_SECTIONS `as const` restriction: both slugs must exist in GUIDES before adding to slugs array
+---

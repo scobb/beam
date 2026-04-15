@@ -3931,7 +3931,7 @@
         "Smoke test: GET /for/svelte and GET /for/sveltekit both return 200 with correct headings"
       ],
       "priority": "medium",
-      "passes": false,
+      "passes": true,
       "notes": "BEAM-216 was blocked because it tried to add SvelteKit, Vue, and Nuxt as one big bundle and something broke in the smoke suite. This story is scoped to only Svelte + SvelteKit and should be simpler."
     },
     {
