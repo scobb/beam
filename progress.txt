@@ -57,3 +57,20 @@ Started: Wed Apr 15 03:01:00 PM PDT 2026
   - /og-image.svg is already served and suitable for og:image across all pages; no need to create /og-image.png
   - vs.ts, migrate.ts, for.ts, howItWorks.ts, tools.ts, wordpressPlugin.ts were already complete; only blog/about/pricing/changelog/legal/landing needed fixes
 ---
+
+## 2026-04-15 - BEAM-241
+- Added fire-and-forget security email to POST /dashboard/settings/password on successful password change
+- Email from: 'Beam Security <ralph@keylightdigital.dev>', subject: 'Your Beam password was changed'
+- Body includes account email, UTC timestamp, and support contact instructions
+- Email failure does not block the redirect (Promise.catch swallows errors, no await)
+- Only sends if RESEND_API_KEY is present in env
+- Files: src/routes/dashboard.ts
+- Smoke tests: 2/2 pass locally (desktop + mobile)
+- PROD NOTE: prod smoke tests could not run due to rate limit exhaustion (10 signups/hr/IP, 429 returned)
+  This is not a code failure — feature is correct, rate limit is a known infra constraint (documented in ralph-context.md)
+- UNVERIFIED: security email delivery not testable in smoke suite (fire-and-forget)
+- **Learnings for future iterations:**
+  - Scope form locators by action attribute to avoid clicking the wrong submit button: `page.locator('form[action="/path"]').locator('button[type="submit"]')`
+  - `fetch()` with `redirect: 'manual'` in browser context returns type=opaqueredirect with status 0, not the actual status code — use page navigation instead
+  - prod signup rate limit (10/hr/IP) gets exhausted across a session with many smoke runs; space out prod test runs between stories
+---
