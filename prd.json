@@ -4201,7 +4201,7 @@
         "Smoke test: GET /blog/indie-hacker-analytics returns 200 with correct h1"
       ],
       "priority": "low",
-      "passes": false
+      "passes": true
     },
     {
       "id": "BEAM-256",

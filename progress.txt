@@ -150,3 +150,13 @@ Started: Sat Apr 18 09:11:52 AM PDT 2026
   - siteIds is already computed in the /dashboard handler and available for the condition check
   - Always use /dashboard/sites/new for the "Add site" link (not /dashboard/new-site)
 ---
+
+## 2026-04-18 - BEAM-255
+- Implemented blog post: "The Indie Hacker's Guide to Privacy-First Analytics"
+- Route: GET /blog/indie-hacker-analytics
+- Files changed: src/routes/blog.ts, src/index.ts, test/smoke/smoke.spec.ts
+- Content covers: GA overkill, GDPR risks for small products, 60-second setup, goals, building in public, pricing
+- Deployed to prod; smoke tests pass
+- **Learnings for future iterations:**
+  - Blog posts use <link rel="stylesheet" href="/assets/tailwind.css"> NOT ${tailwindCss} — don't use template variable
+---
