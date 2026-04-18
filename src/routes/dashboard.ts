@@ -1601,8 +1601,8 @@ dashboard.get('/dashboard/sites/:id', async (c) => {
   const siteId = c.req.param('id')
 
   const site = await c.env.DB.prepare(
-    'SELECT id, name, domain, created_at, public, COALESCE(alerts_enabled, 1) as alerts_enabled FROM sites WHERE id = ? AND user_id = ?'
-  ).bind(siteId, user.sub).first<{ id: string; name: string; domain: string; created_at: string; public: number; alerts_enabled: number }>()
+    'SELECT id, name, domain, created_at, public, COALESCE(alerts_enabled, 1) as alerts_enabled, COALESCE(hide_beam_badge, 0) as hide_beam_badge FROM sites WHERE id = ? AND user_id = ?'
+  ).bind(siteId, user.sub).first<{ id: string; name: string; domain: string; created_at: string; public: number; alerts_enabled: number; hide_beam_badge: number }>()
 
   if (!site) {
     return c.redirect('/dashboard/sites')
@@ -1610,6 +1610,7 @@ dashboard.get('/dashboard/sites/:id', async (c) => {
 
   const isPublic = site.public === 1
   const alertsEnabled = site.alerts_enabled === 1
+  const showBeamBadge = site.hide_beam_badge !== 1
   const baseUrl = getPublicBaseUrl(c.env)
   const publicUrl = `${baseUrl}/public/${site.id}`
   const badgeUrl = `${baseUrl}/badge/${site.id}.svg`
@@ -1782,6 +1783,23 @@ dashboard.get('/dashboard/sites/:id', async (c) => {
         </div>
         <p class="text-xs text-gray-400">Alerts only send when the site has at least 7 days of analytics data.</p>
       </div>
+
+      ${isPublic ? `
+      <div class="bg-white rounded-xl border border-gray-200 p-6 mb-4">
+        <div class="flex items-center justify-between mb-2">
+          <div>
+            <h2 class="text-base font-semibold text-gray-900">Beam Badge</h2>
+            <p class="text-sm text-gray-500 mt-0.5">Show an "Analytics by Beam" attribution link on your public stats page.</p>
+          </div>
+          <form method="POST" action="/dashboard/sites/${site.id}/badge">
+            <button type="submit" class="${showBeamBadge ? 'bg-green-600 hover:bg-green-700 text-white' : 'bg-gray-200 hover:bg-gray-300 text-gray-700'} px-4 py-2 rounded-lg text-sm font-medium transition">
+              ${showBeamBadge ? 'Badge: On' : 'Badge: Off'}
+            </button>
+          </form>
+        </div>
+        <p class="text-xs text-gray-400">Visible only when your public dashboard is enabled. Helps others discover Beam.</p>
+      </div>
+      ` : ''}
 
       <div class="bg-white rounded-xl border border-red-100 p-6">
         <h2 class="text-base font-semibold text-red-700 mb-1">Danger Zone</h2>
@@ -3170,6 +3188,26 @@ dashboard.post('/dashboard/sites/:id/alerts', async (c) => {
 
   const newAlerts = site.alerts_enabled === 1 ? 0 : 1
   await c.env.DB.prepare('UPDATE sites SET alerts_enabled = ? WHERE id = ?').bind(newAlerts, siteId).run()
+
+  return c.redirect(`/dashboard/sites/${siteId}`)
+})
+
+// ── Toggle Beam badge visibility (POST /dashboard/sites/:id/badge) ──────────
+
+dashboard.post('/dashboard/sites/:id/badge', async (c) => {
+  const user = c.get('user')
+  const siteId = c.req.param('id')
+
+  const site = await c.env.DB.prepare(
+    'SELECT id, COALESCE(hide_beam_badge, 0) as hide_beam_badge FROM sites WHERE id = ? AND user_id = ?'
+  ).bind(siteId, user.sub).first<{ id: string; hide_beam_badge: number }>()
+
+  if (!site) {
+    return c.redirect('/dashboard/sites')
+  }
+
+  const newHide = site.hide_beam_badge === 1 ? 0 : 1
+  await c.env.DB.prepare('UPDATE sites SET hide_beam_badge = ? WHERE id = ?').bind(newHide, siteId).run()
 
   return c.redirect(`/dashboard/sites/${siteId}`)
 })

@@ -2300,4 +2300,41 @@ test.describe('API v1 authentication', () => {
     await expect(page.locator('[data-testid="upgrade-nudge-warn"]')).not.toBeVisible()
     await expect(page.locator('[data-testid="upgrade-nudge-urgent"]')).not.toBeVisible()
   })
+
+  test('BEAM-250: public stats page shows Beam badge by default; toggle hides it', async ({ page }) => {
+    const email = uniqueEmail()
+    await signupAndGetSession(page, email)
+
+    // Create a site and make it public
+    await page.goto('/dashboard/sites/new')
+    await page.fill('input[name="name"]', 'Badge Test Site')
+    await page.fill('input[name="domain"]', 'badge-test.example.com')
+    await page.click('button[type="submit"]')
+    await page.waitForURL(/\/dashboard\/sites\/[0-9a-f-]+$/)
+    const siteId = page.url().split('/dashboard/sites/')[1]
+
+    await page.click('button[type="submit"]:has-text("Public: Off")')
+    await page.waitForURL(/\/dashboard\/sites\/[0-9a-f-]+$/)
+
+    // Default: badge is visible on public page
+    const pubRes = await page.goto(`/public/${siteId}`)
+    expect(pubRes!.status()).toBe(200)
+    await expect(page.locator('[data-testid="beam-badge-footer"]')).toBeVisible()
+
+    // Toggle badge off in settings
+    await page.goto(`/dashboard/sites/${siteId}`)
+    await page.click('button[type="submit"]:has-text("Badge: On")')
+    await page.waitForURL(/\/dashboard\/sites\/[0-9a-f-]+$/)
+
+    // Badge footer should no longer appear on public page
+    await page.goto(`/public/${siteId}`)
+    await expect(page.locator('[data-testid="beam-badge-footer"]')).not.toBeVisible()
+
+    // Toggle it back on
+    await page.goto(`/dashboard/sites/${siteId}`)
+    await page.click('button[type="submit"]:has-text("Badge: Off")')
+    await page.waitForURL(/\/dashboard\/sites\/[0-9a-f-]+$/)
+    await page.goto(`/public/${siteId}`)
+    await expect(page.locator('[data-testid="beam-badge-footer"]')).toBeVisible()
+  })
 })

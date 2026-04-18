@@ -1,0 +1,1 @@
+ALTER TABLE sites ADD COLUMN hide_beam_badge INTEGER DEFAULT 0;

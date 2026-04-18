@@ -135,8 +135,8 @@ publicDash.get('/public/:site_id', async (c) => {
   const fClause = filterParts.join(' ')
 
   const site = await c.env.DB.prepare(
-    'SELECT id, name, domain, public FROM sites WHERE id = ?'
-  ).bind(siteId).first<{ id: string; name: string; domain: string; public: number }>()
+    'SELECT id, name, domain, public, COALESCE(hide_beam_badge, 0) as hide_beam_badge FROM sites WHERE id = ?'
+  ).bind(siteId).first<{ id: string; name: string; domain: string; public: number; hide_beam_badge: number }>()
 
   if (!site || site.public !== 1) {
     return c.html(notFoundPage(), 404)
@@ -739,8 +739,8 @@ publicDash.get('/public/:site_id', async (c) => {
     `}
   </main>
 
-  <!-- Powered by Beam footer -->
-  <footer class="border-t border-gray-200 mt-12">
+  ${site.hide_beam_badge !== 1 ? `<!-- Powered by Beam footer -->
+  <footer data-testid="beam-badge-footer" class="border-t border-gray-200 mt-12">
     <div class="max-w-6xl mx-auto px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
       <p class="text-sm text-gray-400 text-center sm:text-left">
         Analytics by <a href="https://beam-privacy.com" class="text-indigo-600 font-medium hover:underline">Beam</a>
@@ -754,7 +754,7 @@ publicDash.get('/public/:site_id', async (c) => {
         </a>
       </div>
     </div>
-  </footer>
+  </footer>` : ''}
 </body>
 </html>`)
 })
