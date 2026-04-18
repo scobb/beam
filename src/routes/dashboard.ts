@@ -3550,6 +3550,34 @@ dashboard.get('/dashboard/sites/:id/analytics', async (c) => {
       .first<{ native_start_date: string | null; native_end_date: string | null; imported_start_date: string | null; imported_end_date: string | null }>(),
   ])
   const previousUniqueVisitors = previousUniqueVisitorsResult?.count ?? 0
+
+  // ── Free plan upgrade nudge ─────────────────────────────────────────────────
+  const FREE_PLAN_PV_LIMIT = 50000
+  const NUDGE_WARN_THRESHOLD = 40000
+  const isProUser = user.plan === 'pro'
+  let upgradeNudgeHtml = ''
+  if (!isProUser) {
+    const now = new Date()
+    const monthStart = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1)).toISOString()
+    const monthPvRow = await c.env.DB.prepare(
+      'SELECT COUNT(*) as count FROM pageviews WHERE site_id = ? AND timestamp >= ?'
+    ).bind(siteId, monthStart).first<{ count: number }>()
+    const monthPv = monthPvRow?.count ?? 0
+    if (monthPv >= FREE_PLAN_PV_LIMIT) {
+      upgradeNudgeHtml = `
+        <div class="mb-4 rounded-xl border border-red-300 bg-red-50 px-4 py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3" data-testid="upgrade-nudge-urgent">
+          <p class="text-sm text-red-900">You have hit your free plan limit of ${FREE_PLAN_PV_LIMIT.toLocaleString()} pageviews this month. New pageviews may be dropped. Upgrade to Pro to keep tracking.</p>
+          <a href="/dashboard/billing" class="inline-block shrink-0 text-sm font-semibold text-red-900 underline whitespace-nowrap">Upgrade to Pro →</a>
+        </div>`
+    } else if (monthPv >= NUDGE_WARN_THRESHOLD) {
+      upgradeNudgeHtml = `
+        <div class="mb-4 rounded-xl border border-yellow-300 bg-yellow-50 px-4 py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3" data-testid="upgrade-nudge-warn">
+          <p class="text-sm text-yellow-900">You have used <strong>${monthPv.toLocaleString()}</strong> of your ${FREE_PLAN_PV_LIMIT.toLocaleString()} free pageviews this month. Upgrade to Pro for unlimited tracking.</p>
+          <a href="/dashboard/billing" class="inline-block shrink-0 text-sm font-semibold text-yellow-900 underline whitespace-nowrap">Upgrade now →</a>
+        </div>`
+    }
+  }
+
   const importCoverageWindow = resolveImportCoverageWindow({
     nativeStartDate: coverageSnapshotRow?.native_start_date ?? null,
     nativeEndDate: coverageSnapshotRow?.native_end_date ?? null,
@@ -3841,6 +3869,8 @@ dashboard.get('/dashboard/sites/:id/analytics', async (c) => {
       </div>
 
       ${filterChipsHtml}
+
+      ${upgradeNudgeHtml}
 
       ${importCoverageBannerHtml}
 

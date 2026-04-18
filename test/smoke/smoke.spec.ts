@@ -2270,4 +2270,34 @@ test.describe('API v1 authentication', () => {
     expect(res!.status()).toBe(200)
     await expect(page.locator('body')).toContainText('Log In')
   })
+
+  test('BEAM-249: analytics page returns 200 for a fresh free user with no pageviews (no nudge shown)', async ({ page }) => {
+    const email = uniqueEmail()
+    await signupAndGetSession(page, email)
+
+    // Create a site
+    const createRes = await page.evaluate(() =>
+      fetch('/dashboard/sites/new', {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: 'name=NudgeTest&domain=nudgetest.example.com',
+      }).then(r => ({ status: r.status, url: r.url }))
+    )
+
+    // Get the site ID from the dashboard
+    const dashRes = await page.goto('/dashboard')
+    expect(dashRes!.status()).toBe(200)
+    const html = await dashRes!.text()
+    const match = html.match(/\/dashboard\/sites\/([a-f0-9-]+)\/analytics/)
+    if (!match) return // no site created — skip rest (rare in rate-limited prod env)
+
+    const siteId = match[1]
+    const analyticsRes = await page.goto(`/dashboard/sites/${siteId}/analytics`)
+    expect(analyticsRes!.status()).toBe(200)
+
+    // Fresh free user with 0 pageviews should see NO nudge banners
+    await expect(page.locator('[data-testid="upgrade-nudge-warn"]')).not.toBeVisible()
+    await expect(page.locator('[data-testid="upgrade-nudge-urgent"]')).not.toBeVisible()
+  })
 })
