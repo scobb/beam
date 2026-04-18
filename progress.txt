@@ -128,3 +128,14 @@ Started: Sat Apr 18 09:11:52 AM PDT 2026
   - GUIDE_SECTIONS uses `as const` but adding new sections still works — just add to the array
   - GuideConfig requires: slug, name, icon, tagline, hubDescription, description, metaDescription, installSteps, verificationChecklist, whyPoints, others
 ---
+
+## 2026-04-18 - BEAM-254
+- Implemented blog post: '5 GDPR Analytics Mistakes That Could Cost You in 2026'
+- Files changed: src/routes/blog.ts (POSTS entry + full route handler), src/index.ts (sitemap paths + meta), test/smoke/smoke.spec.ts (BEAM-254 test)
+- Content covers 5 real GDPR mistakes: (1) GA without signed DPA, (2) firing before consent, (3) storing IP addresses, (4) cookies without disclosure, (5) US-hosted tools without SCCs/DPF
+- Each mistake has: what it is, why it matters, legal risk, and how Beam avoids it
+- Deployed to prod; smoke tests pass (desktop + mobile)
+- **Learnings for future iterations:**
+  - Blog post pattern: add to POSTS array + add route handler + add to sitemap paths array + add to sitemap meta object + add smoke test
+  - The route errors on deploy ("Authentication error [code: 10000]") for /zones/.../workers/routes are pre-existing and benign — "Uploaded beam" = successful deploy
+---

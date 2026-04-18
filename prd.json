@@ -4183,7 +4183,7 @@
         "Smoke test: GET /blog/gdpr-analytics-mistakes returns 200 with the correct h1 heading"
       ],
       "priority": "low",
-      "passes": false
+      "passes": true
     },
     {
       "id": "BEAM-255",
