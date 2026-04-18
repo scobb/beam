@@ -4146,7 +4146,7 @@
         "Smoke tests: /vs/umami, /vs/simple-analytics, /vs/posthog each return 200 with correct h1"
       ],
       "priority": "medium",
-      "passes": false,
+      "passes": true,
       "notes": "Follow the existing pattern in src/routes/vs.ts — each competitor is a case in the switch statement. Be honest about where each competitor is stronger."
     },
     {

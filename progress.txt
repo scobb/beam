@@ -102,3 +102,14 @@ Started: Sat Apr 18 09:11:52 AM PDT 2026
   - Stripe expand[] syntax: use `expand[]=data.items` in query string for subscription list
   - The live Stripe restricted key (rk_live_*) lacks rak_plan_read/write — cannot read or create prices via API from local environment. Full sk_live_ key is stored as Cloudflare Worker secret only.
 ---
+
+## 2026-04-18 - BEAM-252
+- What was implemented: Smoke tests for /vs/umami, /vs/simple-analytics, /vs/posthog
+  - All three comparison pages were already fully implemented in src/routes/vs.ts
+  - Pages include feature comparison tables, prose, related links, sitemap entries
+  - Footer links and alternatives hub already included all three
+  - Added smoke tests verifying each returns 200 with correct h1
+- Files changed: test/smoke/smoke.spec.ts
+- **Learnings for future iterations:**
+  - Always check if a story's implementation already exists before writing code — vs.ts already had all three pages
+---
