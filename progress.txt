@@ -23,3 +23,21 @@ Started: Sat Apr 18 09:11:52 AM PDT 2026
   - BEAM-256 (low): Pro dashboard 'add another site' prompt
 - Files changed: prd.json, ralph-context.md, progress.txt
 ---
+
+## 2026-04-18 - BEAM-247
+- Replaced CDN Tailwind with self-hosted compiled CSS bundle
+- Installed tailwindcss v4.2.2 + @tailwindcss/cli as dev dependencies
+- Created src/input.css (`@import "tailwindcss"; @source "../src"`)
+- Created scripts/build-css.mjs: compiles dist/tailwind.css → src/tailwindCss.ts TypeScript const
+- Created src/routes/assets.ts: serves GET /assets/tailwind.css (text/css, long-lived cache)
+- Replaced all 62 `<script src="https://cdn.tailwindcss.com">` tags with `<link rel="stylesheet" href="/assets/tailwind.css">` across 18 files
+- Removed stale `<link rel="preconnect" href="https://cdn.tailwindcss.com">` from dashboard.ts
+- Updated package.json: build/dev/deploy:raw now run build:css first
+- Zero browser console warnings on all pages after deploy
+- **Learnings for future iterations:**
+  - Tailwind v4 uses `@import "tailwindcss"` not the old `@tailwind base/components/utilities` directives
+  - Tailwind v4 CLI is a separate `@tailwindcss/cli` package — no binary at node_modules/.bin/tailwindcss
+  - Compiled CSS (56KB) embedded as TypeScript const avoids Cloudflare Workers static asset routing complexity
+  - `dist/` is gitignored — only commit src/tailwindCss.ts (the generated TS constant)
+  - BEAM-225 local smoke tests fail when run in isolation (miniflare signup rate limiting), not a real regression
+---
