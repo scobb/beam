@@ -4109,7 +4109,7 @@
         "Smoke test: GET /public/{demoSiteUuid} returns 200 and response body contains 'beam-privacy.com'"
       ],
       "priority": "medium",
-      "passes": false,
+      "passes": true,
       "notes": "The demoSiteUuid is the UUID used for /demo (look it up in the DB or hardcode from context). Badge toggle is a simple checkbox POST in site settings. Only link to the marketing homepage — no referral tracking needed."
     },
     {

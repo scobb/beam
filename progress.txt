@@ -71,3 +71,17 @@ Started: Sat Apr 18 09:11:52 AM PDT 2026
   - Month-to-date query pattern: `SELECT COUNT(*) as count FROM pageviews WHERE site_id = ? AND timestamp >= ?` with monthStart = `new Date(Date.UTC(year, month, 1)).toISOString()`
   - user.plan === 'pro' is the correct check for plan type (string comparison)
 ---
+
+## 2026-04-18 - BEAM-250
+- What was implemented: 'Analytics by Beam' badge on public stats pages with toggle
+  - Footer badge with "Analytics by Beam — Privacy-first, cookie-free" on all public stats pages by default
+  - Added data-testid="beam-badge-footer" to footer for testability
+  - New DB migration: `hide_beam_badge INTEGER DEFAULT 0` on sites table (0018)
+  - Site settings page shows "Beam Badge: On/Off" toggle (only when public dashboard is enabled)
+  - POST /dashboard/sites/:id/badge handler toggles the column
+  - public.ts site query includes COALESCE(hide_beam_badge, 0) and conditionally renders footer
+- Files changed: migrations/0018_add_hide_beam_badge.sql, src/routes/public.ts, src/routes/dashboard.ts, test/smoke/smoke.spec.ts
+- **Learnings for future iterations:**
+  - The Share button already contains beam-privacy.com in the Tweet URL — asserting `not.toContain('beam-privacy.com')` fails even when footer is hidden. Use data-testid on the footer element instead.
+  - Migration applied locally with `--local` and to prod with `--remote` before deploying worker.
+---
