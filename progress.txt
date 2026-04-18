@@ -85,3 +85,20 @@ Started: Sat Apr 18 09:11:52 AM PDT 2026
   - The Share button already contains beam-privacy.com in the Tweet URL — asserting `not.toContain('beam-privacy.com')` fails even when footer is hidden. Use data-testid on the footer element instead.
   - Migration applied locally with `--local` and to prod with `--remote` before deploying worker.
 ---
+
+## 2026-04-18 - BEAM-251
+- What was implemented: Annual pricing at $50/yr with monthly/annual billing toggle
+  - Pricing page: JS toggle switches Pro card between "$5/mo" and "$50/yr + Save 17% callout"
+  - Landing page: Added "or $50/yr — save 17%" under Pro price with link to /pricing
+  - billing.ts checkout handler: reads `plan=annual` from body, uses STRIPE_ANNUAL_PRICE_ID if set
+  - Billing page: free users see two upgrade buttons (Monthly $5/mo and Annual $50/yr Save 17%)
+  - Billing page: Pro users on annual plan see "Annual plan · $50/yr" in current plan description
+  - billingInterval detected by expanding Stripe subscription items (interval = 'year' or 'month')
+  - STRIPE_ANNUAL_PRICE_ID added to types.ts Env interface
+  - Test annual price created: price_1TNc2HRhEblTFzoxO4TpFpEM
+  - **ACTION REQUIRED for Steve:** Create live Stripe annual price ($50/yr) via Stripe dashboard and set: `echo "price_XXXX" | wrangler secret put STRIPE_ANNUAL_PRICE_ID`
+- Files changed: src/types.ts, src/routes/billing.ts, src/routes/pricing.ts, src/landing.ts, wrangler.toml, test/smoke/smoke.spec.ts
+- **Learnings for future iterations:**
+  - Stripe expand[] syntax: use `expand[]=data.items` in query string for subscription list
+  - The live Stripe restricted key (rk_live_*) lacks rak_plan_read/write — cannot read or create prices via API from local environment. Full sk_live_ key is stored as Cloudflare Worker secret only.
+---

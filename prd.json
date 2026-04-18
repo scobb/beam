@@ -4126,7 +4126,7 @@
         "Smoke test: GET /pricing returns 200 and page content includes '$50' and 'annual'"
       ],
       "priority": "medium",
-      "passes": false,
+      "passes": true,
       "notes": "Create the Stripe Price via API: POST https://api.stripe.com/v1/prices with currency=usd, unit_amount=5000, recurring[interval]=year, product={existing_product_id}. The product ID can be found from the existing monthly price. Store the new price ID as STRIPE_ANNUAL_PRICE_ID env var."
     },
     {
