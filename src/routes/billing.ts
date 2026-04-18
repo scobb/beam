@@ -5,7 +5,7 @@ import { createApiKey, hashApiKey } from '../lib/apiKeys'
 import { getPublicBaseUrl } from '../lib/publicUrl'
 import { normalizeLaunchOfferCode, resolveLaunchOffer } from '../lib/launchOffers'
 
-const STRIPE_PRICE_ID = 'price_1THbwZRhEblTFzoxXxvNnnEH'
+const STRIPE_MONTHLY_PRICE_ID = 'price_1THbwZRhEblTFzoxXxvNnnEH'
 
 const billing = new Hono<{ Bindings: Env; Variables: { user: AuthUser } }>()
 
@@ -52,26 +52,36 @@ billing.get('/dashboard/billing', async (c) => {
   }
 
   // Sync plan from Stripe if user has a customer ID (handles stale DB state when webhook is not configured)
+  let billingInterval: 'month' | 'year' = 'month'
   if (stripeCustomerId && stripeKey) {
     try {
       const subRes = await fetch(
-        `https://api.stripe.com/v1/subscriptions?customer=${encodeURIComponent(stripeCustomerId)}&status=active&limit=1`,
+        `https://api.stripe.com/v1/subscriptions?customer=${encodeURIComponent(stripeCustomerId)}&status=active&limit=1&expand[]=data.items`,
         { headers: { 'Authorization': `Bearer ${stripeKey}` } }
       )
       if (subRes.ok) {
-        const subData = await subRes.json() as { data?: Array<{ id: string; status: string }> }
+        const subData = await subRes.json() as {
+          data?: Array<{
+            id: string
+            status: string
+            current_period_end?: number
+            items?: { data?: Array<{ price?: { recurring?: { interval?: string } } }> }
+          }>
+        }
         const activeSub = subData.data?.[0]
         const stripeIsActive = activeSub?.status === 'active'
         const dbIsPro = plan === 'pro'
+        if (stripeIsActive) {
+          const interval = activeSub?.items?.data?.[0]?.price?.recurring?.interval
+          if (interval === 'year') billingInterval = 'year'
+        }
         if (stripeIsActive && !dbIsPro) {
-          // Stripe says active but DB says free — sync up
           const now = new Date().toISOString()
           await c.env.DB.prepare(
             'UPDATE users SET plan = ?, stripe_subscription_id = ?, updated_at = ? WHERE id = ?'
           ).bind('pro', activeSub!.id, now, user.sub).run()
           plan = 'pro'
         } else if (!stripeIsActive && dbIsPro) {
-          // Stripe says no active sub but DB says pro — downgrade
           const now = new Date().toISOString()
           await c.env.DB.prepare(
             'UPDATE users SET plan = ?, stripe_subscription_id = NULL, updated_at = ? WHERE id = ?'
@@ -140,7 +150,9 @@ billing.get('/dashboard/billing', async (c) => {
             <p class="text-sm text-gray-500">Current Plan</p>
             <p class="text-xl font-bold text-gray-900 mt-0.5">${isPro ? 'Pro' : 'Free'}</p>
             ${isPro
-              ? '<p class="text-sm text-gray-500">$5/month · Unlimited sites · 500K pageviews/mo</p>'
+              ? billingInterval === 'year'
+                ? '<p class="text-sm text-gray-500">Annual plan · $50/yr · Unlimited sites · 500K pageviews/mo</p>'
+                : '<p class="text-sm text-gray-500">$5/month · Unlimited sites · 500K pageviews/mo</p>'
               : '<p class="text-sm text-gray-500">1 site · 50,000 pageviews/mo</p>'}
           </div>
           ${isPro ? `
@@ -150,12 +162,21 @@ billing.get('/dashboard/billing', async (c) => {
               </button>
             </form>
           ` : `
-            <form method="POST" action="/dashboard/billing/checkout">
-              ${offerHiddenInput}
-              <button type="submit" class="bg-indigo-600 text-white px-5 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700 transition">
-                Upgrade to Pro
-              </button>
-            </form>
+            <div class="flex flex-col sm:flex-row gap-2">
+              <form method="POST" action="/dashboard/billing/checkout">
+                ${offerHiddenInput}
+                <button type="submit" class="bg-indigo-600 text-white px-5 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700 transition whitespace-nowrap">
+                  Upgrade Monthly · $5/mo
+                </button>
+              </form>
+              <form method="POST" action="/dashboard/billing/checkout">
+                ${offerHiddenInput}
+                <input type="hidden" name="plan" value="annual" />
+                <button type="submit" class="bg-white border border-indigo-600 text-indigo-700 px-5 py-2 rounded-lg text-sm font-medium hover:bg-indigo-50 transition whitespace-nowrap">
+                  Upgrade Annual · $50/yr <span class="text-xs font-normal text-green-600 ml-1">Save 17%</span>
+                </button>
+              </form>
+            </div>
           `}
         </div>
 
@@ -305,9 +326,13 @@ billing.post('/dashboard/billing/checkout', async (c) => {
     return c.redirect(`/dashboard/billing?offer_error=${offer.status}`, 303)
   }
 
+  const wantAnnual = typeof body.plan === 'string' && body.plan === 'annual'
+  const annualPriceId = (c.env.STRIPE_ANNUAL_PRICE_ID ?? '').trim()
+  const selectedPriceId = wantAnnual && annualPriceId ? annualPriceId : STRIPE_MONTHLY_PRICE_ID
+
   const params = new URLSearchParams({
     'mode': 'subscription',
-    'line_items[0][price]': STRIPE_PRICE_ID,
+    'line_items[0][price]': selectedPriceId,
     'line_items[0][quantity]': '1',
     'customer_email': user.email,
     'client_reference_id': user.sub,

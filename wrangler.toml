@@ -27,6 +27,9 @@ crons = ["0 9 * * *", "0 9 * * 1"]
 [vars]
 ENVIRONMENT = "production"
 BEAM_SELF_SITE_ID = "dfa32f6b-0775-43df-a2c4-eb23787e5f03"
+# STRIPE_ANNUAL_PRICE_ID must be set as a Worker secret:
+#   echo "price_XXXX" | wrangler secret put STRIPE_ANNUAL_PRICE_ID
+# Test price: price_1TNc2HRhEblTFzoxO4TpFpEM (live price to be created by Steve)
 
 [env.staging]
 name = "beam-staging"

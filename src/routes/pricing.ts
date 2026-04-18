@@ -69,11 +69,25 @@ ${nav()}
 <main class="max-w-5xl mx-auto px-6 py-16">
 
   <!-- Hero -->
-  <div class="text-center mb-16">
+  <div class="text-center mb-10">
     <h1 class="text-4xl font-extrabold tracking-tight text-gray-900 mb-4">Simple, honest pricing</h1>
     <p class="text-xl text-gray-500 max-w-2xl mx-auto">
       No hidden fees. No usage-based surprises. Pick a plan, add your script, and start seeing your data in minutes.
     </p>
+  </div>
+
+  <!-- Billing toggle -->
+  <div class="flex justify-center mb-10">
+    <div class="inline-flex items-center gap-1 bg-gray-100 rounded-xl p-1">
+      <button id="toggle-monthly" onclick="setBilling('monthly')"
+        class="px-5 py-2 rounded-lg text-sm font-medium transition-colors bg-white shadow text-gray-900">
+        Monthly
+      </button>
+      <button id="toggle-annual" onclick="setBilling('annual')"
+        class="px-5 py-2 rounded-lg text-sm font-medium transition-colors text-gray-500 hover:text-gray-900">
+        Annual <span class="text-xs font-semibold text-green-600 ml-1">Save 17%</span>
+      </button>
+    </div>
   </div>
 
   <!-- Plan cards -->
@@ -129,9 +143,18 @@ ${nav()}
       <div class="mb-6">
         <h2 class="text-xl font-bold text-gray-900 mb-1">Pro</h2>
         <p class="text-gray-500 text-sm mb-4">For growing sites and teams that need more</p>
-        <div class="flex items-end gap-1">
+        <!-- Monthly price (default shown) -->
+        <div id="price-monthly" class="flex items-end gap-1">
           <span class="text-5xl font-extrabold text-gray-900">$5</span>
           <span class="text-gray-400 text-sm mb-2">/month</span>
+        </div>
+        <!-- Annual price (hidden by default) -->
+        <div id="price-annual" class="hidden">
+          <div class="flex items-end gap-2">
+            <span class="text-5xl font-extrabold text-gray-900">$50</span>
+            <span class="text-gray-400 text-sm mb-2">/year</span>
+          </div>
+          <p class="text-sm text-green-600 font-medium mt-1">2 months free · Save $10/yr vs monthly</p>
         </div>
       </div>
       <ul class="space-y-3 text-sm text-gray-600 mb-8 flex-grow">
@@ -160,13 +183,34 @@ ${nav()}
           <span>Cancel anytime</span>
         </li>
       </ul>
-      <a href="/signup" data-beam-cta="pricing_pro_cta"
+      <a id="cta-pro" href="/signup" data-beam-cta="pricing_pro_cta"
          class="block text-center bg-indigo-600 text-white font-semibold py-3 rounded-xl hover:bg-indigo-700 transition-colors">
         Get Pro
       </a>
     </div>
 
   </div>
+
+  <script>
+    function setBilling(mode) {
+      var isAnnual = mode === 'annual';
+      document.getElementById('price-monthly').classList.toggle('hidden', isAnnual);
+      document.getElementById('price-annual').classList.toggle('hidden', !isAnnual);
+      var btnMonthly = document.getElementById('toggle-monthly');
+      var btnAnnual = document.getElementById('toggle-annual');
+      if (isAnnual) {
+        btnAnnual.classList.add('bg-white', 'shadow', 'text-gray-900');
+        btnAnnual.classList.remove('text-gray-500');
+        btnMonthly.classList.remove('bg-white', 'shadow', 'text-gray-900');
+        btnMonthly.classList.add('text-gray-500');
+      } else {
+        btnMonthly.classList.add('bg-white', 'shadow', 'text-gray-900');
+        btnMonthly.classList.remove('text-gray-500');
+        btnAnnual.classList.remove('bg-white', 'shadow', 'text-gray-900');
+        btnAnnual.classList.add('text-gray-500');
+      }
+    }
+  </script>
 
   <!-- Comparison table -->
   <div class="max-w-3xl mx-auto mb-20">

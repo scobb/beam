@@ -5,6 +5,7 @@ export interface Env {
   STRIPE_SECRET_KEY?: string
   STRIPE_WEBHOOK_SECRET?: string
   STRIPE_LAUNCH_PROMOTION_CODE_ID?: string
+  STRIPE_ANNUAL_PRICE_ID?: string
   RESEND_API_KEY?: string
   ENVIRONMENT?: string
   GOOGLE_SITE_VERIFICATION?: string

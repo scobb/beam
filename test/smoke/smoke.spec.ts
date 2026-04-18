@@ -2337,4 +2337,13 @@ test.describe('API v1 authentication', () => {
     await page.goto(`/public/${siteId}`)
     await expect(page.locator('[data-testid="beam-badge-footer"]')).toBeVisible()
   })
+
+  test('BEAM-251: /pricing returns 200 with $50 and annual toggle', async ({ request }) => {
+    const res = await request.get('/pricing')
+    expect(res.status()).toBe(200)
+    const body = await res.text()
+    expect(body).toContain('$50')
+    expect(body).toContain('annual')
+    expect(body).toContain('Save 17%')
+  })
 })

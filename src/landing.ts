@@ -340,7 +340,8 @@ export function landingPage(
         <div class="border-2 border-indigo-600 rounded-2xl p-8 relative">
           <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-indigo-600 text-white text-xs font-semibold px-3 py-1 rounded-full">POPULAR</span>
           <h3 class="text-xl font-bold mb-1">Pro</h3>
-          <p class="text-4xl font-extrabold mt-4 mb-6">$5<span class="text-base font-normal text-gray-400">/mo</span></p>
+          <p class="text-4xl font-extrabold mt-4 mb-1">$5<span class="text-base font-normal text-gray-400">/mo</span></p>
+          <p class="text-sm text-green-600 font-medium mb-5">or $50/yr — save 17% <a href="/pricing" class="underline text-indigo-600">See pricing</a></p>
           <ul class="space-y-3 text-sm text-gray-600 mb-8">
             <li class="flex items-center gap-2"><span class="text-green-500">✓</span> Unlimited websites</li>
             <li class="flex items-center gap-2"><span class="text-green-500">✓</span> 500,000 pageviews / month</li>
