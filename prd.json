@@ -4041,6 +4041,182 @@
       ],
       "priority": "low",
       "passes": true
+    },
+    {
+      "id": "BEAM-247",
+      "title": "Replace CDN Tailwind with a self-hosted compiled CSS bundle",
+      "description": "Every page in the app loads Tailwind from cdn.tailwindcss.com — 62 occurrences across 10+ route files. This causes: (1) an external HTTP request on every page load, slowing first paint; (2) a browser console warning on every page ('cdn.tailwindcss.com should not be used in production'); (3) a hard dependency on an external CDN. Replace the CDN script tag with a compiled, self-hosted CSS served from the Worker.",
+      "acceptanceCriteria": [
+        "Tailwind is installed as a dev dependency and compiled to a minified CSS string during build",
+        "Worker serves GET /assets/tailwind.css with Content-Type: text/css and long-lived cache headers",
+        "All 62 `<script src=\"https://cdn.tailwindcss.com\">` tags replaced with `<link rel=\"stylesheet\" href=\"/assets/tailwind.css\">`",
+        "No browser console warnings about Tailwind CDN on any page after the change",
+        "All existing pages render correctly — visual spot-check on landing, login, dashboard, blog",
+        "build script in package.json compiles Tailwind before wrangler deploy",
+        "Smoke test: GET /assets/tailwind.css returns 200 with Content-Type: text/css"
+      ],
+      "priority": "high",
+      "passes": false,
+      "notes": "Simplest approach: run `tailwindcss -i input.css -o dist/tailwind.css --minify`, import the output as a string constant in TypeScript (using ?raw import or reading at build time), export from a route handler. This avoids Cloudflare static asset routing complexity. Scan src/**/*.ts for all Tailwind class names to ensure the purge/scan config covers everything."
+    },
+    {
+      "id": "BEAM-248",
+      "title": "Activation drip: email new signups who have not installed the snippet within 24 hours",
+      "description": "The biggest conversion gap is signup-without-install: users create an account but never add the tracking snippet, see an empty dashboard, and churn. Currently there is no follow-up. Add a scheduled job that runs daily and emails users who signed up ~24 hours ago but have zero pageviews recorded, with a direct link to their install instructions.",
+      "acceptanceCriteria": [
+        "Scheduled job runs daily alongside existing traffic-alerts job in scheduled.ts",
+        "Identifies users where: created_at is between 20 and 28 hours ago AND no pageviews exist for any of their sites AND activation_email_sent_at IS NULL",
+        "Sends a single activation email from ralph@keylightdigital.dev with subject: 'One step left \u2014 add Beam to your site'",
+        "Email body includes: the HTML snippet, a link to /dashboard/sites/{siteId}/setup, and a link to /for for framework guides",
+        "After sending, sets activation_email_sent_at = now on the user row to prevent duplicate sends",
+        "New migration adds column `activation_email_sent_at TEXT` to users table",
+        "If user has no sites yet, email links to /dashboard/new-site",
+        "Unit test verifies the activation query returns the correct eligible users and excludes ineligible ones",
+        "Smoke test: scheduled handler runs without error when called in test mode"
+      ],
+      "priority": "high",
+      "passes": false,
+      "notes": "Add activation_email_sent_at column via a new numbered migration. The scheduled handler in scheduled.ts already has nexusTrace wrapper and the pattern for looping users \u2014 follow the same pattern for a third job."
+    },
+    {
+      "id": "BEAM-249",
+      "title": "Free plan upgrade nudge when monthly usage hits 80% of pageview limit",
+      "description": "Free plan allows 50,000 pageviews/month. When a free user's site has consumed 40,000+ pageviews in the current calendar month, they are about to hit the wall. Show an inline warning banner on the dashboard analytics page prompting upgrade before they lose data.",
+      "acceptanceCriteria": [
+        "On dashboard analytics page, compute current calendar-month pageviews for the site being viewed",
+        "If user is on free plan AND pageviews >= 40,000 (80%): show a yellow warning banner above the chart: 'You have used [X,XXX] of your 50,000 free pageviews this month. Upgrade to Pro for unlimited tracking.' with 'Upgrade now' link to /dashboard/billing",
+        "If pageviews >= 50,000 (at limit): banner turns red with: 'You have hit your free plan limit. New pageviews may be dropped. Upgrade to Pro to keep tracking.'",
+        "Pro plan users never see the banner",
+        "Banner is visually consistent with existing dashboard UI (same color palette and component style)",
+        "Mobile-usable at 375px \u2014 banner wraps correctly, CTA is tappable",
+        "Smoke test: authenticated GET /dashboard/sites/{siteId}/analytics returns 200 (no regressions)"
+      ],
+      "priority": "high",
+      "passes": false,
+      "notes": "Compute month-to-date pageviews with: SELECT COUNT(*) FROM pageviews WHERE site_id = ? AND timestamp >= first-of-month ISO string. Render the banner server-side in dashboard.ts. No new DB columns needed."
+    },
+    {
+      "id": "BEAM-250",
+      "title": "Add 'Analytics by Beam' badge to public stats pages for viral loop",
+      "description": "Users who share their public stats page (/public/{uuid}) get a plain analytics dashboard with no attribution. Add an optional 'Analytics by Beam' footer badge that links to beam-privacy.com. Every shared stats page becomes a passive acquisition channel. Default ON for all plans; Pro users can disable it.",
+      "acceptanceCriteria": [
+        "Public stats page (/public/{uuid}) displays a small footer: 'Analytics by Beam \u2014 Privacy-first web analytics' linking to https://beam-privacy.com",
+        "Badge is visually subtle (small font, muted color, does not compete with the data)",
+        "Dashboard site settings has a checkbox 'Show Beam badge on public stats page' \u2014 default checked (enabled)",
+        "New migration adds column `hide_beam_badge INTEGER DEFAULT 0` to sites table",
+        "When hide_beam_badge = 1 for a site, its public stats page shows no badge",
+        "Mobile-usable at 375px \u2014 badge is visible without causing overflow",
+        "Smoke test: GET /public/{demoSiteUuid} returns 200 and response body contains 'beam-privacy.com'"
+      ],
+      "priority": "medium",
+      "passes": false,
+      "notes": "The demoSiteUuid is the UUID used for /demo (look it up in the DB or hardcode from context). Badge toggle is a simple checkbox POST in site settings. Only link to the marketing homepage \u2014 no referral tracking needed."
+    },
+    {
+      "id": "BEAM-251",
+      "title": "Add annual pricing option at $50/yr (save 2 months) to pricing page and checkout",
+      "description": "Monthly-only pricing leaves revenue on the table and produces higher churn. An annual option at $50/yr (2 months free vs $60/yr) is a standard SaaS lever. Add a monthly/annual toggle to the pricing page and wire up a Stripe annual Price to the checkout flow.",
+      "acceptanceCriteria": [
+        "Create a Stripe Price of $50/yr (annual recurring) on the existing Beam Pro product using the Stripe API (STRIPE_SECRET_KEY) and store the resulting price ID in wrangler.toml as STRIPE_ANNUAL_PRICE_ID",
+        "Pricing page (/pricing) has a monthly/annual billing toggle; annual shows '$50/yr' with 'Save 17%' callout",
+        "Landing page pricing section updated to show annual option or toggle",
+        "Stripe Checkout Session creation (in billing.ts) reads a `plan=annual` query parameter and uses STRIPE_ANNUAL_PRICE_ID when present",
+        "Dashboard billing page shows 'Annual plan' and next renewal date for annual subscribers",
+        "Monthly subscribers are unaffected",
+        "Smoke test: GET /pricing returns 200 and page content includes '$50' and 'annual'"
+      ],
+      "priority": "medium",
+      "passes": false,
+      "notes": "Create the Stripe Price via API: POST https://api.stripe.com/v1/prices with currency=usd, unit_amount=5000, recurring[interval]=year, product={existing_product_id}. The product ID can be found from the existing monthly price. Store the new price ID as STRIPE_ANNUAL_PRICE_ID env var."
+    },
+    {
+      "id": "BEAM-252",
+      "title": "Add /vs/umami, /vs/simple-analytics, and /vs/posthog comparison pages",
+      "description": "Beam has comparison pages for 5 competitors but three high-volume targets are missing: Umami (popular self-hosted analytics), Simple Analytics (direct privacy competitor), and PostHog (product analytics crossover). Each page targets a specific 'beam vs [competitor]' search query with honest, structured comparisons.",
+      "acceptanceCriteria": [
+        "GET /vs/umami returns 200 with title 'Beam vs Umami Analytics'",
+        "GET /vs/simple-analytics returns 200 with title 'Beam vs Simple Analytics'",
+        "GET /vs/posthog returns 200 with title 'Beam vs PostHog'",
+        "Each page follows the same structure as /vs/plausible: hero, feature comparison table, pricing comparison, CTA",
+        "Umami page: highlights Beam requires no self-hosting, zero ops, vs Umami's server maintenance; acknowledges Umami is free if self-hosted",
+        "Simple Analytics page: highlights Beam's lower price ($5 vs $19/mo), Beam's global Cloudflare edge; acknowledges Simple Analytics has a polished UI",
+        "PostHog page: clarifies PostHog is product analytics (events/session replay) vs Beam for site traffic; positions them as complementary, but Beam is simpler/cheaper for marketing traffic",
+        "All three pages linked from /alternatives hub and footer",
+        "Sitemap.xml updated",
+        "Smoke tests: /vs/umami, /vs/simple-analytics, /vs/posthog each return 200 with correct h1"
+      ],
+      "priority": "medium",
+      "passes": false,
+      "notes": "Follow the existing pattern in src/routes/vs.ts \u2014 each competitor is a case in the switch statement. Be honest about where each competitor is stronger."
+    },
+    {
+      "id": "BEAM-253",
+      "title": "Add /for/ecommerce and /for/saas vertical landing pages",
+      "description": "The /for/* pages cover framework-specific setup but not industry verticals. Two high-intent verticals are missing: ecommerce (Shopify/WooCommerce owners worried about GDPR cookie tracking) and SaaS (devs wanting marketing site analytics without GA). These pages increase topical authority and capture vertical-specific search queries.",
+      "acceptanceCriteria": [
+        "GET /for/ecommerce returns 200 with a title containing 'ecommerce' or 'e-commerce'",
+        "GET /for/saas returns 200 with a title containing 'SaaS'",
+        "Ecommerce page covers: GDPR compliance for online stores, no cookie consent banners needed, compatible with Shopify/WooCommerce, privacy-respecting conversion tracking via goals",
+        "SaaS page covers: tracking marketing + docs site traffic, understanding signup funnel with goals, lightweight script that doesn't interfere with in-app product analytics",
+        "Both pages include: hero with vertical-specific headline, key benefits, snippet install, goals/conversion section, pricing, CTA to sign up",
+        "Both pages linked from the /for hub page",
+        "Sitemap.xml updated",
+        "Mobile-usable at 375px",
+        "Smoke tests: GET /for/ecommerce and GET /for/saas each return 200 with correct heading"
+      ],
+      "priority": "medium",
+      "passes": false,
+      "notes": "Add new cases for 'ecommerce' and 'saas' in src/routes/for.ts. These are content-only pages \u2014 no backend logic needed."
+    },
+    {
+      "id": "BEAM-254",
+      "title": "Blog post: '5 GDPR analytics mistakes that could cost you in 2026'",
+      "description": "Non-branded, high-intent SEO content targeting site owners worried about GDPR compliance. 'GDPR analytics' is searched by people actively concerned about compliance \u2014 capturing them at that moment converts well. This post targets the fear/risk angle rather than feature comparison.",
+      "acceptanceCriteria": [
+        "GET /blog/gdpr-analytics-mistakes returns 200",
+        "Title: '5 GDPR Analytics Mistakes That Could Cost You in 2026'",
+        "Covers 5 real mistakes: (1) using Google Analytics without a DPA signed, (2) firing analytics before consent is given, (3) storing IP addresses in the analytics database, (4) analytics cookies set without disclosure, (5) using a US-hosted analytics tool without Standard Contractual Clauses",
+        "For each mistake: what it is, why it matters, the legal risk, and how Beam avoids it",
+        "Includes a disclaimer that this is not legal advice",
+        "Includes CTA to sign up",
+        "Added to /blog listing and sitemap.xml",
+        "Smoke test: GET /blog/gdpr-analytics-mistakes returns 200 with the correct h1 heading"
+      ],
+      "priority": "low",
+      "passes": false
+    },
+    {
+      "id": "BEAM-255",
+      "title": "Blog post: 'The indie hacker's guide to privacy-first analytics'",
+      "description": "Indie hackers and solo founders are a core Beam audience. 'analytics for side projects' and 'indie hacker analytics' are underserved queries. This post speaks directly to that persona: cheap, zero-ops, privacy-respecting, works on Vercel/Cloudflare/Netlify, great for building in public. Tone should feel like one founder talking to another.",
+      "acceptanceCriteria": [
+        "GET /blog/indie-hacker-analytics returns 200",
+        "Title: 'The Indie Hacker\u2019s Guide to Privacy-First Analytics'",
+        "Tone is conversational and direct \u2014 written as a fellow builder, not a marketing team",
+        "Covers: why GA is overkill for side projects, GDPR concerns for small products, 60-second setup, using goals to track signups/conversions, sharing public stats with your audience via /public URL",
+        "Includes the actual HTML snippet",
+        "Has a 'building in public' section explaining how to share your /public stats URL",
+        "CTA to sign up",
+        "Added to /blog listing and sitemap.xml",
+        "Smoke test: GET /blog/indie-hacker-analytics returns 200 with correct h1"
+      ],
+      "priority": "low",
+      "passes": false
+    },
+    {
+      "id": "BEAM-256",
+      "title": "Dashboard: show 'Add another site' prompt for Pro users with exactly one site",
+      "description": "Pro plan includes unlimited sites, but most users who upgrade never realize they can add more. When a Pro user has exactly 1 site, show a contextual callout on the dashboard site list prompting them to track their docs, blog, or staging environment too.",
+      "acceptanceCriteria": [
+        "On GET /dashboard, if user is on pro plan AND has exactly 1 site: show a callout card below the site list",
+        "Callout text: 'Your Pro plan includes unlimited sites. Track your docs site, landing page, or staging environment too.' with a button 'Add a site' linking to /dashboard/new-site",
+        "Callout is NOT shown to: free plan users, pro users with 2+ sites, users with 0 sites (they already see the onboarding CTA)",
+        "Mobile-usable at 375px \u2014 card fits without horizontal overflow",
+        "Smoke test: GET /dashboard returns 200 with no regressions to site list rendering"
+      ],
+      "priority": "low",
+      "passes": false,
+      "notes": "Pure server-side rendering change in src/routes/dashboard.ts. No new DB columns needed. Check user.plan === 'pro' and sites.length === 1."
     }
   ]
 }
