@@ -113,3 +113,18 @@ Started: Sat Apr 18 09:11:52 AM PDT 2026
 - **Learnings for future iterations:**
   - Always check if a story's implementation already exists before writing code — vs.ts already had all three pages
 ---
+
+## 2026-04-18 - BEAM-253
+- What was implemented: /for/ecommerce and /for/saas vertical landing pages
+  - Added `ecommerce` and `saas` entries to GUIDES in src/routes/for.ts
+  - Added "Industry verticals" section to GUIDE_SECTIONS (keeps `as const`)
+  - Each page: tagline, description, 3 installSteps, 4 whyPoints, others list
+  - Ecommerce: covers Shopify theme.liquid, WooCommerce header.php, purchase event tracking
+  - SaaS: covers marketing site snippet, signup event tracking, pricing page engagement
+  - Both linked from /for hub via new "Industry verticals" section
+  - Added /for/ecommerce and /for/saas to sitemap in index.ts (paths + meta)
+- Files changed: src/routes/for.ts, src/index.ts, test/smoke/smoke.spec.ts
+- **Learnings for future iterations:**
+  - GUIDE_SECTIONS uses `as const` but adding new sections still works — just add to the array
+  - GuideConfig requires: slug, name, icon, tagline, hubDescription, description, metaDescription, installSteps, verificationChecklist, whyPoints, others
+---

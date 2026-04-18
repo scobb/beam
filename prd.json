@@ -4165,7 +4165,7 @@
         "Smoke tests: GET /for/ecommerce and GET /for/saas each return 200 with correct heading"
       ],
       "priority": "medium",
-      "passes": false,
+      "passes": true,
       "notes": "Add new cases for 'ecommerce' and 'saas' in src/routes/for.ts. These are content-only pages — no backend logic needed."
     },
     {
