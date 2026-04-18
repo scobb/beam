@@ -1,0 +1,234 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e3]:
+      - link "Beam" [ref=e4] [cursor=pointer]:
+        - /url: /
+      - generic [ref=e5]:
+        - link "Migration Hub" [ref=e6] [cursor=pointer]:
+          - /url: /migrate
+        - link "Live Demo" [ref=e7] [cursor=pointer]:
+          - /url: /demo
+        - link "Log in" [ref=e8] [cursor=pointer]:
+          - /url: /login
+        - link "Get Started" [ref=e9] [cursor=pointer]:
+          - /url: /signup
+  - main [ref=e10]:
+    - paragraph [ref=e11]: Migration hub
+    - heading "Choose the fastest path to switch analytics tools" [level=1] [ref=e12]
+    - paragraph [ref=e13]: "This page is built for migration decisions, not generic marketing. Start with whichever path reduces your current risk first: verify what is installed, validate reporting fit, follow implementation guides, then switch production tags."
+    - generic [ref=e14]:
+      - heading "Recommended migration sequence" [level=2] [ref=e15]
+      - list [ref=e16]:
+        - listitem [ref=e17]:
+          - text: 1. Scan your site at
+          - link "/tools/stack-scanner" [ref=e18] [cursor=pointer]:
+            - /url: /tools/stack-scanner
+          - text: .
+        - listitem [ref=e19]:
+          - text: 2. Use the matching migration guide (
+          - link "Google Analytics" [ref=e20] [cursor=pointer]:
+            - /url: /migrate/google-analytics
+          - text: ","
+          - link "Plausible" [ref=e21] [cursor=pointer]:
+            - /url: /migrate/plausible
+          - text: ","
+          - link "Fathom" [ref=e22] [cursor=pointer]:
+            - /url: /migrate/fathom
+          - text: ", or"
+          - link "beamanalytics.io shutdown" [ref=e23] [cursor=pointer]:
+            - /url: /migrate/beam-analytics
+          - text: ).
+        - listitem [ref=e24]:
+          - text: 3. Implement with the
+          - link "setup guides hub" [ref=e25] [cursor=pointer]:
+            - /url: /for
+          - text: and verify first pageview.
+        - listitem [ref=e26]:
+          - text: 4. Confirm dashboard fit in
+          - link "/demo" [ref=e27] [cursor=pointer]:
+            - /url: /demo
+          - text: ", then create your production site record at"
+          - link "/signup" [ref=e28] [cursor=pointer]:
+            - /url: /signup
+          - text: .
+    - generic [ref=e29]:
+      - heading "Migration paths" [level=2] [ref=e30]
+      - paragraph [ref=e31]: Every path below links directly to an actionable next step.
+      - generic [ref=e32]:
+        - article [ref=e33]:
+          - heading "Scan my current stack" [level=2] [ref=e34]:
+            - link "Scan my current stack" [ref=e35] [cursor=pointer]:
+              - /url: /tools/stack-scanner
+          - paragraph [ref=e36]: Detect current analytics scripts first, then use Beam-specific migration guidance.
+          - paragraph [ref=e37]: "Best for: Teams unsure what is currently installed on production pages."
+          - link "Open path ->" [ref=e38] [cursor=pointer]:
+            - /url: /tools/stack-scanner
+        - article [ref=e39]:
+          - heading "Google Analytics migration checklist" [level=2] [ref=e40]:
+            - link "Google Analytics migration checklist" [ref=e41] [cursor=pointer]:
+              - /url: /migrate/google-analytics
+          - paragraph [ref=e42]: "Follow a practical GA4 replacement sequence: remove GA, install Beam, verify, and map reporting priorities."
+          - paragraph [ref=e43]: "Best for: Teams leaving GA4 due to consent friction, complexity, or Google data-sharing concerns."
+          - link "Open path ->" [ref=e44] [cursor=pointer]:
+            - /url: /migrate/google-analytics
+        - article [ref=e45]:
+          - heading "Plausible migration guide" [level=2] [ref=e46]:
+            - link "Plausible migration guide" [ref=e47] [cursor=pointer]:
+              - /url: /migrate/plausible
+          - paragraph [ref=e48]: Use an implementation-first checklist to replace Plausible tags and verify Beam quickly.
+          - paragraph [ref=e49]: "Best for: Teams switching from Plausible while keeping privacy-first analytics."
+          - link "Open path ->" [ref=e50] [cursor=pointer]:
+            - /url: /migrate/plausible
+        - article [ref=e51]:
+          - heading "Fathom migration guide" [level=2] [ref=e52]:
+            - link "Fathom migration guide" [ref=e53] [cursor=pointer]:
+              - /url: /migrate/fathom
+          - paragraph [ref=e54]: Follow a direct Fathom-to-Beam checklist with honest tradeoffs before cutover.
+          - paragraph [ref=e55]: "Best for: Fathom users validating lower-cost migration paths without losing clarity."
+          - link "Open path ->" [ref=e56] [cursor=pointer]:
+            - /url: /migrate/fathom
+        - article [ref=e57]:
+          - heading "Import historical traffic guide" [level=2] [ref=e58]:
+            - link "Import historical traffic guide" [ref=e59] [cursor=pointer]:
+              - /url: /migrate/import-history
+          - paragraph [ref=e60]: Bring daily traffic totals from Plausible or Fathom CSV exports into Beam so your dashboard shows trend context from day one.
+          - paragraph [ref=e61]: "Best for: Anyone switching from Plausible or Fathom who wants historical trend continuity."
+          - link "Open path ->" [ref=e62] [cursor=pointer]:
+            - /url: /migrate/import-history
+        - article [ref=e63]:
+          - heading "beamanalytics.io migration guide" [level=2] [ref=e64]:
+            - link "beamanalytics.io migration guide" [ref=e65] [cursor=pointer]:
+              - /url: /migrate/beam-analytics
+          - paragraph [ref=e66]: Step-by-step migration from beamanalytics.io before the September 1, 2026 shutdown. Export data first, then install Beam and verify tracking.
+          - paragraph [ref=e67]: "Best for: Current beamanalytics.io users who need to migrate before the September 2026 shutdown deadline."
+          - link "Open path ->" [ref=e68] [cursor=pointer]:
+            - /url: /migrate/beam-analytics
+        - article [ref=e69]:
+          - heading "Setup guides hub" [level=2] [ref=e70]:
+            - link "Setup guides hub" [ref=e71] [cursor=pointer]:
+              - /url: /for
+          - paragraph [ref=e72]: Framework and no-code install instructions for Next.js, WordPress, Webflow, and more.
+          - paragraph [ref=e73]: "Best for: Anyone ready to install Beam after choosing a migration path."
+          - link "Open path ->" [ref=e74] [cursor=pointer]:
+            - /url: /for
+        - article [ref=e75]:
+          - heading "Live product demo" [level=2] [ref=e76]:
+            - link "Live product demo" [ref=e77] [cursor=pointer]:
+              - /url: /demo
+          - paragraph [ref=e78]: Validate reporting UX and filters before touching production scripts.
+          - paragraph [ref=e79]: "Best for: Decision-makers who want proof before implementation."
+          - link "Open path ->" [ref=e80] [cursor=pointer]:
+            - /url: /demo
+        - article [ref=e81]:
+          - heading "Create Beam account" [level=2] [ref=e82]:
+            - link "Create Beam account" [ref=e83] [cursor=pointer]:
+              - /url: /signup
+          - paragraph [ref=e84]: Create a site, get a script tag, and verify first pageview in the dashboard.
+          - paragraph [ref=e85]: "Best for: Teams ready to run Beam in production now."
+          - link "Open path ->" [ref=e86] [cursor=pointer]:
+            - /url: /signup
+    - generic [ref=e87]:
+      - heading "Decision matrix" [level=2] [ref=e88]
+      - table [ref=e90]:
+        - rowgroup [ref=e91]:
+          - row "If your current blocker is... Start here Then do this next" [ref=e92]:
+            - columnheader "If your current blocker is..." [ref=e93]
+            - columnheader "Start here" [ref=e94]
+            - columnheader "Then do this next" [ref=e95]
+        - rowgroup [ref=e96]:
+          - row "You do not know which analytics scripts are live. Stack scanner Move into the relevant migration guide and remove legacy tags last." [ref=e97]:
+            - cell "You do not know which analytics scripts are live." [ref=e98]
+            - cell "Stack scanner" [ref=e99]:
+              - link "Stack scanner" [ref=e100] [cursor=pointer]:
+                - /url: /tools/stack-scanner
+            - cell "Move into the relevant migration guide and remove legacy tags last." [ref=e101]
+          - row "You are replacing GA4 and need implementation-first steps. Google Analytics migration checklist Review Beam vs Google Analytics for fit, then ship the install flow." [ref=e102]:
+            - cell "You are replacing GA4 and need implementation-first steps." [ref=e103]
+            - cell "Google Analytics migration checklist" [ref=e104]:
+              - link "Google Analytics migration checklist" [ref=e105] [cursor=pointer]:
+                - /url: /migrate/google-analytics
+            - cell "Review Beam vs Google Analytics for fit, then ship the install flow." [ref=e106]:
+              - text: Review
+              - link "Beam vs Google Analytics" [ref=e107] [cursor=pointer]:
+                - /url: /vs/google-analytics
+              - text: for fit, then ship the install flow.
+          - row "You are replacing Plausible and want a direct script-swap checklist. Plausible migration guide Compare tradeoffs in Beam vs Plausible, then publish using a framework guide." [ref=e108]:
+            - cell "You are replacing Plausible and want a direct script-swap checklist." [ref=e109]
+            - cell "Plausible migration guide" [ref=e110]:
+              - link "Plausible migration guide" [ref=e111] [cursor=pointer]:
+                - /url: /migrate/plausible
+            - cell "Compare tradeoffs in Beam vs Plausible, then publish using a framework guide." [ref=e112]:
+              - text: Compare tradeoffs in
+              - link "Beam vs Plausible" [ref=e113] [cursor=pointer]:
+                - /url: /vs/plausible
+              - text: ", then publish using a framework guide."
+          - row "You are replacing Fathom and want an honest fit check before script cutover. Fathom migration guide Review tradeoffs in Beam vs Fathom, then ship your framework install." [ref=e114]:
+            - cell "You are replacing Fathom and want an honest fit check before script cutover." [ref=e115]
+            - cell "Fathom migration guide" [ref=e116]:
+              - link "Fathom migration guide" [ref=e117] [cursor=pointer]:
+                - /url: /migrate/fathom
+            - cell "Review tradeoffs in Beam vs Fathom, then ship your framework install." [ref=e118]:
+              - text: Review tradeoffs in
+              - link "Beam vs Fathom" [ref=e119] [cursor=pointer]:
+                - /url: /vs/fathom
+              - text: ", then ship your framework install."
+          - row "You need framework-specific installation steps. Setup guides hub Validate in demo, then instrument production and confirm first pageview." [ref=e120]:
+            - cell "You need framework-specific installation steps." [ref=e121]
+            - cell "Setup guides hub" [ref=e122]:
+              - link "Setup guides hub" [ref=e123] [cursor=pointer]:
+                - /url: /for
+            - cell "Validate in demo, then instrument production and confirm first pageview." [ref=e124]
+          - row "You need confidence before touching production. Live demo Create account and site, then run migration checklist on a staging page first." [ref=e125]:
+            - cell "You need confidence before touching production." [ref=e126]
+            - cell "Live demo" [ref=e127]:
+              - link "Live demo" [ref=e128] [cursor=pointer]:
+                - /url: /demo
+            - cell "Create account and site, then run migration checklist on a staging page first." [ref=e129]
+          - row "You want historical trend data from your old tool in Beam from day one. Import history guide Upload a Plausible or Fathom CSV export to backfill daily traffic totals before going live." [ref=e130]:
+            - cell "You want historical trend data from your old tool in Beam from day one." [ref=e131]
+            - cell "Import history guide" [ref=e132]:
+              - link "Import history guide" [ref=e133] [cursor=pointer]:
+                - /url: /migrate/import-history
+            - cell "Upload a Plausible or Fathom CSV export to backfill daily traffic totals before going live." [ref=e134]
+          - row "You are migrating from beamanalytics.io before the September 2026 shutdown. beamanalytics.io migration guide Export historical data first, then complete Beam install and verification." [ref=e135]:
+            - cell "You are migrating from beamanalytics.io before the September 2026 shutdown." [ref=e136]
+            - cell "beamanalytics.io migration guide" [ref=e137]:
+              - link "beamanalytics.io migration guide" [ref=e138] [cursor=pointer]:
+                - /url: /migrate/beam-analytics
+            - cell "Export historical data first, then complete Beam install and verification." [ref=e139]
+    - generic [ref=e140]:
+      - heading "Ready to move now?" [level=2] [ref=e141]
+      - paragraph [ref=e142]: "Use the direct path: scanner -> setup guides -> account creation."
+      - generic [ref=e143]:
+        - link "Start with stack scanner" [ref=e144] [cursor=pointer]:
+          - /url: /tools/stack-scanner
+        - link "Open setup guides" [ref=e145] [cursor=pointer]:
+          - /url: /for
+        - link "Create free account" [ref=e146] [cursor=pointer]:
+          - /url: /signup
+  - contentinfo [ref=e147]:
+    - generic [ref=e148]:
+      - generic [ref=e149]: © 2026 Keylight Digital LLC. All rights reserved.
+      - generic [ref=e150]:
+        - link "About" [ref=e151] [cursor=pointer]:
+          - /url: /about
+        - link "Privacy" [ref=e152] [cursor=pointer]:
+          - /url: /privacy
+        - link "Terms" [ref=e153] [cursor=pointer]:
+          - /url: /terms
+        - link "Migration hub" [ref=e154] [cursor=pointer]:
+          - /url: /migrate
+        - link "Stack scanner" [ref=e155] [cursor=pointer]:
+          - /url: /tools/stack-scanner
+        - link "Setup guides" [ref=e156] [cursor=pointer]:
+          - /url: /for
+        - link "vs Google Analytics" [ref=e157] [cursor=pointer]:
+          - /url: /vs/google-analytics
+        - link "vs Plausible" [ref=e158] [cursor=pointer]:
+          - /url: /vs/plausible
+        - link "vs Fathom" [ref=e159] [cursor=pointer]:
+          - /url: /vs/fathom
+        - link "Beam Analytics Alternative" [ref=e160] [cursor=pointer]:
+          - /url: /beam-analytics-alternative
+        - link "Sign up" [ref=e161] [cursor=pointer]:
+          - /url: /signup

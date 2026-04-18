@@ -61,7 +61,7 @@ app.get('/about', (c) => {
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="About Beam — Privacy-First Web Analytics" />
   <meta name="twitter:description" content="Beam is a lightweight, cookie-free, GDPR-compliant analytics service. No cookies, no consent banners, just clean data." />
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/assets/tailwind.css">
   <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
 </head>
 <body class="bg-white text-gray-900 antialiased">

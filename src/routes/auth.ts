@@ -280,7 +280,7 @@ function signupPage(selfSiteId: string | undefined, baseUrl: string): string {
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="${baseUrl}/signup" />
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/assets/tailwind.css">
   <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
 </head>
 <body class="bg-gray-50 min-h-screen flex items-center justify-center px-4">
@@ -374,7 +374,7 @@ function loginPage(showResetSuccess = false, baseUrl: string): string {
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="${baseUrl}/login" />
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/assets/tailwind.css">
 </head>
 <body class="bg-gray-50 min-h-screen flex items-center justify-center px-4">
   <div class="bg-white rounded-xl shadow p-6 sm:p-8 w-full max-w-md">
@@ -453,7 +453,7 @@ function forgotPasswordPage(): string {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Forgot Password — Beam</title>
-  <script src="https://cdn.tailwindcss.com"><\/script>
+  <link rel="stylesheet" href="/assets/tailwind.css">
 </head>
 <body class="bg-gray-50 min-h-screen flex items-center justify-center px-4">
   <div class="bg-white rounded-xl shadow p-6 sm:p-8 w-full max-w-md">
@@ -510,7 +510,7 @@ function resetPasswordPage(token: string, errorMsg: string): string {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Reset Password — Beam</title>
-  <script src="https://cdn.tailwindcss.com"><\/script>
+  <link rel="stylesheet" href="/assets/tailwind.css">
 </head>
 <body class="bg-gray-50 min-h-screen flex items-center justify-center px-4">
   <div class="bg-white rounded-xl shadow p-6 sm:p-8 w-full max-w-md">

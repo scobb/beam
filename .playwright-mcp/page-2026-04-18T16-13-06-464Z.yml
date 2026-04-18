@@ -1,0 +1,173 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e3]:
+      - link "Beam" [ref=e4] [cursor=pointer]:
+        - /url: /
+      - generic [ref=e5]:
+        - link "Changelog" [ref=e6] [cursor=pointer]:
+          - /url: /changelog
+        - link "Blog" [ref=e7] [cursor=pointer]:
+          - /url: /blog
+        - link "Log in" [ref=e8] [cursor=pointer]:
+          - /url: /login
+        - link "Get Started" [ref=e9] [cursor=pointer]:
+          - /url: /signup
+  - main [ref=e10]:
+    - generic [ref=e11]:
+      - heading "Changelog" [level=1] [ref=e12]
+      - paragraph [ref=e13]: Every update, feature, and improvement to Beam — in one place.
+    - generic [ref=e14]:
+      - heading "April 14, 2026" [level=2] [ref=e15]: April 14, 2026
+      - generic [ref=e17]:
+        - generic [ref=e19]:
+          - paragraph [ref=e20]:
+            - generic [ref=e21]: New
+            - text: Site health indicators on the sites overview
+          - paragraph [ref=e22]: "Each site on your sites overview now shows a colored health dot: green means data received in the last 7 days, yellow means tracking may be broken (no recent data), and red means no pageviews have ever been received. Hover or tap the dot for details. Clicking a red indicator takes you straight to the installation guide."
+        - generic [ref=e24]:
+          - paragraph [ref=e25]:
+            - generic [ref=e26]: New
+            - text: Share button and Beam footer on public dashboards
+          - paragraph [ref=e27]: Public dashboard pages now include a Share button that copies the URL to your clipboard or opens a pre-filled tweet. All public dashboards also display an "Analytics by Beam — Privacy-first, cookie-free" footer so visitors can discover Beam naturally.
+        - generic [ref=e29]:
+          - paragraph [ref=e30]:
+            - generic [ref=e31]: Improvement
+            - text: Usage warning email at 80% of free plan limit
+          - paragraph [ref=e32]: Free plan users now receive a timely heads-up email when they reach 80% of their 50K monthly pageview limit. The email shows the current count and includes a direct upgrade link — sent once per month, asynchronously so it never slows down tracking.
+    - generic [ref=e33]:
+      - heading "April 3, 2026" [level=2] [ref=e34]: April 3, 2026
+      - generic [ref=e36]:
+        - generic [ref=e38]:
+          - paragraph [ref=e39]:
+            - generic [ref=e40]: New
+            - text: Custom event tracking
+          - paragraph [ref=e41]:
+            - text: Track specific user actions — button clicks, form submissions, purchases, signups — with a single
+            - code [ref=e42]: beam('event', 'name', props)
+            - text: call. View event counts, trends, and property breakdowns right in your dashboard.
+        - generic [ref=e44]:
+          - paragraph [ref=e45]:
+            - generic [ref=e46]: New
+            - text: Open-source tracking script
+          - paragraph [ref=e47]: The beam.js tracking library is now open-source on GitHub. Audit the code yourself, self-host it, or contribute improvements. Under 2KB minified and gzipped.
+        - generic [ref=e49]:
+          - paragraph [ref=e50]:
+            - generic [ref=e51]: New
+            - text: UTM campaign parameter tracking
+          - paragraph [ref=e52]: Automatically capture UTM source, medium, campaign, term, and content parameters. See which marketing campaigns, newsletters, and social posts are actually driving traffic.
+        - generic [ref=e54]:
+          - paragraph [ref=e55]:
+            - generic [ref=e56]: Blog
+            - text: Google Analytics alternatives guide (2026)
+          - paragraph [ref=e57]: Published a comprehensive comparison of every major analytics tool — Plausible, Fathom, Simple Analytics, Umami, Matomo, PostHog, and more. Honest pricing, pros, cons, and a full feature table.
+        - generic [ref=e59]:
+          - paragraph [ref=e60]:
+            - generic [ref=e61]: Blog
+            - text: Privacy analytics guide for Next.js
+          - paragraph [ref=e62]: New in-depth tutorial covering App Router and Pages Router integration, CSP headers, and dynamic route tracking — including support for Vercel and self-hosted deployments.
+    - generic [ref=e63]:
+      - heading "April 2, 2026" [level=2] [ref=e64]: April 2, 2026
+      - generic [ref=e66]:
+        - generic [ref=e68]:
+          - paragraph [ref=e69]:
+            - generic [ref=e70]: New
+            - text: Embeddable visitor count badge
+          - paragraph [ref=e71]: Add a live "powered by Beam" badge to your README, portfolio, or site footer. The SVG badge updates in real time and is served from the edge with proper CORS and cache headers.
+        - generic [ref=e73]:
+          - paragraph [ref=e74]:
+            - generic [ref=e75]: New
+            - text: Real-time active visitor counter
+          - paragraph [ref=e76]: See exactly how many visitors are on your site right now. The dashboard header shows a live count updated every 30 seconds — useful for launch days, campaigns, and monitoring traffic spikes.
+        - generic [ref=e78]:
+          - paragraph [ref=e79]:
+            - generic [ref=e80]: New
+            - text: RSS feed for blog and changelog
+          - paragraph [ref=e81]: Subscribe to Beam updates via RSS. Your feed reader will notify you whenever we ship new features or publish new blog posts.
+        - generic [ref=e83]:
+          - paragraph [ref=e84]:
+            - generic [ref=e85]: Improvement
+            - text: Analytics timezone messaging
+          - paragraph [ref=e86]: The dashboard now clearly shows that all data is stored and displayed in UTC, with a helpful note explaining how to interpret daily breakdowns across timezones.
+        - generic [ref=e88]:
+          - paragraph [ref=e89]:
+            - generic [ref=e90]: Improvement
+            - text: Dashboard onboarding checklist
+          - paragraph [ref=e91]: "New users now see a step-by-step checklist after signup: install the tracking script, verify data is arriving, and explore the dashboard. Dismisses automatically once you've seen real pageviews."
+        - generic [ref=e93]:
+          - paragraph [ref=e94]:
+            - generic [ref=e95]: Improvement
+            - text: Admin notification on new signups
+          - paragraph [ref=e96]: The Beam team now receives an email notification for every new user signup, including their email and plan — making it easy to reach out and offer help.
+        - generic [ref=e98]:
+          - paragraph [ref=e99]:
+            - generic [ref=e100]: New
+            - text: SEO comparison pages
+          - paragraph [ref=e101]: "Launched detailed feature-by-feature comparison pages: Beam vs Google Analytics, Beam vs Plausible, Beam vs Fathom, Beam vs Umami, Beam vs Matomo, and Beam vs Simple Analytics."
+        - generic [ref=e103]:
+          - paragraph [ref=e104]:
+            - generic [ref=e105]: Launch
+            - text: Directory and launch submission kit
+          - paragraph [ref=e106]: Prepared and submitted Beam to 20+ product directories, SaaS listing sites, and communities to drive early user growth.
+    - generic [ref=e107]:
+      - heading "April 1, 2026" [level=2] [ref=e108]: April 1, 2026
+      - generic [ref=e110]:
+        - generic [ref=e112]:
+          - paragraph [ref=e113]:
+            - generic [ref=e114]: New
+            - text: CSV data export for Pro users
+          - paragraph [ref=e115]: Export your full pageview dataset as a CSV file. Open it in Excel, Google Sheets, or any data tool — useful for custom reporting, sharing with clients, or migrating data.
+        - generic [ref=e117]:
+          - paragraph [ref=e118]:
+            - generic [ref=e119]: New
+            - text: Public shareable dashboards
+          - paragraph [ref=e120]: Share a read-only view of your site's analytics with anyone — no login required. Great for transparency with clients, stakeholders, or the open-source community.
+        - generic [ref=e122]:
+          - paragraph [ref=e123]:
+            - generic [ref=e124]: New
+            - text: Privacy policy and terms of service
+          - paragraph [ref=e125]: Clear, plain-language legal documents covering how Beam handles data, what Pro subscribers agree to, and our cookie-free data practices.
+        - generic [ref=e127]:
+          - paragraph [ref=e128]:
+            - generic [ref=e129]: New
+            - text: Password reset via email
+          - paragraph [ref=e130]: Forgot your password? Request a reset link from the login page and we'll email you a secure, time-limited link to set a new one.
+        - generic [ref=e132]:
+          - paragraph [ref=e133]:
+            - generic [ref=e134]: New
+            - text: Welcome email with setup guide
+          - paragraph [ref=e135]: New signups receive an automatic welcome email with your tracking script snippet, quickstart instructions, and links to documentation — so you can start collecting data in minutes.
+        - generic [ref=e137]:
+          - paragraph [ref=e138]:
+            - generic [ref=e139]: New
+            - text: Stripe subscription billing
+          - paragraph [ref=e140]: "Launched the Pro plan at $5/month: unlimited sites, 100K pageviews/month, CSV export, and priority support. Upgrade and downgrade anytime."
+        - generic [ref=e142]:
+          - paragraph [ref=e143]:
+            - generic [ref=e144]: New
+            - text: Dashboard analytics breakdowns
+          - paragraph [ref=e145]: The analytics dashboard now shows top pages, referrer sources, countries, browsers, and operating systems — giving you a full picture of who visits your site and from where.
+        - generic [ref=e147]:
+          - paragraph [ref=e148]:
+            - generic [ref=e149]: Launch
+            - text: Beam launched
+          - paragraph [ref=e150]: Privacy-first, cookie-free web analytics — built on Cloudflare's global edge network. No cookies, no consent banners, no personal data collection. Just clean, fast analytics for everyone.
+  - contentinfo [ref=e151]:
+    - generic [ref=e152]:
+      - generic [ref=e153]: © 2026 Keylight Digital LLC. All rights reserved.
+      - generic [ref=e154]:
+        - link "About" [ref=e155] [cursor=pointer]:
+          - /url: /about
+        - link "Pricing" [ref=e156] [cursor=pointer]:
+          - /url: /pricing
+        - link "Changelog" [ref=e157] [cursor=pointer]:
+          - /url: /changelog
+        - link "Blog" [ref=e158] [cursor=pointer]:
+          - /url: /blog
+        - link "Privacy" [ref=e159] [cursor=pointer]:
+          - /url: /privacy
+        - link "Terms" [ref=e160] [cursor=pointer]:
+          - /url: /terms
+        - link "Sign up" [ref=e161] [cursor=pointer]:
+          - /url: /signup
+        - link "Log in" [ref=e162] [cursor=pointer]:
+          - /url: /login

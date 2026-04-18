@@ -1,0 +1,189 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e3]:
+      - link "Beam" [ref=e4] [cursor=pointer]:
+        - /url: /
+      - generic [ref=e5]:
+        - link "Log in" [ref=e6] [cursor=pointer]:
+          - /url: /login
+        - link "Get Started" [ref=e7] [cursor=pointer]:
+          - /url: /signup
+  - main [ref=e8]:
+    - generic [ref=e9]:
+      - heading "Simple, honest pricing" [level=1] [ref=e10]
+      - paragraph [ref=e11]: No hidden fees. No usage-based surprises. Pick a plan, add your script, and start seeing your data in minutes.
+    - generic [ref=e12]:
+      - generic [ref=e13]:
+        - generic [ref=e14]:
+          - heading "Free" [level=2] [ref=e15]
+          - paragraph [ref=e16]: Perfect for personal sites and small projects
+          - generic [ref=e17]:
+            - generic [ref=e18]: $0
+            - generic [ref=e19]: /month
+        - list [ref=e20]:
+          - listitem [ref=e21]:
+            - generic [ref=e22]: ✓
+            - generic [ref=e23]: 1 website
+          - listitem [ref=e24]:
+            - generic [ref=e25]: ✓
+            - generic [ref=e26]: 50,000 pageviews / month
+          - listitem [ref=e27]:
+            - generic [ref=e28]: ✓
+            - generic [ref=e29]: All core analytics (pageviews, referrers, countries, devices)
+          - listitem [ref=e30]:
+            - generic [ref=e31]: ✓
+            - generic [ref=e32]: Real-time dashboard
+          - listitem [ref=e33]:
+            - generic [ref=e34]: ✓
+            - generic [ref=e35]: Public shareable dashboards
+          - listitem [ref=e36]:
+            - generic [ref=e37]: ✓
+            - generic [ref=e38]: No credit card required
+        - link "Start free" [ref=e39] [cursor=pointer]:
+          - /url: /signup
+      - generic [ref=e40]:
+        - generic [ref=e41]: Most popular
+        - generic [ref=e42]:
+          - heading "Pro" [level=2] [ref=e43]
+          - paragraph [ref=e44]: For growing sites and teams that need more
+          - generic [ref=e45]:
+            - generic [ref=e46]: $5
+            - generic [ref=e47]: /month
+        - list [ref=e48]:
+          - listitem [ref=e49]:
+            - generic [ref=e50]: ✓
+            - generic [ref=e51]: Unlimited websites
+          - listitem [ref=e52]:
+            - generic [ref=e53]: ✓
+            - generic [ref=e54]: 500,000 pageviews / month
+          - listitem [ref=e55]:
+            - generic [ref=e56]: ✓
+            - generic [ref=e57]: Everything in Free
+          - listitem [ref=e58]:
+            - generic [ref=e59]: ✓
+            - generic [ref=e60]: CSV data export
+          - listitem [ref=e61]:
+            - generic [ref=e62]: ✓
+            - generic [ref=e63]: Priority support
+          - listitem [ref=e64]:
+            - generic [ref=e65]: ✓
+            - generic [ref=e66]: Cancel anytime
+        - link "Get Pro" [ref=e67] [cursor=pointer]:
+          - /url: /signup
+    - generic [ref=e68]:
+      - heading "What you get" [level=2] [ref=e69]
+      - table [ref=e71]:
+        - rowgroup [ref=e72]:
+          - row "Feature Free Pro" [ref=e73]:
+            - columnheader "Feature" [ref=e74]
+            - columnheader "Free" [ref=e75]
+            - columnheader "Pro" [ref=e76]
+        - rowgroup [ref=e77]:
+          - row "Sites 1 Unlimited" [ref=e78]:
+            - cell "Sites" [ref=e79]
+            - cell "1" [ref=e80]
+            - cell "Unlimited" [ref=e81]
+          - row "Pageviews / month 50,000 500,000" [ref=e82]:
+            - cell "Pageviews / month" [ref=e83]
+            - cell "50,000" [ref=e84]
+            - cell "500,000" [ref=e85]
+          - row "Pageviews, referrers, countries ✓ ✓" [ref=e86]:
+            - cell "Pageviews, referrers, countries" [ref=e87]
+            - cell "✓" [ref=e88]
+            - cell "✓" [ref=e89]
+          - row "Device & browser breakdown ✓ ✓" [ref=e90]:
+            - cell "Device & browser breakdown" [ref=e91]
+            - cell "✓" [ref=e92]
+            - cell "✓" [ref=e93]
+          - row "Real-time dashboard ✓ ✓" [ref=e94]:
+            - cell "Real-time dashboard" [ref=e95]
+            - cell "✓" [ref=e96]
+            - cell "✓" [ref=e97]
+          - row "Public shareable dashboards ✓ ✓" [ref=e98]:
+            - cell "Public shareable dashboards" [ref=e99]
+            - cell "✓" [ref=e100]
+            - cell "✓" [ref=e101]
+          - row "CSV data export — ✓" [ref=e102]:
+            - cell "CSV data export" [ref=e103]
+            - cell "—" [ref=e104]
+            - cell "✓" [ref=e105]
+          - row "Priority support — ✓" [ref=e106]:
+            - cell "Priority support" [ref=e107]
+            - cell "—" [ref=e108]
+            - cell "✓" [ref=e109]
+          - row "No cookies / no consent banner ✓ ✓" [ref=e110]:
+            - cell "No cookies / no consent banner" [ref=e111]
+            - cell "✓" [ref=e112]
+            - cell "✓" [ref=e113]
+          - row "GDPR / CCPA compliant ✓ ✓" [ref=e114]:
+            - cell "GDPR / CCPA compliant" [ref=e115]
+            - cell "✓" [ref=e116]
+            - cell "✓" [ref=e117]
+          - row "Credit card required No Yes" [ref=e118]:
+            - cell "Credit card required" [ref=e119]
+            - cell "No" [ref=e120]
+            - cell "Yes" [ref=e121]
+    - generic [ref=e122]:
+      - heading "Frequently asked questions" [level=2] [ref=e123]
+      - generic [ref=e124]:
+        - generic [ref=e125]:
+          - heading "Is there a free trial?" [level=3] [ref=e126]
+          - paragraph [ref=e127]: No trial needed — the free plan is free forever, no time limit. Sign up, add your script, and start seeing data immediately. Upgrade to Pro whenever you need more sites or higher pageview limits. No commitment, no credit card for the free tier.
+        - generic [ref=e128]:
+          - heading "What happens when I hit the pageview limit?" [level=3] [ref=e129]
+          - paragraph [ref=e130]: We'll continue collecting data and notify you when you're approaching your limit. We won't cut you off mid-month without warning. If you consistently exceed your limit, we'll ask you to upgrade. We believe in fair, transparent enforcement — not surprise billing.
+        - generic [ref=e131]:
+          - heading "Can I cancel anytime?" [level=3] [ref=e132]
+          - paragraph [ref=e133]: Yes, absolutely. Cancel from your dashboard settings at any time with one click. Your Pro access continues until the end of the billing period, and you'll automatically move back to the free plan after that. No cancellation fees, no questions asked.
+        - generic [ref=e134]:
+          - heading "Is a credit card required for the free plan?" [level=3] [ref=e135]
+          - paragraph [ref=e136]: No. Sign up with just your email address. No credit card, no payment info required to use the free plan. We only ask for payment details when you upgrade to Pro.
+        - generic [ref=e137]:
+          - heading "How does Beam compare to Plausible and Fathom?" [level=3] [ref=e138]
+          - paragraph [ref=e139]:
+            - text: Plausible starts at $9/month; Fathom starts at $15/month. Beam offers the same cookie-free, GDPR-compliant approach at $5/month — and a generous free tier they don't offer. See our
+            - link "Plausible comparison" [ref=e140] [cursor=pointer]:
+              - /url: /vs/plausible
+            - text: and
+            - link "Fathom comparison" [ref=e141] [cursor=pointer]:
+              - /url: /vs/fathom
+            - text: for a full breakdown.
+        - generic [ref=e142]:
+          - heading "Do you offer refunds?" [level=3] [ref=e143]
+          - paragraph [ref=e144]:
+            - text: If you're not happy with Beam within the first 30 days of your Pro subscription, contact us at
+            - link "ralph@keylightdigital.dev" [ref=e145] [cursor=pointer]:
+              - /url: mailto:ralph@keylightdigital.dev
+            - text: and we'll issue a full refund, no questions asked.
+    - generic [ref=e146]:
+      - heading "Ready to ditch the cookie banner?" [level=2] [ref=e147]
+      - paragraph [ref=e148]: Add one script tag and you're collecting privacy-first analytics in 60 seconds. Free forever.
+      - generic [ref=e149]:
+        - link "Start free" [ref=e150] [cursor=pointer]:
+          - /url: /signup
+        - link "See the demo" [ref=e151] [cursor=pointer]:
+          - /url: /demo
+  - contentinfo [ref=e152]:
+    - generic [ref=e153]:
+      - generic [ref=e154]: © 2026 Keylight Digital LLC. All rights reserved.
+      - generic [ref=e155]:
+        - link "About" [ref=e156] [cursor=pointer]:
+          - /url: /about
+        - link "How it works" [ref=e157] [cursor=pointer]:
+          - /url: /how-it-works
+        - link "Pricing" [ref=e158] [cursor=pointer]:
+          - /url: /pricing
+        - link "Privacy" [ref=e159] [cursor=pointer]:
+          - /url: /privacy
+        - link "Terms" [ref=e160] [cursor=pointer]:
+          - /url: /terms
+        - link "vs Google Analytics" [ref=e161] [cursor=pointer]:
+          - /url: /vs/google-analytics
+        - link "vs Plausible" [ref=e162] [cursor=pointer]:
+          - /url: /vs/plausible
+        - link "vs Fathom" [ref=e163] [cursor=pointer]:
+          - /url: /vs/fathom
+        - link "Sign up" [ref=e164] [cursor=pointer]:
+          - /url: /signup
+        - link "Log in" [ref=e165] [cursor=pointer]:
+          - /url: /login

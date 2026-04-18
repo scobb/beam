@@ -24,6 +24,7 @@ import { og } from './routes/og'
 import { howItWorks } from './routes/howItWorks'
 import { launch } from './routes/launch'
 import { pricing } from './routes/pricing'
+import { assets } from './routes/assets'
 import { authMiddleware } from './middleware/authMiddleware'
 import { firstTouchAttributionMiddleware } from './middleware/attribution'
 import { handleScheduled } from './scheduled'
@@ -323,6 +324,7 @@ app.route('/', og)
 app.route('/', howItWorks)
 app.route('/', launch)
 app.route('/', pricing)
+app.route('/', assets)
 
 // Public shareable dashboards (no auth required)
 app.route('/', publicDash)

@@ -35,7 +35,7 @@ function wordpressPluginPage(baseUrl: string, selfSiteId?: string): string {
   <meta name="twitter:description" content="Official install surface for Beam's WordPress plugin package." />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="${baseUrl}/wordpress-plugin" />
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/assets/tailwind.css">
   <script type="application/ld+json">${JSON.stringify(breadcrumbLd)}</script>
   <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
 </head>

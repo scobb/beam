@@ -1,0 +1,158 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e3]:
+      - link "Beam" [ref=e4] [cursor=pointer]:
+        - /url: /
+      - generic [ref=e5]:
+        - link "Log in" [ref=e6] [cursor=pointer]:
+          - /url: /login
+        - link "Get Started" [ref=e7] [cursor=pointer]:
+          - /url: /signup
+  - main [ref=e8]:
+    - heading "About Beam" [level=1] [ref=e9]
+    - generic [ref=e10]:
+      - paragraph [ref=e11]: Beam is a privacy-first web analytics service built on Cloudflare's global edge network. It gives site owners the traffic data they need — pageviews, referrers, top pages, countries, browsers, and devices — without using cookies, storing personal data, or requiring a consent banner. The tracking script is under 2KB, loads asynchronously, and never slows down your site.
+      - paragraph [ref=e12]: We built Beam because most analytics tools force a trade-off between useful data and visitor privacy. Google Analytics shares your visitors' data with Google's advertising infrastructure. Privacy-focused alternatives like Plausible and Fathom are good products but can be expensive for smaller sites and indie developers. Beam offers the same cookie-free, GDPR-compliant approach starting completely free, with a Pro plan at $5/month.
+      - paragraph [ref=e13]:
+        - text: Beam is operated by
+        - strong [ref=e14]: Keylight Digital LLC
+        - text: ", a software company focused on building useful, privacy-respecting products. If you have questions, feedback, or need support, reach us at"
+        - link "ralph@keylightdigital.dev" [ref=e15] [cursor=pointer]:
+          - /url: mailto:ralph@keylightdigital.dev
+        - text: .
+      - paragraph [ref=e16]:
+        - text: Need technical depth before evaluating? Read
+        - link "How Beam works" [ref=e17] [cursor=pointer]:
+          - /url: /how-it-works
+        - text: for the full edge architecture, privacy model, and data flow.
+    - generic [ref=e18]:
+      - heading "Key Features" [level=2] [ref=e19]
+      - list [ref=e20]:
+        - listitem [ref=e21]:
+          - generic [ref=e22]: ✓
+          - generic [ref=e23]:
+            - strong [ref=e24]: No cookies
+            - text: — fully cookieless tracking, no consent banner required anywhere in the world
+        - listitem [ref=e25]:
+          - generic [ref=e26]: ✓
+          - generic [ref=e27]:
+            - strong [ref=e28]: GDPR, CCPA, and PECR compliant
+            - text: — no personal data collected or stored
+        - listitem [ref=e29]:
+          - generic [ref=e30]: ✓
+          - generic [ref=e31]:
+            - strong [ref=e32]: Lightweight script
+            - text: — under 2KB, loads asynchronously, zero impact on page performance
+        - listitem [ref=e33]:
+          - generic [ref=e34]: ✓
+          - generic [ref=e35]:
+            - strong [ref=e36]: Real-time dashboard
+            - text: — pageviews, unique visitors, top pages, referrers, countries, browsers, and devices
+        - listitem [ref=e37]:
+          - generic [ref=e38]: ✓
+          - generic [ref=e39]:
+            - strong [ref=e40]: CSV export
+            - text: — Pro users can export raw pageview data for custom analysis
+        - listitem [ref=e41]:
+          - generic [ref=e42]: ✓
+          - generic [ref=e43]:
+            - strong [ref=e44]: Public dashboards
+            - text: — share your analytics publicly with a single link
+        - listitem [ref=e45]:
+          - generic [ref=e46]: ✓
+          - generic [ref=e47]:
+            - strong [ref=e48]: Built on Cloudflare edge
+            - text: — fast data collection from anywhere in the world, high availability
+    - generic [ref=e49]:
+      - heading "Pricing" [level=2] [ref=e50]
+      - generic [ref=e51]:
+        - generic [ref=e52]:
+          - heading "Free" [level=3] [ref=e53]
+          - paragraph [ref=e54]: $0/mo
+          - list [ref=e55]:
+            - listitem [ref=e56]:
+              - generic [ref=e57]: ✓
+              - text: 1 website
+            - listitem [ref=e58]:
+              - generic [ref=e59]: ✓
+              - text: 50,000 pageviews / month
+            - listitem [ref=e60]:
+              - generic [ref=e61]: ✓
+              - text: All core analytics features
+            - listitem [ref=e62]:
+              - generic [ref=e63]: ✓
+              - text: No credit card required
+        - generic [ref=e64]:
+          - heading "Pro" [level=3] [ref=e65]
+          - paragraph [ref=e66]: $5/mo
+          - list [ref=e67]:
+            - listitem [ref=e68]:
+              - generic [ref=e69]: ✓
+              - text: Unlimited websites
+            - listitem [ref=e70]:
+              - generic [ref=e71]: ✓
+              - text: 500,000 pageviews / month
+            - listitem [ref=e72]:
+              - generic [ref=e73]: ✓
+              - text: CSV data export
+            - listitem [ref=e74]:
+              - generic [ref=e75]: ✓
+              - text: Priority support
+    - generic [ref=e76]:
+      - heading "Company" [level=2] [ref=e77]
+      - generic [ref=e78]:
+        - paragraph [ref=e79]:
+          - strong [ref=e80]: "Company:"
+          - text: Keylight Digital LLC
+        - paragraph [ref=e81]:
+          - strong [ref=e82]: "Contact:"
+          - link "ralph@keylightdigital.dev" [ref=e83] [cursor=pointer]:
+            - /url: mailto:ralph@keylightdigital.dev
+        - paragraph [ref=e84]:
+          - strong [ref=e85]: "Website:"
+          - link "beam-privacy.com" [ref=e86] [cursor=pointer]:
+            - /url: https://beam-privacy.com
+        - paragraph [ref=e87]:
+          - strong [ref=e88]: "GitHub:"
+          - link "Open source tracking script" [ref=e89] [cursor=pointer]:
+            - /url: https://github.com/scobb/beam.js
+        - paragraph [ref=e90]:
+          - strong [ref=e91]: "npm:"
+          - link "@keylightdigital/beam" [ref=e92] [cursor=pointer]:
+            - /url: https://www.npmjs.com/package/@keylightdigital/beam
+          - text: — also available on npm for build-tool workflows
+    - generic [ref=e93]:
+      - heading "For Reviewers" [level=2] [ref=e94]
+      - paragraph [ref=e95]: Ready-to-copy product descriptions for directory submissions and reviews.
+      - generic [ref=e96]:
+        - generic [ref=e97]:
+          - heading "50-Word Blurb" [level=3] [ref=e98]
+          - generic [ref=e99]: Beam is a lightweight, cookie-free web analytics service. It collects pageviews, referrers, countries, and device data without cookies or personal data — no consent banner needed. GDPR-compliant out of the box, under 2KB script, real-time dashboard. Free tier available. Pro plan at $5/month. Built on Cloudflare's edge by Keylight Digital LLC.
+        - generic [ref=e100]:
+          - heading "150-Word Blurb" [level=3] [ref=e101]
+          - generic [ref=e102]:
+            - text: Beam is a privacy-first web analytics service that gives site owners the traffic data they need without compromising visitor privacy. Unlike Google Analytics, Beam uses no cookies and sends no data to third parties — making it GDPR, CCPA, and PECR compliant out of the box, with no consent banner required.
+            - text: "The tracking script is under 2KB, loads asynchronously, and collects pageviews, referrers, top pages, country, device type, and browser — the metrics that actually matter. The dashboard is clean and focused: no complex event models or steep learning curves."
+            - text: "Beam is built on Cloudflare's global edge network, giving it fast data collection worldwide and high availability. It's competitively priced: a free tier covering 1 site and 50,000 pageviews/month, with a Pro plan at $5/month for unlimited sites and 500,000 pageviews. A privacy-respecting alternative to Google Analytics, Plausible, and Fathom."
+  - contentinfo [ref=e103]:
+    - generic [ref=e104]:
+      - generic [ref=e105]: © 2026 Keylight Digital LLC. All rights reserved.
+      - generic [ref=e106]:
+        - link "About" [ref=e107] [cursor=pointer]:
+          - /url: /about
+        - link "How it works" [ref=e108] [cursor=pointer]:
+          - /url: /how-it-works
+        - link "Privacy" [ref=e109] [cursor=pointer]:
+          - /url: /privacy
+        - link "Terms" [ref=e110] [cursor=pointer]:
+          - /url: /terms
+        - link "vs Google Analytics" [ref=e111] [cursor=pointer]:
+          - /url: /vs/google-analytics
+        - link "vs Plausible" [ref=e112] [cursor=pointer]:
+          - /url: /vs/plausible
+        - link "vs Fathom" [ref=e113] [cursor=pointer]:
+          - /url: /vs/fathom
+        - link "Sign up" [ref=e114] [cursor=pointer]:
+          - /url: /signup
+        - link "Log in" [ref=e115] [cursor=pointer]:
+          - /url: /login

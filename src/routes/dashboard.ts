@@ -282,9 +282,8 @@ export function layout(title: string, currentPath: string, content: string, seoC
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${title} — Beam</title>${seoTags}${ogImageTag}
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <link rel="preconnect" href="https://cdn.tailwindcss.com">
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/assets/tailwind.css">
 </head>
 <body class="bg-gray-50 min-h-screen">
   <!-- Mobile sidebar overlay -->

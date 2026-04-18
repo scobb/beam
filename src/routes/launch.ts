@@ -64,7 +64,7 @@ app.get('/product-hunt', (c) => {
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Beam for Product Hunt" />
   <meta name="twitter:description" content="Privacy-first analytics with real proof points, honest tradeoffs, and launch-ready setup paths." />
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/assets/tailwind.css">
   <script defer src="${baseUrl}/js/beam.js" data-site-id="${beamSiteId}"></script>
 </head>
 <body class="bg-slate-950 text-slate-100 antialiased">
@@ -203,7 +203,7 @@ app.get('/show-hn', (c) => {
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Show HN: Beam" />
   <meta name="twitter:description" content="Privacy-first analytics with technical depth and honest limits." />
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/assets/tailwind.css">
   <script defer src="${baseUrl}/js/beam.js" data-site-id="${beamSiteId}"></script>
 </head>
 <body class="bg-zinc-950 text-zinc-100 antialiased">

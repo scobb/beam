@@ -155,7 +155,7 @@ app.get('/blog', (c) => {
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Blog — Beam" />
   <meta name="twitter:description" content="Insights on privacy-first web analytics, GDPR compliance, and cookie-free tracking from the Beam team." />
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/assets/tailwind.css">
   <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
 </head>
 <body class="bg-white text-gray-900">
@@ -212,7 +212,7 @@ app.get('/blog/cookie-free-analytics-guide', (c) => {
   <meta name="twitter:title" content="${post.title}" />
   <meta name="twitter:description" content="${post.excerpt}" />
   <script type="application/ld+json">${jsonLd}</script>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/assets/tailwind.css">
   <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
 </head>
 <body class="bg-white text-gray-900">
@@ -353,7 +353,7 @@ app.get('/blog/add-analytics-in-5-minutes', (c) => {
   <meta name="twitter:title" content="${post.title}" />
   <meta name="twitter:description" content="${post.excerpt}" />
   <script type="application/ld+json">${jsonLd}</script>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/assets/tailwind.css">
   <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
 </head>
 <body class="bg-white text-gray-900">
@@ -562,7 +562,7 @@ app.get('/blog/nextjs-privacy-analytics', (c) => {
   <meta name="twitter:title" content="${post.title}" />
   <meta name="twitter:description" content="${post.excerpt}" />
   <script type="application/ld+json">${jsonLd}</script>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/assets/tailwind.css">
   <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
 </head>
 <body class="bg-white text-gray-900">
@@ -808,7 +808,7 @@ app.get('/blog/google-analytics-alternatives-2026', (c) => {
   <meta name="twitter:title" content="${post.title}" />
   <meta name="twitter:description" content="${post.excerpt}" />
   <script type="application/ld+json">${jsonLd}</script>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/assets/tailwind.css">
   <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
 </head>
 <body class="bg-white text-gray-900">
@@ -1130,7 +1130,7 @@ app.get('/blog/beam-analytics-shutdown-migration-guide', (c) => {
   <meta name="twitter:title" content="${post.title}" />
   <meta name="twitter:description" content="${post.excerpt}" />
   <script type="application/ld+json">${jsonLd}</script>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/assets/tailwind.css">
   <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
 </head>
 <body class="bg-white text-gray-900">
@@ -1384,7 +1384,7 @@ app.get('/blog/plausible-alternative', (c) => {
   <meta name="twitter:title" content="${post.title}" />
   <meta name="twitter:description" content="${post.excerpt}" />
   <script type="application/ld+json">${jsonLd}</script>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/assets/tailwind.css">
   <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
 </head>
 <body class="bg-white text-gray-900">
@@ -1647,7 +1647,7 @@ app.get('/blog/senbeacon-cors-analytics-fix', (c) => {
   <meta name="twitter:title" content="${post.title}" />
   <meta name="twitter:description" content="${post.excerpt}" />
   <script type="application/ld+json">${jsonLd}</script>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/assets/tailwind.css">
   <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
 </head>
 <body class="bg-white text-gray-900">
@@ -1840,7 +1840,7 @@ app.get('/blog/gdpr-analytics-no-cookie-banner', (c) => {
   <meta name="twitter:title" content="${post.title}" />
   <meta name="twitter:description" content="${post.excerpt}" />
   <script type="application/ld+json">${jsonLd}</script>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/assets/tailwind.css">
   <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
 </head>
 <body class="bg-white text-gray-900">
@@ -2013,7 +2013,7 @@ app.get('/blog/april-2026-updates', (c) => {
   <meta name="twitter:title" content="${post.title}" />
   <meta name="twitter:description" content="${post.excerpt}" />
   <script type="application/ld+json">${jsonLd}</script>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/assets/tailwind.css">
   <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
 </head>
 <body class="bg-white text-gray-900">
@@ -2158,7 +2158,7 @@ app.get('/blog/nuxt-privacy-analytics', (c) => {
   <meta name="twitter:title" content="${post.title}" />
   <meta name="twitter:description" content="${post.excerpt}" />
   <script type="application/ld+json">${jsonLd}</script>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/assets/tailwind.css">
   <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
 </head>
 <body class="bg-white text-gray-900">
@@ -2365,7 +2365,7 @@ app.get('/blog/matomo-alternative', (c) => {
   <meta name="twitter:title" content="${post.title}" />
   <meta name="twitter:description" content="${post.excerpt}" />
   <script type="application/ld+json">${jsonLd}</script>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/assets/tailwind.css">
   <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
 </head>
 <body class="bg-white text-gray-900">

@@ -2237,4 +2237,24 @@ test.describe('API v1 authentication', () => {
     await page.goto('/blog')
     await expect(page.locator('body')).toContainText('Matomo')
   })
+
+  test('BEAM-247: GET /assets/tailwind.css returns 200 with Content-Type text/css', async ({ request }) => {
+    const res = await request.get('/assets/tailwind.css')
+    expect(res.status()).toBe(200)
+    expect(res.headers()['content-type']).toContain('text/css')
+  })
+
+  test('BEAM-247: landing page has no CDN tailwindcss script tag', async ({ page }) => {
+    const res = await page.goto('/')
+    const html = await res!.text()
+    expect(html).not.toContain('cdn.tailwindcss.com')
+    expect(html).toContain('/assets/tailwind.css')
+  })
+
+  test('BEAM-247: dashboard login page has no CDN tailwindcss script tag', async ({ page }) => {
+    const res = await page.goto('/login')
+    const html = await res!.text()
+    expect(html).not.toContain('cdn.tailwindcss.com')
+    expect(html).toContain('/assets/tailwind.css')
+  })
 })

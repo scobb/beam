@@ -1,0 +1,299 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e4]: Beam
+      - generic [ref=e5]:
+        - link "Live Demo" [ref=e6] [cursor=pointer]:
+          - /url: /demo
+        - link "How it works" [ref=e7] [cursor=pointer]:
+          - /url: /how-it-works
+        - link "Migration Hub" [ref=e8] [cursor=pointer]:
+          - /url: /migrate
+        - link "Stack Scanner" [ref=e9] [cursor=pointer]:
+          - /url: /tools/stack-scanner
+        - link "Changelog" [ref=e10] [cursor=pointer]:
+          - /url: /changelog
+        - link "Blog" [ref=e11] [cursor=pointer]:
+          - /url: /blog
+        - link "Log in" [ref=e12] [cursor=pointer]:
+          - /url: /login
+        - link "Get Started" [ref=e13] [cursor=pointer]:
+          - /url: /signup
+  - generic [ref=e14]:
+    - heading "Privacy-first web analytics" [level=1] [ref=e15]
+    - paragraph [ref=e16]: Simple, fast, and GDPR-compliant analytics for your website. No cookies, no tracking, no consent banners. Just the metrics you need.
+    - generic [ref=e17]:
+      - link "Start tracking in 60 seconds — free" [ref=e18] [cursor=pointer]:
+        - /url: /signup
+      - link "Try the live demo" [ref=e19] [cursor=pointer]:
+        - /url: /demo
+    - paragraph [ref=e20]: No credit card required · Cancel anytime
+  - generic [ref=e22]:
+    - generic [ref=e23]:
+      - paragraph [ref=e25]: 65+ features
+      - paragraph [ref=e27]: Sub-2KB script
+      - paragraph [ref=e29]: $0 infrastructure cost
+      - paragraph [ref=e31]: GDPR compliant
+    - generic [ref=e32]:
+      - paragraph [ref=e33]: 4.1K pageviews tracked and counting
+      - paragraph [ref=e34]: across all Beam-powered sites
+  - generic [ref=e36]:
+    - heading "How it works" [level=2] [ref=e37]
+    - paragraph [ref=e38]: Set up in minutes. No configuration required.
+    - generic [ref=e39]:
+      - generic [ref=e40]:
+        - generic [ref=e41]: "1"
+        - heading "Add our script tag" [level=3] [ref=e42]
+        - paragraph [ref=e43]:
+          - text: Paste one line of HTML into your site's
+          - code [ref=e44]: <head>
+          - text: . That's it — or install via
+          - link "npm" [ref=e45] [cursor=pointer]:
+            - /url: https://www.npmjs.com/package/@keylightdigital/beam
+          - text: for build-tool workflows.
+        - paragraph [ref=e46]:
+          - text: Browse all setup guides at
+          - link "/for" [ref=e47] [cursor=pointer]:
+            - /url: /for
+          - text: ", including"
+          - link "Next.js" [ref=e48] [cursor=pointer]:
+            - /url: /for/nextjs
+          - text: ","
+          - link "React" [ref=e49] [cursor=pointer]:
+            - /url: /for/react
+          - text: ","
+          - link "WordPress" [ref=e50] [cursor=pointer]:
+            - /url: /for/wordpress
+          - text: ","
+          - link "Hugo" [ref=e51] [cursor=pointer]:
+            - /url: /for/hugo
+          - text: ","
+          - link "Astro" [ref=e52] [cursor=pointer]:
+            - /url: /for/astro
+          - text: ","
+          - link "Webflow" [ref=e53] [cursor=pointer]:
+            - /url: /for/webflow
+          - text: ","
+          - link "Shopify" [ref=e54] [cursor=pointer]:
+            - /url: /for/shopify
+          - text: ","
+          - link "Ghost" [ref=e55] [cursor=pointer]:
+            - /url: /for/ghost
+          - text: ","
+          - link "Framer" [ref=e56] [cursor=pointer]:
+            - /url: /for/framer
+          - text: ", and"
+          - link "Carrd" [ref=e57] [cursor=pointer]:
+            - /url: /for/carrd
+          - text: .
+      - generic [ref=e58]:
+        - generic [ref=e59]: "2"
+        - heading "Data flows to your dashboard" [level=3] [ref=e60]
+        - paragraph [ref=e61]: Pageviews, referrers, devices, and countries are captured instantly — with no cookies and no personal data stored.
+      - generic [ref=e62]:
+        - generic [ref=e63]: "3"
+        - heading "Make decisions with clarity" [level=3] [ref=e64]
+        - paragraph [ref=e65]: A clean, fast dashboard shows you what's working. No overwhelming reports, no dark patterns — just the data you need.
+  - generic [ref=e67]:
+    - generic [ref=e68]:
+      - paragraph [ref=e69]: See it in action
+      - heading "Watch real analytics data come to life" [level=2] [ref=e70]
+      - paragraph [ref=e71]: Beam's strongest conversion asset is the product itself. Open the live demo to explore realistic traffic, filters, channels, events, and trends before you sign up.
+    - generic [ref=e72]:
+      - generic [ref=e74]:
+        - generic [ref=e75]:
+          - generic [ref=e76]: beam-privacy.com/demo
+          - generic [ref=e77]: Live sample data
+        - generic [ref=e79]:
+          - generic [ref=e80]:
+            - paragraph [ref=e81]: Pageviews
+            - paragraph [ref=e82]: 24.8K
+          - generic [ref=e83]:
+            - paragraph [ref=e84]: Visitors
+            - paragraph [ref=e85]: 18.2K
+      - generic [ref=e95]:
+        - generic [ref=e96]:
+          - heading "Interactive Demo Preview" [level=3] [ref=e97]
+          - paragraph [ref=e98]: Filter by range, drill into top pages and referrers, and test segmentation controls exactly like a real customer account. No signup wall. No fake screenshots.
+          - list [ref=e99]:
+            - listitem [ref=e100]:
+              - generic [ref=e101]: ✓
+              - text: Explore today, 7-day, and 30-day ranges
+            - listitem [ref=e102]:
+              - generic [ref=e103]: ✓
+              - text: Verify mobile and desktop dashboard behavior
+            - listitem [ref=e104]:
+              - generic [ref=e105]: ✓
+              - text: See privacy-first analytics without cookies
+        - generic [ref=e106]:
+          - link "Try the live demo" [ref=e107] [cursor=pointer]:
+            - /url: /demo
+          - link "Create a free account" [ref=e108] [cursor=pointer]:
+            - /url: /signup
+  - generic [ref=e110]:
+    - heading "Everything you need, nothing you don't" [level=2] [ref=e111]
+    - generic [ref=e112]:
+      - generic [ref=e113]:
+        - generic [ref=e114]: 🍪
+        - heading "No Cookies" [level=3] [ref=e115]
+        - paragraph [ref=e116]: Fully cookie-free. No consent banners required. Your visitors stay private.
+      - generic [ref=e117]:
+        - generic [ref=e118]: 🇪🇺
+        - heading "GDPR Compliant" [level=3] [ref=e119]
+        - paragraph [ref=e120]: No personal data collected or stored. Fully compliant with GDPR, CCPA, and PECR.
+      - generic [ref=e121]:
+        - generic [ref=e122]: ⚡
+        - heading "Lightweight Script" [level=3] [ref=e123]
+        - paragraph [ref=e124]: Under 2KB. Loads asynchronously and never slows down your site.
+      - generic [ref=e125]:
+        - generic [ref=e126]: 📊
+        - heading "Real-Time Dashboard" [level=3] [ref=e127]
+        - paragraph [ref=e128]: See your traffic as it happens. Pageviews, referrers, countries, and more.
+  - generic [ref=e130]:
+    - generic [ref=e131]:
+      - paragraph [ref=e132]: Built with
+      - heading "Built on Cloudflare's global edge network" [level=2] [ref=e133]
+      - paragraph [ref=e134]: Your analytics data is processed and stored on Cloudflare's infrastructure — the same network that powers millions of websites worldwide.
+    - generic [ref=e135]:
+      - paragraph [ref=e137]: Cloudflare Workers
+      - paragraph [ref=e139]: TypeScript
+      - paragraph [ref=e141]: Cloudflare D1
+      - link "Open-source tracking script" [ref=e143] [cursor=pointer]:
+        - /url: https://github.com/scobb/beam.js
+    - generic [ref=e144]:
+      - generic [ref=e145]:
+        - generic [ref=e146]: 🌍
+        - heading "Global edge network" [level=3] [ref=e147]
+        - paragraph [ref=e148]: 300+ locations worldwide for ultra-low latency data collection.
+      - generic [ref=e149]:
+        - generic [ref=e150]: 🔒
+        - heading "Encrypted storage" [level=3] [ref=e151]
+        - paragraph [ref=e152]: All data encrypted at rest and in transit. Nothing personal is ever stored.
+      - generic [ref=e153]:
+        - generic [ref=e154]: ✅
+        - heading "99.99% uptime" [level=3] [ref=e155]
+        - paragraph [ref=e156]: Cloudflare's SLA-backed reliability means your analytics never go dark.
+  - generic [ref=e158]:
+    - heading "Simple, honest pricing" [level=2] [ref=e159]
+    - paragraph [ref=e160]: No hidden fees. No data selling. Cancel anytime.
+    - paragraph [ref=e161]:
+      - text: Already paying for analytics?
+      - link "See how much you'd save by switching →" [ref=e162] [cursor=pointer]:
+        - /url: /switch
+    - generic [ref=e163]:
+      - generic [ref=e164]:
+        - heading "Free" [level=3] [ref=e165]
+        - paragraph [ref=e166]: $0/mo
+        - list [ref=e167]:
+          - listitem [ref=e168]:
+            - generic [ref=e169]: ✓
+            - text: 1 website
+          - listitem [ref=e170]:
+            - generic [ref=e171]: ✓
+            - text: 50,000 pageviews / month
+          - listitem [ref=e172]:
+            - generic [ref=e173]: ✓
+            - text: All core features
+          - listitem [ref=e174]:
+            - generic [ref=e175]: ✓
+            - text: No credit card required
+        - link "Start tracking in 60 seconds — free" [ref=e176] [cursor=pointer]:
+          - /url: /signup
+        - paragraph [ref=e177]: No credit card required
+      - generic [ref=e178]:
+        - generic [ref=e179]: POPULAR
+        - heading "Pro" [level=3] [ref=e180]
+        - paragraph [ref=e181]: $5/mo
+        - list [ref=e182]:
+          - listitem [ref=e183]:
+            - generic [ref=e184]: ✓
+            - text: Unlimited websites
+          - listitem [ref=e185]:
+            - generic [ref=e186]: ✓
+            - text: 500,000 pageviews / month
+          - listitem [ref=e187]:
+            - generic [ref=e188]: ✓
+            - text: All core features
+          - listitem [ref=e189]:
+            - generic [ref=e190]: ✓
+            - text: Priority support
+        - link "Start free trial" [ref=e191] [cursor=pointer]:
+          - /url: /signup
+  - generic [ref=e193]:
+    - heading "Frequently asked questions" [level=2] [ref=e194]
+    - generic [ref=e195]:
+      - group [ref=e196]:
+        - generic "Do I need a cookie banner? ▼" [ref=e197] [cursor=pointer]:
+          - text: Do I need a cookie banner?
+          - generic [ref=e198]: ▼
+        - paragraph [ref=e199]: No. Beam is completely cookie-free. We don't use any cookies or persistent identifiers, so there's nothing to disclose under GDPR, CCPA, or the ePrivacy Directive. You can remove your cookie banner entirely if Beam is your only analytics tool.
+      - group [ref=e200]:
+        - generic "How does it count visitors without cookies? ▼" [ref=e201] [cursor=pointer]:
+          - text: How does it count visitors without cookies?
+          - generic [ref=e202]: ▼
+      - group [ref=e203]:
+        - generic "Can I switch from Google Analytics? ▼" [ref=e204] [cursor=pointer]:
+          - text: Can I switch from Google Analytics?
+          - generic [ref=e205]: ▼
+      - group [ref=e206]:
+        - generic "Is there a free plan? ▼" [ref=e207] [cursor=pointer]:
+          - text: Is there a free plan?
+          - generic [ref=e208]: ▼
+  - generic [ref=e210]:
+    - paragraph [ref=e211]: Also from Keylight Digital
+    - link "Nexus — AI agent observability. Trace, monitor, and debug your AI agents. ↗" [ref=e212] [cursor=pointer]:
+      - /url: https://nexus.keylightdigital.dev
+      - strong [ref=e213]: Nexus
+      - generic [ref=e214]: —
+      - generic [ref=e215]: AI agent observability. Trace, monitor, and debug your AI agents.
+      - generic [ref=e216]: ↗
+  - contentinfo [ref=e217]:
+    - generic [ref=e218]:
+      - generic [ref=e219]: © 2026 Keylight Digital LLC. All rights reserved.
+      - generic [ref=e220]:
+        - link "About" [ref=e221] [cursor=pointer]:
+          - /url: /about
+        - link "How it works" [ref=e222] [cursor=pointer]:
+          - /url: /how-it-works
+        - link "Changelog" [ref=e223] [cursor=pointer]:
+          - /url: /changelog
+        - link "Privacy" [ref=e224] [cursor=pointer]:
+          - /url: /privacy
+        - link "Terms" [ref=e225] [cursor=pointer]:
+          - /url: /terms
+        - link "Savings calculator" [ref=e226] [cursor=pointer]:
+          - /url: /switch
+        - link "Alternatives" [ref=e227] [cursor=pointer]:
+          - /url: /alternatives
+        - link "Migration hub" [ref=e228] [cursor=pointer]:
+          - /url: /migrate
+        - link "Setup guides" [ref=e229] [cursor=pointer]:
+          - /url: /for
+        - link "Hugo guide" [ref=e230] [cursor=pointer]:
+          - /url: /for/hugo
+        - link "Shopify guide" [ref=e231] [cursor=pointer]:
+          - /url: /for/shopify
+        - link "Ghost guide" [ref=e232] [cursor=pointer]:
+          - /url: /for/ghost
+        - link "Stack scanner" [ref=e233] [cursor=pointer]:
+          - /url: /tools/stack-scanner
+        - link "Open source tracking script" [ref=e234] [cursor=pointer]:
+          - /url: https://github.com/scobb/beam.js
+        - link "npm" [ref=e235] [cursor=pointer]:
+          - /url: https://www.npmjs.com/package/@keylightdigital/beam
+        - link "vs Google Analytics" [ref=e236] [cursor=pointer]:
+          - /url: /vs/google-analytics
+        - link "vs Vercel Analytics" [ref=e237] [cursor=pointer]:
+          - /url: /vs/vercel-analytics
+        - link "vs Cloudflare Web Analytics" [ref=e238] [cursor=pointer]:
+          - /url: /vs/cloudflare-web-analytics
+        - link "vs Plausible" [ref=e239] [cursor=pointer]:
+          - /url: /vs/plausible
+        - link "vs Fathom" [ref=e240] [cursor=pointer]:
+          - /url: /vs/fathom
+        - link "Sign up" [ref=e241] [cursor=pointer]:
+          - /url: /signup
+        - link "Log in" [ref=e242] [cursor=pointer]:
+          - /url: /login
+        - link "Live stats ↗" [ref=e243] [cursor=pointer]:
+          - /url: /public/dfa32f6b-0775-43df-a2c4-eb23787e5f03

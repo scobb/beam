@@ -1,0 +1,161 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e3]:
+      - link "Beam" [ref=e4] [cursor=pointer]:
+        - /url: /
+      - generic [ref=e5]:
+        - link "Live Demo" [ref=e6] [cursor=pointer]:
+          - /url: /demo
+        - link "Migration Hub" [ref=e7] [cursor=pointer]:
+          - /url: /migrate
+        - link "5-minute guide" [ref=e8] [cursor=pointer]:
+          - /url: /blog/add-analytics-in-5-minutes
+        - link "Log in" [ref=e9] [cursor=pointer]:
+          - /url: /login
+        - link "Get Started" [ref=e10] [cursor=pointer]:
+          - /url: /signup
+  - navigation "Breadcrumb" [ref=e12]:
+    - link "Beam" [ref=e13] [cursor=pointer]:
+      - /url: /
+    - text: "> Integration guides"
+  - generic [ref=e14]:
+    - paragraph [ref=e15]: Setup hub
+    - heading "Beam integration guides for frameworks and no-code tools" [level=1] [ref=e16]
+    - paragraph [ref=e17]: Every guide includes script placement examples, verification steps, privacy rationale, and direct links to the Beam demo and signup flow.
+    - generic [ref=e18]:
+      - generic [ref=e19]:
+        - heading "Developer frameworks" [level=2] [ref=e20]
+        - paragraph [ref=e21]: Implementation guides for teams that control source code and deploy pipelines.
+      - generic [ref=e22]:
+        - link "Next.js Beam for Next.js App Router and Pages Router setup with one script and no cookie banner work. Read setup guide ->" [ref=e23] [cursor=pointer]:
+          - /url: /for/nextjs
+          - paragraph [ref=e24]: Next.js
+          - heading "Beam for Next.js" [level=3] [ref=e25]
+          - paragraph [ref=e26]: App Router and Pages Router setup with one script and no cookie banner work.
+          - paragraph [ref=e27]: Read setup guide ->
+        - link "React Beam for React Script tag in public/index.html plus an optional useBeam hook for SPA route tracking. Read setup guide ->" [ref=e28] [cursor=pointer]:
+          - /url: /for/react
+          - paragraph [ref=e29]: React
+          - heading "Beam for React" [level=3] [ref=e30]
+          - paragraph [ref=e31]: Script tag in public/index.html plus an optional useBeam hook for SPA route tracking.
+          - paragraph [ref=e32]: Read setup guide ->
+        - link "Vue.js Beam for Vue.js Script tag in index.html plus an onMounted hook and Vue Router afterEach guard for SPA route tracking. Read setup guide ->" [ref=e33] [cursor=pointer]:
+          - /url: /for/vue
+          - paragraph [ref=e34]: Vue.js
+          - heading "Beam for Vue.js" [level=3] [ref=e35]
+          - paragraph [ref=e36]: Script tag in index.html plus an onMounted hook and Vue Router afterEach guard for SPA route tracking.
+          - paragraph [ref=e37]: Read setup guide ->
+        - link "WordPress Beam for WordPress Install the official Beam plugin from wp-admin or use code-based snippets as fallback. Read setup guide ->" [ref=e38] [cursor=pointer]:
+          - /url: /for/wordpress
+          - paragraph [ref=e39]: WordPress
+          - heading "Beam for WordPress" [level=3] [ref=e40]
+          - paragraph [ref=e41]: Install the official Beam plugin from wp-admin or use code-based snippets as fallback.
+          - paragraph [ref=e42]: Read setup guide ->
+        - link "Astro Beam for Astro Zero-build-overhead script placement for static, SSR, and hybrid Astro sites. Read setup guide ->" [ref=e43] [cursor=pointer]:
+          - /url: /for/astro
+          - paragraph [ref=e44]: Astro
+          - heading "Beam for Astro" [level=3] [ref=e45]
+          - paragraph [ref=e46]: Zero-build-overhead script placement for static, SSR, and hybrid Astro sites.
+          - paragraph [ref=e47]: Read setup guide ->
+        - link "Gatsby Beam for Gatsby Script tag in gatsby-browser.js plus an onRouteUpdate hook for full SPA route tracking. Read setup guide ->" [ref=e48] [cursor=pointer]:
+          - /url: /for/gatsby
+          - paragraph [ref=e49]: Gatsby
+          - heading "Beam for Gatsby" [level=3] [ref=e50]
+          - paragraph [ref=e51]: Script tag in gatsby-browser.js plus an onRouteUpdate hook for full SPA route tracking.
+          - paragraph [ref=e52]: Read setup guide ->
+        - link "Hugo Beam for Hugo Theme partial and base layout install for static content sites with zero client bundle overhead. Read setup guide ->" [ref=e53] [cursor=pointer]:
+          - /url: /for/hugo
+          - paragraph [ref=e54]: Hugo
+          - heading "Beam for Hugo" [level=3] [ref=e55]
+          - paragraph [ref=e56]: Theme partial and base layout install for static content sites with zero client bundle overhead.
+          - paragraph [ref=e57]: Read setup guide ->
+        - link "Remix Beam for Remix Add Beam in app/root.tsx with client-navigation coverage and no server-side changes. Read setup guide ->" [ref=e58] [cursor=pointer]:
+          - /url: /for/remix
+          - paragraph [ref=e59]: Remix
+          - heading "Beam for Remix" [level=3] [ref=e60]
+          - paragraph [ref=e61]: Add Beam in app/root.tsx with client-navigation coverage and no server-side changes.
+          - paragraph [ref=e62]: Read setup guide ->
+    - generic [ref=e63]:
+      - generic [ref=e64]:
+        - heading "No-code builders" [level=2] [ref=e65]
+        - paragraph [ref=e66]: Setup guides for teams shipping through visual builders without engineering support.
+      - generic [ref=e67]:
+        - link "Webflow Beam for Webflow Project Settings head-code install for CMS, ecommerce, and marketing pages. Read setup guide ->" [ref=e68] [cursor=pointer]:
+          - /url: /for/webflow
+          - paragraph [ref=e69]: Webflow
+          - heading "Beam for Webflow" [level=3] [ref=e70]
+          - paragraph [ref=e71]: Project Settings head-code install for CMS, ecommerce, and marketing pages.
+          - paragraph [ref=e72]: Read setup guide ->
+        - link "Shopify Beam for Shopify Theme-code install path for product and collection pages with a fast verification checklist. Read setup guide ->" [ref=e73] [cursor=pointer]:
+          - /url: /for/shopify
+          - paragraph [ref=e74]: Shopify
+          - heading "Beam for Shopify" [level=3] [ref=e75]
+          - paragraph [ref=e76]: Theme-code install path for product and collection pages with a fast verification checklist.
+          - paragraph [ref=e77]: Read setup guide ->
+        - link "Ghost Beam for Ghost Ghost Code Injection setup for posts and newsletter landing pages with quick verification. Read setup guide ->" [ref=e78] [cursor=pointer]:
+          - /url: /for/ghost
+          - paragraph [ref=e79]: Ghost
+          - heading "Beam for Ghost" [level=3] [ref=e80]
+          - paragraph [ref=e81]: Ghost Code Injection setup for posts and newsletter landing pages with quick verification.
+          - paragraph [ref=e82]: Read setup guide ->
+        - link "Framer Beam for Framer Install in Framer Site Settings custom code and verify route-level page tracking. Read setup guide ->" [ref=e83] [cursor=pointer]:
+          - /url: /for/framer
+          - paragraph [ref=e84]: Framer
+          - heading "Beam for Framer" [level=3] [ref=e85]
+          - paragraph [ref=e86]: Install in Framer Site Settings custom code and verify route-level page tracking.
+          - paragraph [ref=e87]: Read setup guide ->
+        - link "Carrd Beam for Carrd Simple head-snippet setup for Carrd landing pages and link-in-bio sites. Read setup guide ->" [ref=e88] [cursor=pointer]:
+          - /url: /for/carrd
+          - paragraph [ref=e89]: Carrd
+          - heading "Beam for Carrd" [level=3] [ref=e90]
+          - paragraph [ref=e91]: Simple head-snippet setup for Carrd landing pages and link-in-bio sites.
+          - paragraph [ref=e92]: Read setup guide ->
+    - generic [ref=e93]:
+      - paragraph [ref=e94]: WordPress distribution
+      - heading "Need the official WordPress plugin package?" [level=2] [ref=e95]
+      - paragraph [ref=e96]: Use the dedicated plugin surface for install positioning, packaging assets, and a clear hosted-account vs plugin-installer workflow.
+      - generic [ref=e97]:
+        - link "Open WordPress plugin page" [ref=e98] [cursor=pointer]:
+          - /url: /wordpress-plugin
+        - link "WordPress install guide" [ref=e99] [cursor=pointer]:
+          - /url: /for/wordpress
+    - generic [ref=e100]:
+      - heading "Need a custom setup path?" [level=2] [ref=e101]
+      - paragraph [ref=e102]: Start with the generic install walkthrough and then adapt the script placement to your stack.
+      - generic [ref=e103]:
+        - link "Read 5-minute setup guide" [ref=e104] [cursor=pointer]:
+          - /url: /blog/add-analytics-in-5-minutes
+        - link "Create free Beam account" [ref=e105] [cursor=pointer]:
+          - /url: /signup
+  - contentinfo [ref=e106]:
+    - generic [ref=e107]:
+      - generic [ref=e108]: © 2026 Keylight Digital LLC. All rights reserved.
+      - generic [ref=e109]:
+        - link "About" [ref=e110] [cursor=pointer]:
+          - /url: /about
+        - link "Privacy" [ref=e111] [cursor=pointer]:
+          - /url: /privacy
+        - link "Terms" [ref=e112] [cursor=pointer]:
+          - /url: /terms
+        - link "All guides" [ref=e113] [cursor=pointer]:
+          - /url: /for
+        - link "Migration hub" [ref=e114] [cursor=pointer]:
+          - /url: /migrate
+        - link "WordPress plugin" [ref=e115] [cursor=pointer]:
+          - /url: /wordpress-plugin
+        - link "Hugo" [ref=e116] [cursor=pointer]:
+          - /url: /for/hugo
+        - link "Webflow" [ref=e117] [cursor=pointer]:
+          - /url: /for/webflow
+        - link "Shopify" [ref=e118] [cursor=pointer]:
+          - /url: /for/shopify
+        - link "Ghost" [ref=e119] [cursor=pointer]:
+          - /url: /for/ghost
+        - link "Framer" [ref=e120] [cursor=pointer]:
+          - /url: /for/framer
+        - link "Carrd" [ref=e121] [cursor=pointer]:
+          - /url: /for/carrd
+        - link "Sign up" [ref=e122] [cursor=pointer]:
+          - /url: /signup
+        - link "Log in" [ref=e123] [cursor=pointer]:
+          - /url: /login

@@ -1,140 +1,25 @@
 # Ralph Progress Log
-Started: Wed Apr 15 03:01:00 PM PDT 2026
+Started: Sat Apr 18 09:11:52 AM PDT 2026
 ---
 
-## 2026-04-15 - BEAM-237
-- Implemented GET /pricing page with Free ($0) and Pro ($5/mo) plan comparison
-- Added feature comparison table covering 11 features across both plans
-- Added FAQ section: free trial, pageview limits, cancellation, credit card, comparisons, refunds
-- Added CTAs: "Start free" → /signup, "Get Pro" → /signup, bottom section with demo link
-- Added /pricing to sitemap.xml with priority 0.9 (high SEO page)
-- Files changed: src/routes/pricing.ts (new), src/index.ts (import + route + sitemap)
-- Added 4 smoke tests (8 total across desktop+mobile): 200 response, content, sitemap, mobile overflow
-- Smoke tests pass locally and on prod (beam-privacy.com)
-- **Learnings for future iterations:**
-  - Pricing numbers in the live site: Free = 50K pageviews/mo, Pro = $5/mo 500K — the PRD story had stale numbers (5K/100K); always check the landing page for authoritative values
-  - New route pattern: create src/routes/foo.ts, import in src/index.ts, add `app.route('/', foo)`, add to sitemap paths + meta objects
-  - Route registration error on deploy is pre-existing (auth token lacks zone:edit); worker upload still succeeds and routes work in prod
----
-
-## 2026-04-15 - BEAM-238
-- Added /for/nuxt Nuxt 3 integration guide
-- Guide uses Nuxt plugin system (plugins/beam.client.ts) with .client.ts SSR exclusion
-- Two install options: script-tag client plugin and npm package
-- Added nuxt to GUIDE_SECTIONS 'Developer frameworks' list (between vue and wordpress)
-- Added /for/nuxt to sitemap.xml
-- Added /for/vue and /for/nuxt links to landing page step 1 inline list
-- Vue's related guides updated to include nuxt
-- Files: src/routes/for.ts, src/index.ts, src/landing.ts, test/smoke/smoke.spec.ts
-- 6 smoke tests (12 desktop+mobile), all pass locally and on prod
-- **Learnings for future iterations:**
-  - Adding a /for/* guide requires: (1) add to GUIDES object, (2) add slug to GUIDE_SECTIONS.slugs, (3) add to sitemap paths+meta, (4) optionally link from landing.ts step 1 list
-  - GUIDE_SECTIONS uses `as const` — TypeScript will error if a slug doesn't exist in GUIDES
----
-
-## 2026-04-15 - BEAM-239
-- Added /for/svelte: onMount-based script injection (SSR-safe), index.html alternative for Vite+Svelte
-- Added /for/sveltekit: +layout.svelte with afterNavigate for SPA tracking, app.html alternative
-- Added svelte and sveltekit to GUIDE_SECTIONS developer frameworks list (between nuxt and wordpress)
-- Added /for/svelte and /for/sveltekit to sitemap.xml
-- Files: src/routes/for.ts, src/index.ts, test/smoke/smoke.spec.ts
-- 8 smoke tests (16 desktop+mobile), all pass on prod after brief propagation delay
-- **Learnings for future iterations:**
-  - Cloudflare Workers deployment can have ~10-30s propagation delay — if prod smoke tests fail immediately after deploy, wait and retry before blocking the story
-  - GUIDE_SECTIONS `as const` restriction: both slugs must exist in GUIDES before adding to slugs array
----
-
-## 2026-04-15 - BEAM-240
-- Added og:image, twitter:card, twitter:title, twitter:description to all 9 blog post pages (replace_all pattern on shared template literal)
-- Added og:image + twitter tags to blog index, /about, /pricing, /changelog, /privacy, /terms
-- Upgraded landing page twitter:card from 'summary' to 'summary_large_image'
-- og:image uses /og-image.svg (already served at that path — no new asset needed)
-- Blog posts use twitter:card=summary_large_image; other pages use summary
-- Files: src/routes/blog.ts, about.ts, pricing.ts, changelog.ts, legal.ts, src/landing.ts
-- 6 smoke tests (12 desktop+mobile), all pass on prod
-- **Learnings for future iterations:**
-  - blog.ts has 9 posts each with identical template literal patterns — `replace_all: true` handles all at once without touching each handler individually
-  - /og-image.svg is already served and suitable for og:image across all pages; no need to create /og-image.png
-  - vs.ts, migrate.ts, for.ts, howItWorks.ts, tools.ts, wordpressPlugin.ts were already complete; only blog/about/pricing/changelog/legal/landing needed fixes
----
-
-## 2026-04-15 - BEAM-241
-- Added fire-and-forget security email to POST /dashboard/settings/password on successful password change
-- Email from: 'Beam Security <ralph@keylightdigital.dev>', subject: 'Your Beam password was changed'
-- Body includes account email, UTC timestamp, and support contact instructions
-- Email failure does not block the redirect (Promise.catch swallows errors, no await)
-- Only sends if RESEND_API_KEY is present in env
-- Files: src/routes/dashboard.ts
-- Smoke tests: 2/2 pass locally (desktop + mobile)
-- PROD NOTE: prod smoke tests could not run due to rate limit exhaustion (10 signups/hr/IP, 429 returned)
-  This is not a code failure — feature is correct, rate limit is a known infra constraint (documented in ralph-context.md)
-- UNVERIFIED: security email delivery not testable in smoke suite (fire-and-forget)
-- **Learnings for future iterations:**
-  - Scope form locators by action attribute to avoid clicking the wrong submit button: `page.locator('form[action="/path"]').locator('button[type="submit"]')`
-  - `fetch()` with `redirect: 'manual'` in browser context returns type=opaqueredirect with status 0, not the actual status code — use page navigation instead
-  - prod signup rate limit (10/hr/IP) gets exhausted across a session with many smoke runs; space out prod test runs between stories
----
-
-## 2026-04-15 - BEAM-242
-- Implemented full-page empty state on /dashboard for users with 0 sites
-- Files changed: src/routes/dashboard.ts, test/smoke/smoke.spec.ts
-- Dashboard GET handler now early-returns a welcome page when `hasSite === false`:
-  - Bar chart SVG icon, "Welcome to Beam!" heading, CTA to /dashboard/sites/new (data-testid="empty-state-add-site")
-  - 3-step "How it works" card with numbered circles (1. Add site, 2. Install snippet, 3. Start tracking)
-  - Secondary CTA + "View setup guides →" link to /for
-- When user has 1+ sites, normal analytics layout renders unchanged (no regression)
-- 6 smoke tests added (3 desktop, 3 mobile): visible empty state, CTA href, no 375px overflow
-- All 6 pass locally; prod tests 429'd due to known signup rate limit (infra constraint)
-- **Learnings for future iterations:**
-  - Empty state uses early return before `const content = ...` — cleanest pattern for divergent layouts
-  - Prod smoke tests that require signup will 429 if run frequently in same session (10/hour/IP limit)
----
-
-## 2026-04-15 - BEAM-244
-- Added /pricing link to landing page nav and footer, and all public route footers
-- Files changed: src/landing.ts, src/routes/about.ts, src/routes/blog.ts, src/routes/changelog.ts, src/routes/for.ts, src/routes/howItWorks.ts, src/routes/legal.ts, src/routes/migrate.ts, src/routes/vs.ts, src/routes/wordpressPlugin.ts, test/smoke/smoke.spec.ts
-- Landing nav: /pricing added before "Log in"
-- Landing footer: /pricing added after "About"
-- All other route footers: /pricing added after "About" link
-- 8 smoke tests pass (desktop + mobile)
-- **Learnings for future iterations:**
-  - Each route file has its own local nav()/footer() helper — no shared component, so changes must be applied to each file individually
-  - pricing.ts footer already had /pricing (it's own page link) — confirmed no duplication
----
-
-## 2026-04-15 - BEAM-246
-- Implemented GDPR data export: GET /dashboard/settings/export endpoint + "Export my data" button
-- Files changed: src/routes/dashboard.ts, test/smoke/smoke.spec.ts
-- New route: GET /dashboard/settings/export (auth-gated)
-  - Queries user's sites (id, name, domain, created_at)
-  - For each site: daily pageview counts (strftime + GROUP BY date) for last 90 days
-  - Returns JSON with Content-Disposition: attachment; filename="beam-export-{date}.json"
-- Settings page: added "Export my data" section with anchor tag linking to the export route
-  - data-testid="export-my-data" for test targeting
-- 6 smoke tests added (3 desktop, 3 mobile): response headers, JSON shape, button visibility
-- All 6 pass locally; prod tests 429'd (known signup rate limit)
-- **Learnings for future iterations:**
-  - Use `page.evaluate(() => fetch(..., {credentials: 'include'}))` to test fetch endpoints in Playwright with session cookies
-  - `new Response(JSON.stringify(...), { headers: {...} })` works directly in Hono Workers context
----
-
-## 2026-04-15 - BEAM-243 & BEAM-245
-- Added two new blog posts: Nuxt 3 privacy analytics and Beam vs Matomo
-- Files changed: src/routes/blog.ts, src/index.ts, test/smoke/smoke.spec.ts
-- BEAM-243 (/blog/nuxt-privacy-analytics): Covers SPA tracking with useRouter().afterEach, .client.ts plugin pattern, TypeScript type declaration, npm package alternative, custom events
-- BEAM-245 (/blog/matomo-alternative): Honest comparison with feature table, self-hosting costs, cookie/consent differences, who should use each
-- Both added to POSTS array (newest first) and sitemap
-- Fixed 3 existing broken POSTS[n] numeric index references to use .find() — handlers for cookie-free-analytics-guide, add-analytics-in-5-minutes, nextjs-privacy-analytics had wrong indices
-- 8 smoke tests pass (4 per post × desktop + mobile)
-- **Learnings for future iterations:**
-  - POSTS array uses numeric indices in 3 old handlers (now fixed to .find()) — always use .find() for new posts
-  - New posts go at the BEGINNING of POSTS array so they appear first in blog listing
-  - Blog post route handler pattern: getPublicBaseUrl, POSTS.find(), jsonLd, html template, nav()/footer()
----
-
-## 2026-04-15 - BEAM-216 (retrospective close)
-- Marked BEAM-216 as passes=true — fully superseded by BEAM-238 and BEAM-239
-- /for/vue (BEAM-234/238), /for/nuxt (BEAM-238), /for/svelte (BEAM-239), /for/sveltekit (BEAM-239) all implemented and passing
-- All BEAM-216 acceptance criteria verified: 200 responses, correct framework idioms, sitemap, /for hub links
-- Removed from blocked-stories.json as it no longer needs Steve's action
+## 2026-04-18 - Self-Generation Cycle
+- All 245 stories were passing (BEAM-219 blocked); entered self-generation mode
+- Audited prod (beam-privacy.com) with Playwright — all pages load cleanly, no JS errors
+- **Key finding:** cdn.tailwindcss.com used on every page — 62 instances across 10+ route files; external HTTP request + browser console warning on every page load
+- **Key finding:** No activation drip for signups who never install snippet (biggest churn risk)
+- **Key finding:** No upgrade nudge when free users approach 50K pageview limit
+- **Key finding:** No viral loop / badge on public stats pages
+- **Key finding:** No annual pricing option
+- Generated 10 new stories (BEAM-247 through BEAM-256):
+  - BEAM-247 (high): Replace CDN Tailwind with self-hosted CSS bundle
+  - BEAM-248 (high): Activation drip email for signups without snippet
+  - BEAM-249 (high): Free plan upgrade nudge at 80% pageview limit
+  - BEAM-250 (medium): 'Analytics by Beam' badge on public stats pages
+  - BEAM-251 (medium): Annual pricing at $50/yr
+  - BEAM-252 (medium): /vs/umami, /vs/simple-analytics, /vs/posthog
+  - BEAM-253 (medium): /for/ecommerce, /for/saas vertical landing pages
+  - BEAM-254 (low): Blog — GDPR analytics mistakes
+  - BEAM-255 (low): Blog — indie hacker's guide to privacy analytics
+  - BEAM-256 (low): Pro dashboard 'add another site' prompt
+- Files changed: prd.json, ralph-context.md, progress.txt
 ---

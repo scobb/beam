@@ -82,7 +82,7 @@ export function landingPage(
   <link rel="canonical" href="${homeUrl}" />
   ${googleVerificationCode ? `<meta name="google-site-verification" content="${googleVerificationCode}" />` : ''}
   <meta property="og:image" content="${ogImageUrl}" />
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/assets/tailwind.css">
   <script type="application/ld+json">${softwareApplicationJsonLd}</script>
   <script type="application/ld+json">${organizationJsonLd}</script>
   <script defer src="${trackingScriptUrl}" data-site-id="${BEAM_SITE_ID}"></script>

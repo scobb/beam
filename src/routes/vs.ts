@@ -264,7 +264,7 @@ app.get('/alternatives', (c) => {
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Beam Alternatives Hub" />
   <meta name="twitter:description" content="Honest Beam comparisons across GA, Cloudflare Web Analytics, Plausible, Fathom, Umami, Matomo, Simple Analytics, and Rybbit." />
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/assets/tailwind.css">
   <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
   <script type="application/ld+json">${JSON.stringify({
     '@context': 'https://schema.org',
@@ -336,7 +336,7 @@ app.get('/vs/google-analytics', (c) => {
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Beam vs Google Analytics" />
   <meta name="twitter:description" content="Cookie-free, GDPR-compliant analytics. No data sent to Google." />
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/assets/tailwind.css">
   <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
   <script type="application/ld+json">${JSON.stringify({
     "@context": "https://schema.org",
@@ -434,7 +434,7 @@ app.get('/vs/cloudflare-web-analytics', (c) => {
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Beam vs Cloudflare Web Analytics" />
   <meta name="twitter:description" content="Cloudflare is the easier baseline; Beam is stronger when you need actionable analytics." />
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/assets/tailwind.css">
   <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
   <script type="application/ld+json">${JSON.stringify({
     '@context': 'https://schema.org',
@@ -522,7 +522,7 @@ app.get('/vs/vercel-analytics', (c) => {
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Beam vs Vercel Analytics" />
   <meta name="twitter:description" content="Compare framework lock-in, privacy posture, goals/events, source clarity, dashboards, and pricing fit." />
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/assets/tailwind.css">
   <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
   <script type="application/ld+json">${JSON.stringify({
     '@context': 'https://schema.org',
@@ -619,7 +619,7 @@ app.get('/vs/plausible', (c) => {
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Beam vs Plausible Analytics" />
   <meta name="twitter:description" content="Same privacy-first analytics at a lower price. Beam starts free." />
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/assets/tailwind.css">
   <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
   <script type="application/ld+json">${JSON.stringify({
     "@context": "https://schema.org",
@@ -721,7 +721,7 @@ app.get('/vs/fathom', (c) => {
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Beam vs Fathom Analytics" />
   <meta name="twitter:description" content="Same cookie-free, GDPR-compliant analytics at a lower price." />
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/assets/tailwind.css">
   <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
   <script type="application/ld+json">${JSON.stringify({
     "@context": "https://schema.org",
@@ -820,7 +820,7 @@ app.get('/vs/umami', (c) => {
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Beam vs Umami Analytics" />
   <meta name="twitter:description" content="Compare Beam with Umami's open-source self-hosted analytics model." />
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/assets/tailwind.css">
   <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
   <script type="application/ld+json">${JSON.stringify({
     '@context': 'https://schema.org',
@@ -911,7 +911,7 @@ app.get('/vs/matomo', (c) => {
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Beam vs Matomo" />
   <meta name="twitter:description" content="Compare Beam against Matomo's self-hosted and cloud analytics options." />
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/assets/tailwind.css">
   <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
   <script type="application/ld+json">${JSON.stringify({
     '@context': 'https://schema.org',
@@ -1002,7 +1002,7 @@ app.get('/vs/simple-analytics', (c) => {
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Beam vs Simple Analytics" />
   <meta name="twitter:description" content="Both are cookieless. Beam is the lower-cost option for hosted privacy analytics." />
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/assets/tailwind.css">
   <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
   <script type="application/ld+json">${JSON.stringify({
     '@context': 'https://schema.org',
@@ -1091,7 +1091,7 @@ app.get('/vs/rybbit', (c) => {
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Beam vs Rybbit Analytics" />
   <meta name="twitter:description" content="Managed edge analytics vs self-hosted open source. Compare Beam and Rybbit." />
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/assets/tailwind.css">
   <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
   <script type="application/ld+json">${JSON.stringify({
     "@context": "https://schema.org",
@@ -1195,7 +1195,7 @@ app.get('/vs/posthog', (c) => {
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Beam vs PostHog Analytics" />
   <meta name="twitter:description" content="Simple privacy-first web analytics vs full product analytics suite. Compare Beam and PostHog." />
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/assets/tailwind.css">
   <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
   <script type="application/ld+json">${JSON.stringify({
     "@context": "https://schema.org",
@@ -1300,7 +1300,7 @@ app.get('/vs/pirsch', (c) => {
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Beam vs Pirsch Analytics" />
   <meta name="twitter:description" content="Two cookie-free privacy analytics tools compared. See how Beam stacks up against Pirsch." />
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/assets/tailwind.css">
   <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
   <script type="application/ld+json">${JSON.stringify({
     "@context": "https://schema.org",
@@ -1400,7 +1400,7 @@ app.get('/vs/cabin', (c) => {
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Beam vs Cabin Analytics" />
   <meta name="twitter:description" content="Privacy-first web analytics compared: Beam vs Cabin. See pricing, features, and which fits your needs." />
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/assets/tailwind.css">
   <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
   <script type="application/ld+json">${JSON.stringify({
     "@context": "https://schema.org",
@@ -1499,7 +1499,7 @@ app.get('/vs/mixpanel', (c) => {
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Beam vs Mixpanel Analytics" />
   <meta name="twitter:description" content="Simple cookie-free web analytics vs event-based product analytics. Compare Beam and Mixpanel on privacy, pricing, and setup." />
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/assets/tailwind.css">
   <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
   <script type="application/ld+json">${JSON.stringify({
     "@context": "https://schema.org",
@@ -1602,7 +1602,7 @@ app.get('/vs/amplitude', (c) => {
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Beam vs Amplitude Analytics" />
   <meta name="twitter:description" content="Simple cookie-free web analytics vs enterprise product analytics. Compare Beam and Amplitude on privacy, pricing, and setup." />
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/assets/tailwind.css">
   <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
   <script type="application/ld+json">${JSON.stringify({
     "@context": "https://schema.org",
@@ -1708,7 +1708,7 @@ app.get('/switch', (c) => {
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Switch to Beam — See How Much You'd Save" />
   <meta name="twitter:description" content="Free up to 50K pageviews. $5/mo after that. Calculate your annual savings now." />
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/assets/tailwind.css">
   <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
 </head>
 <body class="bg-white text-gray-900 antialiased">

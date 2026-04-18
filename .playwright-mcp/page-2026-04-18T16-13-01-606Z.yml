@@ -1,0 +1,398 @@
+- generic [ref=e2]:
+  - complementary [ref=e3]:
+    - generic [ref=e4]:
+      - link "Beam" [ref=e5] [cursor=pointer]:
+        - /url: /dashboard
+      - paragraph [ref=e6]: Analytics
+    - navigation [ref=e7]:
+      - link "Overview" [ref=e8] [cursor=pointer]:
+        - /url: /dashboard
+      - link "Acquisition" [ref=e9] [cursor=pointer]:
+        - /url: /dashboard/acquisition
+      - link "Launch" [ref=e10] [cursor=pointer]:
+        - /url: /dashboard/launch
+      - link "Sites" [ref=e11] [cursor=pointer]:
+        - /url: /dashboard/sites
+      - link "Billing" [ref=e12] [cursor=pointer]:
+        - /url: /dashboard/billing
+      - link "Settings" [ref=e13] [cursor=pointer]:
+        - /url: /dashboard/settings
+    - link "Logout" [ref=e15] [cursor=pointer]:
+      - /url: /api/auth/logout
+  - main [ref=e16]:
+    - generic [ref=e17]:
+      - generic [ref=e18]:
+        - paragraph [ref=e19]:
+          - strong [ref=e20]: This is a live demo with sample data
+          - text: "- Start tracking your own site."
+        - link "Create free account" [ref=e21] [cursor=pointer]:
+          - /url: /signup
+      - generic [ref=e22]:
+        - generic [ref=e23]:
+          - link "← Back to Beam" [ref=e24] [cursor=pointer]:
+            - /url: /
+          - heading "Analytics" [level=1] [ref=e25]
+          - paragraph [ref=e26]: northstarsaas.io (Demo)
+        - generic [ref=e27]:
+          - link "Today" [ref=e28] [cursor=pointer]:
+            - /url: "?range=today"
+          - link "7 Days" [ref=e29] [cursor=pointer]:
+            - /url: "?range=7d"
+          - link "30 Days" [ref=e30] [cursor=pointer]:
+            - /url: "?range=30d"
+      - paragraph [ref=e32]:
+        - text: Daily analytics are shown in
+        - strong [ref=e33]: UTC
+        - text: . The last 7 days filter and chart buckets both use UTC day boundaries.
+      - generic [ref=e34]:
+        - generic [ref=e35]: 5 active now
+        - generic [ref=e37]: sample live visitor count
+      - generic [ref=e38]:
+        - generic [ref=e39]:
+          - paragraph [ref=e40]: Unique Visitors
+          - paragraph [ref=e41]: "812"
+        - generic [ref=e42]:
+          - paragraph [ref=e43]: Total Pageviews
+          - paragraph [ref=e44]: "853"
+        - generic [ref=e45]:
+          - paragraph [ref=e46]: Top Page
+          - paragraph [ref=e47]: /
+        - generic [ref=e48]:
+          - paragraph [ref=e49]: Top Referrer
+          - paragraph [ref=e50]: Direct
+      - generic [ref=e52]:
+        - heading "Visitors - Last 7 Days" [level=2] [ref=e53]
+        - paragraph [ref=e54]: Grouped by UTC day
+      - generic [ref=e56]:
+        - generic [ref=e57]:
+          - heading "Top Pages" [level=3] [ref=e59]
+          - table [ref=e61]:
+            - rowgroup [ref=e62]:
+              - row "Path Visitors Pageviews" [ref=e63]:
+                - columnheader "Path" [ref=e64]
+                - columnheader "Visitors" [ref=e65]
+                - columnheader "Pageviews" [ref=e66]
+            - rowgroup [ref=e67]:
+              - row "/ 166 189" [ref=e68]:
+                - cell / [ref=e69]:
+                  - link / [ref=e70] [cursor=pointer]:
+                    - /url: "?range=7d&page=%2F"
+                - cell "166" [ref=e71]
+                - cell "189" [ref=e72]
+              - row "/pricing 105 112" [ref=e73]:
+                - cell "/pricing" [ref=e74]:
+                  - link "/pricing" [ref=e75] [cursor=pointer]:
+                    - /url: "?range=7d&page=%2Fpricing"
+                - cell "105" [ref=e76]
+                - cell "112" [ref=e77]
+              - row "/docs/getting-started 91 94" [ref=e78]:
+                - cell "/docs/getting-started" [ref=e79]:
+                  - link "/docs/getting-started" [ref=e80] [cursor=pointer]:
+                    - /url: "?range=7d&page=%2Fdocs%2Fgetting-started"
+                - cell "91" [ref=e81]
+                - cell "94" [ref=e82]
+              - row "/docs/events 69 70" [ref=e83]:
+                - cell "/docs/events" [ref=e84]:
+                  - link "/docs/events" [ref=e85] [cursor=pointer]:
+                    - /url: "?range=7d&page=%2Fdocs%2Fevents"
+                - cell "69" [ref=e86]
+                - cell "70" [ref=e87]
+              - row "/features/goal-tracking 68 68" [ref=e88]:
+                - cell "/features/goal-tracking" [ref=e89]:
+                  - link "/features/goal-tracking" [ref=e90] [cursor=pointer]:
+                    - /url: "?range=7d&page=%2Ffeatures%2Fgoal-tracking"
+                - cell "68" [ref=e91]
+                - cell "68" [ref=e92]
+              - row "/features/public-dashboards 65 67" [ref=e93]:
+                - cell "/features/public-dashboards" [ref=e94]:
+                  - link "/features/public-dashboards" [ref=e95] [cursor=pointer]:
+                    - /url: "?range=7d&page=%2Ffeatures%2Fpublic-dashboards"
+                - cell "65" [ref=e96]
+                - cell "67" [ref=e97]
+              - row "/blog/privacy-analytics-vs-ga4 63 65" [ref=e98]:
+                - cell "/blog/privacy-analytics-vs-ga4" [ref=e99]:
+                  - link "/blog/privacy-analytics-vs-ga4" [ref=e100] [cursor=pointer]:
+                    - /url: "?range=7d&page=%2Fblog%2Fprivacy-analytics-vs-ga4"
+                - cell "63" [ref=e101]
+                - cell "65" [ref=e102]
+              - row "/signup 65 65" [ref=e103]:
+                - cell "/signup" [ref=e104]:
+                  - link "/signup" [ref=e105] [cursor=pointer]:
+                    - /url: "?range=7d&page=%2Fsignup"
+                - cell "65" [ref=e106]
+                - cell "65" [ref=e107]
+              - row "/contact 61 62" [ref=e108]:
+                - cell "/contact" [ref=e109]:
+                  - link "/contact" [ref=e110] [cursor=pointer]:
+                    - /url: "?range=7d&page=%2Fcontact"
+                - cell "61" [ref=e111]
+                - cell "62" [ref=e112]
+              - row "/blog/how-we-cut-cookie-banners 59 61" [ref=e113]:
+                - cell "/blog/how-we-cut-cookie-banners" [ref=e114]:
+                  - link "/blog/how-we-cut-cookie-banners" [ref=e115] [cursor=pointer]:
+                    - /url: "?range=7d&page=%2Fblog%2Fhow-we-cut-cookie-banners"
+                - cell "59" [ref=e116]
+                - cell "61" [ref=e117]
+        - generic [ref=e118]:
+          - heading "Referrer Sources" [level=3] [ref=e120]
+          - table [ref=e122]:
+            - rowgroup [ref=e123]:
+              - row "Source Visitors" [ref=e124]:
+                - columnheader "Source" [ref=e125]
+                - columnheader "Visitors" [ref=e126]
+            - rowgroup [ref=e127]:
+              - row "Direct 277" [ref=e128]:
+                - cell "Direct" [ref=e129]:
+                  - link "Direct" [ref=e130] [cursor=pointer]:
+                    - /url: "?range=7d&referrer=Direct"
+                - cell "277" [ref=e131]
+              - row "www.google.com 241" [ref=e132]:
+                - cell "www.google.com" [ref=e133]:
+                  - link "www.google.com" [ref=e134] [cursor=pointer]:
+                    - /url: "?range=7d&referrer=https%3A%2F%2Fwww.google.com%2Fsearch%3Fq%3Dprivacy%2Banalytics"
+                - cell "241" [ref=e135]
+              - row "twitter.com 133" [ref=e136]:
+                - cell "twitter.com" [ref=e137]:
+                  - link "twitter.com" [ref=e138] [cursor=pointer]:
+                    - /url: "?range=7d&referrer=https%3A%2F%2Ftwitter.com%2Fkeylightdigital%2Fstatus%2F1900"
+                - cell "133" [ref=e139]
+              - row "news.ycombinator.com 97" [ref=e140]:
+                - cell "news.ycombinator.com" [ref=e141]:
+                  - link "news.ycombinator.com" [ref=e142] [cursor=pointer]:
+                    - /url: "?range=7d&referrer=https%3A%2F%2Fnews.ycombinator.com%2Fitem%3Fid%3D44123456"
+                - cell "97" [ref=e143]
+              - row "www.reddit.com 96" [ref=e144]:
+                - cell "www.reddit.com" [ref=e145]:
+                  - link "www.reddit.com" [ref=e146] [cursor=pointer]:
+                    - /url: "?range=7d&referrer=https%3A%2F%2Fwww.reddit.com%2Fr%2Fwebdev%2Fcomments%2F1be4m2%2Fprivacy_analytics_stack%2F"
+                - cell "96" [ref=e147]
+        - generic [ref=e148]:
+          - heading "Countries" [level=3] [ref=e150]
+          - table [ref=e152]:
+            - rowgroup [ref=e153]:
+              - row "Country Visitors" [ref=e154]:
+                - columnheader "Country" [ref=e155]
+                - columnheader "Visitors" [ref=e156]
+            - rowgroup [ref=e157]:
+              - row "US 297" [ref=e158]:
+                - cell "US" [ref=e159]:
+                  - link "US" [ref=e160] [cursor=pointer]:
+                    - /url: "?range=7d&country=US"
+                - cell "297" [ref=e161]
+              - row "GB 114" [ref=e162]:
+                - cell "GB" [ref=e163]:
+                  - link "GB" [ref=e164] [cursor=pointer]:
+                    - /url: "?range=7d&country=GB"
+                - cell "114" [ref=e165]
+              - row "DE 103" [ref=e166]:
+                - cell "DE" [ref=e167]:
+                  - link "DE" [ref=e168] [cursor=pointer]:
+                    - /url: "?range=7d&country=DE"
+                - cell "103" [ref=e169]
+              - row "CA 84" [ref=e170]:
+                - cell "CA" [ref=e171]:
+                  - link "CA" [ref=e172] [cursor=pointer]:
+                    - /url: "?range=7d&country=CA"
+                - cell "84" [ref=e173]
+              - row "AU 79" [ref=e174]:
+                - cell "AU" [ref=e175]:
+                  - link "AU" [ref=e176] [cursor=pointer]:
+                    - /url: "?range=7d&country=AU"
+                - cell "79" [ref=e177]
+              - row "IN 71" [ref=e178]:
+                - cell "IN" [ref=e179]:
+                  - link "IN" [ref=e180] [cursor=pointer]:
+                    - /url: "?range=7d&country=IN"
+                - cell "71" [ref=e181]
+              - row "BR 64" [ref=e182]:
+                - cell "BR" [ref=e183]:
+                  - link "BR" [ref=e184] [cursor=pointer]:
+                    - /url: "?range=7d&country=BR"
+                - cell "64" [ref=e185]
+        - generic [ref=e186]:
+          - heading "Browsers" [level=3] [ref=e188]
+          - table [ref=e190]:
+            - rowgroup [ref=e191]:
+              - row "Browser Visitors" [ref=e192]:
+                - columnheader "Browser" [ref=e193]
+                - columnheader "Visitors" [ref=e194]
+            - rowgroup [ref=e195]:
+              - row "Chrome 400" [ref=e196]:
+                - cell "Chrome" [ref=e197]:
+                  - link "Chrome" [ref=e198] [cursor=pointer]:
+                    - /url: "?range=7d&browser=Chrome"
+                - cell "400" [ref=e199]
+              - row "Safari 241" [ref=e200]:
+                - cell "Safari" [ref=e201]:
+                  - link "Safari" [ref=e202] [cursor=pointer]:
+                    - /url: "?range=7d&browser=Safari"
+                - cell "241" [ref=e203]
+              - row "Firefox 104" [ref=e204]:
+                - cell "Firefox" [ref=e205]:
+                  - link "Firefox" [ref=e206] [cursor=pointer]:
+                    - /url: "?range=7d&browser=Firefox"
+                - cell "104" [ref=e207]
+              - row "Edge 67" [ref=e208]:
+                - cell "Edge" [ref=e209]:
+                  - link "Edge" [ref=e210] [cursor=pointer]:
+                    - /url: "?range=7d&browser=Edge"
+                - cell "67" [ref=e211]
+        - generic [ref=e212]:
+          - heading "Devices" [level=3] [ref=e214]
+          - table [ref=e216]:
+            - rowgroup [ref=e217]:
+              - row "Device Type Visitors %" [ref=e218]:
+                - columnheader "Device Type" [ref=e219]
+                - columnheader "Visitors" [ref=e220]
+                - columnheader "%" [ref=e221]
+            - rowgroup [ref=e222]:
+              - row "Desktop 498 61%" [ref=e223]:
+                - cell "Desktop" [ref=e224]:
+                  - link "Desktop" [ref=e225] [cursor=pointer]:
+                    - /url: "?range=7d&device=Desktop"
+                - cell "498" [ref=e226]
+                - cell "61%" [ref=e227]
+              - row "Mobile 261 32%" [ref=e228]:
+                - cell "Mobile" [ref=e229]:
+                  - link "Mobile" [ref=e230] [cursor=pointer]:
+                    - /url: "?range=7d&device=Mobile"
+                - cell "261" [ref=e231]
+                - cell "32%" [ref=e232]
+              - row "Tablet 53 7%" [ref=e233]:
+                - cell "Tablet" [ref=e234]:
+                  - link "Tablet" [ref=e235] [cursor=pointer]:
+                    - /url: "?range=7d&device=Tablet"
+                - cell "53" [ref=e236]
+                - cell "7%" [ref=e237]
+        - generic [ref=e238]:
+          - heading "Campaigns" [level=3] [ref=e240]
+          - table [ref=e242]:
+            - rowgroup [ref=e243]:
+              - row "Source Medium Visitors Pageviews" [ref=e244]:
+                - columnheader "Source" [ref=e245]
+                - columnheader "Medium" [ref=e246]
+                - columnheader "Visitors" [ref=e247]
+                - columnheader "Pageviews" [ref=e248]
+            - rowgroup [ref=e249]:
+              - row "google organic 241 243" [ref=e250]:
+                - cell "google" [ref=e251]
+                - cell "organic" [ref=e252]
+                - cell "241" [ref=e253]
+                - cell "243" [ref=e254]
+              - row "twitter social 133 134" [ref=e255]:
+                - cell "twitter" [ref=e256]
+                - cell "social" [ref=e257]
+                - cell "133" [ref=e258]
+                - cell "134" [ref=e259]
+              - row "hacker-news referral 97 97" [ref=e260]:
+                - cell "hacker-news" [ref=e261]
+                - cell "referral" [ref=e262]
+                - cell "97" [ref=e263]
+                - cell "97" [ref=e264]
+              - row "reddit social 96 96" [ref=e265]:
+                - cell "reddit" [ref=e266]
+                - cell "social" [ref=e267]
+                - cell "96" [ref=e268]
+                - cell "96" [ref=e269]
+      - generic [ref=e270]:
+        - generic [ref=e271]:
+          - generic [ref=e272]:
+            - heading "Events" [level=2] [ref=e273]
+            - paragraph [ref=e274]:
+              - text: Track signups, CTA clicks, and other custom actions with
+              - code [ref=e275]: beam.track()
+              - text: .
+          - generic [ref=e276]: 120 events in last 7 days
+        - generic [ref=e278]:
+          - heading "Events Over Time" [level=3] [ref=e279]
+          - paragraph [ref=e280]: Grouped by UTC day
+        - generic [ref=e282]:
+          - generic [ref=e283]:
+            - heading "Top Events" [level=3] [ref=e285]
+            - table [ref=e287]:
+              - rowgroup [ref=e288]:
+                - row "Event Count" [ref=e289]:
+                  - columnheader "Event" [ref=e290]
+                  - columnheader "Count" [ref=e291]
+              - rowgroup [ref=e292]:
+                - row "docs_download 53" [ref=e293]:
+                  - cell "docs_download" [ref=e294]
+                  - cell "53" [ref=e295]
+                - row "pricing_view 48" [ref=e296]:
+                  - cell "pricing_view" [ref=e297]
+                  - cell "48" [ref=e298]
+                - row "signup_click 12" [ref=e299]:
+                  - cell "signup_click" [ref=e300]
+                  - cell "12" [ref=e301]
+                - row "contact_form 7" [ref=e302]:
+                  - cell "contact_form" [ref=e303]
+                  - cell "7" [ref=e304]
+          - generic [ref=e305]:
+            - heading "Event Properties" [level=3] [ref=e307]
+            - table [ref=e309]:
+              - rowgroup [ref=e310]:
+                - row "Property Value Count" [ref=e311]:
+                  - columnheader "Property" [ref=e312]
+                  - columnheader "Value" [ref=e313]
+                  - columnheader "Count" [ref=e314]
+              - rowgroup [ref=e315]:
+                - row "source direct 41" [ref=e316]:
+                  - cell "source" [ref=e317]
+                  - cell "direct" [ref=e318]
+                  - cell "41" [ref=e319]
+                - row "plan pro 39" [ref=e320]:
+                  - cell "plan" [ref=e321]
+                  - cell "pro" [ref=e322]
+                  - cell "39" [ref=e323]
+                - row "asset setup-checklist.pdf 31" [ref=e324]:
+                  - cell "asset" [ref=e325]
+                  - cell "setup-checklist.pdf" [ref=e326]
+                  - cell "31" [ref=e327]
+                - row "source google 25" [ref=e328]:
+                  - cell "source" [ref=e329]
+                  - cell "google" [ref=e330]
+                  - cell "25" [ref=e331]
+                - row "asset roi-template.csv 22" [ref=e332]:
+                  - cell "asset" [ref=e333]
+                  - cell "roi-template.csv" [ref=e334]
+                  - cell "22" [ref=e335]
+                - row "source twitter 21" [ref=e336]:
+                  - cell "source" [ref=e337]
+                  - cell "twitter" [ref=e338]
+                  - cell "21" [ref=e339]
+                - row "source hacker-news 11" [ref=e340]:
+                  - cell "source" [ref=e341]
+                  - cell "hacker-news" [ref=e342]
+                  - cell "11" [ref=e343]
+                - row "source reddit 10" [ref=e344]:
+                  - cell "source" [ref=e345]
+                  - cell "reddit" [ref=e346]
+                  - cell "10" [ref=e347]
+                - row "plan free 9" [ref=e348]:
+                  - cell "plan" [ref=e349]
+                  - cell "free" [ref=e350]
+                  - cell "9" [ref=e351]
+                - row "cta pricing-card 8" [ref=e352]:
+                  - cell "cta" [ref=e353]
+                  - cell "pricing-card" [ref=e354]
+                  - cell "8" [ref=e355]
+                - row "device desktop 6" [ref=e356]:
+                  - cell "device" [ref=e357]
+                  - cell "desktop" [ref=e358]
+                  - cell "6" [ref=e359]
+                - row "device mobile 6" [ref=e360]:
+                  - cell "device" [ref=e361]
+                  - cell "mobile" [ref=e362]
+                  - cell "6" [ref=e363]
+                - row "cta hero 4" [ref=e364]:
+                  - cell "cta" [ref=e365]
+                  - cell "hero" [ref=e366]
+                  - cell "4" [ref=e367]
+                - row "intent demo-request 4" [ref=e368]:
+                  - cell "intent" [ref=e369]
+                  - cell "demo-request" [ref=e370]
+                  - cell "4" [ref=e371]
+                - row "intent support 3" [ref=e372]:
+                  - cell "intent" [ref=e373]
+                  - cell "support" [ref=e374]
+                  - cell "3" [ref=e375]

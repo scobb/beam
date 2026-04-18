@@ -170,7 +170,7 @@ app.get('/migrate', (c) => {
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Beam Migration Hub" />
   <meta name="twitter:description" content="Decision-oriented migration paths from GA, Plausible, Fathom, and legacy Beam Analytics to Beam." />
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/assets/tailwind.css">
   <script type="application/ld+json">${collectionJsonLd}</script>
   <script type="application/ld+json">${itemListJsonLd}</script>
   <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
@@ -336,7 +336,7 @@ app.get('/migrate/google-analytics', (c) => {
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Google Analytics to Beam Migration Guide" />
   <meta name="twitter:description" content="Remove GA, install Beam, verify traffic/events, and align reporting expectations with this migration checklist." />
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/assets/tailwind.css">
   <script type="application/ld+json">${howToJsonLd}</script>
   <script type="application/ld+json">${faqJsonLd}</script>
   <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
@@ -517,7 +517,7 @@ app.get('/migrate/plausible', (c) => {
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Plausible to Beam Migration Guide" />
   <meta name="twitter:description" content="Replace Plausible scripts with Beam and verify your install with this implementation-first checklist." />
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/assets/tailwind.css">
   <script type="application/ld+json">${howToJsonLd}</script>
   <script type="application/ld+json">${faqJsonLd}</script>
   <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
@@ -701,7 +701,7 @@ app.get('/migrate/fathom', (c) => {
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Fathom to Beam Migration Guide" />
   <meta name="twitter:description" content="Use this checklist to replace Fathom with Beam and verify implementation safely." />
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/assets/tailwind.css">
   <script type="application/ld+json">${howToJsonLd}</script>
   <script type="application/ld+json">${faqJsonLd}</script>
   <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
@@ -847,7 +847,7 @@ app.get('/beam-analytics-alternative', (c) => {
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Beam Analytics Alternative" />
   <meta name="twitter:description" content="Migrating off beamanalytics.io before the September 2026 shutdown? Start here." />
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/assets/tailwind.css">
   <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
 </head>
 <body class="bg-white text-gray-900 antialiased">
@@ -1039,7 +1039,7 @@ app.get('/migrate/import-history', (c) => {
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Import Historical Traffic into Beam" />
   <meta name="twitter:description" content="Upload a Plausible or Fathom CSV export to restore historical daily traffic totals in Beam." />
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/assets/tailwind.css">
   <script type="application/ld+json">${howToJsonLd}</script>
   <script type="application/ld+json">${faqJsonLd}</script>
   <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
@@ -1230,7 +1230,7 @@ app.get('/migrate/beam-analytics', (c) => {
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="beamanalytics.io Migration Guide" />
   <meta name="twitter:description" content="Export your data and switch to Beam before the September 2026 shutdown." />
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/assets/tailwind.css">
   <script type="application/ld+json">${howToJsonLd}</script>
   <script type="application/ld+json">${faqJsonLd}</script>
   <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
@@ -1451,7 +1451,7 @@ app.get('/migrate/umami', (c) => {
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Umami to Beam Migration Guide" />
   <meta name="twitter:description" content="Swap self-hosted Umami for Beam's managed privacy-first analytics. Script replacement checklist with verification steps." />
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/assets/tailwind.css">
   <script type="application/ld+json">${howToJsonLd}</script>
   <script type="application/ld+json">${faqJsonLd}</script>
   <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>

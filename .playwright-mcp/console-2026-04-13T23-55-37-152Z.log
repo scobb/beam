@@ -1,0 +1,4 @@
+[     158ms] [ERROR] Access to resource at 'https://beam-privacy.com/api/collect' from origin 'https://cards.keylightdigital.dev' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: The value of the 'Access-Control-Allow-Origin' header in the response must not be the wildcard '*' when the request's credentials mode is 'include'. @ https://cards.keylightdigital.dev/?v=2:0
+[     158ms] [ERROR] Failed to load resource: net::ERR_FAILED @ https://beam-privacy.com/api/collect:0
+[   25028ms] [ERROR] Access to fetch at 'https://beam-privacy.com/js/beam.js' from origin 'https://cards.keylightdigital.dev' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource. @ https://cards.keylightdigital.dev/?v=2:0
+[   25028ms] [ERROR] Failed to load resource: net::ERR_FAILED @ https://beam-privacy.com/js/beam.js:0

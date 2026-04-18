@@ -1,0 +1,134 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e3]:
+      - link "Beam" [ref=e4] [cursor=pointer]:
+        - /url: /
+      - generic [ref=e5]:
+        - link "Blog" [ref=e6] [cursor=pointer]:
+          - /url: /blog
+        - link "Log in" [ref=e7] [cursor=pointer]:
+          - /url: /login
+        - link "Get Started" [ref=e8] [cursor=pointer]:
+          - /url: /signup
+  - main [ref=e9]:
+    - heading "Blog" [level=1] [ref=e10]
+    - paragraph [ref=e11]: Thoughts on privacy, analytics, and the web.
+    - generic [ref=e12]:
+      - article [ref=e13]:
+        - time [ref=e14]: 2026-04-15
+        - 'heading "Beam vs Matomo: The Privacy Analytics Showdown for 2026" [level=2] [ref=e15]':
+          - 'link "Beam vs Matomo: The Privacy Analytics Showdown for 2026" [ref=e16] [cursor=pointer]':
+            - /url: /blog/matomo-alternative
+        - paragraph [ref=e17]: Matomo is the gold standard for open-source analytics — but self-hosting is a real commitment and the cloud plan starts at €19/month. Here's an honest comparison of Beam and Matomo for teams that care about privacy without the complexity.
+        - link "Read more →" [ref=e18] [cursor=pointer]:
+          - /url: /blog/matomo-alternative
+      - article [ref=e19]:
+        - time [ref=e20]: 2026-04-15
+        - heading "Add Privacy-First Analytics to Nuxt 3 Without Cookies" [level=2] [ref=e21]:
+          - link "Add Privacy-First Analytics to Nuxt 3 Without Cookies" [ref=e22] [cursor=pointer]:
+            - /url: /blog/nuxt-privacy-analytics
+        - paragraph [ref=e23]: Nuxt 3 apps often break traditional analytics — route changes don't trigger page reloads, and cookie banners annoy European users. Here's how to add GDPR-compliant, cookie-free analytics to Nuxt 3 with SPA tracking that actually works.
+        - link "Read more →" [ref=e24] [cursor=pointer]:
+          - /url: /blog/nuxt-privacy-analytics
+      - article [ref=e25]:
+        - time [ref=e26]: 2026-04-14
+        - heading "GDPR-Compliant Analytics Without a Cookie Banner — What the Law Actually Requires" [level=2] [ref=e27]:
+          - link "GDPR-Compliant Analytics Without a Cookie Banner — What the Law Actually Requires" [ref=e28] [cursor=pointer]:
+            - /url: /blog/gdpr-analytics-no-cookie-banner
+        - paragraph [ref=e29]: Most analytics tools need a cookie banner because they set cookies. But the law doesn't require a banner for analytics — it requires one for cookies. Here's what GDPR and the ePrivacy Directive actually say, and why cookie-free analytics sidesteps the requirement entirely.
+        - link "Read more →" [ref=e30] [cursor=pointer]:
+          - /url: /blog/gdpr-analytics-no-cookie-banner
+      - article [ref=e31]:
+        - time [ref=e32]: 2026-04-14
+        - 'heading "April 2026 Product Updates: Usage Alerts, Public Dashboard Sharing, and Site Health Indicators" [level=2] [ref=e33]':
+          - 'link "April 2026 Product Updates: Usage Alerts, Public Dashboard Sharing, and Site Health Indicators" [ref=e34] [cursor=pointer]':
+            - /url: /blog/april-2026-updates
+        - paragraph [ref=e35]: "Three quality-of-life improvements shipped in April 2026: tiered usage warning banners so you never hit the limit by surprise, a Share button on public dashboards with UTM attribution, and per-site usage bars on the sites overview."
+        - link "Read more →" [ref=e36] [cursor=pointer]:
+          - /url: /blog/april-2026-updates
+      - article [ref=e37]:
+        - time [ref=e38]: 2026-04-13
+        - heading "Why sendBeacon Breaks Cross-Origin Analytics (and How to Fix It)" [level=2] [ref=e39]:
+          - link "Why sendBeacon Breaks Cross-Origin Analytics (and How to Fix It)" [ref=e40] [cursor=pointer]:
+            - /url: /blog/senbeacon-cors-analytics-fix
+        - paragraph [ref=e41]: navigator.sendBeacon silently drops requests when your analytics endpoint is cross-origin. Here's the root cause — credentials:include meets CORS wildcard — and the two-line fix that makes cross-origin analytics work reliably.
+        - link "Read more →" [ref=e42] [cursor=pointer]:
+          - /url: /blog/senbeacon-cors-analytics-fix
+      - article [ref=e43]:
+        - time [ref=e44]: 2026-04-06
+        - heading "Why We Built a Plausible Alternative" [level=2] [ref=e45]:
+          - link "Why We Built a Plausible Alternative" [ref=e46] [cursor=pointer]:
+            - /url: /blog/plausible-alternative
+        - paragraph [ref=e47]: Plausible is excellent — but it starts at $9/month and is priced for established businesses. Here's an honest look at what Plausible does well, where it falls short for early projects, and why we built Beam differently.
+        - link "Read more →" [ref=e48] [cursor=pointer]:
+          - /url: /blog/plausible-alternative
+      - article [ref=e49]:
+        - time [ref=e50]: 2026-04-01
+        - 'heading "Cookie-Free Analytics in 2026: Why It Matters and How to Switch" [level=2] [ref=e51]':
+          - 'link "Cookie-Free Analytics in 2026: Why It Matters and How to Switch" [ref=e52] [cursor=pointer]':
+            - /url: /blog/cookie-free-analytics-guide
+        - paragraph [ref=e53]: GDPR, consent fatigue, and ad blockers have made cookie-based analytics unreliable. Here's why cookie-free analytics is the right choice and how to make the switch.
+        - link "Read more →" [ref=e54] [cursor=pointer]:
+          - /url: /blog/cookie-free-analytics-guide
+      - article [ref=e55]:
+        - time [ref=e56]: 2026-04-03
+        - heading "How to Add Cookie-Free Analytics to Any Website in 5 Minutes" [level=2] [ref=e57]:
+          - link "How to Add Cookie-Free Analytics to Any Website in 5 Minutes" [ref=e58] [cursor=pointer]:
+            - /url: /blog/add-analytics-in-5-minutes
+        - paragraph [ref=e59]: A practical step-by-step guide to installing Beam on HTML sites, React, Next.js, WordPress, and static site generators without cookies or consent banners.
+        - link "Read more →" [ref=e60] [cursor=pointer]:
+          - /url: /blog/add-analytics-in-5-minutes
+      - article [ref=e61]:
+        - time [ref=e62]: 2026-04-03
+        - 'heading "Privacy Analytics for Next.js Apps: A Complete Setup Guide" [level=2] [ref=e63]':
+          - 'link "Privacy Analytics for Next.js Apps: A Complete Setup Guide" [ref=e64] [cursor=pointer]':
+            - /url: /blog/nextjs-privacy-analytics
+        - paragraph [ref=e65]: How to add GDPR-compliant, cookie-free analytics to your Next.js app — covering both the Pages Router and App Router, CSP headers, and dynamic route tracking.
+        - link "Read more →" [ref=e66] [cursor=pointer]:
+          - /url: /blog/nextjs-privacy-analytics
+      - article [ref=e67]:
+        - time [ref=e68]: 2026-04-03
+        - 'heading "Google Analytics Alternatives in 2026: A Complete Guide" [level=2] [ref=e69]':
+          - 'link "Google Analytics Alternatives in 2026: A Complete Guide" [ref=e70] [cursor=pointer]':
+            - /url: /blog/google-analytics-alternatives-2026
+        - paragraph [ref=e71]: An honest comparison of the best Google Analytics alternatives in 2026 — covering Beam, Plausible, Fathom, Simple Analytics, Umami, Matomo, PostHog, and Usermaven with pricing, pros, cons, and a full feature table.
+        - link "Read more →" [ref=e72] [cursor=pointer]:
+          - /url: /blog/google-analytics-alternatives-2026
+      - article [ref=e73]:
+        - time [ref=e74]: 2026-04-05
+        - 'heading "beamanalytics.io Is Shutting Down: Your Migration Options" [level=2] [ref=e75]':
+          - 'link "beamanalytics.io Is Shutting Down: Your Migration Options" [ref=e76] [cursor=pointer]':
+            - /url: /blog/beam-analytics-shutdown-migration-guide
+        - paragraph [ref=e77]: beamanalytics.io announced it will shut down on September 1, 2026. Here's an honest look at your migration options — Plausible, Fathom, Umami, Simple Analytics, and Beam — with practical trade-offs to help you decide.
+        - link "Read more →" [ref=e78] [cursor=pointer]:
+          - /url: /blog/beam-analytics-shutdown-migration-guide
+  - contentinfo [ref=e79]:
+    - generic [ref=e80]:
+      - generic [ref=e81]: © 2026 Keylight Digital LLC. All rights reserved.
+      - generic [ref=e82]:
+        - link "About" [ref=e83] [cursor=pointer]:
+          - /url: /about
+        - link "Pricing" [ref=e84] [cursor=pointer]:
+          - /url: /pricing
+        - link "Changelog" [ref=e85] [cursor=pointer]:
+          - /url: /changelog
+        - link "Privacy" [ref=e86] [cursor=pointer]:
+          - /url: /privacy
+        - link "Terms" [ref=e87] [cursor=pointer]:
+          - /url: /terms
+        - link "Blog" [ref=e88] [cursor=pointer]:
+          - /url: /blog
+        - link "RSS" [ref=e89] [cursor=pointer]:
+          - /url: /blog/rss.xml
+        - link "vs Umami" [ref=e90] [cursor=pointer]:
+          - /url: /vs/umami
+        - link "vs Matomo" [ref=e91] [cursor=pointer]:
+          - /url: /vs/matomo
+        - link "vs Cloudflare Web Analytics" [ref=e92] [cursor=pointer]:
+          - /url: /vs/cloudflare-web-analytics
+        - link "vs Simple Analytics" [ref=e93] [cursor=pointer]:
+          - /url: /vs/simple-analytics
+        - link "Sign up" [ref=e94] [cursor=pointer]:
+          - /url: /signup
+        - link "Log in" [ref=e95] [cursor=pointer]:
+          - /url: /login

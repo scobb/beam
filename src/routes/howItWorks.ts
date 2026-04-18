@@ -82,7 +82,7 @@ app.get('/how-it-works', (c) => {
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="How Beam Works" />
   <meta name="twitter:description" content="Beam architecture: edge collection, D1 storage, privacy-safe unique visitor counting." />
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/assets/tailwind.css">
   <script type="application/ld+json">${techArticleJsonLd}</script>
   <script defer src="${publicUrl(baseUrl, '/js/beam.js')}" data-site-id="${BEAM_SITE_ID}"></script>
 </head>

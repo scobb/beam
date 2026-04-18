@@ -1,0 +1,503 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e4]:
+        - link "Beam" [ref=e5] [cursor=pointer]:
+          - /url: /
+        - generic [ref=e6]: "|"
+        - generic [ref=e7]: Beam
+        - generic [ref=e8]: beam-privacy.com
+      - generic [ref=e9]:
+        - link "Today" [ref=e10] [cursor=pointer]:
+          - /url: "?range=today"
+        - link "7 Days" [ref=e11] [cursor=pointer]:
+          - /url: "?range=7d"
+        - link "30 Days" [ref=e12] [cursor=pointer]:
+          - /url: "?range=30d"
+  - main [ref=e13]:
+    - generic [ref=e14]:
+      - generic [ref=e15]: 4 active now
+      - generic [ref=e17]: visitors in the last 5 minutes
+    - paragraph [ref=e19]:
+      - text: Daily analytics are shown in
+      - strong [ref=e20]: UTC
+      - text: . The last 7 days filter and chart buckets both use UTC day boundaries.
+    - generic [ref=e21]:
+      - generic [ref=e22]:
+        - paragraph [ref=e23]: Unique Visitors
+        - paragraph [ref=e24]: "182"
+      - generic [ref=e25]:
+        - paragraph [ref=e26]: Total Pageviews
+        - paragraph [ref=e27]: 1,567
+      - generic [ref=e28]:
+        - paragraph [ref=e29]: Top Page
+        - paragraph [ref=e30]: /
+      - generic [ref=e31]:
+        - paragraph [ref=e32]: Top Referrer
+        - paragraph [ref=e33]: Direct
+    - generic [ref=e34]:
+      - generic [ref=e35]:
+        - heading "Conversions" [level=2] [ref=e36]
+        - generic [ref=e37]: Goal metrics for this range
+      - generic [ref=e39]:
+        - paragraph [ref=e40]: Conversion Goal
+        - heading "Signup Complete" [level=3] [ref=e41]
+        - paragraph [ref=e42]: event:signup_complete
+        - generic [ref=e43]:
+          - generic [ref=e44]:
+            - paragraph [ref=e45]: Converters
+            - paragraph [ref=e46]: "2"
+          - generic [ref=e47]:
+            - paragraph [ref=e48]: Rate
+            - paragraph [ref=e49]: 1.1%
+        - paragraph [ref=e50]: 0.0% vs previous period
+      - generic [ref=e52]:
+        - 'heading "Goal: Signup Complete - Referrer Conversion" [level=3] [ref=e54]'
+        - table [ref=e56]:
+          - rowgroup [ref=e57]:
+            - row "Source Converters Visitors Rate" [ref=e58]:
+              - columnheader "Source" [ref=e59]
+              - columnheader "Converters" [ref=e60]
+              - columnheader "Visitors" [ref=e61]
+              - columnheader "Rate" [ref=e62]
+          - rowgroup [ref=e63]:
+            - row "Direct 2 182 1.1%" [ref=e64]:
+              - cell "Direct" [ref=e65]:
+                - link "Direct" [ref=e66] [cursor=pointer]:
+                  - /url: "?range=7d&referrer=Direct"
+              - cell "2" [ref=e67]
+              - cell "182" [ref=e68]
+              - cell "1.1%" [ref=e69]
+            - row "beam-privacy.com 0 4 0.0%" [ref=e70]:
+              - cell "beam-privacy.com" [ref=e71]:
+                - link "beam-privacy.com" [ref=e72] [cursor=pointer]:
+                  - /url: "?range=7d&referrer=https%3A%2F%2Fbeam-privacy.com%2Fdemo"
+              - cell "0" [ref=e73]
+              - cell "4" [ref=e74]
+              - cell "0.0%" [ref=e75]
+            - row "beam-privacy.com 0 4 0.0%" [ref=e76]:
+              - cell "beam-privacy.com" [ref=e77]:
+                - link "beam-privacy.com" [ref=e78] [cursor=pointer]:
+                  - /url: "?range=7d&referrer=https%3A%2F%2Fbeam-privacy.com%2Fdemo%3Frange%3D30d"
+              - cell "0" [ref=e79]
+              - cell "4" [ref=e80]
+              - cell "0.0%" [ref=e81]
+            - row "beam-privacy.com 0 4 0.0%" [ref=e82]:
+              - cell "beam-privacy.com" [ref=e83]:
+                - link "beam-privacy.com" [ref=e84] [cursor=pointer]:
+                  - /url: "?range=7d&referrer=https%3A%2F%2Fbeam-privacy.com%2Fdemo%3Frange%3D30d%26page%3D%252F"
+              - cell "0" [ref=e85]
+              - cell "4" [ref=e86]
+              - cell "0.0%" [ref=e87]
+            - row "localhost 0 2 0.0%" [ref=e88]:
+              - cell "localhost" [ref=e89]:
+                - link "localhost" [ref=e90] [cursor=pointer]:
+                  - /url: "?range=7d&referrer=http%3A%2F%2Flocalhost%3A8787%2Fdemo"
+              - cell "0" [ref=e91]
+              - cell "2" [ref=e92]
+              - cell "0.0%" [ref=e93]
+            - row "localhost 0 2 0.0%" [ref=e94]:
+              - cell "localhost" [ref=e95]:
+                - link "localhost" [ref=e96] [cursor=pointer]:
+                  - /url: "?range=7d&referrer=http%3A%2F%2Flocalhost%3A8787%2Fdemo%3Frange%3D30d"
+              - cell "0" [ref=e97]
+              - cell "2" [ref=e98]
+              - cell "0.0%" [ref=e99]
+            - row "localhost 0 2 0.0%" [ref=e100]:
+              - cell "localhost" [ref=e101]:
+                - link "localhost" [ref=e102] [cursor=pointer]:
+                  - /url: "?range=7d&referrer=http%3A%2F%2Flocalhost%3A8787%2Fdemo%3Frange%3D30d%26page%3D%252F"
+              - cell "0" [ref=e103]
+              - cell "2" [ref=e104]
+              - cell "0.0%" [ref=e105]
+            - row "beam-privacy.com 0 1 0.0%" [ref=e106]:
+              - cell "beam-privacy.com" [ref=e107]:
+                - link "beam-privacy.com" [ref=e108] [cursor=pointer]:
+                  - /url: "?range=7d&referrer=https%3A%2F%2Fbeam-privacy.com%2Fdashboard"
+              - cell "0" [ref=e109]
+              - cell "1" [ref=e110]
+              - cell "0.0%" [ref=e111]
+    - generic [ref=e112]:
+      - generic [ref=e114]:
+        - heading "Visitors — Last 7 Days" [level=2] [ref=e115]
+        - paragraph [ref=e116]: Grouped by UTC day
+      - generic [ref=e119]:
+        - heading "Traffic Sources" [level=2] [ref=e120]
+        - paragraph [ref=e121]: Click a slice to filter
+    - generic [ref=e123]:
+      - generic [ref=e124]:
+        - heading "Traffic Sources" [level=3] [ref=e126]
+        - table [ref=e128]:
+          - rowgroup [ref=e129]:
+            - row "Channel Visitors Pageviews %" [ref=e130]:
+              - columnheader "Channel" [ref=e131]
+              - columnheader "Visitors" [ref=e132]
+              - columnheader "Pageviews" [ref=e133]
+              - columnheader "%" [ref=e134]
+          - rowgroup [ref=e135]:
+            - row "Direct 182 1,510 97.3%" [ref=e136]:
+              - cell "Direct" [ref=e137]:
+                - link "Direct" [ref=e138] [cursor=pointer]:
+                  - /url: "?range=7d&channel=Direct"
+              - cell "182" [ref=e139]
+              - cell "1,510" [ref=e140]
+              - cell "97.3%" [ref=e141]
+            - row "Referral 5 57 2.7%" [ref=e142]:
+              - cell "Referral" [ref=e143]:
+                - link "Referral" [ref=e144] [cursor=pointer]:
+                  - /url: "?range=7d&channel=Referral"
+              - cell "5" [ref=e145]
+              - cell "57" [ref=e146]
+              - cell "2.7%" [ref=e147]
+      - generic [ref=e148]:
+        - heading "Top Pages" [level=3] [ref=e150]
+        - table [ref=e152]:
+          - rowgroup [ref=e153]:
+            - row "Path Visitors Pageviews" [ref=e154]:
+              - columnheader "Path" [ref=e155]
+              - columnheader "Visitors" [ref=e156]
+              - columnheader "Pageviews" [ref=e157]
+          - rowgroup [ref=e158]:
+            - row "/ 25 622" [ref=e159]:
+              - cell / [ref=e160]:
+                - link / [ref=e161] [cursor=pointer]:
+                  - /url: "?range=7d&page=%2F"
+              - cell "25" [ref=e162]
+              - cell "622" [ref=e163]
+            - row "/demo 7 94" [ref=e164]:
+              - cell "/demo" [ref=e165]:
+                - link "/demo" [ref=e166] [cursor=pointer]:
+                  - /url: "?range=7d&page=%2Fdemo"
+              - cell "7" [ref=e167]
+              - cell "94" [ref=e168]
+            - row "/signup 4 55" [ref=e169]:
+              - cell "/signup" [ref=e170]:
+                - link "/signup" [ref=e171] [cursor=pointer]:
+                  - /url: "?range=7d&page=%2Fsignup"
+              - cell "4" [ref=e172]
+              - cell "55" [ref=e173]
+            - row "/switch 7 38" [ref=e174]:
+              - cell "/switch" [ref=e175]:
+                - link "/switch" [ref=e176] [cursor=pointer]:
+                  - /url: "?range=7d&page=%2Fswitch"
+              - cell "7" [ref=e177]
+              - cell "38" [ref=e178]
+            - row "/show-hn 6 36" [ref=e179]:
+              - cell "/show-hn" [ref=e180]:
+                - link "/show-hn" [ref=e181] [cursor=pointer]:
+                  - /url: "?range=7d&page=%2Fshow-hn"
+              - cell "6" [ref=e182]
+              - cell "36" [ref=e183]
+            - row "/for 7 36" [ref=e184]:
+              - cell "/for" [ref=e185]:
+                - link "/for" [ref=e186] [cursor=pointer]:
+                  - /url: "?range=7d&page=%2Ffor"
+              - cell "7" [ref=e187]
+              - cell "36" [ref=e188]
+            - row "/for/webflow 6 35" [ref=e189]:
+              - cell "/for/webflow" [ref=e190]:
+                - link "/for/webflow" [ref=e191] [cursor=pointer]:
+                  - /url: "?range=7d&page=%2Ffor%2Fwebflow"
+              - cell "6" [ref=e192]
+              - cell "35" [ref=e193]
+            - row "/for/hugo 6 35" [ref=e194]:
+              - cell "/for/hugo" [ref=e195]:
+                - link "/for/hugo" [ref=e196] [cursor=pointer]:
+                  - /url: "?range=7d&page=%2Ffor%2Fhugo"
+              - cell "6" [ref=e197]
+              - cell "35" [ref=e198]
+            - row "/for/ghost 6 35" [ref=e199]:
+              - cell "/for/ghost" [ref=e200]:
+                - link "/for/ghost" [ref=e201] [cursor=pointer]:
+                  - /url: "?range=7d&page=%2Ffor%2Fghost"
+              - cell "6" [ref=e202]
+              - cell "35" [ref=e203]
+            - row "/for/astro 6 35" [ref=e204]:
+              - cell "/for/astro" [ref=e205]:
+                - link "/for/astro" [ref=e206] [cursor=pointer]:
+                  - /url: "?range=7d&page=%2Ffor%2Fastro"
+              - cell "6" [ref=e207]
+              - cell "35" [ref=e208]
+            - row "/vs/cloudflare-web-analytics 6 34" [ref=e209]:
+              - cell "/vs/cloudflare-web-analytics" [ref=e210]:
+                - link "/vs/cloudflare-web-analytics" [ref=e211] [cursor=pointer]:
+                  - /url: "?range=7d&page=%2Fvs%2Fcloudflare-web-analytics"
+              - cell "6" [ref=e212]
+              - cell "34" [ref=e213]
+            - row "/migrate/import-history 6 34" [ref=e214]:
+              - cell "/migrate/import-history" [ref=e215]:
+                - link "/migrate/import-history" [ref=e216] [cursor=pointer]:
+                  - /url: "?range=7d&page=%2Fmigrate%2Fimport-history"
+              - cell "6" [ref=e217]
+              - cell "34" [ref=e218]
+            - row "/for/wordpress 6 34" [ref=e219]:
+              - cell "/for/wordpress" [ref=e220]:
+                - link "/for/wordpress" [ref=e221] [cursor=pointer]:
+                  - /url: "?range=7d&page=%2Ffor%2Fwordpress"
+              - cell "6" [ref=e222]
+              - cell "34" [ref=e223]
+            - row "/product-hunt 6 33" [ref=e224]:
+              - cell "/product-hunt" [ref=e225]:
+                - link "/product-hunt" [ref=e226] [cursor=pointer]:
+                  - /url: "?range=7d&page=%2Fproduct-hunt"
+              - cell "6" [ref=e227]
+              - cell "33" [ref=e228]
+            - row "/migrate/plausible 6 33" [ref=e229]:
+              - cell "/migrate/plausible" [ref=e230]:
+                - link "/migrate/plausible" [ref=e231] [cursor=pointer]:
+                  - /url: "?range=7d&page=%2Fmigrate%2Fplausible"
+              - cell "6" [ref=e232]
+              - cell "33" [ref=e233]
+            - row "/migrate 6 33" [ref=e234]:
+              - cell "/migrate" [ref=e235]:
+                - link "/migrate" [ref=e236] [cursor=pointer]:
+                  - /url: "?range=7d&page=%2Fmigrate"
+              - cell "6" [ref=e237]
+              - cell "33" [ref=e238]
+            - row "/migrate/beam-analytics 6 32" [ref=e239]:
+              - cell "/migrate/beam-analytics" [ref=e240]:
+                - link "/migrate/beam-analytics" [ref=e241] [cursor=pointer]:
+                  - /url: "?range=7d&page=%2Fmigrate%2Fbeam-analytics"
+              - cell "6" [ref=e242]
+              - cell "32" [ref=e243]
+            - row "/how-it-works 6 32" [ref=e244]:
+              - cell "/how-it-works" [ref=e245]:
+                - link "/how-it-works" [ref=e246] [cursor=pointer]:
+                  - /url: "?range=7d&page=%2Fhow-it-works"
+              - cell "6" [ref=e247]
+              - cell "32" [ref=e248]
+            - row "/for/remix 6 32" [ref=e249]:
+              - cell "/for/remix" [ref=e250]:
+                - link "/for/remix" [ref=e251] [cursor=pointer]:
+                  - /url: "?range=7d&page=%2Ffor%2Fremix"
+              - cell "6" [ref=e252]
+              - cell "32" [ref=e253]
+            - row "/blog/senbeacon-cors-analytics-fix 3 32" [ref=e254]:
+              - cell "/blog/senbeacon-cors-analytics-fix" [ref=e255]:
+                - link "/blog/senbeacon-cors-analytics-fix" [ref=e256] [cursor=pointer]:
+                  - /url: "?range=7d&page=%2Fblog%2Fsenbeacon-cors-analytics-fix"
+              - cell "3" [ref=e257]
+              - cell "32" [ref=e258]
+      - generic [ref=e259]:
+        - heading "Referrer Sources" [level=3] [ref=e261]
+        - table [ref=e263]:
+          - rowgroup [ref=e264]:
+            - row "Source Visitors" [ref=e265]:
+              - columnheader "Source" [ref=e266]
+              - columnheader "Visitors" [ref=e267]
+          - rowgroup [ref=e268]:
+            - row "Direct 182" [ref=e269]:
+              - cell "Direct" [ref=e270]:
+                - link "Direct" [ref=e271] [cursor=pointer]:
+                  - /url: "?range=7d&referrer=Direct"
+              - cell "182" [ref=e272]
+            - row "beam-privacy.com 4" [ref=e273]:
+              - cell "beam-privacy.com" [ref=e274]:
+                - link "beam-privacy.com" [ref=e275] [cursor=pointer]:
+                  - /url: "?range=7d&referrer=https%3A%2F%2Fbeam-privacy.com%2Fdemo%3Frange%3D30d%26page%3D%252F"
+              - cell "4" [ref=e276]
+            - row "beam-privacy.com 4" [ref=e277]:
+              - cell "beam-privacy.com" [ref=e278]:
+                - link "beam-privacy.com" [ref=e279] [cursor=pointer]:
+                  - /url: "?range=7d&referrer=https%3A%2F%2Fbeam-privacy.com%2Fdemo%3Frange%3D30d"
+              - cell "4" [ref=e280]
+            - row "beam-privacy.com 4" [ref=e281]:
+              - cell "beam-privacy.com" [ref=e282]:
+                - link "beam-privacy.com" [ref=e283] [cursor=pointer]:
+                  - /url: "?range=7d&referrer=https%3A%2F%2Fbeam-privacy.com%2Fdemo"
+              - cell "4" [ref=e284]
+            - row "localhost 2" [ref=e285]:
+              - cell "localhost" [ref=e286]:
+                - link "localhost" [ref=e287] [cursor=pointer]:
+                  - /url: "?range=7d&referrer=http%3A%2F%2Flocalhost%3A8787%2Fdemo%3Frange%3D30d%26page%3D%252F"
+              - cell "2" [ref=e288]
+            - row "localhost 2" [ref=e289]:
+              - cell "localhost" [ref=e290]:
+                - link "localhost" [ref=e291] [cursor=pointer]:
+                  - /url: "?range=7d&referrer=http%3A%2F%2Flocalhost%3A8787%2Fdemo%3Frange%3D30d"
+              - cell "2" [ref=e292]
+            - row "localhost 2" [ref=e293]:
+              - cell "localhost" [ref=e294]:
+                - link "localhost" [ref=e295] [cursor=pointer]:
+                  - /url: "?range=7d&referrer=http%3A%2F%2Flocalhost%3A8787%2Fdemo"
+              - cell "2" [ref=e296]
+            - row "beam-privacy.com 1" [ref=e297]:
+              - cell "beam-privacy.com" [ref=e298]:
+                - link "beam-privacy.com" [ref=e299] [cursor=pointer]:
+                  - /url: "?range=7d&referrer=https%3A%2F%2Fbeam-privacy.com%2Fdashboard"
+              - cell "1" [ref=e300]
+      - generic [ref=e301]:
+        - heading "Countries" [level=3] [ref=e303]
+        - table [ref=e305]:
+          - rowgroup [ref=e306]:
+            - row "Country Visitors" [ref=e307]:
+              - columnheader "Country" [ref=e308]
+              - columnheader "Visitors" [ref=e309]
+          - rowgroup [ref=e310]:
+            - row "US 178" [ref=e311]:
+              - cell "US" [ref=e312]:
+                - link "US" [ref=e313] [cursor=pointer]:
+                  - /url: "?range=7d&country=US"
+              - cell "178" [ref=e314]
+            - row "NL 1" [ref=e315]:
+              - cell "NL" [ref=e316]:
+                - link "NL" [ref=e317] [cursor=pointer]:
+                  - /url: "?range=7d&country=NL"
+              - cell "1" [ref=e318]
+            - row "FR 1" [ref=e319]:
+              - cell "FR" [ref=e320]:
+                - link "FR" [ref=e321] [cursor=pointer]:
+                  - /url: "?range=7d&country=FR"
+              - cell "1" [ref=e322]
+            - row "DE 1" [ref=e323]:
+              - cell "DE" [ref=e324]:
+                - link "DE" [ref=e325] [cursor=pointer]:
+                  - /url: "?range=7d&country=DE"
+              - cell "1" [ref=e326]
+            - row "CN 1" [ref=e327]:
+              - cell "CN" [ref=e328]:
+                - link "CN" [ref=e329] [cursor=pointer]:
+                  - /url: "?range=7d&country=CN"
+              - cell "1" [ref=e330]
+      - generic [ref=e331]:
+        - heading "Browsers" [level=3] [ref=e333]
+        - table [ref=e335]:
+          - rowgroup [ref=e336]:
+            - row "Browser Visitors" [ref=e337]:
+              - columnheader "Browser" [ref=e338]
+              - columnheader "Visitors" [ref=e339]
+          - rowgroup [ref=e340]:
+            - row "Chrome 174" [ref=e341]:
+              - cell "Chrome" [ref=e342]:
+                - link "Chrome" [ref=e343] [cursor=pointer]:
+                  - /url: "?range=7d&browser=Chrome"
+              - cell "174" [ref=e344]
+            - row "Safari 6" [ref=e345]:
+              - cell "Safari" [ref=e346]:
+                - link "Safari" [ref=e347] [cursor=pointer]:
+                  - /url: "?range=7d&browser=Safari"
+              - cell "6" [ref=e348]
+            - row "Other 1" [ref=e349]:
+              - cell "Other" [ref=e350]:
+                - link "Other" [ref=e351] [cursor=pointer]:
+                  - /url: "?range=7d&browser=Other"
+              - cell "1" [ref=e352]
+            - row "Firefox 1" [ref=e353]:
+              - cell "Firefox" [ref=e354]:
+                - link "Firefox" [ref=e355] [cursor=pointer]:
+                  - /url: "?range=7d&browser=Firefox"
+              - cell "1" [ref=e356]
+      - generic [ref=e357]:
+        - heading "Devices" [level=3] [ref=e359]
+        - table [ref=e361]:
+          - rowgroup [ref=e362]:
+            - row "Device Type Visitors %" [ref=e363]:
+              - columnheader "Device Type" [ref=e364]
+              - columnheader "Visitors" [ref=e365]
+              - columnheader "%" [ref=e366]
+          - rowgroup [ref=e367]:
+            - row "Desktop 121 53%" [ref=e368]:
+              - cell "Desktop" [ref=e369]:
+                - link "Desktop" [ref=e370] [cursor=pointer]:
+                  - /url: "?range=7d&device=Desktop"
+              - cell "121" [ref=e371]
+              - cell "53%" [ref=e372]
+            - row "Mobile 109 47%" [ref=e373]:
+              - cell "Mobile" [ref=e374]:
+                - link "Mobile" [ref=e375] [cursor=pointer]:
+                  - /url: "?range=7d&device=Mobile"
+              - cell "109" [ref=e376]
+              - cell "47%" [ref=e377]
+    - generic [ref=e378]:
+      - generic [ref=e379]:
+        - generic [ref=e380]:
+          - heading "Events" [level=2] [ref=e381]
+          - paragraph [ref=e382]: Custom interactions this site is tracking with Beam.
+          - paragraph [ref=e383]: These are real funnel metrics from Beam's own site, including cta_click, demo_view, signup_start, signup_complete, docs_view, and pricing_view.
+        - generic [ref=e384]: 107 events in last 7 days
+      - generic [ref=e386]:
+        - heading "Events Over Time" [level=3] [ref=e387]
+        - paragraph [ref=e388]: Grouped by UTC day
+      - generic [ref=e390]:
+        - generic [ref=e391]:
+          - heading "Top Events" [level=3] [ref=e393]
+          - table [ref=e395]:
+            - rowgroup [ref=e396]:
+              - row "Event Count" [ref=e397]:
+                - columnheader "Event" [ref=e398]
+                - columnheader "Count" [ref=e399]
+            - rowgroup [ref=e400]:
+              - row "signup_start 41" [ref=e401]:
+                - cell "signup_start" [ref=e402]
+                - cell "41" [ref=e403]
+              - row "demo_view 38" [ref=e404]:
+                - cell "demo_view" [ref=e405]
+                - cell "38" [ref=e406]
+              - row "signup_complete 19" [ref=e407]:
+                - cell "signup_complete" [ref=e408]
+                - cell "19" [ref=e409]
+              - row "docs_view 8" [ref=e410]:
+                - cell "docs_view" [ref=e411]
+                - cell "8" [ref=e412]
+              - row "pricing_view 1" [ref=e413]:
+                - cell "pricing_view" [ref=e414]
+                - cell "1" [ref=e415]
+        - generic [ref=e416]:
+          - heading "Event Properties" [level=3] [ref=e418]
+          - table [ref=e420]:
+            - rowgroup [ref=e421]:
+              - row "Property Value Count" [ref=e422]:
+                - columnheader "Property" [ref=e423]
+                - columnheader "Value" [ref=e424]
+                - columnheader "Count" [ref=e425]
+            - rowgroup [ref=e426]:
+              - row "page signup 60" [ref=e427]:
+                - cell "page" [ref=e428]
+                - cell "signup" [ref=e429]
+                - cell "60" [ref=e430]
+              - row "source beam_marketing_site 41" [ref=e431]:
+                - cell "source" [ref=e432]
+                - cell "beam_marketing_site" [ref=e433]
+                - cell "41" [ref=e434]
+              - row "page demo 38" [ref=e435]:
+                - cell "page" [ref=e436]
+                - cell "demo" [ref=e437]
+                - cell "38" [ref=e438]
+              - row "range 7d 23" [ref=e439]:
+                - cell "range" [ref=e440]
+                - cell "7d" [ref=e441]
+                - cell "23" [ref=e442]
+              - row "plan free 19" [ref=e443]:
+                - cell "plan" [ref=e444]
+                - cell "free" [ref=e445]
+                - cell "19" [ref=e446]
+              - row "range 30d 15" [ref=e447]:
+                - cell "range" [ref=e448]
+                - cell "30d" [ref=e449]
+                - cell "15" [ref=e450]
+              - row "page docs_api 8" [ref=e451]:
+                - cell "page" [ref=e452]
+                - cell "docs_api" [ref=e453]
+                - cell "8" [ref=e454]
+              - row "page landing 1" [ref=e455]:
+                - cell "page" [ref=e456]
+                - cell "landing" [ref=e457]
+                - cell "1" [ref=e458]
+              - row "section pricing 1" [ref=e459]:
+                - cell "section" [ref=e460]
+                - cell "pricing" [ref=e461]
+                - cell "1" [ref=e462]
+  - contentinfo [ref=e463]:
+    - generic [ref=e464]:
+      - paragraph [ref=e465]:
+        - text: Analytics by
+        - link "Beam" [ref=e466] [cursor=pointer]:
+          - /url: https://beam-privacy.com
+        - text: — Privacy-first, cookie-free
+      - generic [ref=e467]:
+        - link "Privacy" [ref=e468] [cursor=pointer]:
+          - /url: https://beam-privacy.com/privacy
+        - link "Terms" [ref=e469] [cursor=pointer]:
+          - /url: https://beam-privacy.com/terms
+        - link "Get started free →" [ref=e470] [cursor=pointer]:
+          - /url: https://beam-privacy.com/signup

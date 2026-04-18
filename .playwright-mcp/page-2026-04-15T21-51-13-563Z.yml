@@ -1,0 +1,62 @@
+- generic [ref=e2]:
+  - complementary [ref=e3]:
+    - generic [ref=e4]:
+      - link "Beam" [ref=e5] [cursor=pointer]:
+        - /url: /dashboard
+      - paragraph [ref=e6]: Analytics
+    - navigation [ref=e7]:
+      - link "Overview" [ref=e8] [cursor=pointer]:
+        - /url: /dashboard
+      - link "Acquisition" [ref=e9] [cursor=pointer]:
+        - /url: /dashboard/acquisition
+      - link "Launch" [ref=e10] [cursor=pointer]:
+        - /url: /dashboard/launch
+      - link "Sites" [ref=e11] [cursor=pointer]:
+        - /url: /dashboard/sites
+      - link "Billing" [ref=e12] [cursor=pointer]:
+        - /url: /dashboard/billing
+      - link "Settings" [ref=e13] [cursor=pointer]:
+        - /url: /dashboard/settings
+    - link "Logout" [ref=e15] [cursor=pointer]:
+      - /url: /api/auth/logout
+  - main [ref=e16]:
+    - generic [ref=e17]:
+      - heading "Settings" [level=1] [ref=e18]
+      - generic [ref=e19]: Current password is incorrect.
+      - generic [ref=e20]:
+        - generic [ref=e21]:
+          - paragraph [ref=e22]: Account
+          - paragraph [ref=e23]: test-beam236@example.com
+        - generic [ref=e24]:
+          - paragraph [ref=e25]: Plan
+          - paragraph [ref=e26]: Free
+      - generic [ref=e27]:
+        - heading "Weekly digest emails" [level=2] [ref=e28]
+        - paragraph [ref=e29]: A weekly summary of your site traffic, sent every Monday morning.
+        - generic [ref=e30]:
+          - button "Unsubscribe from digest" [ref=e31] [cursor=pointer]
+          - paragraph [ref=e32]:
+            - text: "Currently:"
+            - strong [ref=e33]: subscribed
+      - generic [ref=e34]:
+        - heading "Change password" [level=2] [ref=e35]
+        - paragraph [ref=e36]: Update your account password.
+        - generic [ref=e37]:
+          - generic [ref=e38]:
+            - generic [ref=e39]: Current password
+            - textbox "Current password" [ref=e40]
+          - generic [ref=e41]:
+            - generic [ref=e42]: New password
+            - textbox "New password" [ref=e43]
+          - generic [ref=e44]:
+            - generic [ref=e45]: Confirm new password
+            - textbox "Confirm new password" [ref=e46]
+          - button "Update password" [ref=e47] [cursor=pointer]
+      - generic [ref=e48]:
+        - heading "Delete account" [level=2] [ref=e49]
+        - paragraph [ref=e50]: Permanently delete your account and all associated data. This cannot be undone.
+        - generic [ref=e51]:
+          - generic [ref=e52]:
+            - generic [ref=e53]: Enter your password to confirm
+            - textbox "Enter your password to confirm" [ref=e54]
+          - button "Delete my account" [ref=e55] [cursor=pointer]

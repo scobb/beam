@@ -1,0 +1,100 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e3]:
+      - link "Beam" [ref=e4] [cursor=pointer]:
+        - /url: /
+      - generic [ref=e5]:
+        - link "Blog" [ref=e6] [cursor=pointer]:
+          - /url: /blog
+        - link "Log in" [ref=e7] [cursor=pointer]:
+          - /url: /login
+        - link "Get Started" [ref=e8] [cursor=pointer]:
+          - /url: /signup
+  - main [ref=e9]:
+    - heading "Blog" [level=1] [ref=e10]
+    - paragraph [ref=e11]: Thoughts on privacy, analytics, and the web.
+    - generic [ref=e12]:
+      - article [ref=e13]:
+        - time [ref=e14]: 2026-04-13
+        - heading "Why sendBeacon Breaks Cross-Origin Analytics (and How to Fix It)" [level=2] [ref=e15]:
+          - link "Why sendBeacon Breaks Cross-Origin Analytics (and How to Fix It)" [ref=e16] [cursor=pointer]:
+            - /url: /blog/senbeacon-cors-analytics-fix
+        - paragraph [ref=e17]: navigator.sendBeacon silently drops requests when your analytics endpoint is cross-origin. Here's the root cause — credentials:include meets CORS wildcard — and the two-line fix that makes cross-origin analytics work reliably.
+        - link "Read more →" [ref=e18] [cursor=pointer]:
+          - /url: /blog/senbeacon-cors-analytics-fix
+      - article [ref=e19]:
+        - time [ref=e20]: 2026-04-06
+        - heading "Why We Built a Plausible Alternative" [level=2] [ref=e21]:
+          - link "Why We Built a Plausible Alternative" [ref=e22] [cursor=pointer]:
+            - /url: /blog/plausible-alternative
+        - paragraph [ref=e23]: Plausible is excellent — but it starts at $9/month and is priced for established businesses. Here's an honest look at what Plausible does well, where it falls short for early projects, and why we built Beam differently.
+        - link "Read more →" [ref=e24] [cursor=pointer]:
+          - /url: /blog/plausible-alternative
+      - article [ref=e25]:
+        - time [ref=e26]: 2026-04-01
+        - 'heading "Cookie-Free Analytics in 2026: Why It Matters and How to Switch" [level=2] [ref=e27]':
+          - 'link "Cookie-Free Analytics in 2026: Why It Matters and How to Switch" [ref=e28] [cursor=pointer]':
+            - /url: /blog/cookie-free-analytics-guide
+        - paragraph [ref=e29]: GDPR, consent fatigue, and ad blockers have made cookie-based analytics unreliable. Here's why cookie-free analytics is the right choice and how to make the switch.
+        - link "Read more →" [ref=e30] [cursor=pointer]:
+          - /url: /blog/cookie-free-analytics-guide
+      - article [ref=e31]:
+        - time [ref=e32]: 2026-04-03
+        - heading "How to Add Cookie-Free Analytics to Any Website in 5 Minutes" [level=2] [ref=e33]:
+          - link "How to Add Cookie-Free Analytics to Any Website in 5 Minutes" [ref=e34] [cursor=pointer]:
+            - /url: /blog/add-analytics-in-5-minutes
+        - paragraph [ref=e35]: A practical step-by-step guide to installing Beam on HTML sites, React, Next.js, WordPress, and static site generators without cookies or consent banners.
+        - link "Read more →" [ref=e36] [cursor=pointer]:
+          - /url: /blog/add-analytics-in-5-minutes
+      - article [ref=e37]:
+        - time [ref=e38]: 2026-04-03
+        - 'heading "Privacy Analytics for Next.js Apps: A Complete Setup Guide" [level=2] [ref=e39]':
+          - 'link "Privacy Analytics for Next.js Apps: A Complete Setup Guide" [ref=e40] [cursor=pointer]':
+            - /url: /blog/nextjs-privacy-analytics
+        - paragraph [ref=e41]: How to add GDPR-compliant, cookie-free analytics to your Next.js app — covering both the Pages Router and App Router, CSP headers, and dynamic route tracking.
+        - link "Read more →" [ref=e42] [cursor=pointer]:
+          - /url: /blog/nextjs-privacy-analytics
+      - article [ref=e43]:
+        - time [ref=e44]: 2026-04-03
+        - 'heading "Google Analytics Alternatives in 2026: A Complete Guide" [level=2] [ref=e45]':
+          - 'link "Google Analytics Alternatives in 2026: A Complete Guide" [ref=e46] [cursor=pointer]':
+            - /url: /blog/google-analytics-alternatives-2026
+        - paragraph [ref=e47]: An honest comparison of the best Google Analytics alternatives in 2026 — covering Beam, Plausible, Fathom, Simple Analytics, Umami, Matomo, PostHog, and Usermaven with pricing, pros, cons, and a full feature table.
+        - link "Read more →" [ref=e48] [cursor=pointer]:
+          - /url: /blog/google-analytics-alternatives-2026
+      - article [ref=e49]:
+        - time [ref=e50]: 2026-04-05
+        - 'heading "beamanalytics.io Is Shutting Down: Your Migration Options" [level=2] [ref=e51]':
+          - 'link "beamanalytics.io Is Shutting Down: Your Migration Options" [ref=e52] [cursor=pointer]':
+            - /url: /blog/beam-analytics-shutdown-migration-guide
+        - paragraph [ref=e53]: beamanalytics.io announced it will shut down on September 1, 2026. Here's an honest look at your migration options — Plausible, Fathom, Umami, Simple Analytics, and Beam — with practical trade-offs to help you decide.
+        - link "Read more →" [ref=e54] [cursor=pointer]:
+          - /url: /blog/beam-analytics-shutdown-migration-guide
+  - contentinfo [ref=e55]:
+    - generic [ref=e56]:
+      - generic [ref=e57]: © 2026 Keylight Digital LLC. All rights reserved.
+      - generic [ref=e58]:
+        - link "About" [ref=e59] [cursor=pointer]:
+          - /url: /about
+        - link "Changelog" [ref=e60] [cursor=pointer]:
+          - /url: /changelog
+        - link "Privacy" [ref=e61] [cursor=pointer]:
+          - /url: /privacy
+        - link "Terms" [ref=e62] [cursor=pointer]:
+          - /url: /terms
+        - link "Blog" [ref=e63] [cursor=pointer]:
+          - /url: /blog
+        - link "RSS" [ref=e64] [cursor=pointer]:
+          - /url: /blog/rss.xml
+        - link "vs Umami" [ref=e65] [cursor=pointer]:
+          - /url: /vs/umami
+        - link "vs Matomo" [ref=e66] [cursor=pointer]:
+          - /url: /vs/matomo
+        - link "vs Cloudflare Web Analytics" [ref=e67] [cursor=pointer]:
+          - /url: /vs/cloudflare-web-analytics
+        - link "vs Simple Analytics" [ref=e68] [cursor=pointer]:
+          - /url: /vs/simple-analytics
+        - link "Sign up" [ref=e69] [cursor=pointer]:
+          - /url: /signup
+        - link "Log in" [ref=e70] [cursor=pointer]:
+          - /url: /login

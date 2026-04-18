@@ -3,10 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "wrangler dev",
-    "build": "tsc",
+    "dev": "npm run build:css && wrangler dev",
+    "build": "npm run build:css && tsc",
+    "build:css": "./node_modules/.bin/tailwindcss -i ./src/input.css -o ./dist/tailwind.css --minify && node scripts/build-css.mjs",
     "deploy": "bash deploy.sh",
-    "deploy:raw": "wrangler deploy",
+    "deploy:raw": "npm run build:css && wrangler deploy",
     "ping": "bash ping-sitemap.sh",
     "deploy:ping": "npm run deploy && npm run ping",
     "typecheck": "tsc --noEmit",
@@ -21,6 +22,8 @@
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20241022.0",
     "@playwright/test": "^1.59.1",
+    "@tailwindcss/cli": "^4.2.2",
+    "tailwindcss": "^4.2.2",
     "tsx": "^4.20.6",
     "typescript": "^5.5.0",
     "wrangler": "^3.80.0"

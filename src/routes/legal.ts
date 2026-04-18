@@ -57,7 +57,7 @@ app.get('/privacy', (c) => {
   <meta name="twitter:description" content="Beam's privacy policy: what data we collect, what we don't collect, and how we keep your visitors' data private." />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="${baseUrl}/privacy" />
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/assets/tailwind.css">
   <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
 </head>
 <body class="bg-white text-gray-900 antialiased">
@@ -195,7 +195,7 @@ app.get('/terms', (c) => {
   <meta name="twitter:description" content="Beam's terms of service: account terms, payment terms, data ownership, acceptable use, and more." />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="${baseUrl}/terms" />
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/assets/tailwind.css">
   <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
 </head>
 <body class="bg-white text-gray-900 antialiased">

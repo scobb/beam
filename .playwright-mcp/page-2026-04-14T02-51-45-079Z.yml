@@ -1,0 +1,215 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e3]:
+      - link "Beam" [ref=e4] [cursor=pointer]:
+        - /url: /
+      - generic [ref=e5]:
+        - link "Log in" [ref=e6] [cursor=pointer]:
+          - /url: /login
+        - link "Get Started" [ref=e7] [cursor=pointer]:
+          - /url: /signup
+  - main [ref=e8]:
+    - paragraph [ref=e9]: Comparison Hub
+    - 'heading "Beam Alternatives: Find the Right Analytics Fit" [level=1] [ref=e10]'
+    - paragraph [ref=e11]: "This hub is for teams actively evaluating analytics options. Every comparison below is intentionally honest: where Beam wins, where another tool is stronger, and which detailed page to read next."
+    - generic [ref=e13]:
+      - article [ref=e14]:
+        - heading "Beam vs Google Analytics" [level=2] [ref=e15]:
+          - link "Beam vs Google Analytics" [ref=e16] [cursor=pointer]:
+            - /url: /vs/google-analytics
+        - paragraph [ref=e17]: The default analytics choice, with deep ecosystem integrations and complexity.
+        - generic [ref=e18]:
+          - paragraph [ref=e19]: "Beam is stronger when: you want cookie-free analytics without consent banner friction and without Google data-sharing concerns."
+          - paragraph [ref=e20]: "Alternative is better when: you depend on advanced attribution, Ads integrations, or enterprise reporting already tied to GA4."
+        - link "Read detailed comparison →" [ref=e21] [cursor=pointer]:
+          - /url: /vs/google-analytics
+      - article [ref=e22]:
+        - heading "Beam vs Cloudflare Web Analytics" [level=2] [ref=e23]:
+          - link "Beam vs Cloudflare Web Analytics" [ref=e24] [cursor=pointer]:
+            - /url: /vs/cloudflare-web-analytics
+        - paragraph [ref=e25]: Cloudflare's built-in zero-cost traffic dashboard for zones already running on Cloudflare.
+        - generic [ref=e26]:
+          - paragraph [ref=e27]: "Beam is stronger when: you need goals/events, clearer source breakdowns, and plain-English change alerts to drive decisions."
+          - paragraph [ref=e28]: "Alternative is better when: you want the simplest free baseline with no extra account or dashboard beyond Cloudflare itself."
+        - link "Read detailed comparison →" [ref=e29] [cursor=pointer]:
+          - /url: /vs/cloudflare-web-analytics
+      - article [ref=e30]:
+        - heading "Beam vs Vercel Analytics" [level=2] [ref=e31]:
+          - link "Beam vs Vercel Analytics" [ref=e32] [cursor=pointer]:
+            - /url: /vs/vercel-analytics
+        - paragraph [ref=e33]: Vercel's native analytics stack for Next.js teams already shipping on Vercel.
+        - generic [ref=e34]:
+          - paragraph [ref=e35]: "Beam is stronger when: you want a privacy-first analytics workflow that is portable across hosting providers and non-Next.js properties."
+          - paragraph [ref=e36]: "Alternative is better when: your team is all-in on Vercel + Next.js and you mainly need the shortest path to built-in traffic dashboards."
+        - link "Read detailed comparison →" [ref=e37] [cursor=pointer]:
+          - /url: /vs/vercel-analytics
+      - article [ref=e38]:
+        - heading "Beam vs Plausible" [level=2] [ref=e39]:
+          - link "Beam vs Plausible" [ref=e40] [cursor=pointer]:
+            - /url: /vs/plausible
+        - paragraph [ref=e41]: A respected privacy-first hosted product with mature positioning in the indie market.
+        - generic [ref=e42]:
+          - paragraph [ref=e43]: "Beam is stronger when: you need similar privacy outcomes at lower entry pricing with a practical free tier."
+          - paragraph [ref=e44]: "Alternative is better when: you want Plausible-specific features like mature funnels/goals and an established open-source ecosystem."
+        - link "Read detailed comparison →" [ref=e45] [cursor=pointer]:
+          - /url: /vs/plausible
+      - article [ref=e46]:
+        - heading "Beam vs Fathom" [level=2] [ref=e47]:
+          - link "Beam vs Fathom" [ref=e48] [cursor=pointer]:
+            - /url: /vs/fathom
+        - paragraph [ref=e49]: A polished premium hosted privacy analytics product with strong brand trust.
+        - generic [ref=e50]:
+          - paragraph [ref=e51]: "Beam is stronger when: cost sensitivity matters and you want straightforward metrics with a lower monthly bill."
+          - paragraph [ref=e52]: "Alternative is better when: you value Fathom brand preference and are comfortable paying a premium for its current positioning."
+        - link "Read detailed comparison →" [ref=e53] [cursor=pointer]:
+          - /url: /vs/fathom
+      - article [ref=e54]:
+        - heading "Beam vs Umami" [level=2] [ref=e55]:
+          - link "Beam vs Umami" [ref=e56] [cursor=pointer]:
+            - /url: /vs/umami
+        - paragraph [ref=e57]: An open-source analytics project with self-hosting flexibility and a hosted option.
+        - generic [ref=e58]:
+          - paragraph [ref=e59]: "Beam is stronger when: you want managed hosting and minimal ops work while staying privacy-first."
+          - paragraph [ref=e60]: "Alternative is better when: you need full self-host control, source-level customization, or tighter infra ownership."
+        - link "Read detailed comparison →" [ref=e61] [cursor=pointer]:
+          - /url: /vs/umami
+      - article [ref=e62]:
+        - heading "Beam vs Matomo" [level=2] [ref=e63]:
+          - link "Beam vs Matomo" [ref=e64] [cursor=pointer]:
+            - /url: /vs/matomo
+        - paragraph [ref=e65]: A heavyweight suite that can replace broad GA-style workflows with enterprise depth.
+        - generic [ref=e66]:
+          - paragraph [ref=e67]: "Beam is stronger when: you prioritize simplicity, faster setup, and cleaner day-to-day reporting for smaller teams."
+          - paragraph [ref=e68]: "Alternative is better when: you require advanced enterprise capabilities like heatmaps, sessions, and deeper on-prem governance."
+        - link "Read detailed comparison →" [ref=e69] [cursor=pointer]:
+          - /url: /vs/matomo
+      - article [ref=e70]:
+        - heading "Beam vs Simple Analytics" [level=2] [ref=e71]:
+          - link "Beam vs Simple Analytics" [ref=e72] [cursor=pointer]:
+            - /url: /vs/simple-analytics
+        - paragraph [ref=e73]: A minimalist privacy-focused hosted product with strong branding and polished UX.
+        - generic [ref=e74]:
+          - paragraph [ref=e75]: "Beam is stronger when: price-to-value is your main decision factor and you still want core privacy analytics coverage."
+          - paragraph [ref=e76]: "Alternative is better when: you prefer Simple Analytics-specific product ergonomics and are fine with its higher price tiers."
+        - link "Read detailed comparison →" [ref=e77] [cursor=pointer]:
+          - /url: /vs/simple-analytics
+      - article [ref=e78]:
+        - heading "Beam vs Rybbit" [level=2] [ref=e79]:
+          - link "Beam vs Rybbit" [ref=e80] [cursor=pointer]:
+            - /url: /vs/rybbit
+        - paragraph [ref=e81]: A fast-growing open-source/self-hosted option with advanced product analytics features.
+        - generic [ref=e82]:
+          - paragraph [ref=e83]: "Beam is stronger when: you want zero infrastructure and lower managed cost for day-to-day site analytics."
+          - paragraph [ref=e84]: "Alternative is better when: you need session replay/funnel workflows and can operate self-hosted infrastructure."
+        - link "Read detailed comparison →" [ref=e85] [cursor=pointer]:
+          - /url: /vs/rybbit
+      - article [ref=e86]:
+        - heading "Beam vs PostHog" [level=2] [ref=e87]:
+          - link "Beam vs PostHog" [ref=e88] [cursor=pointer]:
+            - /url: /vs/posthog
+        - paragraph [ref=e89]: A full product analytics suite with session replay, feature flags, A/B testing, and funnels.
+        - generic [ref=e90]:
+          - paragraph [ref=e91]: "Beam is stronger when: you want simple cookie-free traffic analytics with zero configuration and no consent banner."
+          - paragraph [ref=e92]: "Alternative is better when: you need feature flags, A/B testing, session replay, or deep funnel analysis for your SaaS product."
+        - link "Read detailed comparison →" [ref=e93] [cursor=pointer]:
+          - /url: /vs/posthog
+      - article [ref=e94]:
+        - heading "Beam vs Pirsch" [level=2] [ref=e95]:
+          - link "Beam vs Pirsch" [ref=e96] [cursor=pointer]:
+            - /url: /vs/pirsch
+        - paragraph [ref=e97]: A German-built, EU-hosted cookie-free analytics tool with goal tracking and funnel features.
+        - generic [ref=e98]:
+          - paragraph [ref=e99]: "Beam is stronger when: you want a free tier, lower pricing ($5 vs $6+/mo), and Cloudflare's global edge network."
+          - paragraph [ref=e100]: "Alternative is better when: you need EU data residency or goal/funnel tracking alongside privacy-first page metrics."
+        - link "Read detailed comparison →" [ref=e101] [cursor=pointer]:
+          - /url: /vs/pirsch
+      - article [ref=e102]:
+        - heading "Beam vs Cabin" [level=2] [ref=e103]:
+          - link "Beam vs Cabin" [ref=e104] [cursor=pointer]:
+            - /url: /vs/cabin
+        - paragraph [ref=e105]: A privacy-first, carbon-neutral analytics tool with a refined aesthetic and sustainability focus.
+        - generic [ref=e106]:
+          - paragraph [ref=e107]: "Beam is stronger when: cost matters and you want the same cookie-free privacy at $5/mo vs Cabin's $19/mo."
+          - paragraph [ref=e108]: "Alternative is better when: environmental sustainability is a brand value and you want carbon-neutral analytics infrastructure."
+        - link "Read detailed comparison →" [ref=e109] [cursor=pointer]:
+          - /url: /vs/cabin
+      - article [ref=e110]:
+        - heading "Beam Analytics Shutdown Migration" [level=2] [ref=e111]:
+          - link "Beam Analytics Shutdown Migration" [ref=e112] [cursor=pointer]:
+            - /url: /beam-analytics-alternative
+        - paragraph [ref=e113]: A migration-focused page for teams moving off the legacy beamanalytics.io shutdown timeline.
+        - generic [ref=e114]:
+          - paragraph [ref=e115]: "Beam is stronger when: you need a current managed replacement and a clear implementation checklist before cutoff dates."
+          - paragraph [ref=e116]: "Alternative is better when: you are still validating migration timing and only need export/archival guidance right now."
+        - link "Read detailed comparison →" [ref=e117] [cursor=pointer]:
+          - /url: /beam-analytics-alternative
+    - generic [ref=e118]:
+      - heading "Need to test before deciding?" [level=2] [ref=e119]
+      - paragraph [ref=e120]: Use the demo, then follow setup docs or migration guidance to validate implementation in your own stack.
+      - generic [ref=e121]:
+        - link "Try the demo" [ref=e122] [cursor=pointer]:
+          - /url: /demo
+        - link "Create free account" [ref=e123] [cursor=pointer]:
+          - /url: /signup
+        - link "Calculate your savings" [ref=e124] [cursor=pointer]:
+          - /url: /switch
+      - paragraph [ref=e125]:
+        - text: "Implementation help:"
+        - link "migration hub" [ref=e126] [cursor=pointer]:
+          - /url: /migrate
+        - text: ","
+        - link "setup guides hub" [ref=e127] [cursor=pointer]:
+          - /url: /for
+        - text: ","
+        - link "Next.js guide" [ref=e128] [cursor=pointer]:
+          - /url: /for/nextjs
+        - text: ","
+        - link "shutdown migration checklist" [ref=e129] [cursor=pointer]:
+          - /url: /beam-analytics-alternative
+        - text: .
+  - contentinfo [ref=e130]:
+    - generic [ref=e131]:
+      - generic [ref=e132]: © 2026 Keylight Digital LLC. All rights reserved.
+      - generic [ref=e133]:
+        - link "About" [ref=e134] [cursor=pointer]:
+          - /url: /about
+        - link "Privacy" [ref=e135] [cursor=pointer]:
+          - /url: /privacy
+        - link "Terms" [ref=e136] [cursor=pointer]:
+          - /url: /terms
+        - link "Alternatives hub" [ref=e137] [cursor=pointer]:
+          - /url: /alternatives
+        - link "Migration hub" [ref=e138] [cursor=pointer]:
+          - /url: /migrate
+        - link "vs Google Analytics" [ref=e139] [cursor=pointer]:
+          - /url: /vs/google-analytics
+        - link "vs Vercel Analytics" [ref=e140] [cursor=pointer]:
+          - /url: /vs/vercel-analytics
+        - link "vs Cloudflare Web Analytics" [ref=e141] [cursor=pointer]:
+          - /url: /vs/cloudflare-web-analytics
+        - link "vs Plausible" [ref=e142] [cursor=pointer]:
+          - /url: /vs/plausible
+        - link "vs Fathom" [ref=e143] [cursor=pointer]:
+          - /url: /vs/fathom
+        - link "vs Umami" [ref=e144] [cursor=pointer]:
+          - /url: /vs/umami
+        - link "vs Matomo" [ref=e145] [cursor=pointer]:
+          - /url: /vs/matomo
+        - link "vs Simple Analytics" [ref=e146] [cursor=pointer]:
+          - /url: /vs/simple-analytics
+        - link "vs Rybbit" [ref=e147] [cursor=pointer]:
+          - /url: /vs/rybbit
+        - link "vs PostHog" [ref=e148] [cursor=pointer]:
+          - /url: /vs/posthog
+        - link "vs Mixpanel" [ref=e149] [cursor=pointer]:
+          - /url: /vs/mixpanel
+        - link "vs Pirsch" [ref=e150] [cursor=pointer]:
+          - /url: /vs/pirsch
+        - link "vs Cabin" [ref=e151] [cursor=pointer]:
+          - /url: /vs/cabin
+        - link "Beam Analytics Alternative" [ref=e152] [cursor=pointer]:
+          - /url: /beam-analytics-alternative
+        - link "Sign up" [ref=e153] [cursor=pointer]:
+          - /url: /signup
+        - link "Log in" [ref=e154] [cursor=pointer]:
+          - /url: /login

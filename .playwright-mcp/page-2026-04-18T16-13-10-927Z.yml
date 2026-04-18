@@ -1,0 +1,153 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e3]:
+      - link "Beam" [ref=e4] [cursor=pointer]:
+        - /url: /
+      - generic [ref=e5]:
+        - link "Log in" [ref=e6] [cursor=pointer]:
+          - /url: /login
+        - link "Get Started" [ref=e7] [cursor=pointer]:
+          - /url: /signup
+  - main [ref=e8]:
+    - generic [ref=e9]: Comparison
+    - heading "Beam vs Plausible Analytics" [level=1] [ref=e10]
+    - paragraph [ref=e11]: Plausible is one of the most respected privacy-first analytics tools — and for good reason. But at $9–$69/mo, it can be expensive for smaller sites and indie developers. Beam offers the same core philosophy at a fraction of the cost.
+    - table [ref=e13]:
+      - rowgroup [ref=e14]:
+        - row "Feature Beam Competitor" [ref=e15]:
+          - columnheader "Feature" [ref=e16]
+          - columnheader "Beam" [ref=e17]
+          - columnheader "Competitor" [ref=e18]
+      - rowgroup [ref=e19]:
+        - row "Entry price Free (up to 50K pv/mo) $9/mo (up to 10K pv/mo)" [ref=e20]:
+          - cell "Entry price" [ref=e21]
+          - cell "Free (up to 50K pv/mo)" [ref=e22]
+          - cell "$9/mo (up to 10K pv/mo)" [ref=e23]
+        - row "Pro pricing $5/mo (500K pv/mo) $9–$69/mo depending on pageviews" [ref=e24]:
+          - cell "Pro pricing" [ref=e25]
+          - cell "$5/mo (500K pv/mo)" [ref=e26]
+          - cell "$9–$69/mo depending on pageviews" [ref=e27]
+        - row "Cookies used None None" [ref=e28]:
+          - cell "Cookies used" [ref=e29]
+          - cell "None" [ref=e30]
+          - cell "None" [ref=e31]
+        - row "GDPR compliant Yes Yes" [ref=e32]:
+          - cell "GDPR compliant" [ref=e33]
+          - cell "Yes" [ref=e34]
+          - cell "Yes" [ref=e35]
+        - row "Consent banner needed No No" [ref=e36]:
+          - cell "Consent banner needed" [ref=e37]
+          - cell "No" [ref=e38]
+          - cell "No" [ref=e39]
+        - row "Script size < 2 KB < 1 KB" [ref=e40]:
+          - cell "Script size" [ref=e41]
+          - cell "< 2 KB" [ref=e42]
+          - cell "< 1 KB" [ref=e43]
+        - row "Open source No (hosted SaaS) Yes (AGPL)" [ref=e44]:
+          - cell "Open source" [ref=e45]
+          - cell "No (hosted SaaS)" [ref=e46]
+          - cell "Yes (AGPL)" [ref=e47]
+        - row "Self-hostable No Yes (requires server)" [ref=e48]:
+          - cell "Self-hostable" [ref=e49]
+          - cell "No" [ref=e50]
+          - cell "Yes (requires server)" [ref=e51]
+        - row "Built on Cloudflare edge network Elixir / PostgreSQL" [ref=e52]:
+          - cell "Built on" [ref=e53]
+          - cell "Cloudflare edge network" [ref=e54]
+          - cell "Elixir / PostgreSQL" [ref=e55]
+        - row "Free tier Yes — 1 site, 50K pv/mo No free tier (30-day trial)" [ref=e56]:
+          - cell "Free tier" [ref=e57]
+          - cell "Yes — 1 site, 50K pv/mo" [ref=e58]
+          - cell "No free tier (30-day trial)" [ref=e59]
+        - row "Dashboard clarity Clean, single-page view Clean, single-page view" [ref=e60]:
+          - cell "Dashboard clarity" [ref=e61]
+          - cell "Clean, single-page view" [ref=e62]
+          - cell "Clean, single-page view" [ref=e63]
+    - generic [ref=e64]:
+      - paragraph [ref=e65]: Plausible Analytics is genuinely excellent software. It pioneered the "simple, privacy-respecting analytics" category and has earned a loyal following among developers who care about privacy. Both Beam and Plausible collect no cookies, store no PII, and require no consent banners. If you're choosing between the two on privacy grounds alone, either is a solid choice.
+      - paragraph [ref=e66]: Where Beam stands apart is pricing. Plausible's plans start at $9/mo with no free tier — which is reasonable for established businesses, but steep for hobbyist projects, side hustles, or developers running multiple sites. Beam's free tier covers 1 site up to 50,000 pageviews per month, making it genuinely useful for smaller projects at no cost. The Pro plan at $5/mo is roughly half what Plausible charges for comparable pageview limits.
+      - paragraph [ref=e67]: "Plausible has some advantages worth acknowledging: it's open source (you can self-host), has a more mature feature set (funnels, goals, custom events), and a larger community. If you need those features, Plausible is worth its price. But if you want clean, private, cookie-free analytics without paying $9+ per month per set of sites, Beam is the more affordable path."
+      - paragraph [ref=e68]:
+        - text: Already running Plausible in production? Use the dedicated
+        - link "Plausible migration guide" [ref=e69] [cursor=pointer]:
+          - /url: /migrate/plausible
+        - text: for script replacement and install verification steps, then validate your pages with the
+        - link "stack scanner" [ref=e70] [cursor=pointer]:
+          - /url: /tools/stack-scanner
+        - text: and framework setup docs like
+        - link "/for/nextjs" [ref=e71] [cursor=pointer]:
+          - /url: /for/nextjs
+        - text: or
+        - link "/for/wordpress" [ref=e72] [cursor=pointer]:
+          - /url: /for/wordpress
+        - text: .
+    - generic [ref=e73]:
+      - heading "Compare more options" [level=2] [ref=e74]
+      - generic [ref=e75]:
+        - link "Beam vs Fathom See how Beam stacks up against the premium privacy analytics incumbent." [ref=e76] [cursor=pointer]:
+          - /url: /vs/fathom
+          - paragraph [ref=e77]: Beam vs Fathom
+          - paragraph [ref=e78]: See how Beam stacks up against the premium privacy analytics incumbent.
+        - link "Beam vs Simple Analytics Compare two minimalist privacy-first dashboards with different pricing models." [ref=e79] [cursor=pointer]:
+          - /url: /vs/simple-analytics
+          - paragraph [ref=e80]: Beam vs Simple Analytics
+          - paragraph [ref=e81]: Compare two minimalist privacy-first dashboards with different pricing models.
+        - link "Beam vs Umami Compare hosted convenience with the open-source self-hosting path." [ref=e82] [cursor=pointer]:
+          - /url: /vs/umami
+          - paragraph [ref=e83]: Beam vs Umami
+          - paragraph [ref=e84]: Compare hosted convenience with the open-source self-hosting path.
+    - generic [ref=e85]:
+      - heading "Ready to switch to Beam?" [level=2] [ref=e86]
+      - paragraph [ref=e87]: Start free. No credit card required. Up and running in under 5 minutes.
+      - link "Get Started Free" [ref=e88] [cursor=pointer]:
+        - /url: /signup
+  - contentinfo [ref=e89]:
+    - generic [ref=e90]:
+      - generic [ref=e91]: © 2026 Keylight Digital LLC. All rights reserved.
+      - generic [ref=e92]:
+        - link "About" [ref=e93] [cursor=pointer]:
+          - /url: /about
+        - link "Pricing" [ref=e94] [cursor=pointer]:
+          - /url: /pricing
+        - link "Privacy" [ref=e95] [cursor=pointer]:
+          - /url: /privacy
+        - link "Terms" [ref=e96] [cursor=pointer]:
+          - /url: /terms
+        - link "Alternatives hub" [ref=e97] [cursor=pointer]:
+          - /url: /alternatives
+        - link "Migration hub" [ref=e98] [cursor=pointer]:
+          - /url: /migrate
+        - link "vs Google Analytics" [ref=e99] [cursor=pointer]:
+          - /url: /vs/google-analytics
+        - link "vs Vercel Analytics" [ref=e100] [cursor=pointer]:
+          - /url: /vs/vercel-analytics
+        - link "vs Cloudflare Web Analytics" [ref=e101] [cursor=pointer]:
+          - /url: /vs/cloudflare-web-analytics
+        - link "vs Plausible" [ref=e102] [cursor=pointer]:
+          - /url: /vs/plausible
+        - link "vs Fathom" [ref=e103] [cursor=pointer]:
+          - /url: /vs/fathom
+        - link "vs Umami" [ref=e104] [cursor=pointer]:
+          - /url: /vs/umami
+        - link "vs Matomo" [ref=e105] [cursor=pointer]:
+          - /url: /vs/matomo
+        - link "vs Simple Analytics" [ref=e106] [cursor=pointer]:
+          - /url: /vs/simple-analytics
+        - link "vs Rybbit" [ref=e107] [cursor=pointer]:
+          - /url: /vs/rybbit
+        - link "vs PostHog" [ref=e108] [cursor=pointer]:
+          - /url: /vs/posthog
+        - link "vs Mixpanel" [ref=e109] [cursor=pointer]:
+          - /url: /vs/mixpanel
+        - link "vs Amplitude" [ref=e110] [cursor=pointer]:
+          - /url: /vs/amplitude
+        - link "vs Pirsch" [ref=e111] [cursor=pointer]:
+          - /url: /vs/pirsch
+        - link "vs Cabin" [ref=e112] [cursor=pointer]:
+          - /url: /vs/cabin
+        - link "Beam Analytics Alternative" [ref=e113] [cursor=pointer]:
+          - /url: /beam-analytics-alternative
+        - link "Sign up" [ref=e114] [cursor=pointer]:
+          - /url: /signup
+        - link "Log in" [ref=e115] [cursor=pointer]:
+          - /url: /login

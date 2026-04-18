@@ -1,0 +1,841 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]: This XML file does not appear to have any style information associated with it. The document tree is shown below.
+  - generic [ref=e4]:
+    - generic [ref=e7]:
+      - text: <urlset
+      - generic [ref=e8]: xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      - text: ">"
+    - generic [ref=e9]:
+      - generic [ref=e10]:
+        - generic [ref=e13]: <url>
+        - generic [ref=e14]:
+          - generic [ref=e15]:
+            - generic [ref=e16]: <loc>
+            - text: https://beam-privacy.com/
+            - generic [ref=e17]: </loc>
+          - generic [ref=e18]:
+            - generic [ref=e19]: <changefreq>
+            - text: monthly
+            - generic [ref=e20]: </changefreq>
+          - generic [ref=e21]:
+            - generic [ref=e22]: <priority>
+            - text: "1.0"
+            - generic [ref=e23]: </priority>
+        - generic [ref=e25]: </url>
+      - generic [ref=e26]:
+        - generic [ref=e29]: <url>
+        - generic [ref=e30]:
+          - generic [ref=e31]:
+            - generic [ref=e32]: <loc>
+            - text: https://beam-privacy.com/alternatives
+            - generic [ref=e33]: </loc>
+          - generic [ref=e34]:
+            - generic [ref=e35]: <changefreq>
+            - text: weekly
+            - generic [ref=e36]: </changefreq>
+          - generic [ref=e37]:
+            - generic [ref=e38]: <priority>
+            - text: "0.9"
+            - generic [ref=e39]: </priority>
+        - generic [ref=e41]: </url>
+      - generic [ref=e42]:
+        - generic [ref=e45]: <url>
+        - generic [ref=e46]:
+          - generic [ref=e47]:
+            - generic [ref=e48]: <loc>
+            - text: https://beam-privacy.com/vs/google-analytics
+            - generic [ref=e49]: </loc>
+          - generic [ref=e50]:
+            - generic [ref=e51]: <changefreq>
+            - text: monthly
+            - generic [ref=e52]: </changefreq>
+          - generic [ref=e53]:
+            - generic [ref=e54]: <priority>
+            - text: "0.8"
+            - generic [ref=e55]: </priority>
+        - generic [ref=e57]: </url>
+      - generic [ref=e58]:
+        - generic [ref=e61]: <url>
+        - generic [ref=e62]:
+          - generic [ref=e63]:
+            - generic [ref=e64]: <loc>
+            - text: https://beam-privacy.com/vs/vercel-analytics
+            - generic [ref=e65]: </loc>
+          - generic [ref=e66]:
+            - generic [ref=e67]: <changefreq>
+            - text: monthly
+            - generic [ref=e68]: </changefreq>
+          - generic [ref=e69]:
+            - generic [ref=e70]: <priority>
+            - text: "0.8"
+            - generic [ref=e71]: </priority>
+        - generic [ref=e73]: </url>
+      - generic [ref=e74]:
+        - generic [ref=e77]: <url>
+        - generic [ref=e78]:
+          - generic [ref=e79]:
+            - generic [ref=e80]: <loc>
+            - text: https://beam-privacy.com/vs/cloudflare-web-analytics
+            - generic [ref=e81]: </loc>
+          - generic [ref=e82]:
+            - generic [ref=e83]: <changefreq>
+            - text: monthly
+            - generic [ref=e84]: </changefreq>
+          - generic [ref=e85]:
+            - generic [ref=e86]: <priority>
+            - text: "0.8"
+            - generic [ref=e87]: </priority>
+        - generic [ref=e89]: </url>
+      - generic [ref=e90]:
+        - generic [ref=e93]: <url>
+        - generic [ref=e94]:
+          - generic [ref=e95]:
+            - generic [ref=e96]: <loc>
+            - text: https://beam-privacy.com/vs/plausible
+            - generic [ref=e97]: </loc>
+          - generic [ref=e98]:
+            - generic [ref=e99]: <changefreq>
+            - text: monthly
+            - generic [ref=e100]: </changefreq>
+          - generic [ref=e101]:
+            - generic [ref=e102]: <priority>
+            - text: "0.8"
+            - generic [ref=e103]: </priority>
+        - generic [ref=e105]: </url>
+      - generic [ref=e106]:
+        - generic [ref=e109]: <url>
+        - generic [ref=e110]:
+          - generic [ref=e111]:
+            - generic [ref=e112]: <loc>
+            - text: https://beam-privacy.com/vs/fathom
+            - generic [ref=e113]: </loc>
+          - generic [ref=e114]:
+            - generic [ref=e115]: <changefreq>
+            - text: monthly
+            - generic [ref=e116]: </changefreq>
+          - generic [ref=e117]:
+            - generic [ref=e118]: <priority>
+            - text: "0.8"
+            - generic [ref=e119]: </priority>
+        - generic [ref=e121]: </url>
+      - generic [ref=e122]:
+        - generic [ref=e125]: <url>
+        - generic [ref=e126]:
+          - generic [ref=e127]:
+            - generic [ref=e128]: <loc>
+            - text: https://beam-privacy.com/vs/umami
+            - generic [ref=e129]: </loc>
+          - generic [ref=e130]:
+            - generic [ref=e131]: <changefreq>
+            - text: monthly
+            - generic [ref=e132]: </changefreq>
+          - generic [ref=e133]:
+            - generic [ref=e134]: <priority>
+            - text: "0.8"
+            - generic [ref=e135]: </priority>
+        - generic [ref=e137]: </url>
+      - generic [ref=e138]:
+        - generic [ref=e141]: <url>
+        - generic [ref=e142]:
+          - generic [ref=e143]:
+            - generic [ref=e144]: <loc>
+            - text: https://beam-privacy.com/vs/matomo
+            - generic [ref=e145]: </loc>
+          - generic [ref=e146]:
+            - generic [ref=e147]: <changefreq>
+            - text: monthly
+            - generic [ref=e148]: </changefreq>
+          - generic [ref=e149]:
+            - generic [ref=e150]: <priority>
+            - text: "0.8"
+            - generic [ref=e151]: </priority>
+        - generic [ref=e153]: </url>
+      - generic [ref=e154]:
+        - generic [ref=e157]: <url>
+        - generic [ref=e158]:
+          - generic [ref=e159]:
+            - generic [ref=e160]: <loc>
+            - text: https://beam-privacy.com/vs/simple-analytics
+            - generic [ref=e161]: </loc>
+          - generic [ref=e162]:
+            - generic [ref=e163]: <changefreq>
+            - text: monthly
+            - generic [ref=e164]: </changefreq>
+          - generic [ref=e165]:
+            - generic [ref=e166]: <priority>
+            - text: "0.8"
+            - generic [ref=e167]: </priority>
+        - generic [ref=e169]: </url>
+      - generic [ref=e170]:
+        - generic [ref=e173]: <url>
+        - generic [ref=e174]:
+          - generic [ref=e175]:
+            - generic [ref=e176]: <loc>
+            - text: https://beam-privacy.com/vs/rybbit
+            - generic [ref=e177]: </loc>
+          - generic [ref=e178]:
+            - generic [ref=e179]: <changefreq>
+            - text: monthly
+            - generic [ref=e180]: </changefreq>
+          - generic [ref=e181]:
+            - generic [ref=e182]: <priority>
+            - text: "0.8"
+            - generic [ref=e183]: </priority>
+        - generic [ref=e185]: </url>
+      - generic [ref=e186]:
+        - generic [ref=e189]: <url>
+        - generic [ref=e190]:
+          - generic [ref=e191]:
+            - generic [ref=e192]: <loc>
+            - text: https://beam-privacy.com/vs/posthog
+            - generic [ref=e193]: </loc>
+          - generic [ref=e194]:
+            - generic [ref=e195]: <changefreq>
+            - text: monthly
+            - generic [ref=e196]: </changefreq>
+          - generic [ref=e197]:
+            - generic [ref=e198]: <priority>
+            - text: "0.8"
+            - generic [ref=e199]: </priority>
+        - generic [ref=e201]: </url>
+      - generic [ref=e202]:
+        - generic [ref=e205]: <url>
+        - generic [ref=e206]:
+          - generic [ref=e207]:
+            - generic [ref=e208]: <loc>
+            - text: https://beam-privacy.com/vs/pirsch
+            - generic [ref=e209]: </loc>
+          - generic [ref=e210]:
+            - generic [ref=e211]: <changefreq>
+            - text: monthly
+            - generic [ref=e212]: </changefreq>
+          - generic [ref=e213]:
+            - generic [ref=e214]: <priority>
+            - text: "0.8"
+            - generic [ref=e215]: </priority>
+        - generic [ref=e217]: </url>
+      - generic [ref=e218]:
+        - generic [ref=e221]: <url>
+        - generic [ref=e222]:
+          - generic [ref=e223]:
+            - generic [ref=e224]: <loc>
+            - text: https://beam-privacy.com/vs/cabin
+            - generic [ref=e225]: </loc>
+          - generic [ref=e226]:
+            - generic [ref=e227]: <changefreq>
+            - text: monthly
+            - generic [ref=e228]: </changefreq>
+          - generic [ref=e229]:
+            - generic [ref=e230]: <priority>
+            - text: "0.8"
+            - generic [ref=e231]: </priority>
+        - generic [ref=e233]: </url>
+      - generic [ref=e234]:
+        - generic [ref=e237]: <url>
+        - generic [ref=e238]:
+          - generic [ref=e239]:
+            - generic [ref=e240]: <loc>
+            - text: https://beam-privacy.com/signup
+            - generic [ref=e241]: </loc>
+          - generic [ref=e242]:
+            - generic [ref=e243]: <changefreq>
+            - text: yearly
+            - generic [ref=e244]: </changefreq>
+          - generic [ref=e245]:
+            - generic [ref=e246]: <priority>
+            - text: "0.7"
+            - generic [ref=e247]: </priority>
+        - generic [ref=e249]: </url>
+      - generic [ref=e250]:
+        - generic [ref=e253]: <url>
+        - generic [ref=e254]:
+          - generic [ref=e255]:
+            - generic [ref=e256]: <loc>
+            - text: https://beam-privacy.com/login
+            - generic [ref=e257]: </loc>
+          - generic [ref=e258]:
+            - generic [ref=e259]: <changefreq>
+            - text: yearly
+            - generic [ref=e260]: </changefreq>
+          - generic [ref=e261]:
+            - generic [ref=e262]: <priority>
+            - text: "0.5"
+            - generic [ref=e263]: </priority>
+        - generic [ref=e265]: </url>
+      - generic [ref=e266]:
+        - generic [ref=e269]: <url>
+        - generic [ref=e270]:
+          - generic [ref=e271]:
+            - generic [ref=e272]: <loc>
+            - text: https://beam-privacy.com/about
+            - generic [ref=e273]: </loc>
+          - generic [ref=e274]:
+            - generic [ref=e275]: <changefreq>
+            - text: monthly
+            - generic [ref=e276]: </changefreq>
+          - generic [ref=e277]:
+            - generic [ref=e278]: <priority>
+            - text: "0.6"
+            - generic [ref=e279]: </priority>
+        - generic [ref=e281]: </url>
+      - generic [ref=e282]:
+        - generic [ref=e285]: <url>
+        - generic [ref=e286]:
+          - generic [ref=e287]:
+            - generic [ref=e288]: <loc>
+            - text: https://beam-privacy.com/how-it-works
+            - generic [ref=e289]: </loc>
+          - generic [ref=e290]:
+            - generic [ref=e291]: <changefreq>
+            - text: monthly
+            - generic [ref=e292]: </changefreq>
+          - generic [ref=e293]:
+            - generic [ref=e294]: <priority>
+            - text: "0.8"
+            - generic [ref=e295]: </priority>
+        - generic [ref=e297]: </url>
+      - generic [ref=e298]:
+        - generic [ref=e301]: <url>
+        - generic [ref=e302]:
+          - generic [ref=e303]:
+            - generic [ref=e304]: <loc>
+            - text: https://beam-privacy.com/privacy
+            - generic [ref=e305]: </loc>
+          - generic [ref=e306]:
+            - generic [ref=e307]: <changefreq>
+            - text: yearly
+            - generic [ref=e308]: </changefreq>
+          - generic [ref=e309]:
+            - generic [ref=e310]: <priority>
+            - text: "0.5"
+            - generic [ref=e311]: </priority>
+        - generic [ref=e313]: </url>
+      - generic [ref=e314]:
+        - generic [ref=e317]: <url>
+        - generic [ref=e318]:
+          - generic [ref=e319]:
+            - generic [ref=e320]: <loc>
+            - text: https://beam-privacy.com/terms
+            - generic [ref=e321]: </loc>
+          - generic [ref=e322]:
+            - generic [ref=e323]: <changefreq>
+            - text: yearly
+            - generic [ref=e324]: </changefreq>
+          - generic [ref=e325]:
+            - generic [ref=e326]: <priority>
+            - text: "0.5"
+            - generic [ref=e327]: </priority>
+        - generic [ref=e329]: </url>
+      - generic [ref=e330]:
+        - generic [ref=e333]: <url>
+        - generic [ref=e334]:
+          - generic [ref=e335]:
+            - generic [ref=e336]: <loc>
+            - text: https://beam-privacy.com/blog
+            - generic [ref=e337]: </loc>
+          - generic [ref=e338]:
+            - generic [ref=e339]: <changefreq>
+            - text: weekly
+            - generic [ref=e340]: </changefreq>
+          - generic [ref=e341]:
+            - generic [ref=e342]: <priority>
+            - text: "0.7"
+            - generic [ref=e343]: </priority>
+        - generic [ref=e345]: </url>
+      - generic [ref=e346]:
+        - generic [ref=e349]: <url>
+        - generic [ref=e350]:
+          - generic [ref=e351]:
+            - generic [ref=e352]: <loc>
+            - text: https://beam-privacy.com/blog/cookie-free-analytics-guide
+            - generic [ref=e353]: </loc>
+          - generic [ref=e354]:
+            - generic [ref=e355]: <changefreq>
+            - text: monthly
+            - generic [ref=e356]: </changefreq>
+          - generic [ref=e357]:
+            - generic [ref=e358]: <priority>
+            - text: "0.7"
+            - generic [ref=e359]: </priority>
+        - generic [ref=e361]: </url>
+      - generic [ref=e362]:
+        - generic [ref=e365]: <url>
+        - generic [ref=e366]:
+          - generic [ref=e367]:
+            - generic [ref=e368]: <loc>
+            - text: https://beam-privacy.com/blog/add-analytics-in-5-minutes
+            - generic [ref=e369]: </loc>
+          - generic [ref=e370]:
+            - generic [ref=e371]: <changefreq>
+            - text: monthly
+            - generic [ref=e372]: </changefreq>
+          - generic [ref=e373]:
+            - generic [ref=e374]: <priority>
+            - text: "0.7"
+            - generic [ref=e375]: </priority>
+        - generic [ref=e377]: </url>
+      - generic [ref=e378]:
+        - generic [ref=e381]: <url>
+        - generic [ref=e382]:
+          - generic [ref=e383]:
+            - generic [ref=e384]: <loc>
+            - text: https://beam-privacy.com/blog/nextjs-privacy-analytics
+            - generic [ref=e385]: </loc>
+          - generic [ref=e386]:
+            - generic [ref=e387]: <changefreq>
+            - text: monthly
+            - generic [ref=e388]: </changefreq>
+          - generic [ref=e389]:
+            - generic [ref=e390]: <priority>
+            - text: "0.7"
+            - generic [ref=e391]: </priority>
+        - generic [ref=e393]: </url>
+      - generic [ref=e394]:
+        - generic [ref=e397]: <url>
+        - generic [ref=e398]:
+          - generic [ref=e399]:
+            - generic [ref=e400]: <loc>
+            - text: https://beam-privacy.com/blog/google-analytics-alternatives-2026
+            - generic [ref=e401]: </loc>
+          - generic [ref=e402]:
+            - generic [ref=e403]: <changefreq>
+            - text: monthly
+            - generic [ref=e404]: </changefreq>
+          - generic [ref=e405]:
+            - generic [ref=e406]: <priority>
+            - text: "0.8"
+            - generic [ref=e407]: </priority>
+        - generic [ref=e409]: </url>
+      - generic [ref=e410]:
+        - generic [ref=e413]: <url>
+        - generic [ref=e414]:
+          - generic [ref=e415]:
+            - generic [ref=e416]: <loc>
+            - text: https://beam-privacy.com/blog/beam-analytics-shutdown-migration-guide
+            - generic [ref=e417]: </loc>
+          - generic [ref=e418]:
+            - generic [ref=e419]: <changefreq>
+            - text: weekly
+            - generic [ref=e420]: </changefreq>
+          - generic [ref=e421]:
+            - generic [ref=e422]: <priority>
+            - text: "0.9"
+            - generic [ref=e423]: </priority>
+        - generic [ref=e425]: </url>
+      - generic [ref=e426]:
+        - generic [ref=e429]: <url>
+        - generic [ref=e430]:
+          - generic [ref=e431]:
+            - generic [ref=e432]: <loc>
+            - text: https://beam-privacy.com/blog/plausible-alternative
+            - generic [ref=e433]: </loc>
+          - generic [ref=e434]:
+            - generic [ref=e435]: <changefreq>
+            - text: monthly
+            - generic [ref=e436]: </changefreq>
+          - generic [ref=e437]:
+            - generic [ref=e438]: <priority>
+            - text: "0.8"
+            - generic [ref=e439]: </priority>
+        - generic [ref=e441]: </url>
+      - generic [ref=e442]:
+        - generic [ref=e445]: <url>
+        - generic [ref=e446]:
+          - generic [ref=e447]:
+            - generic [ref=e448]: <loc>
+            - text: https://beam-privacy.com/blog/senbeacon-cors-analytics-fix
+            - generic [ref=e449]: </loc>
+          - generic [ref=e450]:
+            - generic [ref=e451]: <changefreq>
+            - text: monthly
+            - generic [ref=e452]: </changefreq>
+          - generic [ref=e453]:
+            - generic [ref=e454]: <priority>
+            - text: "0.7"
+            - generic [ref=e455]: </priority>
+        - generic [ref=e457]: </url>
+      - generic [ref=e458]:
+        - generic [ref=e461]: <url>
+        - generic [ref=e462]:
+          - generic [ref=e463]:
+            - generic [ref=e464]: <loc>
+            - text: https://beam-privacy.com/changelog
+            - generic [ref=e465]: </loc>
+          - generic [ref=e466]:
+            - generic [ref=e467]: <changefreq>
+            - text: weekly
+            - generic [ref=e468]: </changefreq>
+          - generic [ref=e469]:
+            - generic [ref=e470]: <priority>
+            - text: "0.6"
+            - generic [ref=e471]: </priority>
+        - generic [ref=e473]: </url>
+      - generic [ref=e474]:
+        - generic [ref=e477]: <url>
+        - generic [ref=e478]:
+          - generic [ref=e479]:
+            - generic [ref=e480]: <loc>
+            - text: https://beam-privacy.com/demo
+            - generic [ref=e481]: </loc>
+          - generic [ref=e482]:
+            - generic [ref=e483]: <changefreq>
+            - text: weekly
+            - generic [ref=e484]: </changefreq>
+          - generic [ref=e485]:
+            - generic [ref=e486]: <priority>
+            - text: "0.7"
+            - generic [ref=e487]: </priority>
+        - generic [ref=e489]: </url>
+      - generic [ref=e490]:
+        - generic [ref=e493]: <url>
+        - generic [ref=e494]:
+          - generic [ref=e495]:
+            - generic [ref=e496]: <loc>
+            - text: https://beam-privacy.com/migrate
+            - generic [ref=e497]: </loc>
+          - generic [ref=e498]:
+            - generic [ref=e499]: <changefreq>
+            - text: weekly
+            - generic [ref=e500]: </changefreq>
+          - generic [ref=e501]:
+            - generic [ref=e502]: <priority>
+            - text: "0.8"
+            - generic [ref=e503]: </priority>
+        - generic [ref=e505]: </url>
+      - generic [ref=e506]:
+        - generic [ref=e509]: <url>
+        - generic [ref=e510]:
+          - generic [ref=e511]:
+            - generic [ref=e512]: <loc>
+            - text: https://beam-privacy.com/migrate/google-analytics
+            - generic [ref=e513]: </loc>
+          - generic [ref=e514]:
+            - generic [ref=e515]: <changefreq>
+            - text: weekly
+            - generic [ref=e516]: </changefreq>
+          - generic [ref=e517]:
+            - generic [ref=e518]: <priority>
+            - text: "0.8"
+            - generic [ref=e519]: </priority>
+        - generic [ref=e521]: </url>
+      - generic [ref=e522]:
+        - generic [ref=e525]: <url>
+        - generic [ref=e526]:
+          - generic [ref=e527]:
+            - generic [ref=e528]: <loc>
+            - text: https://beam-privacy.com/migrate/plausible
+            - generic [ref=e529]: </loc>
+          - generic [ref=e530]:
+            - generic [ref=e531]: <changefreq>
+            - text: weekly
+            - generic [ref=e532]: </changefreq>
+          - generic [ref=e533]:
+            - generic [ref=e534]: <priority>
+            - text: "0.8"
+            - generic [ref=e535]: </priority>
+        - generic [ref=e537]: </url>
+      - generic [ref=e538]:
+        - generic [ref=e541]: <url>
+        - generic [ref=e542]:
+          - generic [ref=e543]:
+            - generic [ref=e544]: <loc>
+            - text: https://beam-privacy.com/migrate/fathom
+            - generic [ref=e545]: </loc>
+          - generic [ref=e546]:
+            - generic [ref=e547]: <changefreq>
+            - text: weekly
+            - generic [ref=e548]: </changefreq>
+          - generic [ref=e549]:
+            - generic [ref=e550]: <priority>
+            - text: "0.8"
+            - generic [ref=e551]: </priority>
+        - generic [ref=e553]: </url>
+      - generic [ref=e554]:
+        - generic [ref=e557]: <url>
+        - generic [ref=e558]:
+          - generic [ref=e559]:
+            - generic [ref=e560]: <loc>
+            - text: https://beam-privacy.com/migrate/import-history
+            - generic [ref=e561]: </loc>
+          - generic [ref=e562]:
+            - generic [ref=e563]: <changefreq>
+            - text: monthly
+            - generic [ref=e564]: </changefreq>
+          - generic [ref=e565]:
+            - generic [ref=e566]: <priority>
+            - text: "0.8"
+            - generic [ref=e567]: </priority>
+        - generic [ref=e569]: </url>
+      - generic [ref=e570]:
+        - generic [ref=e573]: <url>
+        - generic [ref=e574]:
+          - generic [ref=e575]:
+            - generic [ref=e576]: <loc>
+            - text: https://beam-privacy.com/migrate/beam-analytics
+            - generic [ref=e577]: </loc>
+          - generic [ref=e578]:
+            - generic [ref=e579]: <changefreq>
+            - text: weekly
+            - generic [ref=e580]: </changefreq>
+          - generic [ref=e581]:
+            - generic [ref=e582]: <priority>
+            - text: "0.9"
+            - generic [ref=e583]: </priority>
+        - generic [ref=e585]: </url>
+      - generic [ref=e586]:
+        - generic [ref=e589]: <url>
+        - generic [ref=e590]:
+          - generic [ref=e591]:
+            - generic [ref=e592]: <loc>
+            - text: https://beam-privacy.com/beam-analytics-alternative
+            - generic [ref=e593]: </loc>
+          - generic [ref=e594]:
+            - generic [ref=e595]: <changefreq>
+            - text: weekly
+            - generic [ref=e596]: </changefreq>
+          - generic [ref=e597]:
+            - generic [ref=e598]: <priority>
+            - text: "0.8"
+            - generic [ref=e599]: </priority>
+        - generic [ref=e601]: </url>
+      - generic [ref=e602]:
+        - generic [ref=e605]: <url>
+        - generic [ref=e606]:
+          - generic [ref=e607]:
+            - generic [ref=e608]: <loc>
+            - text: https://beam-privacy.com/docs/api
+            - generic [ref=e609]: </loc>
+          - generic [ref=e610]:
+            - generic [ref=e611]: <changefreq>
+            - text: monthly
+            - generic [ref=e612]: </changefreq>
+          - generic [ref=e613]:
+            - generic [ref=e614]: <priority>
+            - text: "0.6"
+            - generic [ref=e615]: </priority>
+        - generic [ref=e617]: </url>
+      - generic [ref=e618]:
+        - generic [ref=e621]: <url>
+        - generic [ref=e622]:
+          - generic [ref=e623]:
+            - generic [ref=e624]: <loc>
+            - text: https://beam-privacy.com/for
+            - generic [ref=e625]: </loc>
+          - generic [ref=e626]:
+            - generic [ref=e627]: <changefreq>
+            - text: weekly
+            - generic [ref=e628]: </changefreq>
+          - generic [ref=e629]:
+            - generic [ref=e630]: <priority>
+            - text: "0.8"
+            - generic [ref=e631]: </priority>
+        - generic [ref=e633]: </url>
+      - generic [ref=e634]:
+        - generic [ref=e637]: <url>
+        - generic [ref=e638]:
+          - generic [ref=e639]:
+            - generic [ref=e640]: <loc>
+            - text: https://beam-privacy.com/wordpress-plugin
+            - generic [ref=e641]: </loc>
+          - generic [ref=e642]:
+            - generic [ref=e643]: <changefreq>
+            - text: weekly
+            - generic [ref=e644]: </changefreq>
+          - generic [ref=e645]:
+            - generic [ref=e646]: <priority>
+            - text: "0.8"
+            - generic [ref=e647]: </priority>
+        - generic [ref=e649]: </url>
+      - generic [ref=e650]:
+        - generic [ref=e653]: <url>
+        - generic [ref=e654]:
+          - generic [ref=e655]:
+            - generic [ref=e656]: <loc>
+            - text: https://beam-privacy.com/for/nextjs
+            - generic [ref=e657]: </loc>
+          - generic [ref=e658]:
+            - generic [ref=e659]: <changefreq>
+            - text: monthly
+            - generic [ref=e660]: </changefreq>
+          - generic [ref=e661]:
+            - generic [ref=e662]: <priority>
+            - text: "0.8"
+            - generic [ref=e663]: </priority>
+        - generic [ref=e665]: </url>
+      - generic [ref=e666]:
+        - generic [ref=e669]: <url>
+        - generic [ref=e670]:
+          - generic [ref=e671]:
+            - generic [ref=e672]: <loc>
+            - text: https://beam-privacy.com/for/wordpress
+            - generic [ref=e673]: </loc>
+          - generic [ref=e674]:
+            - generic [ref=e675]: <changefreq>
+            - text: monthly
+            - generic [ref=e676]: </changefreq>
+          - generic [ref=e677]:
+            - generic [ref=e678]: <priority>
+            - text: "0.8"
+            - generic [ref=e679]: </priority>
+        - generic [ref=e681]: </url>
+      - generic [ref=e682]:
+        - generic [ref=e685]: <url>
+        - generic [ref=e686]:
+          - generic [ref=e687]:
+            - generic [ref=e688]: <loc>
+            - text: https://beam-privacy.com/for/astro
+            - generic [ref=e689]: </loc>
+          - generic [ref=e690]:
+            - generic [ref=e691]: <changefreq>
+            - text: monthly
+            - generic [ref=e692]: </changefreq>
+          - generic [ref=e693]:
+            - generic [ref=e694]: <priority>
+            - text: "0.8"
+            - generic [ref=e695]: </priority>
+        - generic [ref=e697]: </url>
+      - generic [ref=e698]:
+        - generic [ref=e701]: <url>
+        - generic [ref=e702]:
+          - generic [ref=e703]:
+            - generic [ref=e704]: <loc>
+            - text: https://beam-privacy.com/for/hugo
+            - generic [ref=e705]: </loc>
+          - generic [ref=e706]:
+            - generic [ref=e707]: <changefreq>
+            - text: monthly
+            - generic [ref=e708]: </changefreq>
+          - generic [ref=e709]:
+            - generic [ref=e710]: <priority>
+            - text: "0.8"
+            - generic [ref=e711]: </priority>
+        - generic [ref=e713]: </url>
+      - generic [ref=e714]:
+        - generic [ref=e717]: <url>
+        - generic [ref=e718]:
+          - generic [ref=e719]:
+            - generic [ref=e720]: <loc>
+            - text: https://beam-privacy.com/for/remix
+            - generic [ref=e721]: </loc>
+          - generic [ref=e722]:
+            - generic [ref=e723]: <changefreq>
+            - text: monthly
+            - generic [ref=e724]: </changefreq>
+          - generic [ref=e725]:
+            - generic [ref=e726]: <priority>
+            - text: "0.8"
+            - generic [ref=e727]: </priority>
+        - generic [ref=e729]: </url>
+      - generic [ref=e730]:
+        - generic [ref=e733]: <url>
+        - generic [ref=e734]:
+          - generic [ref=e735]:
+            - generic [ref=e736]: <loc>
+            - text: https://beam-privacy.com/for/webflow
+            - generic [ref=e737]: </loc>
+          - generic [ref=e738]:
+            - generic [ref=e739]: <changefreq>
+            - text: monthly
+            - generic [ref=e740]: </changefreq>
+          - generic [ref=e741]:
+            - generic [ref=e742]: <priority>
+            - text: "0.8"
+            - generic [ref=e743]: </priority>
+        - generic [ref=e745]: </url>
+      - generic [ref=e746]:
+        - generic [ref=e749]: <url>
+        - generic [ref=e750]:
+          - generic [ref=e751]:
+            - generic [ref=e752]: <loc>
+            - text: https://beam-privacy.com/for/shopify
+            - generic [ref=e753]: </loc>
+          - generic [ref=e754]:
+            - generic [ref=e755]: <changefreq>
+            - text: monthly
+            - generic [ref=e756]: </changefreq>
+          - generic [ref=e757]:
+            - generic [ref=e758]: <priority>
+            - text: "0.8"
+            - generic [ref=e759]: </priority>
+        - generic [ref=e761]: </url>
+      - generic [ref=e762]:
+        - generic [ref=e765]: <url>
+        - generic [ref=e766]:
+          - generic [ref=e767]:
+            - generic [ref=e768]: <loc>
+            - text: https://beam-privacy.com/for/ghost
+            - generic [ref=e769]: </loc>
+          - generic [ref=e770]:
+            - generic [ref=e771]: <changefreq>
+            - text: monthly
+            - generic [ref=e772]: </changefreq>
+          - generic [ref=e773]:
+            - generic [ref=e774]: <priority>
+            - text: "0.8"
+            - generic [ref=e775]: </priority>
+        - generic [ref=e777]: </url>
+      - generic [ref=e778]:
+        - generic [ref=e781]: <url>
+        - generic [ref=e782]:
+          - generic [ref=e783]:
+            - generic [ref=e784]: <loc>
+            - text: https://beam-privacy.com/for/framer
+            - generic [ref=e785]: </loc>
+          - generic [ref=e786]:
+            - generic [ref=e787]: <changefreq>
+            - text: monthly
+            - generic [ref=e788]: </changefreq>
+          - generic [ref=e789]:
+            - generic [ref=e790]: <priority>
+            - text: "0.8"
+            - generic [ref=e791]: </priority>
+        - generic [ref=e793]: </url>
+      - generic [ref=e794]:
+        - generic [ref=e797]: <url>
+        - generic [ref=e798]:
+          - generic [ref=e799]:
+            - generic [ref=e800]: <loc>
+            - text: https://beam-privacy.com/for/carrd
+            - generic [ref=e801]: </loc>
+          - generic [ref=e802]:
+            - generic [ref=e803]: <changefreq>
+            - text: monthly
+            - generic [ref=e804]: </changefreq>
+          - generic [ref=e805]:
+            - generic [ref=e806]: <priority>
+            - text: "0.8"
+            - generic [ref=e807]: </priority>
+        - generic [ref=e809]: </url>
+      - generic [ref=e810]:
+        - generic [ref=e813]: <url>
+        - generic [ref=e814]:
+          - generic [ref=e815]:
+            - generic [ref=e816]: <loc>
+            - text: https://beam-privacy.com/tools/stack-scanner
+            - generic [ref=e817]: </loc>
+          - generic [ref=e818]:
+            - generic [ref=e819]: <changefreq>
+            - text: weekly
+            - generic [ref=e820]: </changefreq>
+          - generic [ref=e821]:
+            - generic [ref=e822]: <priority>
+            - text: "0.8"
+            - generic [ref=e823]: </priority>
+        - generic [ref=e825]: </url>
+      - generic [ref=e826]:
+        - generic [ref=e829]: <url>
+        - generic [ref=e830]:
+          - generic [ref=e831]:
+            - generic [ref=e832]: <loc>
+            - text: https://beam-privacy.com/switch
+            - generic [ref=e833]: </loc>
+          - generic [ref=e834]:
+            - generic [ref=e835]: <changefreq>
+            - text: monthly
+            - generic [ref=e836]: </changefreq>
+          - generic [ref=e837]:
+            - generic [ref=e838]: <priority>
+            - text: "0.8"
+            - generic [ref=e839]: </priority>
+        - generic [ref=e841]: </url>
+    - generic [ref=e843]: </urlset>

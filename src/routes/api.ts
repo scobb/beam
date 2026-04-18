@@ -76,7 +76,7 @@ api.get('/docs/api', (c) => {
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="${baseUrl}/docs/api" />
   <meta name="description" content="Beam Stats API reference. Query pageviews, events, and site data programmatically with a Bearer API key." />
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/assets/tailwind.css">
   <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
 </head>
 <body class="bg-gray-50 min-h-screen text-gray-900">

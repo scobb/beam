@@ -1,0 +1,37 @@
+- main [ref=e2]:
+  - link "Beam" [ref=e3] [cursor=pointer]:
+    - /url: /
+  - heading "Beam Stats API" [level=1] [ref=e4]
+  - paragraph [ref=e5]:
+    - text: Programmatic analytics access for Pro accounts. Authenticate with a billing-generated API key using
+    - code [ref=e6]: "Authorization: Bearer <api_key>"
+    - text: .
+  - generic [ref=e7]:
+    - heading "Authentication" [level=2] [ref=e8]
+    - paragraph [ref=e9]:
+      - text: Generate or revoke your key at
+      - link "/dashboard/billing" [ref=e10] [cursor=pointer]:
+        - /url: /dashboard/billing
+      - text: . Keys are shown only once when generated.
+    - code [ref=e12]: "Authorization: Bearer beam_your_api_key_here"
+    - paragraph [ref=e13]: "Rate limit: 60 requests/minute per API key. Free accounts receive HTTP 403 with upgrade guidance."
+  - generic [ref=e14]:
+    - heading "GET /api/v1/sites" [level=2] [ref=e15]
+    - paragraph [ref=e16]: Returns all sites owned by the authenticated user.
+    - code [ref=e18]: "curl -s https://beam-privacy.com/api/v1/sites \\ -H \"Authorization: Bearer beam_your_api_key_here\""
+    - code [ref=e20]: "{ \"sites\": [ { \"id\": \"site_123\", \"domain\": \"example.com\", \"name\": \"Example\" } ] }"
+  - generic [ref=e21]:
+    - heading "GET /api/v1/sites/:id/stats?range=7d|30d|today" [level=2] [ref=e22]
+    - paragraph [ref=e23]: Returns summary metrics and top traffic breakdowns for a site in the selected UTC range.
+    - code [ref=e25]: "curl -s \"https://beam-privacy.com/api/v1/sites/site_123/stats?range=7d\" \\ -H \"Authorization: Bearer beam_your_api_key_here\""
+    - code [ref=e27]: "{ \"range\": \"7d\", \"pageviews\": 842, \"uniqueVisitors\": 311, \"topPages\": [{ \"path\": \"/\", \"visitors\": 220, \"pageviews\": 415 }], \"topReferrers\": [{ \"source\": \"google.com\", \"visitors\": 137 }], \"topCountries\": [{ \"country\": \"US\", \"visitors\": 182 }], \"channels\": { \"Search\": { \"visitors\": 137, \"pageviews\": 241 }, \"Direct\": { \"visitors\": 98, \"pageviews\": 190 } } }"
+  - generic [ref=e28]:
+    - heading "GET /api/v1/sites/:id/events?range=7d|30d|today" [level=2] [ref=e29]
+    - paragraph [ref=e30]: Returns custom event counts with property breakdowns.
+    - code [ref=e32]: "curl -s \"https://beam-privacy.com/api/v1/sites/site_123/events?range=7d\" \\ -H \"Authorization: Bearer beam_your_api_key_here\""
+    - code [ref=e34]: "{ \"range\": \"7d\", \"events\": [ { \"name\": \"signup_click\", \"count\": 24, \"properties\": { \"plan\": { \"pro\": 11, \"free\": 13 }, \"source\": { \"pricing\": 20 } } } ] }"
+  - paragraph [ref=e36]:
+    - text: All ranges and buckets use UTC boundaries. Need API access? Upgrade to Pro at
+    - link "/dashboard/billing" [ref=e37] [cursor=pointer]:
+      - /url: /dashboard/billing
+    - text: .

@@ -1122,7 +1122,7 @@ function forHubPage(baseUrl: string, selfSiteId?: string): string {
   <meta name="twitter:description" content="Setup Beam on frameworks and no-code builders in minutes." />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="${baseUrl}/for" />
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/assets/tailwind.css">
   <script type="application/ld+json">${JSON.stringify(breadcrumbLd)}</script>
   <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
 </head>
@@ -1272,7 +1272,7 @@ function guidePage(guide: GuideConfig, baseUrl: string, selfSiteId?: string): st
   <meta name="twitter:description" content="${guide.metaDescription}" />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="${baseUrl}/for/${guide.slug}" />
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/assets/tailwind.css">
   <script type="application/ld+json">${JSON.stringify(breadcrumbLd)}</script>
   <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
 </head>

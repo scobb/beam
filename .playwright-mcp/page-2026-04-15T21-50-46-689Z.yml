@@ -1,0 +1,50 @@
+- generic [ref=e2]:
+  - complementary [ref=e3]:
+    - generic [ref=e4]:
+      - link "Beam" [ref=e5] [cursor=pointer]:
+        - /url: /dashboard
+      - paragraph [ref=e6]: Analytics
+    - navigation [ref=e7]:
+      - link "Overview" [ref=e8] [cursor=pointer]:
+        - /url: /dashboard
+      - link "Acquisition" [ref=e9] [cursor=pointer]:
+        - /url: /dashboard/acquisition
+      - link "Launch" [ref=e10] [cursor=pointer]:
+        - /url: /dashboard/launch
+      - link "Sites" [ref=e11] [cursor=pointer]:
+        - /url: /dashboard/sites
+      - link "Billing" [ref=e12] [cursor=pointer]:
+        - /url: /dashboard/billing
+      - link "Settings" [ref=e13] [cursor=pointer]:
+        - /url: /dashboard/settings
+    - link "Logout" [ref=e15] [cursor=pointer]:
+      - /url: /api/auth/logout
+  - main [ref=e16]:
+    - generic [ref=e17]:
+      - link "Beam" [ref=e18] [cursor=pointer]:
+        - /url: /dashboard
+      - button "Open navigation" [ref=e19] [cursor=pointer]:
+        - img [ref=e20]
+    - generic [ref=e22]:
+      - generic [ref=e23]:
+        - generic [ref=e24]:
+          - heading "Overview" [level=1] [ref=e25]
+          - paragraph [ref=e26]: test-beam236@example.com · Free plan
+        - link "Add Site" [ref=e27] [cursor=pointer]:
+          - /url: /dashboard/sites/new
+      - generic [ref=e28]:
+        - paragraph [ref=e29]: No sites yet
+        - link "Add your first site" [ref=e30] [cursor=pointer]:
+          - /url: /dashboard/sites/new
+      - generic [ref=e32]:
+        - generic [ref=e33]: Pageviews this month
+        - generic [ref=e34]: 0 / 50,000
+      - generic [ref=e36]:
+        - heading "Getting started" [level=2] [ref=e37]
+        - generic [ref=e38]:
+          - generic [ref=e39]:
+            - generic [ref=e41]: Add your first site
+            - link "Add site →" [ref=e42] [cursor=pointer]:
+              - /url: /dashboard/sites/new
+          - generic [ref=e45]: Install the tracking snippet on your site
+          - generic [ref=e48]: Receive your first pageview or event

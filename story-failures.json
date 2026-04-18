@@ -5,6 +5,12 @@
       "lastFailedAt": "2026-04-13T02:58:05Z",
       "lastError": ", re-log, or re-email. I just skip it.\n\nThe ralph-context.md is already up to date from the previous iteration. No changes needed.\n\n**Waiting on Steve to either:**\n1. Add `NPM_TOKEN=<automation-token>` to `.env` (from npmjs.com → Access Tokens → Automation type)\n2. OR publish manually: `cd /home/scobb/repos/beam/beam-js && npm publish`\n3. Then remove BEAM-207 from `blocked-stories.json` (or set `\"resolved\": true`)\n\nOnce resolved, the next iteration will pick up BEAM-207 and mark it complete.",
       "firstFailedAt": "2026-04-13T02:52:14Z"
+    },
+    "BEAM-219": {
+      "count": 399,
+      "lastFailedAt": "2026-04-15T23:14:46Z",
+      "lastError": "You've hit your limit · resets 7pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-15T22:42:25Z"
     }
   }
 }

@@ -1,0 +1,39 @@
+- generic [ref=e3]:
+  - navigation [ref=e4]:
+    - generic [ref=e6]:
+      - link "CardOptimizer" [ref=e7] [cursor=pointer]:
+        - /url: /
+      - generic [ref=e8]:
+        - link "Upload" [ref=e9] [cursor=pointer]:
+          - /url: /upload
+        - link "Wallet" [ref=e10] [cursor=pointer]:
+          - /url: /wallet
+        - link "Recommendations" [ref=e11] [cursor=pointer]:
+          - /url: /recommendations
+        - link "Builder" [ref=e12] [cursor=pointer]:
+          - /url: /builder
+        - link "Cards" [ref=e13] [cursor=pointer]:
+          - /url: /catalog
+  - main [ref=e14]
+  - contentinfo [ref=e15]:
+    - generic [ref=e16]:
+      - generic [ref=e17]:
+        - generic [ref=e18]:
+          - text: Built by
+          - link "Keylight Digital" [ref=e19] [cursor=pointer]:
+            - /url: https://keylightdigital.com
+        - generic [ref=e20]:
+          - link "Privacy Policy" [ref=e21] [cursor=pointer]:
+            - /url: /privacy
+          - link "Terms of Service" [ref=e22] [cursor=pointer]:
+            - /url: /terms
+          - button "Clear saved data" [ref=e23] [cursor=pointer]
+      - generic [ref=e24]:
+        - paragraph [ref=e25]: Also from Keylight Digital
+        - generic [ref=e26]:
+          - link "Beam — Privacy-first analytics" [ref=e27] [cursor=pointer]:
+            - /url: https://beam-privacy.com
+          - link "Nexus — AI command center" [ref=e28] [cursor=pointer]:
+            - /url: https://nexus.keylightdigital.dev
+          - link "ProfitTracker — Business profit analytics" [ref=e29] [cursor=pointer]:
+            - /url: https://profittracker.io

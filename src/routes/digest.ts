@@ -61,7 +61,7 @@ digest.get('/api/digest/unsubscribe', async (c) => {
   if (!userId) {
     return c.html(`<!DOCTYPE html><html><head><meta charset="UTF-8">
 <title>Invalid Link — Beam</title>
-<script src="https://cdn.tailwindcss.com"></script></head>
+<link rel="stylesheet" href="/assets/tailwind.css"></head>
 <body class="bg-gray-50 min-h-screen flex items-center justify-center">
 <div class="text-center p-8">
   <h1 class="text-2xl font-bold text-gray-900 mb-2">Invalid unsubscribe link</h1>
@@ -76,7 +76,7 @@ digest.get('/api/digest/unsubscribe', async (c) => {
 
   return c.html(`<!DOCTYPE html><html><head><meta charset="UTF-8">
 <title>Unsubscribed — Beam</title>
-<script src="https://cdn.tailwindcss.com"></script></head>
+<link rel="stylesheet" href="/assets/tailwind.css"></head>
 <body class="bg-gray-50 min-h-screen flex items-center justify-center">
 <div class="text-center p-8">
   <div class="text-4xl mb-4">✓</div>

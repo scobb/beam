@@ -1,0 +1,140 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e3]:
+      - link "Beam" [ref=e4] [cursor=pointer]:
+        - /url: /
+      - generic [ref=e5]:
+        - link "Log in" [ref=e6] [cursor=pointer]:
+          - /url: /login
+        - link "Get Started" [ref=e7] [cursor=pointer]:
+          - /url: /signup
+  - main [ref=e8]:
+    - generic [ref=e9]: Comparison
+    - heading "Beam vs Google Analytics" [level=1] [ref=e10]
+    - paragraph [ref=e11]: Google Analytics is the default choice for millions of sites — but it comes with serious privacy trade-offs. Beam gives you the numbers you need without sending your visitors' data to Google.
+    - generic [ref=e12]:
+      - paragraph [ref=e13]: Need implementation steps?
+      - paragraph [ref=e14]:
+        - text: Use the dedicated
+        - link "Google Analytics migration checklist" [ref=e15] [cursor=pointer]:
+          - /url: /migrate/google-analytics
+        - text: to remove GA tags, install Beam, and verify first pageviews/events.
+    - table [ref=e16]:
+      - rowgroup [ref=e17]:
+        - row "Feature Beam Competitor" [ref=e18]:
+          - columnheader "Feature" [ref=e19]
+          - columnheader "Beam" [ref=e20]
+          - columnheader "Competitor" [ref=e21]
+      - rowgroup [ref=e22]:
+        - row "Pricing Free / $5/mo Free (data is the product)" [ref=e23]:
+          - cell "Pricing" [ref=e24]
+          - cell "Free / $5/mo" [ref=e25]
+          - cell "Free (data is the product)" [ref=e26]
+        - row "Cookies used None Yes (1st-party by default)" [ref=e27]:
+          - cell "Cookies used" [ref=e28]
+          - cell "None" [ref=e29]
+          - cell "Yes (1st-party by default)" [ref=e30]
+        - row "GDPR compliant Yes — out of the box Requires consent banner + DPA" [ref=e31]:
+          - cell "GDPR compliant" [ref=e32]
+          - cell "Yes — out of the box" [ref=e33]
+          - cell "Requires consent banner + DPA" [ref=e34]
+        - row "CCPA compliant Yes Requires configuration" [ref=e35]:
+          - cell "CCPA compliant" [ref=e36]
+          - cell "Yes" [ref=e37]
+          - cell "Requires configuration" [ref=e38]
+        - row "Consent banner needed No Yes" [ref=e39]:
+          - cell "Consent banner needed" [ref=e40]
+          - cell "No" [ref=e41]
+          - cell "Yes" [ref=e42]
+        - row "Data ownership Your data, your servers Google owns and processes data" [ref=e43]:
+          - cell "Data ownership" [ref=e44]
+          - cell "Your data, your servers" [ref=e45]
+          - cell "Google owns and processes data" [ref=e46]
+        - row "Script size < 2 KB ~50 KB (GA4)" [ref=e47]:
+          - cell "Script size" [ref=e48]
+          - cell "< 2 KB" [ref=e49]
+          - cell "~50 KB (GA4)" [ref=e50]
+        - row "Setup complexity One script tag Tag Manager or gtag.js + config" [ref=e51]:
+          - cell "Setup complexity" [ref=e52]
+          - cell "One script tag" [ref=e53]
+          - cell "Tag Manager or gtag.js + config" [ref=e54]
+        - row "Dashboard simplicity Clean, focused metrics Highly complex (steep learning curve)" [ref=e55]:
+          - cell "Dashboard simplicity" [ref=e56]
+          - cell "Clean, focused metrics" [ref=e57]
+          - cell "Highly complex (steep learning curve)" [ref=e58]
+        - row "Real-time data Yes Yes" [ref=e59]:
+          - cell "Real-time data" [ref=e60]
+          - cell "Yes" [ref=e61]
+          - cell "Yes" [ref=e62]
+        - row "Ad integration Not applicable Deep Google Ads integration" [ref=e63]:
+          - cell "Ad integration" [ref=e64]
+          - cell "Not applicable" [ref=e65]
+          - cell "Deep Google Ads integration" [ref=e66]
+    - generic [ref=e67]:
+      - paragraph [ref=e68]: Google Analytics 4 is powerful, but that power comes at a cost. Every pageview your visitors generate is sent to Google's servers, where it feeds into their advertising infrastructure. Even with IP anonymization enabled, GA4 still requires a cookie consent banner in the EU under GDPR — meaning a significant share of your visitors will opt out and disappear from your data.
+      - paragraph [ref=e69]: Beam takes the opposite approach. The tracking script collects only what you need — page paths, referrers, country, device type, and browser — without any cookies or persistent identifiers. There's no PII involved, so no consent banner is required anywhere in the world. Your analytics data stays on Cloudflare's infrastructure and is never shared with third parties.
+      - paragraph [ref=e70]: For most site owners, Google Analytics offers far more complexity than they need. Beam's dashboard surfaces the metrics that actually matter — visitors, pageviews, top pages, referrers, and geographic breakdown — in a clean interface you can understand at a glance. If you're tired of wrestling with GA4's event model or worried about privacy compliance, Beam is a straightforward drop-in replacement.
+    - generic [ref=e71]:
+      - heading "Compare more options" [level=2] [ref=e72]
+      - generic [ref=e73]:
+        - link "Beam vs Plausible Compare Beam with the best-known indie privacy analytics SaaS." [ref=e74] [cursor=pointer]:
+          - /url: /vs/plausible
+          - paragraph [ref=e75]: Beam vs Plausible
+          - paragraph [ref=e76]: Compare Beam with the best-known indie privacy analytics SaaS.
+        - link "Beam vs Umami See the trade-off between self-hosted open source flexibility and hosted simplicity." [ref=e77] [cursor=pointer]:
+          - /url: /vs/umami
+          - paragraph [ref=e78]: Beam vs Umami
+          - paragraph [ref=e79]: See the trade-off between self-hosted open source flexibility and hosted simplicity.
+        - link "Beam vs Matomo Understand where a heavyweight self-hosted suite is overkill for simple analytics." [ref=e80] [cursor=pointer]:
+          - /url: /vs/matomo
+          - paragraph [ref=e81]: Beam vs Matomo
+          - paragraph [ref=e82]: Understand where a heavyweight self-hosted suite is overkill for simple analytics.
+    - generic [ref=e83]:
+      - heading "Ready to switch to Beam?" [level=2] [ref=e84]
+      - paragraph [ref=e85]: Start free. No credit card required. Up and running in under 5 minutes.
+      - link "Get Started Free" [ref=e86] [cursor=pointer]:
+        - /url: /signup
+  - contentinfo [ref=e87]:
+    - generic [ref=e88]:
+      - generic [ref=e89]: © 2026 Keylight Digital LLC. All rights reserved.
+      - generic [ref=e90]:
+        - link "About" [ref=e91] [cursor=pointer]:
+          - /url: /about
+        - link "Privacy" [ref=e92] [cursor=pointer]:
+          - /url: /privacy
+        - link "Terms" [ref=e93] [cursor=pointer]:
+          - /url: /terms
+        - link "Alternatives hub" [ref=e94] [cursor=pointer]:
+          - /url: /alternatives
+        - link "Migration hub" [ref=e95] [cursor=pointer]:
+          - /url: /migrate
+        - link "vs Google Analytics" [ref=e96] [cursor=pointer]:
+          - /url: /vs/google-analytics
+        - link "vs Vercel Analytics" [ref=e97] [cursor=pointer]:
+          - /url: /vs/vercel-analytics
+        - link "vs Cloudflare Web Analytics" [ref=e98] [cursor=pointer]:
+          - /url: /vs/cloudflare-web-analytics
+        - link "vs Plausible" [ref=e99] [cursor=pointer]:
+          - /url: /vs/plausible
+        - link "vs Fathom" [ref=e100] [cursor=pointer]:
+          - /url: /vs/fathom
+        - link "vs Umami" [ref=e101] [cursor=pointer]:
+          - /url: /vs/umami
+        - link "vs Matomo" [ref=e102] [cursor=pointer]:
+          - /url: /vs/matomo
+        - link "vs Simple Analytics" [ref=e103] [cursor=pointer]:
+          - /url: /vs/simple-analytics
+        - link "vs Rybbit" [ref=e104] [cursor=pointer]:
+          - /url: /vs/rybbit
+        - link "vs PostHog" [ref=e105] [cursor=pointer]:
+          - /url: /vs/posthog
+        - link "vs Pirsch" [ref=e106] [cursor=pointer]:
+          - /url: /vs/pirsch
+        - link "vs Cabin" [ref=e107] [cursor=pointer]:
+          - /url: /vs/cabin
+        - link "Beam Analytics Alternative" [ref=e108] [cursor=pointer]:
+          - /url: /beam-analytics-alternative
+        - link "Sign up" [ref=e109] [cursor=pointer]:
+          - /url: /signup
+        - link "Log in" [ref=e110] [cursor=pointer]:
+          - /url: /login

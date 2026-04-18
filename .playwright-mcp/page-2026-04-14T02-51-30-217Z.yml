@@ -1,0 +1,17 @@
+- generic [ref=e2]:
+  - generic [ref=e3]:
+    - link "Beam" [ref=e4] [cursor=pointer]:
+      - /url: /
+    - paragraph [ref=e5]: Create your account
+  - generic [ref=e6]:
+    - generic [ref=e7]:
+      - generic [ref=e8]: Email
+      - textbox [ref=e9]
+    - generic [ref=e10]:
+      - generic [ref=e11]: Password
+      - textbox [ref=e12]
+    - button "Create Account" [ref=e13] [cursor=pointer]
+  - paragraph [ref=e14]:
+    - text: Already have an account?
+    - link "Log in" [ref=e15] [cursor=pointer]:
+      - /url: /login

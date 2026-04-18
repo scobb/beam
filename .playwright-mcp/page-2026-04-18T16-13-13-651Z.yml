@@ -1,0 +1,21 @@
+- main [ref=e2]:
+  - link "← Back to Beam" [ref=e3] [cursor=pointer]:
+    - /url: /
+  - generic [ref=e4]:
+    - paragraph [ref=e5]: Free Tool
+    - heading "Analytics stack scanner" [level=1] [ref=e6]
+    - paragraph [ref=e7]: Paste a site URL to detect common analytics vendors and see script evidence. Public, no login required.
+    - generic [ref=e8]:
+      - textbox "https://example.com" [ref=e9]
+      - button "Scan URL" [ref=e10] [cursor=pointer]
+    - paragraph [ref=e11]: "Safety limits: only public http/https targets, one redirect max, 5-second timeout."
+  - generic [ref=e12]:
+    - heading "What to do next" [level=2] [ref=e13]
+    - paragraph [ref=e14]: Compare this stack against Beam's live product and decide whether a lighter, privacy-first setup is a better fit.
+    - generic [ref=e15]:
+      - link "Open migration hub" [ref=e16] [cursor=pointer]:
+        - /url: /migrate
+      - link "Open live demo" [ref=e17] [cursor=pointer]:
+        - /url: /demo
+      - link "Create free account" [ref=e18] [cursor=pointer]:
+        - /url: /signup

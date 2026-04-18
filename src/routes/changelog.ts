@@ -245,7 +245,7 @@ app.get('/changelog', (c) => {
   <meta name="twitter:description" content="See what's new in Beam — the latest features, improvements, and updates." />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="${baseUrl}/changelog" />
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/assets/tailwind.css">
 </head>
 <body class="bg-white text-gray-900 font-sans">
   ${nav()}

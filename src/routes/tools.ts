@@ -308,7 +308,7 @@ function stackScannerPage(
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Analytics Stack Scanner — Beam" />
   <meta name="twitter:description" content="Detect analytics vendors on any public website. Free tool." />
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/assets/tailwind.css">
 </head>
 <body class="min-h-screen bg-gray-50 text-gray-900">
   <main class="mx-auto max-w-4xl px-4 py-10 sm:px-6">
@@ -368,7 +368,7 @@ function sharedReportPage(publicBaseUrl: string, permalinkPath: string, result: 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="${escHtml(meta.title)}" />
   <meta name="twitter:description" content="${escHtml(meta.description)}" />
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/assets/tailwind.css">
 </head>
 <body class="min-h-screen bg-gray-50 text-gray-900">
   <main class="mx-auto max-w-4xl px-4 py-10 sm:px-6">
@@ -412,7 +412,7 @@ function sharedReportExpiredPage(publicBaseUrl: string, reportId: string): strin
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Scanner Report Unavailable — Beam" />
   <meta name="twitter:description" content="This shared scanner report expired. Run a new scan to generate a fresh link." />
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/assets/tailwind.css">
 </head>
 <body class="min-h-screen bg-gray-50 text-gray-900">
   <main class="mx-auto max-w-3xl px-4 py-16 sm:px-6">
