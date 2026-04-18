@@ -2378,4 +2378,10 @@ test.describe('API v1 authentication', () => {
     const body = await res.text()
     expect(body).toContain('SaaS')
   })
+
+  test('BEAM-254: /blog/gdpr-analytics-mistakes returns 200 with correct h1', async ({ request }) => {
+    const res = await request.get('/blog/gdpr-analytics-mistakes')
+    expect(res.status()).toBe(200)
+    expect(await res.text()).toContain('5 GDPR Analytics Mistakes')
+  })
 })

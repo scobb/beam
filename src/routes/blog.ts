@@ -44,6 +44,13 @@ function footer(): string {
 
 const POSTS = [
   {
+    slug: 'gdpr-analytics-mistakes',
+    title: '5 GDPR Analytics Mistakes That Could Cost You in 2026',
+    date: '2026-04-18',
+    excerpt: 'Most analytics setups have at least one GDPR compliance gap — and most site owners don\'t know it until they receive a complaint or an audit request. Here are the five most common mistakes, why they matter, and how to fix them.',
+    author: 'Keylight Digital',
+  },
+  {
     slug: 'matomo-alternative',
     title: 'Beam vs Matomo: The Privacy Analytics Showdown for 2026',
     date: '2026-04-15',
@@ -2538,6 +2545,204 @@ app.get('/blog/matomo-alternative', (c) => {
   </main>
   ${footer()}
   </body>
+</html>`
+
+  return c.html(html)
+})
+
+// ─── Blog Post: 5 GDPR Analytics Mistakes ────────────────────────────────────
+
+app.get('/blog/gdpr-analytics-mistakes', (c) => {
+  const baseUrl = getPublicBaseUrl(c.env)
+  const BEAM_SITE_ID = c.env.BEAM_SELF_SITE_ID ?? 'dfa32f6b-0775-43df-a2c4-eb23787e5f03'
+  const post = POSTS.find(p => p.slug === 'gdpr-analytics-mistakes')!
+  const jsonLd = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: post.title,
+    datePublished: post.date,
+    dateModified: post.date,
+    author: { '@type': 'Organization', name: 'Keylight Digital LLC', url: baseUrl },
+    publisher: { '@type': 'Organization', name: 'Keylight Digital LLC', url: baseUrl },
+    description: post.excerpt,
+    url: `${baseUrl}/blog/${post.slug}`,
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `${baseUrl}/blog/${post.slug}` },
+  })
+
+  const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>${post.title} — Beam</title>
+  <meta name="description" content="${post.excerpt}" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="${baseUrl}/blog/${post.slug}" />
+  <link rel="alternate" type="application/rss+xml" title="Beam Blog" href="/blog/rss.xml" />
+  <meta property="og:title" content="${post.title}" />
+  <meta property="og:description" content="${post.excerpt}" />
+  <meta property="og:url" content="${baseUrl}/blog/${post.slug}" />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="${post.date}" />
+  <meta property="og:image" content="${baseUrl}/og-image.svg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="${post.title}" />
+  <meta name="twitter:description" content="${post.excerpt}" />
+  <script type="application/ld+json">${jsonLd}</script>
+  <link rel="stylesheet" href="/assets/tailwind.css">
+  <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
+</head>
+<body class="bg-white text-gray-900">
+  ${nav()}
+  <main class="max-w-3xl mx-auto px-6 py-16">
+    <div class="mb-8">
+      <a href="/blog" class="text-sm text-indigo-600 hover:text-indigo-700">← Back to blog</a>
+    </div>
+    <article>
+      <header class="mb-10">
+        <time class="text-sm text-gray-400">${post.date}</time>
+        <h1 class="mt-2 text-3xl font-bold text-gray-900 leading-snug">${post.title}</h1>
+        <p class="mt-3 text-lg text-gray-500">${post.excerpt}</p>
+        <p class="mt-4 text-xs text-gray-400 italic">Disclaimer: This post is for informational purposes only and does not constitute legal advice. Consult a qualified lawyer for your specific situation.</p>
+      </header>
+
+      <div class="prose prose-gray max-w-none space-y-6 text-gray-700 leading-relaxed">
+
+        <p>
+          GDPR has been enforceable since 2018. Data protection authorities have issued hundreds of millions of euros in fines. Yet most analytics setups still have at least one compliance gap — and most site owners won't find out about it until they receive a complaint or an audit request.
+        </p>
+        <p>
+          Here are the five most common GDPR analytics mistakes, why they matter legally, and how to fix them.
+        </p>
+
+        <h2 class="text-2xl font-bold text-gray-900 mt-12">Mistake 1: Using Google Analytics Without a Signed DPA</h2>
+        <h3 class="text-lg font-semibold text-gray-700 mt-4">What it is</h3>
+        <p>
+          When you use Google Analytics, Google processes data on your behalf as a "data processor." GDPR Article 28 requires a written Data Processing Agreement (DPA) between you (the controller) and every processor you use. Google provides a standard DPA, but many site owners never sign it — or don't know it exists.
+        </p>
+        <h3 class="text-lg font-semibold text-gray-700 mt-4">Why it matters</h3>
+        <p>
+          Operating without a signed DPA is a GDPR violation independent of whether any data was actually misused. The Austrian DPA found that using GA without a valid DPA (and without adequate transfer mechanisms) violated GDPR. The French CNIL issued similar guidance.
+        </p>
+        <h3 class="text-lg font-semibold text-gray-700 mt-4">The legal risk</h3>
+        <p>
+          Fines up to €10M or 2% of global annual turnover (whichever is higher). For small businesses, the more realistic risk is a complaint leading to a formal investigation, which costs time and legal fees even if fines don't follow.
+        </p>
+        <h3 class="text-lg font-semibold text-gray-700 mt-4">How Beam avoids it</h3>
+        <p>
+          Beam processes no personal data. With no personal data in the pipeline, there is no processing agreement requirement for analytics data. You still need a DPA with Beam as a processor (we provide one on request), but the compliance surface is dramatically smaller.
+        </p>
+
+        <h2 class="text-2xl font-bold text-gray-900 mt-12">Mistake 2: Firing Analytics Before Consent Is Given</h2>
+        <h3 class="text-lg font-semibold text-gray-700 mt-4">What it is</h3>
+        <p>
+          If your analytics tool sets cookies or collects personal data (like IP addresses), GDPR requires explicit consent before any of that happens. Many consent management platforms (CMPs) load analytics scripts by default, with users "opting out" rather than "opting in." Under GDPR, this is not valid consent.
+        </p>
+        <h3 class="text-lg font-semibold text-gray-700 mt-4">Why it matters</h3>
+        <p>
+          The European Data Protection Board has been explicit: pre-ticked consent boxes, "legitimate interest" claims for advertising analytics, and "soft opt-in" banners are not compliant. Several DPAs have penalized sites for firing tags before consent events are received.
+        </p>
+        <h3 class="text-lg font-semibold text-gray-700 mt-4">The legal risk</h3>
+        <p>
+          This is one of the most common grounds for complaints. A competitor, activist, or privacy-aware visitor can file a complaint with any EU/EEA DPA. The GDPR's "one-stop-shop" mechanism can escalate it to the lead supervisory authority.
+        </p>
+        <h3 class="text-lg font-semibold text-gray-700 mt-4">How Beam avoids it</h3>
+        <p>
+          Beam uses no cookies and collects no personal data, so there is no personal-data processing that requires consent under GDPR. You can load Beam immediately on page load with no consent gate. This also means your analytics data is complete — you're not losing 30-60% of visitors who decline consent.
+        </p>
+
+        <h2 class="text-2xl font-bold text-gray-900 mt-12">Mistake 3: Storing IP Addresses in Your Analytics Database</h2>
+        <h3 class="text-lg font-semibold text-gray-700 mt-4">What it is</h3>
+        <p>
+          IP addresses are personal data under GDPR (confirmed by the CJEU in Breyer v. Germany, 2016). Many self-hosted analytics tools — and some hosted ones — store full or partial IP addresses in their database by default, sometimes for geo-IP lookups, sometimes just as a side effect of request logging.
+        </p>
+        <h3 class="text-lg font-semibold text-gray-700 mt-4">Why it matters</h3>
+        <p>
+          Any database storing IP addresses must have a lawful basis for that processing, implement appropriate retention limits, respond to subject access requests, and protect that data under GDPR's security requirements. Most analytics deployments are not set up for this.
+        </p>
+        <h3 class="text-lg font-semibold text-gray-700 mt-4">The legal risk</h3>
+        <p>
+          If your analytics database is breached or accessed without authorization, the presence of IP addresses triggers breach notification obligations under GDPR Article 33. The CNIL and other DPAs have specifically cited IP storage in analytics databases as a compliance concern.
+        </p>
+        <h3 class="text-lg font-semibold text-gray-700 mt-4">How Beam avoids it</h3>
+        <p>
+          Beam never stores IP addresses. Country-level geo-IP resolution happens at request time using Cloudflare's edge data, and then only the country code is stored — never the originating IP.
+        </p>
+
+        <h2 class="text-2xl font-bold text-gray-900 mt-12">Mistake 4: Analytics Cookies Set Without Disclosure</h2>
+        <h3 class="text-lg font-semibold text-gray-700 mt-4">What it is</h3>
+        <p>
+          Many sites run Google Analytics (GA4, Universal Analytics) or similar tools and display a consent banner — but the analytics cookies are already set before the user interacts with the banner. Others display a banner that lists some cookies but omits analytics cookies entirely, or list them as "strictly necessary" (which they are not).
+        </p>
+        <h3 class="text-lg font-semibold text-gray-700 mt-4">Why it matters</h3>
+        <p>
+          The ePrivacy Directive (which GDPR works alongside) requires prior informed consent for any non-essential cookies. Analytics cookies are not strictly necessary. Listing them incorrectly, or setting them before consent, violates both the ePrivacy Directive and the GDPR transparency principle.
+        </p>
+        <h3 class="text-lg font-semibold text-gray-700 mt-4">The legal risk</h3>
+        <p>
+          The Irish DPC, CNIL, and other authorities have issued corrective orders specifically about undisclosed analytics cookies. Fines in this category are typically in the €50K–€250K range for large publishers, but can affect any size business.
+        </p>
+        <h3 class="text-lg font-semibold text-gray-700 mt-4">How Beam avoids it</h3>
+        <p>
+          Beam sets no cookies at all. There is nothing to disclose in your cookie notice, nothing to manage in your CMP, and no risk of a mismatch between what your banner says and what your analytics tool does.
+        </p>
+
+        <h2 class="text-2xl font-bold text-gray-900 mt-12">Mistake 5: Using a US-Hosted Analytics Tool Without Adequate Transfer Mechanisms</h2>
+        <h3 class="text-lg font-semibold text-gray-700 mt-4">What it is</h3>
+        <p>
+          After the Schrems II ruling (2020), transferring personal data to the US requires either Standard Contractual Clauses (SCCs) or an adequacy decision. The EU-US Data Privacy Framework (DPF) was established in 2023 as a new adequacy mechanism, but it remains legally challenged and could be invalidated as Schrems I and II were.
+        </p>
+        <p>
+          If you use Google Analytics, Adobe Analytics, or any US-hosted tool that processes personal data from EU visitors, you must have valid transfer mechanisms in place — and document them.
+        </p>
+        <h3 class="text-lg font-semibold text-gray-700 mt-4">Why it matters</h3>
+        <p>
+          The Austrian DPA's 2022 decision (and subsequent rulings across the EU) found that GA4's data transfers to the US were unlawful without supplementary measures. Multiple EU DPAs have issued similar findings. The DPF offers a partial fix but isn't guaranteed to hold.
+        </p>
+        <h3 class="text-lg font-semibold text-gray-700 mt-4">The legal risk</h3>
+        <p>
+          Non-compliant international transfers are one of the most enforcement-active areas in EU data protection law. Even if you have SCCs signed, you may need to conduct Transfer Impact Assessments (TIAs) if the destination country doesn't offer equivalent legal protection.
+        </p>
+        <h3 class="text-lg font-semibold text-gray-700 mt-4">How Beam avoids it</h3>
+        <p>
+          Beam runs on Cloudflare's global edge network and stores no personal data, so there is no personal data to transfer cross-border for analytics purposes. EU visitor data is processed at Cloudflare edge nodes without ever being sent to a US analytics database with personal records attached.
+        </p>
+
+        <h2 class="text-2xl font-bold text-gray-900 mt-12">The Simplest Fix: Remove the Root Cause</h2>
+        <p>
+          The common thread in all five mistakes is personal data: cookies that persist identifiers, IP addresses, user sessions. Every GDPR obligation around analytics exists because analytics tools traditionally needed personal data to work.
+        </p>
+        <p>
+          Cookie-free analytics tools like Beam solve these problems at the root. Without cookies, there is no consent requirement. Without IP addresses, there is no personal data storage. Without personal data transfers, there are no cross-border transfer mechanisms to maintain. You get clean, accurate traffic data and a dramatically simpler compliance posture.
+        </p>
+        <p>
+          If you're running Google Analytics or another cookie-based tool today, here's what your compliance to-do list looks like:
+        </p>
+        <ul class="list-disc list-inside space-y-1 ml-4">
+          <li>Sign your DPA with Google (or check if it's already countersigned via your account)</li>
+          <li>Verify your CMP is blocking GA scripts until consent is given</li>
+          <li>Confirm your privacy notice accurately lists all analytics cookies</li>
+          <li>Review your data retention settings in Google Analytics</li>
+          <li>Check whether your GA instance is certified under the DPF or covered by SCCs</li>
+        </ul>
+        <p class="mt-4">
+          Or: switch to a privacy-first analytics tool that doesn't need any of that.
+        </p>
+
+        <div class="mt-12 p-6 bg-indigo-50 border border-indigo-100 rounded-xl">
+          <h3 class="text-lg font-semibold text-gray-900 mb-2">Try Beam — privacy-first analytics that avoids all five mistakes by design</h3>
+          <p class="text-gray-600 mb-4">No cookies. No IP storage. No consent banner. No cross-border transfer headaches. Free up to 50,000 pageviews/month.</p>
+          <a href="/signup" class="inline-block bg-indigo-600 text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-indigo-700 transition">Start for free →</a>
+          <a href="/blog/gdpr-analytics-no-cookie-banner" class="inline-block ml-4 text-sm text-indigo-600 hover:text-indigo-700 font-medium">What the law actually requires →</a>
+        </div>
+
+        <p class="text-xs text-gray-400 mt-8 italic">This post is for informational purposes only and does not constitute legal advice. Consult a qualified legal professional for advice specific to your situation and jurisdiction.</p>
+
+      </div>
+    </article>
+  </main>
+  ${footer()}
+</body>
 </html>`
 
   return c.html(html)
