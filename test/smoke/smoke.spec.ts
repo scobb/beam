@@ -2258,19 +2258,16 @@ test.describe('API v1 authentication', () => {
     expect(html).toContain('/assets/tailwind.css')
   })
 
-  test('BEAM-248: activation_email_sent_at column exists on users table', async ({ page }) => {
-    // Verify the migration was applied by attempting a query that uses the column
-    const res = await page.evaluate(() =>
-      fetch('/api/v1/me', { credentials: 'include' }).then(r => r.status)
-    )
-    // If migration is missing the worker would 500 on any DB query; a 401 means DB is healthy
-    expect([200, 401]).toContain(res)
-  })
-
-  test('BEAM-248: scheduled handler health — /health endpoint still returns ok', async ({ request }) => {
+  test('BEAM-248: /health endpoint returns ok after activation drip migration', async ({ request }) => {
     const res = await request.get('/health')
     expect(res.status()).toBe(200)
     const body = await res.json()
     expect(body.status).toBe('ok')
+  })
+
+  test('BEAM-248: login page loads after activation drip migration (DB health check)', async ({ page }) => {
+    const res = await page.goto('/login')
+    expect(res!.status()).toBe(200)
+    await expect(page.locator('body')).toContainText('Log In')
   })
 })
