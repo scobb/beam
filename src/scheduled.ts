@@ -3,6 +3,7 @@ import { ALERT_BASELINE_DAYS, averageDaily, detectAnomaly, hasMinimumDataDays } 
 import { generateSiteInsights, type SiteInsights } from './lib/insights'
 import { getPublicBaseUrl } from './lib/publicUrl'
 import { signUnsubscribe } from './routes/digest'
+import { activationWindowBounds } from './lib/activationDrip'
 
 const FROM_EMAIL = 'Beam <ralph@keylightdigital.dev>'
 const RESEND_URL = 'https://api.resend.com/emails'
@@ -515,6 +516,135 @@ async function runTrafficAlerts(env: Env, now: Date): Promise<void> {
   }
 }
 
+interface ActivationCandidate {
+  id: string
+  email: string
+  siteId: string | null
+  siteName: string | null
+}
+
+async function sendActivationEmail(
+  env: Env,
+  userId: string,
+  userEmail: string,
+  siteId: string | null,
+  siteName: string | null,
+  baseUrl: string,
+): Promise<void> {
+  const resendKey = env.RESEND_API_KEY
+  if (!resendKey) return
+
+  const setupLink = siteId
+    ? `${baseUrl}/dashboard/sites/${siteId}/setup`
+    : `${baseUrl}/dashboard/new-site`
+  const snippet = siteId
+    ? `<script defer src="${baseUrl}/js/beam.js" data-site-id="${siteId}"></script>`
+    : null
+  const siteLine = siteName ? ` for <strong>${siteName}</strong>` : ''
+
+  const html = `<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#f9fafb;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#f9fafb;padding:32px 0">
+    <tr><td align="center">
+      <table width="560" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.1)">
+        <tr><td style="background:#4f46e5;padding:24px 32px">
+          <h1 style="margin:0;color:#ffffff;font-size:22px;font-weight:700">Beam</h1>
+          <p style="margin:4px 0 0;color:#c7d2fe;font-size:13px">Privacy-first web analytics</p>
+        </td></tr>
+        <tr><td style="padding:28px 32px 8px">
+          <h2 style="margin:0 0 12px;font-size:20px;font-weight:600;color:#111827">One step left${siteLine}</h2>
+          <p style="margin:0 0 16px;font-size:15px;color:#374151;line-height:1.6">
+            You created your Beam account but haven't seen any pageviews yet. Paste this one line into your site's <code style="background:#f3f4f6;padding:2px 6px;border-radius:4px;font-size:13px">&lt;head&gt;</code> to start tracking:
+          </p>
+          ${snippet ? `<pre style="background:#f3f4f6;padding:14px 16px;border-radius:8px;font-size:13px;color:#1f2937;overflow-x:auto;margin:0 0 20px">${snippet.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</pre>` : ''}
+          <p style="margin:0 0 8px;font-size:14px;color:#6b7280">Using a framework? We have guides for Next.js, React, Vue, Nuxt, WordPress, Shopify, and more:</p>
+        </td></tr>
+        <tr><td style="padding:0 32px 24px" align="center">
+          <a href="${setupLink}" style="display:inline-block;background:#4f46e5;color:#ffffff;text-decoration:none;padding:12px 28px;border-radius:8px;font-size:14px;font-weight:600;margin-right:12px">View setup guide →</a>
+          <a href="${baseUrl}/for" style="display:inline-block;background:#f3f4f6;color:#374151;text-decoration:none;padding:12px 28px;border-radius:8px;font-size:14px;font-weight:600">All framework guides</a>
+        </td></tr>
+        <tr><td style="padding:16px 32px 24px;border-top:1px solid #f3f4f6;text-align:center">
+          <p style="margin:0;font-size:12px;color:#9ca3af">You're receiving this because you signed up for Beam analytics.</p>
+        </td></tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`
+
+  const text = `One step left — add Beam to your site${siteLine ? ` (${siteName})` : ''}
+
+Paste this snippet into your site's <head>:
+${snippet ?? ''}
+
+View setup guide: ${setupLink}
+All framework guides: ${baseUrl}/for`
+
+  await fetch(RESEND_URL, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${resendKey}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      from: FROM_EMAIL,
+      to: userEmail,
+      subject: 'One step left \u2014 add Beam to your site',
+      html,
+      text,
+    }),
+  })
+}
+
+async function runActivationDrip(env: Env, now: Date): Promise<void> {
+  const { earliest, latest } = activationWindowBounds(now)
+  const baseUrl = getPublicBaseUrl(env)
+
+  const candidatesResult = await env.DB.prepare(`
+    SELECT u.id, u.email,
+           s.id AS siteId, s.name AS siteName
+    FROM users u
+    LEFT JOIN sites s ON s.user_id = u.id
+    WHERE u.created_at >= ?
+      AND u.created_at < ?
+      AND u.activation_email_sent_at IS NULL
+    ORDER BY u.created_at ASC, s.created_at ASC
+  `).bind(earliest, latest).all<ActivationCandidate>()
+
+  const rows = candidatesResult.results ?? []
+
+  // Deduplicate by user — take the first site if they have multiple
+  const byUser = new Map<string, ActivationCandidate>()
+  for (const row of rows) {
+    if (!byUser.has(row.id)) byUser.set(row.id, row)
+  }
+
+  for (const candidate of byUser.values()) {
+    if (candidate.siteId) {
+      // Check if they have any pageviews at all
+      const pvRow = await env.DB.prepare(
+        'SELECT COUNT(*) AS count FROM pageviews WHERE site_id = ? LIMIT 1'
+      ).bind(candidate.siteId).first<{ count: number }>()
+      if ((pvRow?.count ?? 0) > 0) continue
+    }
+
+    await sendActivationEmail(
+      env,
+      candidate.id,
+      candidate.email,
+      candidate.siteId ?? null,
+      candidate.siteName ?? null,
+      baseUrl,
+    )
+
+    await env.DB.prepare(
+      'UPDATE users SET activation_email_sent_at = ? WHERE id = ?'
+    ).bind(now.toISOString(), candidate.id).run()
+  }
+}
+
 async function nexusTrace(env: Env, name: string, fn: () => Promise<void>): Promise<void> {
   const apiKey = env.NEXUS_API_KEY
   if (!apiKey) return fn()
@@ -558,12 +688,17 @@ export async function handleScheduled(env: Env, cronExpression?: string): Promis
   const cron = cronExpression?.trim()
   const now = new Date()
 
-  // Backward-compatible: when no cron string is provided (tests/manual calls), run both jobs.
+  // Backward-compatible: when no cron string is provided (tests/manual calls), run all jobs.
   const shouldRunWeeklyDigests = !cron || cron === WEEKLY_DIGEST_CRON
   const shouldRunTrafficAlerts = !cron || cron === DAILY_ALERT_CRON || cron === WEEKLY_DIGEST_CRON
+  const shouldRunActivationDrip = !cron || cron === DAILY_ALERT_CRON || cron === WEEKLY_DIGEST_CRON
 
   if (shouldRunTrafficAlerts) {
     await nexusTrace(env, 'traffic-alerts', () => runTrafficAlerts(env, now))
+  }
+
+  if (shouldRunActivationDrip) {
+    await nexusTrace(env, 'activation-drip', () => runActivationDrip(env, now))
   }
 
   if (shouldRunWeeklyDigests) {
