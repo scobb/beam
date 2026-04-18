@@ -2385,6 +2385,12 @@ test.describe('API v1 authentication', () => {
     expect(await res.text()).toContain('5 GDPR Analytics Mistakes')
   })
 
+  test('BEAM-255: /blog/indie-hacker-analytics returns 200 with correct h1', async ({ request }) => {
+    const res = await request.get('/blog/indie-hacker-analytics')
+    expect(res.status()).toBe(200)
+    expect(await res.text()).toContain("The Indie Hacker's Guide to Privacy-First Analytics")
+  })
+
   // ── BEAM-256: Add another site prompt for Pro users with 1 site ─────────────
 
   test('BEAM-256: GET /dashboard returns 200 and renders site list without regression', async ({ page }) => {

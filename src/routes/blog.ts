@@ -44,6 +44,13 @@ function footer(): string {
 
 const POSTS = [
   {
+    slug: 'indie-hacker-analytics',
+    title: "The Indie Hacker's Guide to Privacy-First Analytics",
+    date: '2026-04-18',
+    excerpt: "You're building in public, shipping fast, and watching your numbers. Here's why Beam is the analytics tool that fits the indie hacker workflow — no GDPR headaches, no GA bloat, free to start.",
+    author: 'Keylight Digital',
+  },
+  {
     slug: 'gdpr-analytics-mistakes',
     title: '5 GDPR Analytics Mistakes That Could Cost You in 2026',
     date: '2026-04-18',
@@ -2737,6 +2744,213 @@ app.get('/blog/gdpr-analytics-mistakes', (c) => {
         </div>
 
         <p class="text-xs text-gray-400 mt-8 italic">This post is for informational purposes only and does not constitute legal advice. Consult a qualified legal professional for advice specific to your situation and jurisdiction.</p>
+
+      </div>
+    </article>
+  </main>
+  ${footer()}
+</body>
+</html>`
+
+  return c.html(html)
+})
+
+// ─── Blog Post: The Indie Hacker's Guide to Privacy-First Analytics ──────────
+
+app.get('/blog/indie-hacker-analytics', (c) => {
+  const baseUrl = getPublicBaseUrl(c.env)
+  const BEAM_SITE_ID = c.env.BEAM_SELF_SITE_ID ?? 'dfa32f6b-0775-43df-a2c4-eb23787e5f03'
+  const post = POSTS.find(p => p.slug === 'indie-hacker-analytics')!
+  const jsonLd = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: post.title,
+    datePublished: post.date,
+    dateModified: post.date,
+    author: { '@type': 'Organization', name: 'Keylight Digital LLC', url: baseUrl },
+    publisher: { '@type': 'Organization', name: 'Keylight Digital LLC', url: baseUrl },
+    description: post.excerpt,
+    url: `${baseUrl}/blog/${post.slug}`,
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `${baseUrl}/blog/${post.slug}` },
+  })
+
+  const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>${post.title} — Beam</title>
+  <meta name="description" content="${post.excerpt}" />
+  <meta property="og:title" content="${post.title}" />
+  <meta property="og:description" content="${post.excerpt}" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="${baseUrl}/blog/${post.slug}" />
+  <link rel="canonical" href="${baseUrl}/blog/${post.slug}" />
+  <script type="application/ld+json">${jsonLd}</script>
+  <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
+  <link rel="stylesheet" href="/assets/tailwind.css">
+</head>
+<body class="bg-gray-50 text-gray-900">
+  <header class="border-b border-gray-200 bg-white">
+    <div class="max-w-3xl mx-auto px-4 py-4 flex items-center justify-between">
+      <a href="/" class="text-xl font-bold text-indigo-600">Beam</a>
+      <nav class="flex items-center gap-4 text-sm">
+        <a href="/blog" class="text-gray-600 hover:text-gray-900">Blog</a>
+        <a href="/signup" class="bg-indigo-600 text-white px-4 py-1.5 rounded-lg hover:bg-indigo-700 transition">Sign up free</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <article class="max-w-3xl mx-auto px-4 py-12">
+      <div class="mb-8">
+        <p class="text-sm text-indigo-600 font-medium mb-2">Indie Hackers · ${post.date}</p>
+        <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 leading-tight mb-4">${post.title}</h1>
+        <p class="text-lg text-gray-600">${post.excerpt}</p>
+      </div>
+
+      <div class="prose prose-gray max-w-none space-y-6 text-gray-700 leading-relaxed">
+
+        <p>
+          You're shipping fast. You're watching your numbers obsessively. You're building in public.
+          The last thing you need is a six-tab analytics setup that takes an afternoon to configure
+          and requires a cookie banner that makes your landing page feel like a corporate compliance form.
+        </p>
+
+        <p>
+          Google Analytics is the default answer, but it's built for enterprise marketing teams —
+          not solo founders with a side project getting its first hundred users. Here's why Beam
+          fits the indie hacker workflow better, and how to get it running in under 60 seconds.
+        </p>
+
+        <h2 class="text-2xl font-bold text-gray-900 mt-10 mb-4">Why GA is overkill for side projects</h2>
+
+        <p>
+          GA4 gives you 200+ reports, a data model built around "events" and "parameters", and
+          a setup wizard that takes 30 minutes if you've done it before. For a side project,
+          you need to know: how many people visited today, where did they come from, and did
+          they click the signup button?
+        </p>
+
+        <p>
+          GA also has a GDPR problem. It uses cookies, sends data to US servers, and legally
+          requires you to show a consent banner to EU visitors — even if you have no EU users
+          yet. That banner kills conversions. Indie hackers often skip the banner (illegally)
+          or accept the conversion hit. Neither is great.
+        </p>
+
+        <p>
+          And here's the thing that most people don't realize: <strong>if you're collecting personal
+          data from EU users without a lawful basis, the fine isn't just theoretical</strong>.
+          Small companies have been fined. The GDPR applies to solo founders too.
+        </p>
+
+        <h2 class="text-2xl font-bold text-gray-900 mt-10 mb-4">GDPR concerns for small products</h2>
+
+        <p>
+          The moment you have a user in the EU, GDPR applies. It doesn't matter if you're
+          a one-person operation, if you're pre-revenue, or if you've never heard of the
+          supervisory authority in your country. The obligations are real.
+        </p>
+
+        <p>
+          The safe path for indie hackers: use analytics that collects no personal data at all.
+          No cookies, no IP addresses, no fingerprinting. If you're not collecting personal
+          data, GDPR's consent requirements don't apply. No banner needed.
+        </p>
+
+        <p>
+          Beam collects only what you actually need: page path, referrer, country (from
+          IP geolocation — the IP is never stored), device type, and browser. That's it.
+          No user IDs, no cross-site tracking, no persistent identifiers.
+        </p>
+
+        <h2 class="text-2xl font-bold text-gray-900 mt-10 mb-4">60-second setup</h2>
+
+        <p>Paste one line into your <code class="bg-gray-100 px-1 rounded text-sm">&lt;head&gt;</code>:</p>
+
+        <pre class="bg-gray-900 text-green-400 rounded-xl p-4 overflow-x-auto text-sm"><code>&lt;script defer src="${baseUrl}/js/beam.js" data-site-id="YOUR_SITE_ID"&gt;&lt;/script&gt;</code></pre>
+
+        <p>
+          That's the entire installation. No npm package, no build step, no environment variable,
+          no config file. Works on Vercel, Netlify, Cloudflare Pages, GitHub Pages, a VPS —
+          anywhere you can edit your HTML.
+        </p>
+
+        <p>
+          After you paste it, open your dashboard and reload your page once. You'll see the
+          first pageview appear in real time.
+        </p>
+
+        <h2 class="text-2xl font-bold text-gray-900 mt-10 mb-4">Using goals to track signups and conversions</h2>
+
+        <p>
+          Pageviews alone tell you how many people showed up. Goals tell you how many did
+          what you wanted them to do.
+        </p>
+
+        <p>
+          In Beam, you define goals by URL pattern. Want to track signups? Set a goal for
+          <code class="bg-gray-100 px-1 rounded text-sm">/signup/success</code> (or wherever
+          you redirect after signup). Want to track pricing page clicks? Set a goal for
+          <code class="bg-gray-100 px-1 rounded text-sm">/pricing</code>. Every time that
+          URL is visited, the goal fires.
+        </p>
+
+        <p>
+          For SPAs (React, Next.js, Svelte, Vue), Beam auto-detects route changes using the
+          History API, so goals based on virtual URLs work without any extra configuration.
+        </p>
+
+        <p>You can also fire a goal manually from JavaScript:</p>
+
+        <pre class="bg-gray-900 text-green-400 rounded-xl p-4 overflow-x-auto text-sm"><code>window.beam?.goal('Signup button clicked')</code></pre>
+
+        <p>
+          This is useful when the conversion doesn't involve a page navigation —
+          like clicking a "Get started" button on a landing page, or completing
+          a multi-step form.
+        </p>
+
+        <h2 class="text-2xl font-bold text-gray-900 mt-10 mb-4">Building in public with your public stats URL</h2>
+
+        <p>
+          Indie hackers love building in public — sharing MRR, user counts, and growth
+          milestones. Beam gives you a public stats URL you can share with your audience
+          so they can see your traffic in real time without needing an account.
+        </p>
+
+        <p>
+          To enable it: go to your site settings, turn on "Public dashboard". You'll get
+          a URL like <code class="bg-gray-100 px-1 rounded text-sm">beam-privacy.com/public/YOUR_SITE_ID</code>
+          that anyone can view.
+        </p>
+
+        <p>
+          Drop it in your Indie Hackers profile, your Twitter/X bio, or your "About" page.
+          Readers can see real traffic data, not a curated screenshot. It's a trust signal —
+          and it makes your "building in public" posts more credible.
+        </p>
+
+        <h2 class="text-2xl font-bold text-gray-900 mt-10 mb-4">Free to start, scales with you</h2>
+
+        <p>
+          Beam's free tier covers 50,000 pageviews/month — more than enough for early-stage
+          side projects. Most indie hackers can run indefinitely on the free plan.
+        </p>
+
+        <p>
+          When you grow past that, Pro is $5/month (or $50/year). That's less than a
+          Hacker News Show HN post's worth of users costs you in Vercel bandwidth.
+          And there are no seats, no team limits, no feature gates behind higher tiers —
+          one price, everything included.
+        </p>
+
+        <div class="mt-12 p-6 bg-indigo-50 border border-indigo-100 rounded-xl">
+          <h3 class="text-lg font-semibold text-gray-900 mb-2">Ship fast. Know your numbers. Skip the GDPR headaches.</h3>
+          <p class="text-gray-600 mb-4">Beam is free for up to 50,000 pageviews/month. One script tag. No cookies. No consent banner. Works everywhere.</p>
+          <a href="/signup" class="inline-block bg-indigo-600 text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-indigo-700 transition">Start for free →</a>
+          <a href="/demo" class="inline-block ml-4 text-sm text-indigo-600 hover:text-indigo-700 font-medium">See a live demo →</a>
+        </div>
 
       </div>
     </article>
