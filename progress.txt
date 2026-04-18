@@ -41,3 +41,18 @@ Started: Sat Apr 18 09:11:52 AM PDT 2026
   - `dist/` is gitignored — only commit src/tailwindCss.ts (the generated TS constant)
   - BEAM-225 local smoke tests fail when run in isolation (miniflare signup rate limiting), not a real regression
 ---
+
+## 2026-04-18 - BEAM-248
+- Added activation drip email for new signups who haven't installed the snippet within 24 hours
+- Migration 0017: `activation_email_sent_at TEXT` column on users table
+- `src/lib/activationDrip.ts`: pure functions for 20-28h eligibility window (unit tested)
+- `runActivationDrip()` in scheduled.ts: queries users created 20-28h ago with no pageviews, sends email, sets sent_at to prevent duplicates
+- Email includes HTML snippet, setup guide link, /for framework guides link
+- Handles users with no sites (links to /dashboard/new-site)
+- Runs alongside traffic-alerts on every daily cron via nexusTrace
+- 5 unit tests, 4 smoke tests (all pass on prod)
+- **Learnings for future iterations:**
+  - page.evaluate() with relative URL fails if no page has been navigated to first (about:blank context has no origin)
+  - Prod login page text is "Log In" (capital I), not "Log in"
+  - Staging migration showed "No migrations to apply" — staging may have received schema changes from a prior partial deploy
+---

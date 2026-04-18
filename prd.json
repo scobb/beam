@@ -4075,7 +4075,7 @@
                 "Smoke test: scheduled handler runs without error when called in test mode"
             ],
             "priority": "high",
-            "passes": false,
+            "passes": true,
             "notes": "Add activation_email_sent_at column via a new numbered migration. The scheduled handler in scheduled.ts already has nexusTrace wrapper and the pattern for looping users — follow the same pattern for a third job."
         },
         {
