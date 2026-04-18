@@ -3630,7 +3630,7 @@
         "Update progress.txt with submission results"
       ],
       "priority": "low",
-      "passes": false
+      "passes": true
     },
     {
       "id": "BEAM-220",

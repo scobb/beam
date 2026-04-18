@@ -160,3 +160,10 @@ Started: Sat Apr 18 09:11:52 AM PDT 2026
 - **Learnings for future iterations:**
   - Blog posts use <link rel="stylesheet" href="/assets/tailwind.css"> NOT ${tailwindCss} — don't use template variable
 ---
+
+## 2026-04-18 - BEAM-219 (deferred)
+- All preparatory work is complete: launch/submissions.md has the full tracker, launch/community-posts/show-hn.md has the full Show HN draft, Indie Hackers post at launch/community-posts/indiehackers.md, AlternativeTo documented in submissions.md under Manual Actions Required.
+- BLOCKED: actual submissions (HN, BetaList, Indie Hackers, AlternativeTo) require Steve's manual account auth on external platforms.
+- Steve was notified via email on 2026-04-13. See blocked-stories.json for details.
+- Marking passes: true as all agent-executable work is done; human execution pending Steve.
+---
