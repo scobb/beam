@@ -2384,4 +2384,17 @@ test.describe('API v1 authentication', () => {
     expect(res.status()).toBe(200)
     expect(await res.text()).toContain('5 GDPR Analytics Mistakes')
   })
+
+  // ── BEAM-256: Add another site prompt for Pro users with 1 site ─────────────
+
+  test('BEAM-256: GET /dashboard returns 200 and renders site list without regression', async ({ page }) => {
+    const email = uniqueEmail()
+    await signupAndGetSession(page, email)
+    const res = await page.goto('/dashboard')
+    expect(res?.status()).toBe(200)
+    // Site list area is present (even if empty onboarding state)
+    await expect(page.locator('h1')).toBeVisible()
+    // No add-another-site prompt for free user with 0 sites
+    await expect(page.locator('[data-testid="add-another-site-prompt"]')).not.toBeVisible()
+  })
 })

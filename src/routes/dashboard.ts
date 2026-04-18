@@ -493,6 +493,13 @@ dashboard.get('/dashboard', async (c) => {
 
       <div class="space-y-3 mb-5">${siteCards}</div>
 
+      ${isPro && siteIds.length === 1 ? `
+        <div class="bg-indigo-50 border border-indigo-200 rounded-xl px-4 py-3 mb-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3" data-testid="add-another-site-prompt">
+          <p class="text-sm text-indigo-900">Your Pro plan includes unlimited sites. Track your docs site, landing page, or staging environment too.</p>
+          <a href="/dashboard/sites/new" class="inline-block shrink-0 bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700 transition whitespace-nowrap">Add a site</a>
+        </div>
+      ` : ''}
+
       <!-- Usage bar -->
       <div class="bg-white rounded-xl border border-gray-200 p-4 mb-5">
         <div class="flex justify-between text-sm mb-1.5">
