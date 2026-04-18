@@ -2346,4 +2346,22 @@ test.describe('API v1 authentication', () => {
     expect(body).toContain('annual')
     expect(body).toContain('Save 17%')
   })
+
+  test('BEAM-252: /vs/umami returns 200 with correct h1', async ({ request }) => {
+    const res = await request.get('/vs/umami')
+    expect(res.status()).toBe(200)
+    expect(await res.text()).toContain('Beam vs Umami Analytics')
+  })
+
+  test('BEAM-252: /vs/simple-analytics returns 200 with correct h1', async ({ request }) => {
+    const res = await request.get('/vs/simple-analytics')
+    expect(res.status()).toBe(200)
+    expect(await res.text()).toContain('Beam vs Simple Analytics')
+  })
+
+  test('BEAM-252: /vs/posthog returns 200 with correct h1', async ({ request }) => {
+    const res = await request.get('/vs/posthog')
+    expect(res.status()).toBe(200)
+    expect(await res.text()).toContain('Beam vs PostHog')
+  })
 })
