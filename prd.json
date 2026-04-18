@@ -4215,7 +4215,7 @@
         "Smoke test: GET /dashboard returns 200 with no regressions to site list rendering"
       ],
       "priority": "low",
-      "passes": false,
+      "passes": true,
       "notes": "Pure server-side rendering change in src/routes/dashboard.ts. No new DB columns needed. Check user.plan === 'pro' and sites.length === 1."
     }
   ]

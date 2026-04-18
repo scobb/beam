@@ -139,3 +139,14 @@ Started: Sat Apr 18 09:11:52 AM PDT 2026
   - Blog post pattern: add to POSTS array + add route handler + add to sitemap paths array + add to sitemap meta object + add smoke test
   - The route errors on deploy ("Authentication error [code: 10000]") for /zones/.../workers/routes are pre-existing and benign — "Uploaded beam" = successful deploy
 ---
+
+## 2026-04-18 - BEAM-256
+- Added 'Add another site' callout for Pro users with exactly 1 site on /dashboard
+- Callout uses data-testid="add-another-site-prompt", shows only for isPro && siteIds.length === 1
+- Links to /dashboard/sites/new
+- Files changed: src/routes/dashboard.ts, test/smoke/smoke.spec.ts
+- Deployed to prod; smoke tests pass (desktop + mobile)
+- **Learnings for future iterations:**
+  - siteIds is already computed in the /dashboard handler and available for the condition check
+  - Always use /dashboard/sites/new for the "Add site" link (not /dashboard/new-site)
+---
