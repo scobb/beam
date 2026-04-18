@@ -2364,4 +2364,18 @@ test.describe('API v1 authentication', () => {
     expect(res.status()).toBe(200)
     expect(await res.text()).toContain('Beam vs PostHog')
   })
+
+  test('BEAM-253: /for/ecommerce returns 200 with ecommerce heading', async ({ request }) => {
+    const res = await request.get('/for/ecommerce')
+    expect(res.status()).toBe(200)
+    const body = await res.text()
+    expect(body.toLowerCase()).toContain('e-commerce')
+  })
+
+  test('BEAM-253: /for/saas returns 200 with SaaS heading', async ({ request }) => {
+    const res = await request.get('/for/saas')
+    expect(res.status()).toBe(200)
+    const body = await res.text()
+    expect(body).toContain('SaaS')
+  })
 })

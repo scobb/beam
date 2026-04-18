@@ -31,6 +31,11 @@ const GUIDE_SECTIONS = [
     subtitle: 'Setup guides for teams shipping through visual builders without engineering support.',
     slugs: ['webflow', 'shopify', 'ghost', 'framer', 'carrd'],
   },
+  {
+    title: 'Industry verticals',
+    subtitle: 'Guides tailored to specific business models and compliance requirements.',
+    slugs: ['ecommerce', 'saas'],
+  },
 ] as const
 
 const GUIDES: Record<string, GuideConfig> = {
@@ -1056,6 +1061,134 @@ Data-site-id: YOUR_SITE_ID`,
       { slug: 'webflow', name: 'Webflow' },
       { slug: 'framer', name: 'Framer' },
       { slug: 'nextjs', name: 'Next.js' },
+    ],
+  },
+
+  ecommerce: {
+    slug: 'ecommerce',
+    name: 'E-Commerce',
+    icon: '🛒',
+    tagline: 'GDPR-compliant analytics for online stores — no cookie banner needed',
+    hubDescription: 'Privacy-first analytics for Shopify, WooCommerce, and any online store. Track traffic and conversions without a cookie consent popup.',
+    description: 'Add cookie-free, GDPR-compliant analytics to your online store in under two minutes. Understand your marketing channels, top product pages, and checkout funnel without a cookie consent banner.',
+    metaDescription: 'Beam analytics for e-commerce: cookie-free, GDPR-compliant, no consent banner needed. Works with Shopify, WooCommerce, and any online store. Track traffic and conversions privately.',
+    installSteps: [
+      {
+        title: 'Shopify — add to theme.liquid',
+        code: `<!-- In Online Store > Themes > Edit code > layout/theme.liquid -->
+<!-- Paste inside the <head> tag -->
+<script
+  defer
+  src="${DEFAULT_PUBLIC_BASE_URL}/js/beam.js"
+  data-site-id="YOUR_SITE_ID">
+</script>`,
+        lang: 'html',
+        explanation: 'All Shopify pages inherit from theme.liquid. Adding Beam here tracks every storefront page including product, collection, and cart pages.',
+      },
+      {
+        title: 'WooCommerce / WordPress',
+        code: `<!-- Paste into Appearance > Theme File Editor > header.php
+     or use a header/footer plugin if you don't edit PHP -->
+<script
+  defer
+  src="${DEFAULT_PUBLIC_BASE_URL}/js/beam.js"
+  data-site-id="YOUR_SITE_ID">
+</script>`,
+        lang: 'html',
+        explanation: 'Adding Beam to header.php or a header plugin ensures it fires on every WordPress/WooCommerce page.',
+      },
+      {
+        title: 'Track checkout events (optional)',
+        code: `<!-- On your order confirmation / thank-you page -->
+<script>
+  window.beam.track('purchase', {
+    order_value: '49.99',
+    currency: 'USD'
+  })
+</script>`,
+        lang: 'html',
+        explanation: 'Use window.beam.track() to record purchase completions in Beam Goals. No PII or personal data is sent.',
+      },
+    ],
+    verificationChecklist: [
+      'Browse two or three product pages in a fresh browser session after installing the snippet.',
+      'Open your Beam dashboard and select Today — confirm pages like /products/... appear in Top Pages.',
+      'Check the Channels card to see where this session was attributed (Direct, Organic, Referral).',
+    ],
+    whyPoints: [
+      { icon: '🍪', title: 'No cookie consent banner', body: 'Beam uses no cookies and stores no personal data, so EU, UK, and California regulations require no consent popup for analytics alone.' },
+      { icon: '🛒', title: 'Compatible with Shopify and WooCommerce', body: 'One script in your theme template covers every storefront page with no app install fees or plugin subscriptions.' },
+      { icon: '🎯', title: 'Conversion tracking with Goals', body: 'Track purchases, add-to-cart events, and newsletter signups as custom events without sending any customer PII.' },
+      { icon: '📊', title: 'Understand your marketing channels', body: 'See exactly how much traffic comes from Organic search, Instagram, email campaigns, or direct — for every product category.' },
+    ],
+    others: [
+      { slug: 'shopify', name: 'Shopify' },
+      { slug: 'wordpress', name: 'WordPress' },
+      { slug: 'saas', name: 'SaaS' },
+    ],
+  },
+
+  saas: {
+    slug: 'saas',
+    name: 'SaaS',
+    icon: '🚀',
+    tagline: 'Privacy-first analytics for your SaaS marketing site',
+    hubDescription: 'Track landing page, pricing page, and docs traffic without cookies or conflicting with your in-app product analytics.',
+    description: 'Beam is purpose-built for SaaS marketing sites: understand which pages drive signups, which channels produce trial conversions, and how docs traffic differs from product traffic — without cookies or a consent banner.',
+    metaDescription: 'Beam analytics for SaaS: lightweight, cookie-free marketing site analytics that won\'t conflict with your product analytics stack. Track signups, pricing page views, and docs traffic privately.',
+    installSteps: [
+      {
+        title: 'Add Beam to your marketing site',
+        code: `<!-- Paste into your <head> on the marketing site only -->
+<script
+  defer
+  src="${DEFAULT_PUBLIC_BASE_URL}/js/beam.js"
+  data-site-id="YOUR_MARKETING_SITE_ID">
+</script>`,
+        lang: 'html',
+        explanation: 'Beam is for your public marketing site (landing, pricing, docs). Keep it separate from your in-app product analytics — use different site IDs if you track both.',
+      },
+      {
+        title: 'Track signup conversions',
+        code: `// On your /signup thank-you or post-signup redirect
+window.beam.track('signup', {
+  plan: 'free',
+  source: 'pricing-page'
+})
+
+// Or track trial starts
+window.beam.track('trial_start', { plan: 'pro' })`,
+        lang: 'javascript',
+        explanation: 'Custom events let you measure signup funnel performance by source without exposing any user identity to Beam.',
+      },
+      {
+        title: 'Track pricing page engagement',
+        code: `// On your pricing page
+window.beam.track('pricing_view', { section: 'annual' })
+
+// On upgrade button click
+document.querySelector('#upgrade-btn')?.addEventListener('click', () => {
+  window.beam.track('upgrade_click', { plan: 'pro' })
+})`,
+        lang: 'javascript',
+        explanation: 'Pricing page events give you a conversion funnel: how many visitors view pricing → click upgrade → complete checkout.',
+      },
+    ],
+    verificationChecklist: [
+      'Visit your marketing homepage and /pricing page in a fresh private session.',
+      'Open Beam dashboard and confirm those paths appear in Top Pages under Today.',
+      'If you wired up a custom event, check the Events tab to confirm the event name appears.',
+    ],
+    whyPoints: [
+      { icon: '🍪', title: 'No GDPR consent banner', body: 'Beam collects no cookies and no personal data. Your marketing site stays EU-compliant without an annoying consent popup that hurts conversion rates.' },
+      { icon: '🔗', title: 'Works alongside your product analytics', body: 'Beam tracks your marketing and docs sites only. Your in-app product analytics stack (Mixpanel, Amplitude, PostHog) is completely unaffected.' },
+      { icon: '🎯', title: 'Signup funnel visibility', body: 'Track pricing views, trial starts, and upgrade clicks as custom events. Understand which blog posts and landing pages actually drive signups.' },
+      { icon: '📊', title: 'Channel attribution that makes sense', body: 'See whether your traffic comes from Organic, Paid, Product Hunt, Twitter, or newsletter — without GA\'s complexity or sampling.' },
+    ],
+    others: [
+      { slug: 'nextjs', name: 'Next.js' },
+      { slug: 'react', name: 'React' },
+      { slug: 'ecommerce', name: 'E-Commerce' },
     ],
   },
 }

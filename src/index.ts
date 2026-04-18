@@ -202,6 +202,8 @@ app.get('/sitemap.xml', (c) => {
     '/for/ghost',
     '/for/framer',
     '/for/carrd',
+    '/for/ecommerce',
+    '/for/saas',
     '/tools/stack-scanner',
     '/switch',
   ] as const
@@ -271,6 +273,8 @@ app.get('/sitemap.xml', (c) => {
     '/for/ghost': { changefreq: 'monthly', priority: '0.8' },
     '/for/framer': { changefreq: 'monthly', priority: '0.8' },
     '/for/carrd': { changefreq: 'monthly', priority: '0.8' },
+    '/for/ecommerce': { changefreq: 'monthly', priority: '0.8' },
+    '/for/saas': { changefreq: 'monthly', priority: '0.8' },
     '/tools/stack-scanner': { changefreq: 'weekly', priority: '0.8' },
     '/switch': { changefreq: 'monthly', priority: '0.8' },
   }
