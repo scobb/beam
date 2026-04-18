@@ -56,3 +56,18 @@ Started: Sat Apr 18 09:11:52 AM PDT 2026
   - Prod login page text is "Log In" (capital I), not "Log in"
   - Staging migration showed "No migrations to apply" — staging may have received schema changes from a prior partial deploy
 ---
+
+## 2026-04-18 - BEAM-249
+- What was implemented: Free plan upgrade nudge banners on the analytics page
+  - Yellow warning banner when free user reaches ≥40K pageviews/month
+  - Red urgent banner when free user reaches ≥50K pageviews/month (plan limit)
+  - Pro users never see the banner (isProUser guard)
+  - Banner placement: above importCoverageBannerHtml, below filter chips
+  - Both banners include a link to /dashboard/billing
+  - data-testid="upgrade-nudge-warn" and data-testid="upgrade-nudge-urgent" for testing
+- Files changed: src/routes/dashboard.ts, test/smoke/smoke.spec.ts
+- **Learnings for future iterations:**
+  - PROD SIGNUP RATE LIMIT: 10/hour/IP — tests using signupAndGetSession must run locally, not against prod
+  - Month-to-date query pattern: `SELECT COUNT(*) as count FROM pageviews WHERE site_id = ? AND timestamp >= ?` with monthStart = `new Date(Date.UTC(year, month, 1)).toISOString()`
+  - user.plan === 'pro' is the correct check for plan type (string comparison)
+---
