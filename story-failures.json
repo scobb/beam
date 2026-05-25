@@ -6,11 +6,1199 @@
       "lastError": ", re-log, or re-email. I just skip it.\n\nThe ralph-context.md is already up to date from the previous iteration. No changes needed.\n\n**Waiting on Steve to either:**\n1. Add `NPM_TOKEN=<automation-token>` to `.env` (from npmjs.com → Access Tokens → Automation type)\n2. OR publish manually: `cd /home/scobb/repos/beam/beam-js && npm publish`\n3. Then remove BEAM-207 from `blocked-stories.json` (or set `\"resolved\": true`)\n\nOnce resolved, the next iteration will pick up BEAM-207 and mark it complete.",
       "firstFailedAt": "2026-04-13T02:52:14Z"
     },
-    "BEAM-219": {
-      "count": 399,
-      "lastFailedAt": "2026-04-15T23:14:46Z",
-      "lastError": "You've hit your limit · resets 7pm (America/Los_Angeles)",
-      "firstFailedAt": "2026-04-15T22:42:25Z"
+    "iteration-2": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:36:59Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:36:59Z"
+    },
+    "iteration-3": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:37:04Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:37:04Z"
+    },
+    "iteration-4": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:37:08Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:37:08Z"
+    },
+    "iteration-5": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:37:12Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:37:12Z"
+    },
+    "iteration-6": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:37:16Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:37:16Z"
+    },
+    "iteration-7": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:37:22Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:37:22Z"
+    },
+    "iteration-8": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:37:26Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:37:26Z"
+    },
+    "iteration-9": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:37:30Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:37:30Z"
+    },
+    "iteration-10": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:37:34Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:37:34Z"
+    },
+    "iteration-11": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:37:38Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:37:38Z"
+    },
+    "iteration-12": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:37:42Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:37:42Z"
+    },
+    "iteration-13": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:37:47Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:37:47Z"
+    },
+    "iteration-14": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:37:51Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:37:51Z"
+    },
+    "iteration-15": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:37:55Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:37:55Z"
+    },
+    "iteration-16": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:37:59Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:37:59Z"
+    },
+    "iteration-17": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:38:04Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:38:04Z"
+    },
+    "iteration-18": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:38:09Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:38:09Z"
+    },
+    "iteration-19": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:38:13Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:38:13Z"
+    },
+    "iteration-20": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:38:17Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:38:17Z"
+    },
+    "iteration-21": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:38:21Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:38:21Z"
+    },
+    "iteration-22": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:38:25Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:38:25Z"
+    },
+    "iteration-23": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:38:29Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:38:29Z"
+    },
+    "iteration-24": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:38:33Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:38:33Z"
+    },
+    "iteration-25": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:38:37Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:38:37Z"
+    },
+    "iteration-26": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:38:42Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:38:42Z"
+    },
+    "iteration-27": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:38:46Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:38:46Z"
+    },
+    "iteration-28": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:38:51Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:38:51Z"
+    },
+    "iteration-29": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:38:55Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:38:55Z"
+    },
+    "iteration-30": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:38:59Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:38:59Z"
+    },
+    "iteration-31": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:39:03Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:39:03Z"
+    },
+    "iteration-32": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:39:07Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:39:07Z"
+    },
+    "iteration-33": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:39:11Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:39:11Z"
+    },
+    "iteration-34": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:39:15Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:39:15Z"
+    },
+    "iteration-35": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:39:19Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:39:19Z"
+    },
+    "iteration-36": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:39:23Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:39:23Z"
+    },
+    "iteration-37": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:39:27Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:39:27Z"
+    },
+    "iteration-38": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:39:32Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:39:32Z"
+    },
+    "iteration-39": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:39:36Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:39:36Z"
+    },
+    "iteration-40": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:39:41Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:39:41Z"
+    },
+    "iteration-41": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:39:45Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:39:45Z"
+    },
+    "iteration-42": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:39:49Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:39:49Z"
+    },
+    "iteration-43": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:39:53Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:39:53Z"
+    },
+    "iteration-44": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:39:57Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:39:57Z"
+    },
+    "iteration-45": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:40:01Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:40:01Z"
+    },
+    "iteration-46": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:40:05Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:40:05Z"
+    },
+    "iteration-47": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:40:09Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:40:09Z"
+    },
+    "iteration-48": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:40:14Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:40:14Z"
+    },
+    "iteration-49": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:40:18Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:40:18Z"
+    },
+    "iteration-50": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:40:22Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:40:22Z"
+    },
+    "iteration-51": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:40:26Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:40:26Z"
+    },
+    "iteration-52": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:40:31Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:40:31Z"
+    },
+    "iteration-53": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:40:35Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:40:35Z"
+    },
+    "iteration-54": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:40:39Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:40:39Z"
+    },
+    "iteration-55": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:40:43Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:40:43Z"
+    },
+    "iteration-56": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:40:47Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:40:47Z"
+    },
+    "iteration-57": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:40:51Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:40:51Z"
+    },
+    "iteration-58": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:40:55Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:40:55Z"
+    },
+    "iteration-59": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:40:59Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:40:59Z"
+    },
+    "iteration-60": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:41:03Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:41:03Z"
+    },
+    "iteration-61": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:41:07Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:41:07Z"
+    },
+    "iteration-62": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:41:11Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:41:11Z"
+    },
+    "iteration-63": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:41:15Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:41:15Z"
+    },
+    "iteration-64": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:41:20Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:41:20Z"
+    },
+    "iteration-65": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:41:24Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:41:24Z"
+    },
+    "iteration-66": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:41:28Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:41:28Z"
+    },
+    "iteration-67": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:41:32Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:41:32Z"
+    },
+    "iteration-68": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:41:37Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:41:37Z"
+    },
+    "iteration-69": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:41:41Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:41:41Z"
+    },
+    "iteration-70": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:41:46Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:41:46Z"
+    },
+    "iteration-71": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:41:50Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:41:50Z"
+    },
+    "iteration-72": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:41:55Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:41:55Z"
+    },
+    "iteration-73": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:41:59Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:41:59Z"
+    },
+    "iteration-74": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:42:03Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:42:03Z"
+    },
+    "iteration-75": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:42:07Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:42:07Z"
+    },
+    "iteration-76": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:42:12Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:42:12Z"
+    },
+    "iteration-77": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:42:16Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:42:16Z"
+    },
+    "iteration-78": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:42:20Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:42:20Z"
+    },
+    "iteration-79": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:42:24Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:42:24Z"
+    },
+    "iteration-80": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:42:28Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:42:28Z"
+    },
+    "iteration-81": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:42:33Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:42:33Z"
+    },
+    "iteration-82": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:42:37Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:42:37Z"
+    },
+    "iteration-83": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:42:41Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:42:41Z"
+    },
+    "iteration-84": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:42:45Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:42:45Z"
+    },
+    "iteration-85": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:42:49Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:42:49Z"
+    },
+    "iteration-86": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:42:53Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:42:53Z"
+    },
+    "iteration-87": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:42:57Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:42:57Z"
+    },
+    "iteration-88": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:43:01Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:43:01Z"
+    },
+    "iteration-89": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:43:05Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:43:05Z"
+    },
+    "iteration-90": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:43:10Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:43:10Z"
+    },
+    "iteration-91": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:43:14Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:43:14Z"
+    },
+    "iteration-92": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:43:18Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:43:18Z"
+    },
+    "iteration-93": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:43:22Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:43:22Z"
+    },
+    "iteration-94": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:43:26Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:43:26Z"
+    },
+    "iteration-95": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:43:31Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:43:31Z"
+    },
+    "iteration-96": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:43:35Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:43:35Z"
+    },
+    "iteration-97": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:43:39Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:43:39Z"
+    },
+    "iteration-98": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:43:43Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:43:43Z"
+    },
+    "iteration-99": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:43:48Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:43:48Z"
+    },
+    "iteration-100": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:43:52Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:43:52Z"
+    },
+    "iteration-101": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:43:56Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:43:56Z"
+    },
+    "iteration-102": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:44:00Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:44:00Z"
+    },
+    "iteration-103": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:44:04Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:44:04Z"
+    },
+    "iteration-104": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:44:08Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:44:08Z"
+    },
+    "iteration-105": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:44:12Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:44:12Z"
+    },
+    "iteration-106": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:44:16Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:44:16Z"
+    },
+    "iteration-107": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:44:21Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:44:21Z"
+    },
+    "iteration-108": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:44:25Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:44:25Z"
+    },
+    "iteration-109": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:44:29Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:44:29Z"
+    },
+    "iteration-110": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:44:33Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:44:33Z"
+    },
+    "iteration-111": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:44:38Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:44:38Z"
+    },
+    "iteration-112": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:44:42Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:44:42Z"
+    },
+    "iteration-113": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:44:46Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:44:46Z"
+    },
+    "iteration-114": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:44:50Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:44:50Z"
+    },
+    "iteration-115": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:44:54Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:44:54Z"
+    },
+    "iteration-116": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:44:59Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:44:59Z"
+    },
+    "iteration-117": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:45:03Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:45:03Z"
+    },
+    "iteration-118": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:45:07Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:45:07Z"
+    },
+    "iteration-119": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:45:12Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:45:12Z"
+    },
+    "iteration-120": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:45:16Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:45:16Z"
+    },
+    "iteration-121": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:45:21Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:45:21Z"
+    },
+    "iteration-122": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:45:25Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:45:25Z"
+    },
+    "iteration-123": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:45:29Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:45:29Z"
+    },
+    "iteration-124": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:45:33Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:45:33Z"
+    },
+    "iteration-125": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:45:38Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:45:38Z"
+    },
+    "iteration-126": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:45:43Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:45:43Z"
+    },
+    "iteration-127": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:45:47Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:45:47Z"
+    },
+    "iteration-128": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:45:52Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:45:52Z"
+    },
+    "iteration-129": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:45:56Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:45:56Z"
+    },
+    "iteration-130": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:46:00Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:46:00Z"
+    },
+    "iteration-131": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:46:04Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:46:04Z"
+    },
+    "iteration-132": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:46:08Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:46:08Z"
+    },
+    "iteration-133": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:46:12Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:46:12Z"
+    },
+    "iteration-134": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:46:16Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:46:16Z"
+    },
+    "iteration-135": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:46:20Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:46:20Z"
+    },
+    "iteration-136": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:46:24Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:46:24Z"
+    },
+    "iteration-137": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:46:28Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:46:28Z"
+    },
+    "iteration-138": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:46:33Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:46:33Z"
+    },
+    "iteration-139": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:46:38Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:46:38Z"
+    },
+    "iteration-140": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:46:42Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:46:42Z"
+    },
+    "iteration-141": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:46:46Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:46:46Z"
+    },
+    "iteration-142": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:46:50Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:46:50Z"
+    },
+    "iteration-143": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:46:54Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:46:54Z"
+    },
+    "iteration-144": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:46:58Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:46:58Z"
+    },
+    "iteration-145": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:47:03Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:47:03Z"
+    },
+    "iteration-146": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:47:07Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:47:07Z"
+    },
+    "iteration-147": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:47:11Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:47:11Z"
+    },
+    "iteration-148": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:47:15Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:47:15Z"
+    },
+    "iteration-149": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:47:19Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:47:19Z"
+    },
+    "iteration-150": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:47:24Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:47:24Z"
+    },
+    "iteration-151": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:47:28Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:47:28Z"
+    },
+    "iteration-152": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:47:33Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:47:33Z"
+    },
+    "iteration-153": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:47:38Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:47:38Z"
+    },
+    "iteration-154": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:47:42Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:47:42Z"
+    },
+    "iteration-155": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:47:46Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:47:46Z"
+    },
+    "iteration-156": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:47:50Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:47:50Z"
+    },
+    "iteration-157": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:47:54Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:47:54Z"
+    },
+    "iteration-158": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:47:58Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:47:58Z"
+    },
+    "iteration-159": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:48:03Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:48:03Z"
+    },
+    "iteration-160": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:48:07Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:48:07Z"
+    },
+    "iteration-161": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:48:11Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:48:11Z"
+    },
+    "iteration-162": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:48:15Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:48:15Z"
+    },
+    "iteration-163": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:48:19Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:48:19Z"
+    },
+    "iteration-164": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:48:23Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:48:23Z"
+    },
+    "iteration-165": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:48:28Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:48:28Z"
+    },
+    "iteration-166": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:48:32Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:48:32Z"
+    },
+    "iteration-167": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:48:36Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:48:36Z"
+    },
+    "iteration-168": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:48:40Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:48:40Z"
+    },
+    "iteration-169": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:48:44Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:48:44Z"
+    },
+    "iteration-170": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:48:49Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:48:49Z"
+    },
+    "iteration-171": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:48:53Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:48:53Z"
+    },
+    "iteration-172": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:48:57Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:48:57Z"
+    },
+    "iteration-173": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:49:01Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:49:01Z"
+    },
+    "iteration-174": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:49:06Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:49:06Z"
+    },
+    "iteration-175": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:49:10Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:49:10Z"
+    },
+    "iteration-176": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:49:14Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:49:14Z"
+    },
+    "iteration-177": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:49:18Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:49:18Z"
+    },
+    "iteration-178": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:49:23Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:49:23Z"
+    },
+    "iteration-179": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:49:27Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:49:27Z"
+    },
+    "iteration-180": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:49:31Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:49:31Z"
+    },
+    "iteration-181": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:49:36Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:49:36Z"
+    },
+    "iteration-182": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:49:40Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:49:40Z"
+    },
+    "iteration-183": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:49:44Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:49:44Z"
+    },
+    "iteration-184": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:49:48Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:49:48Z"
+    },
+    "iteration-185": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:49:52Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:49:52Z"
+    },
+    "iteration-186": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:49:56Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:49:56Z"
+    },
+    "iteration-187": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:50:00Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:50:00Z"
+    },
+    "iteration-188": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:50:04Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:50:04Z"
+    },
+    "iteration-189": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:50:09Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:50:09Z"
+    },
+    "iteration-190": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:50:13Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:50:13Z"
+    },
+    "iteration-191": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:50:17Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:50:17Z"
+    },
+    "iteration-192": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:50:21Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:50:21Z"
+    },
+    "iteration-193": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:50:26Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:50:26Z"
+    },
+    "iteration-194": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:50:30Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:50:30Z"
+    },
+    "iteration-195": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:50:34Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:50:34Z"
+    },
+    "iteration-196": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:50:38Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:50:38Z"
+    },
+    "iteration-197": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:50:42Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:50:42Z"
+    },
+    "iteration-198": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:50:47Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:50:47Z"
+    },
+    "iteration-199": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:50:51Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:50:51Z"
+    },
+    "iteration-200": {
+      "count": 1,
+      "lastFailedAt": "2026-04-18T17:50:55Z",
+      "lastError": "You've hit your limit · resets 2pm (America/Los_Angeles)",
+      "firstFailedAt": "2026-04-18T17:50:55Z"
     }
   }
 }
