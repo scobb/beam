@@ -32,8 +32,13 @@ echo "  ✓ Migrations applied"
 echo ""
 
 # ── 3. Wrangler deploy ───────────────────────────────────────────────────────
+# Uses wrangler-noroutesdeploy.toml (matches CI). The only difference from
+# wrangler.toml is the omitted beam.keylightdigital.dev route block, which
+# requires Zone:Edit on keylightdigital.dev. beam-privacy.com is a Worker
+# Custom Domain (configured via dashboard) and persists across deploys
+# regardless of this config.
 echo "Step 3/3: Deploying Worker to Cloudflare..."
-npx wrangler deploy
+npx wrangler deploy --config wrangler-noroutesdeploy.toml
 echo "  ✓ Worker deployed"
 echo ""
 
