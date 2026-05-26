@@ -111,6 +111,7 @@ auth.post('/api/auth/signup', async (c) => {
       headers: { 'Authorization': `Bearer ${resendKey}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({
         from: 'Beam <beam@keylightdigital.dev>',
+        reply_to: 'support@beam-privacy.com',
         to: email,
         subject: 'Welcome to Beam — here\'s how to get started',
         text: `Welcome to Beam!\n\nThanks for signing up. Here's how to get your analytics up and running in minutes:\n\n1. Open setup\n   Go to ${baseUrl}/dashboard/setup for the guided first-site flow.\n\n2. Add your site + copy snippet\n   Enter your domain and copy the one-line script tag into your site's <head> section.\n\n3. Verify your first hit\n   Use the install verifier in setup, then open your dashboard to see pageviews.\n\nThat's it — no cookies, no GDPR headaches, no bloat.\n\nIf you have any questions, just reply to this email.\n\n— The Beam team\n${baseHost}`,
@@ -237,6 +238,7 @@ auth.post('/api/auth/reset-request', async (c) => {
       headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({
         from: 'Beam <beam@keylightdigital.dev>',
+        reply_to: 'support@beam-privacy.com',
         to: email,
         subject: 'Reset your Beam password',
         text: `You requested a password reset for your Beam account.\n\nClick the link below to reset your password (valid for 1 hour):\n\n${resetUrl}\n\nIf you didn't request this, ignore this email — your password won't change.\n\n— The Beam team`,

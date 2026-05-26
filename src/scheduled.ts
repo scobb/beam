@@ -4,7 +4,7 @@ import { generateSiteInsights, type SiteInsights } from './lib/insights'
 import { getPublicBaseUrl } from './lib/publicUrl'
 import { signUnsubscribe } from './routes/digest'
 
-const FROM_EMAIL = 'Beam <ralph@keylightdigital.dev>'
+const FROM_EMAIL = 'Beam <beam@keylightdigital.dev>'
 const RESEND_URL = 'https://api.resend.com/emails'
 const WEEKLY_DIGEST_CRON = '0 9 * * 1'
 const DAILY_ALERT_CRON = '0 9 * * *'
@@ -231,6 +231,7 @@ Unsubscribe: ${unsubUrl}`
     },
     body: JSON.stringify({
       from: FROM_EMAIL,
+      reply_to: 'support@beam-privacy.com',
       to: user.email,
       subject: `Your weekly Beam digest — ${siteName}`,
       html,
@@ -323,6 +324,7 @@ View dashboard: ${dashUrl}`
     },
     body: JSON.stringify({
       from: FROM_EMAIL,
+      reply_to: 'support@beam-privacy.com',
       to: target.email,
       subject,
       html,

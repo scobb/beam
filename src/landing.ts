@@ -49,7 +49,7 @@ export function landingPage(
     '@type': 'Organization',
     name: 'Keylight Digital LLC',
     url: homeUrl,
-    contactPoint: { '@type': 'ContactPoint', email: 'ralph@keylightdigital.dev', contactType: 'customer support' },
+    contactPoint: { '@type': 'ContactPoint', email: 'support@beam-privacy.com', contactType: 'customer support' },
   })
   const counterSection = totalPageviews !== undefined && totalPageviews >= 1000
     ? `

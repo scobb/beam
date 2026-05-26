@@ -84,7 +84,7 @@ ${nav()}
     <p>
       Beam is operated by <strong>Keylight Digital LLC</strong>, a software company focused on
       building useful, privacy-respecting products. If you have questions, feedback, or need support,
-      reach us at <a href="mailto:ralph@keylightdigital.dev" class="text-indigo-600 hover:underline">ralph@keylightdigital.dev</a>.
+      reach us at <a href="mailto:support@beam-privacy.com" class="text-indigo-600 hover:underline">support@beam-privacy.com</a>.
     </p>
     <p>
       Need technical depth before evaluating? Read <a href="/how-it-works" class="text-indigo-600 hover:underline">How Beam works</a> for the full edge architecture, privacy model, and data flow.
@@ -158,7 +158,7 @@ ${nav()}
     <h2 class="text-2xl font-bold text-gray-900 mb-4">Company</h2>
     <div class="text-gray-700 space-y-2">
       <p><strong>Company:</strong> Keylight Digital LLC</p>
-      <p><strong>Contact:</strong> <a href="mailto:ralph@keylightdigital.dev" class="text-indigo-600 hover:underline">ralph@keylightdigital.dev</a></p>
+      <p><strong>Contact:</strong> <a href="mailto:support@beam-privacy.com" class="text-indigo-600 hover:underline">support@beam-privacy.com</a></p>
       <p><strong>Website:</strong> <a href="${baseUrl}" class="text-indigo-600 hover:underline">${baseHost}</a></p>
       <p><strong>GitHub:</strong> <a href="https://github.com/scobb/beam.js" class="text-indigo-600 hover:underline">Open source tracking script</a></p>
       <p><strong>npm:</strong> <a href="https://www.npmjs.com/package/@keylightdigital/beam" class="text-indigo-600 hover:underline">@keylightdigital/beam</a> — also available on npm for build-tool workflows</p>

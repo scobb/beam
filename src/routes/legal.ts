@@ -150,7 +150,7 @@ ${nav()}
     <section>
       <h2 class="text-2xl font-bold text-gray-900 mb-4">Data requests</h2>
       <p>To request a copy of your data, request deletion, or ask any privacy-related questions, contact us at:</p>
-      <p class="mt-3"><strong>Email:</strong> <a href="mailto:ralph@keylightdigital.dev" class="text-indigo-600 hover:underline">ralph@keylightdigital.dev</a></p>
+      <p class="mt-3"><strong>Email:</strong> <a href="mailto:support@beam-privacy.com" class="text-indigo-600 hover:underline">support@beam-privacy.com</a></p>
       <p class="mt-1"><strong>Company:</strong> Keylight Digital LLC</p>
       <p class="mt-3">We will respond within 30 days.</p>
     </section>
@@ -281,7 +281,7 @@ ${nav()}
     <section>
       <h2 class="text-2xl font-bold text-gray-900 mb-4">11. Contact</h2>
       <p>Questions about these terms? Contact us:</p>
-      <p class="mt-3"><strong>Email:</strong> <a href="mailto:ralph@keylightdigital.dev" class="text-indigo-600 hover:underline">ralph@keylightdigital.dev</a></p>
+      <p class="mt-3"><strong>Email:</strong> <a href="mailto:support@beam-privacy.com" class="text-indigo-600 hover:underline">support@beam-privacy.com</a></p>
       <p class="mt-1"><strong>Company:</strong> Keylight Digital LLC</p>
     </section>
 
