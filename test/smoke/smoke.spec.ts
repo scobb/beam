@@ -356,6 +356,48 @@ test.describe('Desktop smoke', () => {
     await page.screenshot({ path: 'screenshots/smoke/desktop-site-verification.png' })
   })
 
+  test('verify panel reassures low-traffic sites with older data', async ({ page }) => {
+    const email = uniqueEmail()
+    await signupAndGetSession(page, email)
+
+    await page.goto('/dashboard/sites/new')
+    await page.fill('input[name="name"]', 'Low Traffic Site')
+    await page.fill('input[name="domain"]', 'low-traffic.example.com')
+    await page.click('button[type="submit"]')
+    await page.waitForURL(/\/dashboard\/sites\/[0-9a-f-]+$/)
+
+    // Simulate a low-traffic site: data exists historically, but nothing in the
+    // last 15 minutes. Intercept the installation-status fetch with a synthetic
+    // "older data" payload so the render branch is exercised deterministically.
+    await page.route('**/installation-status', async (route) => {
+      await route.fulfill({
+        contentType: 'application/json',
+        body: JSON.stringify({
+          hasActivity: true,
+          hasRecentActivity: false,
+          firstSeenAt: '2026-05-25T14:15:54.000Z',
+          lastSeenAt: '2026-06-15T07:38:31.000Z',
+          recentWindowMinutes: 15,
+        }),
+      })
+    })
+
+    await page.getByRole('button', { name: 'Verify installation' }).click()
+
+    // Reassuring green state — not the alarming amber state.
+    await expect(page.getByText('Installation verified.')).toBeVisible()
+    await expect(page.getByText(/normal for sites with low or occasional traffic/i)).toBeVisible()
+    await expect(page.getByText('Still waiting for a fresh tracking hit.')).toHaveCount(0)
+
+    // Troubleshooting checklist is demoted into a collapsed <details>.
+    const checklistItem = page.getByText(/Place the Beam script inside your site/i)
+    await expect(checklistItem).toBeHidden()
+    await page.getByText('Expected recent traffic but seeing nothing?').click()
+    await expect(checklistItem).toBeVisible()
+
+    await page.screenshot({ path: 'screenshots/smoke/desktop-verify-low-traffic.png' })
+  })
+
   test('migration assistant page renders for a site', async ({ page }) => {
     const email = uniqueEmail()
     await signupAndGetSession(page, email)

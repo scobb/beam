@@ -1730,13 +1730,30 @@ dashboard.get('/dashboard/sites/:id', async (c) => {
           return;
         }
 
-        const staleNote = status && status.hasActivity
-          ? 'Beam found older data (last hit ' + escapeHtml(formatTimestamp(status.lastSeenAt)) + '), but nothing in the last ' + escapeHtml(status.recentWindowMinutes || 15) + ' minutes.'
-          : 'No pageview or custom event has arrived yet.';
+        if (status && status.hasActivity) {
+          const recentWindow = status.recentWindowMinutes || 15;
+          verifyStatusEl.innerHTML = '<div class="rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3">'
+            + '<p class="text-sm font-semibold text-emerald-900">Installation verified.</p>'
+            + '<p class="text-sm text-emerald-800 mt-1">Beam has recorded tracking data from this site — your install is working.</p>'
+            + '<p class="text-xs text-emerald-700 mt-1">First seen: <strong>' + escapeHtml(formatTimestamp(status.firstSeenAt)) + '</strong> · Most recent hit: ' + escapeHtml(formatTimestamp(status.lastSeenAt)) + '</p>'
+            + '<p class="text-sm text-emerald-800 mt-2">No new hits in the last ' + escapeHtml(recentWindow) + ' minutes. That is normal for sites with low or occasional traffic — reload your own site and a new hit will appear here within a moment.</p>'
+            + '<a href="' + analyticsRoute + '" class="inline-block mt-2 text-sm font-medium text-emerald-900 underline">Open analytics →</a>'
+            + '<details class="mt-3">'
+            + '<summary class="text-xs font-medium text-emerald-900 cursor-pointer">Expected recent traffic but seeing nothing?</summary>'
+            + '<ul class="mt-2 space-y-1 text-xs text-emerald-900 list-disc pl-5">'
+            + '<li>Place the Beam script inside your site <code>&lt;head&gt;</code> section.</li>'
+            + '<li>Confirm <code>data-site-id="' + escapeHtml('${site.id}') + '"</code> matches this site.</li>'
+            + '<li>Hard refresh after publishing in case a cached script/version is still loading.</li>'
+            + '<li>Use browser DevTools Network + manual page refresh to trigger and confirm a <code>POST /api/collect</code> test hit.</li>'
+            + '</ul>'
+            + '</details>'
+            + '</div>';
+          return;
+        }
 
         verifyStatusEl.innerHTML = '<div class="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3">'
           + '<p class="text-sm font-semibold text-amber-900">Still waiting for a fresh tracking hit.</p>'
-          + '<p class="text-sm text-amber-800 mt-1">' + staleNote + '</p>'
+          + '<p class="text-sm text-amber-800 mt-1">No pageview or custom event has arrived yet.</p>'
           + '<ul class="mt-2 space-y-1 text-xs text-amber-900 list-disc pl-5">'
           + '<li>Place the Beam script inside your site <code>&lt;head&gt;</code> section.</li>'
           + '<li>Confirm <code>data-site-id="' + escapeHtml('${site.id}') + '"</code> matches this site.</li>'
