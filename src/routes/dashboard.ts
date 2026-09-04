@@ -5,6 +5,7 @@ import {
   buildEventPropertiesQuery,
   buildSiteHasPageviewsQuery,
   selectAnalyticsEmptyState,
+  taggedSql,
 } from '../lib/analytics'
 import { buildAcquisitionUserScopeClause, buildAcquisitionWindow } from '../lib/acquisition'
 import { buildTrafficChannelSql, normalizeTrafficChannel, type TrafficChannel } from '../lib/channels'
@@ -3277,7 +3278,7 @@ dashboard.get('/dashboard/sites/:id/event-properties', async (c) => {
   ).bind(siteId, user.sub).first<{ id: string }>()
   if (!site) return c.text('Not found', 404)
 
-  const rows = await c.env.DB.prepare(buildEventPropertiesQuery())
+  const rows = await c.env.DB.prepare(buildEventPropertiesQuery('app'))
     .bind(siteId, window.startISO, window.endISO)
     .all<EventPropertyRow>()
 
@@ -3335,7 +3336,7 @@ dashboard.get('/dashboard/sites/:id/analytics', async (c) => {
   const uvExpr = `strftime('%Y-%m-%d', timestamp) || '|' || COALESCE(path, '') || '|' || COALESCE(country, '') || '|' || COALESCE(browser, '') || '|' || CAST(COALESCE(screen_width, 0) AS TEXT)`
 
   const batchRes = await c.env.DB.batch([
-    c.env.DB.prepare(`SELECT COUNT(*) as count FROM pageviews WHERE site_id = ? AND timestamp >= ? AND timestamp < ? ${fClause}`)
+    c.env.DB.prepare(taggedSql(`SELECT COUNT(*) as count FROM pageviews WHERE site_id = ? AND timestamp >= ? AND timestamp < ? ${fClause}`, 'app'))
       .bind(siteId, startISO, endISO, ...filterBindings),
     c.env.DB.prepare(`SELECT COUNT(DISTINCT ${uvExpr}) as count FROM pageviews WHERE site_id = ? AND timestamp >= ? AND timestamp < ? ${fClause}`)
       .bind(siteId, startISO, endISO, ...filterBindings),
@@ -3364,11 +3365,11 @@ dashboard.get('/dashboard/sites/:id/analytics', async (c) => {
     // Campaigns breakdown: utm_source x utm_medium with visitor + pageview counts
     c.env.DB.prepare(`SELECT COALESCE(utm_source, '') as utm_source, COALESCE(utm_medium, '') as utm_medium, COUNT(DISTINCT ${uvExpr}) as visitors, COUNT(*) as pageviews FROM pageviews WHERE site_id = ? AND timestamp >= ? AND timestamp < ? AND utm_source IS NOT NULL ${fClause} GROUP BY utm_source, utm_medium ORDER BY visitors DESC LIMIT 20`)
       .bind(siteId, startISO, endISO, ...filterBindings),
-    c.env.DB.prepare('SELECT COUNT(*) as count FROM custom_events WHERE site_id = ? AND timestamp >= ? AND timestamp < ?')
+    c.env.DB.prepare(taggedSql('SELECT COUNT(*) as count FROM custom_events WHERE site_id = ? AND timestamp >= ? AND timestamp < ?', 'app'))
       .bind(siteId, startISO, endISO),
-    c.env.DB.prepare(`SELECT ${window.groupByExpr} as date, COUNT(*) as count FROM custom_events WHERE site_id = ? AND timestamp >= ? AND timestamp < ? GROUP BY date ORDER BY date ASC`)
+    c.env.DB.prepare(taggedSql(`SELECT ${window.groupByExpr} as date, COUNT(*) as count FROM custom_events WHERE site_id = ? AND timestamp >= ? AND timestamp < ? GROUP BY date ORDER BY date ASC`, 'app'))
       .bind(siteId, startISO, endISO),
-    c.env.DB.prepare(`SELECT event_name, COUNT(*) as count FROM custom_events WHERE site_id = ? AND timestamp >= ? AND timestamp < ? GROUP BY event_name ORDER BY count DESC, event_name ASC LIMIT 20`)
+    c.env.DB.prepare(taggedSql(`SELECT event_name, COUNT(*) as count FROM custom_events WHERE site_id = ? AND timestamp >= ? AND timestamp < ? GROUP BY event_name ORDER BY count DESC, event_name ASC LIMIT 20`, 'app'))
       .bind(siteId, startISO, endISO),
   ])
 

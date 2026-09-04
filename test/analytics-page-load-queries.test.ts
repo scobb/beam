@@ -100,3 +100,34 @@ test('embed widget carries the gated refresh, not the properties handler', async
   assert.doesNotMatch(html, /setTimeout\(\(\)=>location\.reload\(\),60000\)/, 'unconditional 60s reload is gone')
   assert.doesNotMatch(html, /data-event-properties/, 'no properties panel lives here')
 })
+
+/**
+ * The whole point of the tags: the two dashboards must now be distinguishable
+ * in D1 Insights, which groups by query text.
+ */
+test('public dashboard tags its queries as beam:public', async () => {
+  const seen: string[] = []
+  await app.request(`http://localhost/public/${SITE_ID}`, {}, recordingEnv(seen))
+
+  const tagged = seen.filter(sql => /\/\* beam:public \*\//.test(sql))
+  assert.ok(tagged.length >= 4, `expected the attributed statements, saw ${tagged.length}`)
+  assert.equal(seen.filter(sql => /beam:app/.test(sql)).length, 0, 'must not claim to be the app dashboard')
+})
+
+test('the pageview-count statement differs between surfaces', async () => {
+  const seen: string[] = []
+  await app.request(`http://localhost/public/${SITE_ID}`, {}, recordingEnv(seen))
+
+  const pvCount = seen.find(sql => /^SELECT COUNT\(\*\) as count FROM pageviews WHERE site_id = \?/.test(sql.trim()))
+  assert.ok(pvCount, 'the per-render statement is issued')
+  assert.match(pvCount, /beam:public/, 'and is attributable — untagged, it merges with the app dashboard')
+})
+
+test('the on-demand event-properties endpoint is attributed too', async () => {
+  const seen: string[] = []
+  await app.request(`http://localhost/public/${SITE_ID}/event-properties?range=7d`, {}, recordingEnv(seen))
+
+  const je = seen.find(sql => /json_each/.test(sql))
+  assert.ok(je, 'json_each query is issued on demand')
+  assert.match(je, /beam:public/)
+})
