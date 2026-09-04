@@ -1,6 +1,11 @@
 import { Hono } from 'hono'
 import type { Env, AuthUser } from '../types'
-import { buildAnalyticsWindow, selectAnalyticsEmptyState } from '../lib/analytics'
+import {
+  buildAnalyticsWindow,
+  buildEventPropertiesQuery,
+  buildSiteHasPageviewsQuery,
+  selectAnalyticsEmptyState,
+} from '../lib/analytics'
 import { buildAcquisitionUserScopeClause, buildAcquisitionWindow } from '../lib/acquisition'
 import { buildTrafficChannelSql, normalizeTrafficChannel, type TrafficChannel } from '../lib/channels'
 import { maybeSendFirstSiteCreatedAlert, type ActivationAlertUserContext } from '../lib/activationAlerts'
@@ -3258,6 +3263,27 @@ dashboard.delete('/dashboard/sites/:id/goals/:goalId', async (c) => {
   return c.json({ ok: true })
 })
 
+// ── Event properties (on demand) ─────────────────────────────────────────────
+// Split out of the analytics batch: the json_each cross join scans ~2,170 rows
+// per row returned, so it runs only when a reader opens the panel.
+
+dashboard.get('/dashboard/sites/:id/event-properties', async (c) => {
+  const user = c.get('user')
+  const siteId = c.req.param('id')
+  const window = buildAnalyticsWindow(new Date(), c.req.query('range'))
+
+  const site = await c.env.DB.prepare(
+    'SELECT id FROM sites WHERE id = ? AND user_id = ?'
+  ).bind(siteId, user.sub).first<{ id: string }>()
+  if (!site) return c.text('Not found', 404)
+
+  const rows = await c.env.DB.prepare(buildEventPropertiesQuery())
+    .bind(siteId, window.startISO, window.endISO)
+    .all<EventPropertyRow>()
+
+  return c.html(renderEventPropertiesTable(rows.results ?? []))
+})
+
 // ── Analytics (/dashboard/sites/:id/analytics) ───────────────────────────────
 
 dashboard.get('/dashboard/sites/:id/analytics', async (c) => {
@@ -3332,8 +3358,8 @@ dashboard.get('/dashboard/sites/:id/analytics', async (c) => {
       .bind(siteId, startISO, endISO, ...filterBindings),
     c.env.DB.prepare(`SELECT ${channelExpr} as channel, COUNT(DISTINCT ${uvExpr}) as visitors, COUNT(*) as pageviews FROM pageviews WHERE site_id = ? AND timestamp >= ? AND timestamp < ? ${fClause} GROUP BY channel ORDER BY visitors DESC`)
       .bind(siteId, startISO, endISO, ...filterBindings),
-    // All-time pageview count (no range filter, no segment filter) — for empty state detection
-    c.env.DB.prepare('SELECT COUNT(*) as count FROM pageviews WHERE site_id = ?')
+    // Has this site ever recorded a pageview? — for empty state detection
+    c.env.DB.prepare(buildSiteHasPageviewsQuery())
       .bind(siteId),
     // Campaigns breakdown: utm_source x utm_medium with visitor + pageview counts
     c.env.DB.prepare(`SELECT COALESCE(utm_source, '') as utm_source, COALESCE(utm_medium, '') as utm_medium, COUNT(DISTINCT ${uvExpr}) as visitors, COUNT(*) as pageviews FROM pageviews WHERE site_id = ? AND timestamp >= ? AND timestamp < ? AND utm_source IS NOT NULL ${fClause} GROUP BY utm_source, utm_medium ORDER BY visitors DESC LIMIT 20`)
@@ -3343,13 +3369,6 @@ dashboard.get('/dashboard/sites/:id/analytics', async (c) => {
     c.env.DB.prepare(`SELECT ${window.groupByExpr} as date, COUNT(*) as count FROM custom_events WHERE site_id = ? AND timestamp >= ? AND timestamp < ? GROUP BY date ORDER BY date ASC`)
       .bind(siteId, startISO, endISO),
     c.env.DB.prepare(`SELECT event_name, COUNT(*) as count FROM custom_events WHERE site_id = ? AND timestamp >= ? AND timestamp < ? GROUP BY event_name ORDER BY count DESC, event_name ASC LIMIT 20`)
-      .bind(siteId, startISO, endISO),
-    c.env.DB.prepare(`SELECT je.key as property_key, CAST(je.value AS TEXT) as property_value, COUNT(*) as count
-      FROM custom_events ce, json_each(COALESCE(ce.properties, '{}')) je
-      WHERE ce.site_id = ? AND ce.timestamp >= ? AND ce.timestamp < ?
-      GROUP BY je.key, property_value
-      ORDER BY count DESC, je.key ASC, property_value ASC
-      LIMIT 20`)
       .bind(siteId, startISO, endISO),
   ])
 
@@ -3365,8 +3384,8 @@ dashboard.get('/dashboard/sites/:id/analytics', async (c) => {
   }
 
   const dailyData = (batchRes[4]?.results ?? []) as { date: string; visitors: number }[]
-  const allTimePageviews = (batchRes[11]?.results[0] as { count: number } | undefined)?.count ?? 0
-  const emptyState = selectAnalyticsEmptyState(allTimePageviews, totalPageviews)
+  const hasAnyDataEver = (batchRes[11]?.results.length ?? 0) > 0
+  const emptyState = selectAnalyticsEmptyState(hasAnyDataEver, totalPageviews)
 
   // Breakdown data
   const topPages = (batchRes[5]?.results ?? []) as { path: string; visitors: number; pageviews: number }[]
@@ -3385,7 +3404,6 @@ dashboard.get('/dashboard/sites/:id/analytics', async (c) => {
   const totalEvents = (batchRes[13]?.results[0] as { count: number } | undefined)?.count ?? 0
   const eventDailyData = (batchRes[14]?.results ?? []) as { date: string; count: number }[]
   const topEvents = (batchRes[15]?.results ?? []) as { event_name: string; count: number }[]
-  const eventProperties = (batchRes[16]?.results ?? []) as { property_key: string; property_value: string; count: number }[]
 
   const periodMs = window.endDate.getTime() - window.startDate.getTime()
   const previousStartISO = new Date(window.startDate.getTime() - periodMs).toISOString()
@@ -3522,7 +3540,7 @@ dashboard.get('/dashboard/sites/:id/analytics', async (c) => {
     </div>`
 
   const emptyBreakdown = '<p class="px-5 py-6 text-sm text-gray-400 text-center">No data for this period</p>'
-  const breakdownTable = (title: string, headers: string[], rows: string[][]) => `
+    const breakdownTable = (title: string, headers: string[], rows: string[][]) => `
     <div class="bg-white rounded-xl border border-gray-200">
       <div class="px-5 py-4 border-b border-gray-100">
         <h3 class="text-sm font-semibold text-gray-700">${title}</h3>
@@ -3591,7 +3609,6 @@ dashboard.get('/dashboard/sites/:id/analytics', async (c) => {
   const channelChartLinks = channelBreakdown.map((row) => dashUrl({ channel: row.channel }))
   const campaignsTableRows = topCampaigns.map(camp => [escHtml(camp.utm_source), escHtml(camp.utm_medium || '—'), camp.visitors.toLocaleString(), camp.pageviews.toLocaleString()])
   const eventsTableRows = topEvents.map(event => [escHtml(event.event_name), event.count.toLocaleString()])
-  const eventPropertiesRows = eventProperties.map(prop => [escHtml(prop.property_key), escHtml(prop.property_value), prop.count.toLocaleString()])
 
   const goalCardsHtml = goalSummaries.length === 0 ? `
     <div class="bg-white rounded-xl border border-gray-200 p-5">
@@ -3891,8 +3908,9 @@ dashboard.get('/dashboard/sites/:id/analytics', async (c) => {
 
           <div class="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-4">
             ${breakdownTable('Top Events', ['Event', 'Count'], eventsTableRows)}
-            ${breakdownTable('Event Properties', ['Property', 'Value', 'Count'], eventPropertiesRows)}
+            ${eventPropertiesPanel(`/dashboard/sites/${siteId}/event-properties?range=${range}`)}
           </div>
+          <script>${EVENT_PROPERTIES_JS}</script>
         </div>
       `}
     </div>`
@@ -4097,5 +4115,74 @@ dashboard.get('/dashboard/settings', (c) => {
 export function escHtml(s: string): string {
   return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
 }
+
+export interface EventPropertyRow {
+  property_key: string
+  property_value: string
+  count: number
+}
+
+const EVENT_PROPERTIES_EMPTY =
+  '<p class="px-5 py-6 text-sm text-gray-400 text-center">No data for this period</p>'
+
+/** Inner fragment served by the on-demand event-properties endpoints. */
+export function renderEventPropertiesTable(rows: EventPropertyRow[]): string {
+  if (rows.length === 0) return EVENT_PROPERTIES_EMPTY
+
+  const headers = ['Property', 'Value', 'Count']
+  return `
+    <div class="overflow-x-auto">
+      <table class="w-full min-w-max">
+        <thead class="bg-gray-50 border-b border-gray-100">
+          <tr>${headers.map(h => `<th class="text-left py-2 px-4 text-xs font-semibold text-gray-500 uppercase tracking-wide">${h}</th>`).join('')}</tr>
+        </thead>
+        <tbody>
+          ${rows.map((row, i) => `
+            <tr class="${i % 2 !== 0 ? 'bg-gray-50' : ''} border-b border-gray-50 last:border-0">
+              <td class="py-2 px-4 text-sm text-gray-700">${escHtml(row.property_key)}</td>
+              <td class="py-2 px-4 text-sm text-gray-700">${escHtml(row.property_value)}</td>
+              <td class="py-2 px-4 text-sm text-gray-700">${row.count.toLocaleString()}</td>
+            </tr>`).join('')}
+        </tbody>
+      </table>
+    </div>`
+}
+
+/**
+ * Placeholder panel for the event-properties breakdown.
+ *
+ * The underlying json_each query is the single most expensive statement Beam
+ * runs, so it is fetched only when a reader actually asks for it.
+ */
+export function eventPropertiesPanel(fetchUrl: string): string {
+  return `
+    <div class="bg-white rounded-xl border border-gray-200" data-event-properties>
+      <div class="px-5 py-4 border-b border-gray-100 flex items-center justify-between gap-3">
+        <h3 class="text-sm font-semibold text-gray-700">Event Properties</h3>
+        <button type="button" data-event-properties-load data-url="${escHtml(fetchUrl)}"
+          class="text-xs font-medium text-indigo-600 hover:text-indigo-700">Load</button>
+      </div>
+      <div data-event-properties-body>
+        <p class="px-5 py-6 text-sm text-gray-400 text-center">Not loaded &mdash; select Load to fetch</p>
+      </div>
+    </div>`
+}
+
+/** Click handler that swaps the placeholder for the fetched fragment. */
+export const EVENT_PROPERTIES_JS = `(function(){
+  var panel = document.querySelector('[data-event-properties]');
+  if (!panel) return;
+  var btn = panel.querySelector('[data-event-properties-load]');
+  var body = panel.querySelector('[data-event-properties-body]');
+  if (!btn || !body) return;
+  btn.addEventListener('click', function(){
+    btn.disabled = true;
+    btn.textContent = 'Loading\u2026';
+    fetch(btn.getAttribute('data-url'), { credentials: 'same-origin' })
+      .then(function(res){ if (!res.ok) throw new Error(String(res.status)); return res.text(); })
+      .then(function(html){ body.innerHTML = html; btn.remove(); })
+      .catch(function(){ btn.disabled = false; btn.textContent = 'Retry'; });
+  });
+})();`
 
 export { dashboard }

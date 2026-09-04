@@ -1,7 +1,18 @@
 import { Hono } from 'hono'
 import type { Env } from '../types'
-import { escHtml } from './dashboard'
-import { buildAnalyticsWindow, selectAnalyticsEmptyState } from '../lib/analytics'
+import {
+  EVENT_PROPERTIES_JS,
+  escHtml,
+  eventPropertiesPanel,
+  renderEventPropertiesTable,
+  type EventPropertyRow,
+} from './dashboard'
+import {
+  buildAnalyticsWindow,
+  buildEventPropertiesQuery,
+  buildSiteHasPageviewsQuery,
+  selectAnalyticsEmptyState,
+} from '../lib/analytics'
 import { buildTrafficChannelSql, normalizeTrafficChannel, type TrafficChannel } from '../lib/channels'
 import {
   computeGoalSummaries,
@@ -11,6 +22,40 @@ import {
 
 const publicDash = new Hono<{ Bindings: Env }>()
 const BEAM_SITE_ID_FALLBACK = 'dfa32f6b-0775-43df-a2c4-eb23787e5f03'
+
+/**
+ * Minimum age a public dashboard must reach before it re-renders itself.
+ *
+ * This page is served `Cache-Control: no-store` and every render re-runs the
+ * full analytics batch, so an auto-refresh loop is billed in D1 rows. The old
+ * unconditional `setTimeout(reload, 60000)` meant one forgotten tab cost 1,440
+ * full batches a day; production showed ~114,000 renders in 30 days from a
+ * handful of open tabs.
+ */
+export const PUBLIC_DASH_REFRESH_MIN_AGE_MS = 300_000
+
+/** How often the page wakes to consider refreshing (cheap; no I/O). */
+const PUBLIC_DASH_REFRESH_POLL_MS = 60_000
+
+/**
+ * Refreshes a *visible* public dashboard once it goes stale, and never refreshes
+ * a backgrounded tab — a tab nobody is looking at costs nothing. Returning to a
+ * stale tab refreshes it immediately, so the data is fresh whenever it is read.
+ *
+ * Only references `document`, `location`, `setInterval` and `Date` so the real
+ * script can be executed against stubs in tests.
+ */
+export const PUBLIC_DASH_REFRESH_JS = `(function(){
+  var MIN_AGE = ${PUBLIC_DASH_REFRESH_MIN_AGE_MS};
+  var loadedAt = Date.now();
+  function refreshIfStale(){
+    if (document.hidden) return;
+    if (Date.now() - loadedAt < MIN_AGE) return;
+    location.reload();
+  }
+  setInterval(refreshIfStale, ${PUBLIC_DASH_REFRESH_POLL_MS});
+  document.addEventListener('visibilitychange', refreshIfStale);
+})();`
 
 function notFoundPage(): string {
   return `<!DOCTYPE html>
@@ -100,6 +145,26 @@ publicDash.get('/badge/*', async (c) => {
   })
 })
 
+// ── Event properties (on demand) ─────────────────────────────────────────────
+// Kept out of the analytics batch: the json_each cross join scans ~2,170 rows
+// per row returned, and this route is unauthenticated.
+
+publicDash.get('/public/:site_id/event-properties', async (c) => {
+  const siteId = c.req.param('site_id')
+  const window = buildAnalyticsWindow(new Date(), c.req.query('range'))
+
+  const site = await c.env.DB.prepare(
+    'SELECT id, public FROM sites WHERE id = ?'
+  ).bind(siteId).first<{ id: string; public: number }>()
+  if (!site || site.public !== 1) return c.text('Not found', 404)
+
+  const rows = await c.env.DB.prepare(buildEventPropertiesQuery())
+    .bind(siteId, window.startISO, window.endISO)
+    .all<EventPropertyRow>()
+
+  return c.html(renderEventPropertiesTable(rows.results ?? []))
+})
+
 // ── Public analytics dashboard (/public/:site_id) ─────────────────────────────
 
 publicDash.get('/public/:site_id', async (c) => {
@@ -177,21 +242,14 @@ publicDash.get('/public/:site_id', async (c) => {
       .bind(siteId, startISO, endISO, ...filterBindings),
     c.env.DB.prepare(`SELECT ${channelExpr} as channel, COUNT(DISTINCT ${uvExpr}) as visitors, COUNT(*) as pageviews FROM pageviews WHERE site_id = ? AND timestamp >= ? AND timestamp < ? ${fClause} GROUP BY channel ORDER BY visitors DESC`)
       .bind(siteId, startISO, endISO, ...filterBindings),
-    // All-time pageview count (no range filter, no segment filter) — for empty state detection
-    c.env.DB.prepare('SELECT COUNT(*) as count FROM pageviews WHERE site_id = ?')
+    // Has this site ever recorded a pageview? — for empty state detection
+    c.env.DB.prepare(buildSiteHasPageviewsQuery())
       .bind(siteId),
     c.env.DB.prepare('SELECT COUNT(*) as count FROM custom_events WHERE site_id = ? AND timestamp >= ? AND timestamp < ?')
       .bind(siteId, startISO, endISO),
     c.env.DB.prepare(`SELECT ${window.groupByExpr} as date, COUNT(*) as count FROM custom_events WHERE site_id = ? AND timestamp >= ? AND timestamp < ? GROUP BY date ORDER BY date ASC`)
       .bind(siteId, startISO, endISO),
     c.env.DB.prepare(`SELECT event_name, COUNT(*) as count FROM custom_events WHERE site_id = ? AND timestamp >= ? AND timestamp < ? GROUP BY event_name ORDER BY count DESC, event_name ASC LIMIT 20`)
-      .bind(siteId, startISO, endISO),
-    c.env.DB.prepare(`SELECT je.key as property_key, CAST(je.value AS TEXT) as property_value, COUNT(*) as count
-      FROM custom_events ce, json_each(COALESCE(ce.properties, '{}')) je
-      WHERE ce.site_id = ? AND ce.timestamp >= ? AND ce.timestamp < ?
-      GROUP BY je.key, property_value
-      ORDER BY count DESC, je.key ASC, property_value ASC
-      LIMIT 20`)
       .bind(siteId, startISO, endISO),
   ])
 
@@ -206,8 +264,8 @@ publicDash.get('/public/:site_id', async (c) => {
   }
 
   const dailyData = (batchRes[4]?.results ?? []) as { date: string; visitors: number }[]
-  const allTimePageviews = (batchRes[11]?.results[0] as { count: number } | undefined)?.count ?? 0
-  const emptyState = selectAnalyticsEmptyState(allTimePageviews, totalPageviews)
+  const hasAnyDataEver = (batchRes[11]?.results.length ?? 0) > 0
+  const emptyState = selectAnalyticsEmptyState(hasAnyDataEver, totalPageviews)
 
   const topPages = (batchRes[5]?.results ?? []) as { path: string; visitors: number; pageviews: number }[]
   const rawReferrers = (batchRes[6]?.results ?? []) as { source: string; visitors: number }[]
@@ -224,7 +282,6 @@ publicDash.get('/public/:site_id', async (c) => {
   const totalEvents = (batchRes[12]?.results[0] as { count: number } | undefined)?.count ?? 0
   const eventDailyData = (batchRes[13]?.results ?? []) as { date: string; count: number }[]
   const topEvents = (batchRes[14]?.results ?? []) as { event_name: string; count: number }[]
-  const eventProperties = (batchRes[15]?.results ?? []) as { property_key: string; property_value: string; count: number }[]
 
   const periodMs = window.endDate.getTime() - window.startDate.getTime()
   const previousStartISO = new Date(window.startDate.getTime() - periodMs).toISOString()
@@ -389,7 +446,6 @@ publicDash.get('/public/:site_id', async (c) => {
   const channelChartColors = channelBreakdown.map((row) => channelColors[row.channel] ?? '#94a3b8')
   const channelChartLinks = channelBreakdown.map((row) => dashUrl({ channel: row.channel }))
   const eventsTableRows = topEvents.map(event => [escHtml(event.event_name), event.count.toLocaleString()])
-  const eventPropertiesRows = eventProperties.map(prop => [escHtml(prop.property_key), escHtml(prop.property_value), prop.count.toLocaleString()])
 
   const goalCardsHtml = goalSummaries.length === 0 ? `
     <div class="bg-white rounded-xl border border-gray-200 p-5">
@@ -658,7 +714,7 @@ publicDash.get('/public/:site_id', async (c) => {
 
         <div class="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-4">
           ${breakdownTable('Top Events', ['Event', 'Count'], eventsTableRows)}
-          ${breakdownTable('Event Properties', ['Property', 'Value', 'Count'], eventPropertiesRows)}
+          ${eventPropertiesPanel(`/public/${siteId}/event-properties?range=${range}`)}
         </div>
       </div>
     `}
@@ -768,7 +824,8 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#fff;color:#11182
 <div class="footer">
   <a href="/?utm_source=embed" target="_blank" rel="noopener">Powered by Beam</a>
 </div>
-<script>setTimeout(()=>location.reload(),60000)</script>
+<script>${EVENT_PROPERTIES_JS}</script>
+<script>${PUBLIC_DASH_REFRESH_JS}</script>
 </body>
 </html>`
 
