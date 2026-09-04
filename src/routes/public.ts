@@ -736,6 +736,7 @@ publicDash.get('/public/:site_id', async (c) => {
       </div>
     </div>
   </footer>
+<script>${EVENT_PROPERTIES_JS}</script>
 </body>
 </html>`)
 })
@@ -824,7 +825,6 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#fff;color:#11182
 <div class="footer">
   <a href="/?utm_source=embed" target="_blank" rel="noopener">Powered by Beam</a>
 </div>
-<script>${EVENT_PROPERTIES_JS}</script>
 <script>${PUBLIC_DASH_REFRESH_JS}</script>
 </body>
 </html>`

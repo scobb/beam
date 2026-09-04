@@ -75,3 +75,28 @@ test('event properties are reachable on demand', async () => {
   assert.equal(res.status, 200)
   assert.equal(seen.filter(sql => /json_each/i.test(sql)).length, 1, 'the panel must still be able to fetch its data')
 })
+
+/**
+ * The panel is inert without its handler. public.ts renders two different
+ * templates — the public dashboard and the embed widget — and the script was
+ * initially wired into the wrong one, which the SQL assertions above could not
+ * see: the page looked right and no query fired, but Load did nothing.
+ */
+test('public dashboard ships the handler that makes the Load button work', async () => {
+  const seen: string[] = []
+  const res = await app.request(`http://localhost/public/${SITE_ID}`, {}, recordingEnv(seen))
+  const html = await res.text()
+
+  assert.match(html, /data-event-properties-load/, 'panel trigger is rendered')
+  assert.match(html, /addEventListener\('click'/, 'and its click handler ships with it')
+})
+
+test('embed widget carries the gated refresh, not the properties handler', async () => {
+  const seen: string[] = []
+  const res = await app.request(`http://localhost/embed/${SITE_ID}`, {}, recordingEnv(seen))
+  const html = await res.text()
+
+  assert.match(html, /visibilitychange/, 'refresh is visibility-gated')
+  assert.doesNotMatch(html, /setTimeout\(\(\)=>location\.reload\(\),60000\)/, 'unconditional 60s reload is gone')
+  assert.doesNotMatch(html, /data-event-properties/, 'no properties panel lives here')
+})
