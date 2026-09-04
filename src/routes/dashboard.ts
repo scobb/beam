@@ -4157,13 +4157,15 @@ export function renderEventPropertiesTable(rows: EventPropertyRow[]): string {
 export function eventPropertiesPanel(fetchUrl: string): string {
   return `
     <div class="bg-white rounded-xl border border-gray-200" data-event-properties>
-      <div class="px-5 py-4 border-b border-gray-100 flex items-center justify-between gap-3">
+      <div class="px-5 py-4 border-b border-gray-100">
         <h3 class="text-sm font-semibold text-gray-700">Event Properties</h3>
-        <button type="button" data-event-properties-load data-url="${escHtml(fetchUrl)}"
-          class="text-xs font-medium text-indigo-600 hover:text-indigo-700">Load</button>
       </div>
       <div data-event-properties-body>
-        <p class="px-5 py-6 text-sm text-gray-400 text-center">Not loaded &mdash; select Load to fetch</p>
+        <button type="button" data-event-properties-load data-url="${escHtml(fetchUrl)}"
+          class="w-full px-5 py-6 text-center hover:bg-gray-50 transition-colors rounded-b-xl">
+          <span class="block text-sm font-medium text-indigo-600">Show breakdown by properties</span>
+          <span class="block text-xs text-gray-400 mt-1">Loaded on request to keep this page fast</span>
+        </button>
       </div>
     </div>`
 }
@@ -4177,11 +4179,12 @@ export const EVENT_PROPERTIES_JS = `(function(){
   if (!btn || !body) return;
   btn.addEventListener('click', function(){
     btn.disabled = true;
-    btn.textContent = 'Loading\u2026';
+    var label = btn.firstElementChild || btn;
+    label.textContent = 'Loading\u2026';
     fetch(btn.getAttribute('data-url'), { credentials: 'same-origin' })
       .then(function(res){ if (!res.ok) throw new Error(String(res.status)); return res.text(); })
-      .then(function(html){ body.innerHTML = html; btn.remove(); })
-      .catch(function(){ btn.disabled = false; btn.textContent = 'Retry'; });
+      .then(function(html){ body.innerHTML = html; })
+      .catch(function(){ btn.disabled = false; label.textContent = 'Could not load \u2014 retry'; });
   });
 })();`
 

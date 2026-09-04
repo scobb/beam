@@ -17,6 +17,26 @@ test('eventPropertiesPanel renders a placeholder, not data', () => {
   assert.doesNotMatch(html, /<tbody>/, 'must not render a populated table on page load')
 })
 
+/**
+ * A bare "Load" button in the header reads as a broken panel. The trigger
+ * belongs in the body, where the table itself will render, so the deferral
+ * looks deliberate rather than like a failure state.
+ */
+test('eventPropertiesPanel puts the trigger where the data will appear', () => {
+  const html = eventPropertiesPanel('/dashboard/sites/abc/event-properties?range=7d')
+
+  const bodyStart = html.indexOf('data-event-properties-body')
+  assert.ok(bodyStart > -1, 'panel has a body container')
+
+  const header = html.slice(0, bodyStart)
+  const body = html.slice(bodyStart)
+
+  assert.doesNotMatch(header, /data-event-properties-load/, 'trigger must not sit in the header')
+  assert.match(body, /data-event-properties-load/, 'trigger sits in the body, where the table lands')
+  assert.match(html, /breakdown by properties/i, 'copy explains what loading will show')
+  assert.doesNotMatch(html, />\s*Load\s*</, 'no bare "Load" label')
+})
+
 test('eventPropertiesPanel escapes the fetch URL', () => {
   const html = eventPropertiesPanel('/x?range="><script>alert(1)</script>')
 
