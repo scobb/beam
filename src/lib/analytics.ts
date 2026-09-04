@@ -25,6 +25,22 @@ export function buildSiteHasPageviewsQuery(): string {
   return 'SELECT 1 AS present FROM pageviews WHERE site_id = ? LIMIT 1'
 }
 
+/** Which surface issued a query. Used to attribute cost in D1 Insights. */
+export type AnalyticsSurface = 'public' | 'app'
+
+/**
+ * Appends a D1 Insights attribution tag to a statement.
+ *
+ * D1 Insights groups by query text, and `/public/:site_id` and
+ * `/dashboard/sites/:id/analytics` issue textually identical SQL — so their
+ * execution counts and rows-read merge into one row and cannot be told apart.
+ * That is why ~114,000 analytics renders a month currently have no known
+ * source. A trailing comment splits them; it does not change the query plan.
+ */
+export function taggedSql(sql: string, surface: AnalyticsSurface): string {
+  return `${sql} /* beam:${surface} */`
+}
+
 /**
  * Event-properties breakdown, fetched on demand rather than on page load.
  *
@@ -32,13 +48,16 @@ export function buildSiteHasPageviewsQuery(): string {
  * ~2,170 rows scanned per row returned, 2.52B rows/month and 29.8% of total D1
  * runtime, for a panel most dashboard views never look at.
  */
-export function buildEventPropertiesQuery(): string {
-  return `SELECT je.key as property_key, CAST(je.value AS TEXT) as property_value, COUNT(*) as count
+export function buildEventPropertiesQuery(surface: AnalyticsSurface): string {
+  return taggedSql(
+    `SELECT je.key as property_key, CAST(je.value AS TEXT) as property_value, COUNT(*) as count
       FROM custom_events ce, json_each(COALESCE(ce.properties, '{}')) je
       WHERE ce.site_id = ? AND ce.timestamp >= ? AND ce.timestamp < ?
       GROUP BY je.key, property_value
       ORDER BY count DESC, je.key ASC, property_value ASC
-      LIMIT 20`
+      LIMIT 20`,
+    surface
+  )
 }
 
 export interface AnalyticsWindow {
