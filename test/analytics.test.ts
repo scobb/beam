@@ -1,6 +1,12 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { buildAnalyticsWindow, normalizeAnalyticsRange, selectAnalyticsEmptyState } from '../src/lib/analytics'
+import {
+  buildAnalyticsWindow,
+  buildEventPropertiesQuery,
+  buildSiteHasPageviewsQuery,
+  normalizeAnalyticsRange,
+  selectAnalyticsEmptyState,
+} from '../src/lib/analytics'
 
 test('normalizeAnalyticsRange defaults invalid values to 7d', () => {
   assert.equal(normalizeAnalyticsRange(undefined), '7d')
@@ -39,21 +45,40 @@ test('7 day window uses the same UTC basis for filters and chart buckets', () =>
   assert.equal(window.groupByExpr, "strftime('%Y-%m-%d', timestamp)")
 })
 
-// ── selectAnalyticsEmptyState ─────────────────────────────────────────────────
+// ── D1 read reduction: empty-state probe ──────────────────────────────────────
+// The empty-state check only needs to know *whether* a site has ever recorded a
+// pageview, not how many. Counting scanned every row a site had ever recorded
+// (~2.2B rows/month in production, 25% of all D1 reads) to answer a yes/no.
 
 test('selectAnalyticsEmptyState: no data ever — site has never recorded a pageview', () => {
-  assert.equal(selectAnalyticsEmptyState(0, 0), 'no-data-ever')
+  assert.equal(selectAnalyticsEmptyState(false, 0), 'no-data-ever')
 })
 
-test('selectAnalyticsEmptyState: no data in range — site has historical data but none in selected range', () => {
-  assert.equal(selectAnalyticsEmptyState(50, 0), 'no-data-in-range')
+test('selectAnalyticsEmptyState: no data in range — site has history but none in range', () => {
+  assert.equal(selectAnalyticsEmptyState(true, 0), 'no-data-in-range')
 })
 
 test('selectAnalyticsEmptyState: has data — range contains pageviews', () => {
-  assert.equal(selectAnalyticsEmptyState(100, 10), 'has-data')
+  assert.equal(selectAnalyticsEmptyState(true, 10), 'has-data')
 })
 
-test('selectAnalyticsEmptyState: has data — allTimeCount equal to rangeCount', () => {
-  // All time data is within the selected range
-  assert.equal(selectAnalyticsEmptyState(5, 5), 'has-data')
+test('buildSiteHasPageviewsQuery probes for existence instead of counting rows', () => {
+  const sql = buildSiteHasPageviewsQuery()
+
+  assert.match(sql, /LIMIT 1/i, 'must stop at the first matching row')
+  assert.doesNotMatch(sql, /COUNT\s*\(/i, 'must not scan every row to answer a yes/no')
+  assert.match(sql, /FROM pageviews WHERE site_id = \?/i)
+})
+
+// ── D1 read reduction: event properties are lazy-loaded ───────────────────────
+// The json_each cross join reads ~2,170 rows for every row it returns (2.52B
+// rows/month, 29.8% of total D1 runtime). It must not run on page load.
+
+test('buildEventPropertiesQuery is bounded by site and time range', () => {
+  const sql = buildEventPropertiesQuery()
+
+  assert.match(sql, /json_each/i)
+  assert.match(sql, /ce\.site_id = \?/i)
+  assert.match(sql, /ce\.timestamp >= \? AND ce\.timestamp < \?/i)
+  assert.match(sql, /LIMIT 20/i)
 })

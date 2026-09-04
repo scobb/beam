@@ -7,10 +7,38 @@ export type EmptyStateKind = 'no-data-ever' | 'no-data-in-range' | 'has-data'
  * - 'no-data-in-range': site has historical data but none in the selected range → show range-scoped message
  * - 'has-data': range has data → render charts normally
  */
-export function selectAnalyticsEmptyState(allTimeCount: number, rangeCount: number): EmptyStateKind {
+export function selectAnalyticsEmptyState(hasAnyDataEver: boolean, rangeCount: number): EmptyStateKind {
   if (rangeCount > 0) return 'has-data'
-  if (allTimeCount === 0) return 'no-data-ever'
+  if (!hasAnyDataEver) return 'no-data-ever'
   return 'no-data-in-range'
+}
+
+/**
+ * Existence probe backing `selectAnalyticsEmptyState`'s `hasAnyDataEver`.
+ *
+ * D1 bills rows scanned, so `COUNT(*) FROM pageviews WHERE site_id = ?` charged
+ * for every row a site had ever recorded just to answer a yes/no question. In
+ * production that single query was 2.2B rows/month — 25% of all D1 reads, at a
+ * 19,383:1 read-to-return ratio. `LIMIT 1` stops at the first row instead.
+ */
+export function buildSiteHasPageviewsQuery(): string {
+  return 'SELECT 1 AS present FROM pageviews WHERE site_id = ? LIMIT 1'
+}
+
+/**
+ * Event-properties breakdown, fetched on demand rather than on page load.
+ *
+ * The `json_each` cross join multiplies each event row by its property count:
+ * ~2,170 rows scanned per row returned, 2.52B rows/month and 29.8% of total D1
+ * runtime, for a panel most dashboard views never look at.
+ */
+export function buildEventPropertiesQuery(): string {
+  return `SELECT je.key as property_key, CAST(je.value AS TEXT) as property_value, COUNT(*) as count
+      FROM custom_events ce, json_each(COALESCE(ce.properties, '{}')) je
+      WHERE ce.site_id = ? AND ce.timestamp >= ? AND ce.timestamp < ?
+      GROUP BY je.key, property_value
+      ORDER BY count DESC, je.key ASC, property_value ASC
+      LIMIT 20`
 }
 
 export interface AnalyticsWindow {

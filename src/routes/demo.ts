@@ -474,8 +474,8 @@ demo.get('/demo', (c) => {
     .sort((a, b) => b.visitors - a.visitors)
     .slice(0, 20)
 
-  const allTimePageviews = dataset.pageviews.length
-  const emptyState = selectAnalyticsEmptyState(allTimePageviews, totalPageviews)
+  const hasAnyDataEver = dataset.pageviews.length > 0
+  const emptyState = selectAnalyticsEmptyState(hasAnyDataEver, totalPageviews)
 
   const rangeEvents = dataset.events.filter((event) => event.timestamp >= window.startISO && event.timestamp < window.endISO)
   const totalEvents = rangeEvents.length
