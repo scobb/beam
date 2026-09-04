@@ -126,6 +126,7 @@ npm run ping          # notifies search engines
 - KV data persists across wrangler dev restarts via blob files in `.wrangler/state/v3/kv/`. Expired blobs are NOT evicted on restart — wrangler reloads them as active. Delete expired blobs manually before starting a fresh session if rate-limit tests are failing unexpectedly.
 - Playwright smoke tests with `reuseExistingServer: true` share KV state across test runs. The signup rate limit (5/IP/hour) accumulates in-session. If `signupAndGetSession` returns 429, kill wrangler dev, delete expired blobs, and restart.
 - UX audit tests live in `beam/test/smoke/ux-audit.spec.ts` — run with `npx playwright test test/smoke/ux-audit.spec.ts --project=desktop`.
+- `PUBLIC_BASE_URL` is unset in every `wrangler.toml`, so marketing pages point `beam.js` at production. `wrangler dev` and `npm run test:smoke` therefore write real pageviews into production analytics unless you pass `--var PUBLIC_BASE_URL:http://localhost:8787`. See `CLAUDE.md`.
 
 ## Public Pricing Copy Guardrail
 
@@ -133,10 +134,15 @@ npm run ping          # notifies search engines
 - Protect this with `test/public-pricing-copy.test.ts`, which crawls sitemap URLs and fails on stale Beam-specific `5K/100K` phrases while allowing intentional historical references (currently `/changelog`).
 - For trust-alignment release stories, run both the local stale-copy regression test and a live production sitemap HTML sweep (excluding intentional historical pages like `/changelog`) before closing copy-fix work.
 
-## Future: Repo Split
+## Repo Split — done
 
-Beam code should eventually be extracted into its own standalone repo (e.g. `scobb/beam` or `keylightdigital/beam`). Currently lives in `ralph-bootstrap/beam/` as a subdirectory. When splitting:
-- Use `git subtree split` or `git filter-repo` to preserve history
-- The standalone repo should have its own `CLAUDE.md`, `prd.json`, `progress.txt`
-- Update Cloudflare Workers deployment to point to the new repo
-- Archive the `ralph/beam` branch in this repo once extracted
+Beam was extracted from `ralph-bootstrap/beam/` into this standalone repo
+(`scobb/beam`). Cloudflare Workers deploys from here via
+`.github/workflows/ci.yml`, and `CLAUDE.md` now exists at the root.
+
+One loose end: the pre-split `ralph/beam` branch still exists on the remote
+(last commit 2026-05-25, `6eb0f4b`). It is superseded by `main` and can be
+archived or deleted once someone confirms nothing references it.
+
+The original plan also called for `prd.json` and `progress.txt`; neither was
+carried over and neither has been missed.
