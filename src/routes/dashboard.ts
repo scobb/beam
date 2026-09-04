@@ -4162,10 +4162,7 @@ export function eventPropertiesPanel(fetchUrl: string): string {
       </div>
       <div data-event-properties-body>
         <button type="button" data-event-properties-load data-url="${escHtml(fetchUrl)}"
-          class="w-full px-5 py-6 text-center hover:bg-gray-50 transition-colors rounded-b-xl">
-          <span class="block text-sm font-medium text-indigo-600">Show breakdown by properties</span>
-          <span class="block text-xs text-gray-400 mt-1">Loaded on request to keep this page fast</span>
-        </button>
+          class="w-full px-5 py-6 text-center text-sm font-medium text-indigo-600 hover:bg-gray-50 transition-colors rounded-b-xl">Show breakdown by properties</button>
       </div>
     </div>`
 }
