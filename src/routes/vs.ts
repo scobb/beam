@@ -1152,8 +1152,8 @@ app.get('/vs/beam-analytics', (c) => {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Beam vs Beam Analytics (beamanalytics.io) — Same Name, Different Products</title>
-  <meta name="description" content="Beam vs Beam Analytics (beamanalytics.io): two unrelated products with similar names. Compare pricing, features, and privacy model — and see why beamanalytics.io's September 1, 2026 shutdown date makes this a migration decision, not a head-to-head." />
+  <title>Beam vs Beam Analytics (beamanalytics.io) — Comparison &amp; Migration</title>
+  <meta name="description" content="Beam vs Beam Analytics (beamanalytics.io) are two unrelated products. Compare pricing, features, and privacy — and migrate before the September 1, 2026 shutdown." />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="${baseUrl}/vs/beam-analytics" />
   <meta property="og:title" content="Beam vs Beam Analytics (beamanalytics.io)" />
