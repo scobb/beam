@@ -514,8 +514,14 @@ test.describe('Desktop smoke', () => {
     await expect(page.getByRole('heading', { name: 'Beam vs Beam Analytics (beamanalytics.io)' })).toBeVisible()
     await expect(page.getByRole('heading', { level: 2, name: /which product is which/i })).toBeVisible()
     await expect(page.getByText(/not affiliated with beamanalytics\.io/i)).toBeVisible()
-    await expect(page.getByText(/Shutdown date set for Sept 1, 2026/i)).toBeVisible()
+    await expect(page.getByText(/Shut down Sept 1, 2026/i)).toBeVisible()
     await expect(page.getByText(/Goals and conversion tracking/i).first()).toBeVisible()
+    // the comparison column must name the competitor, not say "Competitor",
+    // on the one page whose job is telling two same-named products apart
+    await expect(page.getByRole('columnheader', { name: 'Beam Analytics (beamanalytics.io)' })).toBeVisible()
+    // page must read as post-shutdown, not as advice to migrate ahead of it
+    await expect(page.getByText(/shut down on September 1, 2026/i).first()).toBeVisible()
+    await expect(page.getByText(/while access lasts/i)).toHaveCount(0)
     await expect(page.getByRole('heading', { level: 2, name: /where beam analytics was genuinely better/i })).toBeVisible()
     await expect(page.getByRole('heading', { level: 2, name: /what beam does not replace/i })).toBeVisible()
     await expect(page.getByRole('link', { name: /open the migration guide/i })).toBeVisible()
