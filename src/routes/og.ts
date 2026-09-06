@@ -17,6 +17,7 @@ const PAGE_TITLES: Record<string, string> = {
   'vs-matomo': 'Beam vs Matomo',
   'vs-simple-analytics': 'Beam vs Simple Analytics',
   'vs-rybbit': 'Beam vs Rybbit',
+  'vs-beam-analytics': 'Beam vs Beam Analytics',
   migrate: 'Migration Hub',
   'migrate-google-analytics': 'Google Analytics → Beam',
   'migrate-plausible': 'Plausible → Beam',

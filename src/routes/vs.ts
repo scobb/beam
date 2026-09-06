@@ -22,9 +22,9 @@ function nav(): string {
 function footer(): string {
   return `
   <footer class="border-t border-gray-100 py-10">
-    <div class="max-w-5xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-400">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-400">
       <span>&copy; ${new Date().getFullYear()} Keylight Digital LLC. All rights reserved.</span>
-      <div class="flex items-center gap-6">
+      <div class="flex flex-wrap items-center justify-center md:justify-end gap-x-6 gap-y-2">
         <a href="/about" class="hover:text-gray-600">About</a>
         <a href="/privacy" class="hover:text-gray-600">Privacy</a>
         <a href="/terms" class="hover:text-gray-600">Terms</a>
@@ -39,6 +39,7 @@ function footer(): string {
         <a href="/vs/matomo" class="hover:text-gray-600">vs Matomo</a>
         <a href="/vs/simple-analytics" class="hover:text-gray-600">vs Simple Analytics</a>
         <a href="/vs/rybbit" class="hover:text-gray-600">vs Rybbit</a>
+        <a href="/vs/beam-analytics" class="hover:text-gray-600">vs Beam Analytics</a>
         <a href="/beam-analytics-alternative" class="hover:text-gray-600">Beam Analytics Alternative</a>
         <a href="/signup" class="hover:text-gray-600">Sign up</a>
         <a href="/login" class="hover:text-gray-600">Log in</a>
@@ -48,7 +49,10 @@ function footer(): string {
 }
 
 function comparisonTable(rows: { feature: string; beam: string; competitor: string; beamWins?: boolean }[]): string {
+  // The table's min-content width exceeds a 375px viewport, so it scrolls
+  // inside its own container rather than pushing the page sideways.
   return `
+  <div class="overflow-x-auto">
   <table class="w-full text-sm border border-gray-200 rounded-xl overflow-hidden">
     <thead class="bg-gray-50">
       <tr>
@@ -65,7 +69,8 @@ function comparisonTable(rows: { feature: string; beam: string; competitor: stri
         <td class="px-4 py-3 text-center text-gray-500">${r.competitor}</td>
       </tr>`).join('')}
     </tbody>
-  </table>`
+  </table>
+  </div>`
 }
 
 function ctaSection(): string {
@@ -193,6 +198,13 @@ app.get('/alternatives', (c) => {
       intro: 'A fast-growing open-source/self-hosted option with advanced product analytics features.',
       beamStronger: 'you want zero infrastructure and lower managed cost for day-to-day site analytics.',
       alternativeBetter: 'you need session replay/funnel workflows and can operate self-hosted infrastructure.',
+    },
+    {
+      href: '/vs/beam-analytics',
+      label: 'Beam vs Beam Analytics',
+      intro: 'A separate product with a confusingly similar name (beamanalytics.io) that set a September 1, 2026 shutdown date.',
+      beamStronger: 'you need a maintained tracker rather than one with a published end-of-life date.',
+      alternativeBetter: 'nothing going forward — its 100K/mo free tier was more generous, but the product is winding down.',
     },
     {
       href: '/beam-analytics-alternative',
@@ -1119,6 +1131,139 @@ ${nav()}
     { href: '/vs/plausible', label: 'Beam vs Plausible', description: 'Compare Beam with the best-known indie privacy analytics SaaS — also managed, no self-hosting required.' },
     { href: '/vs/umami', label: 'Beam vs Umami', description: 'Another popular open-source self-hosted option; compare the self-hosting trade-off in detail.' },
     { href: '/vs/matomo', label: 'Beam vs Matomo', description: 'The original heavyweight self-hosted analytics — see how full feature depth compares to simplicity.' },
+  ])}
+
+  ${ctaSection()}
+</main>
+
+${footer()}
+</body>
+</html>`
+  return c.html(html)
+})
+
+// ─── Beam Analytics (beamanalytics.io) ───────────────────────────────────────
+
+app.get('/vs/beam-analytics', (c) => {
+  const baseUrl = getPublicBaseUrl(c.env)
+  const BEAM_SITE_ID = c.env.BEAM_SELF_SITE_ID ?? BEAM_SITE_ID_FALLBACK
+  const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Beam vs Beam Analytics (beamanalytics.io) — Comparison &amp; Migration</title>
+  <meta name="description" content="Beam vs Beam Analytics (beamanalytics.io) are two unrelated products. Compare pricing, features, and privacy — and migrate before the September 1, 2026 shutdown." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="${baseUrl}/vs/beam-analytics" />
+  <meta property="og:title" content="Beam vs Beam Analytics (beamanalytics.io)" />
+  <meta property="og:description" content="Two different products, similar names. beamanalytics.io set a September 1, 2026 shutdown date — here is how the two compare and what carries over." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="${baseUrl}/vs/beam-analytics" />
+  <meta property="og:image" content="${baseUrl}/og/vs-beam-analytics" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Beam vs Beam Analytics (beamanalytics.io)" />
+  <meta name="twitter:description" content="Same name, different products. Compare Beam with beamanalytics.io and plan your migration." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="${baseUrl}/js/beam.js" data-site-id="${BEAM_SITE_ID}"></script>
+  <script type="application/ld+json">${JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'Is Beam the same product as Beam Analytics (beamanalytics.io)?', acceptedAnswer: { '@type': 'Answer', text: 'No. They are two unrelated products with similar names. Beam (beam-privacy.com) is built by Keylight Digital LLC and runs on Cloudflare Workers. Beam Analytics (beamanalytics.io) was launched in January 2023 by JR and Leng Lee and set a shutdown date of September 1, 2026.' } },
+      { '@type': 'Question', name: 'Which free tier is bigger?', acceptedAnswer: { '@type': 'Answer', text: 'beamanalytics.io offered 100K pageviews per month on its free plan, which is more generous than Beam\'s free tier of 1 site and 50K pageviews per month. Beam\'s Pro plan is $5 per month for unlimited sites and 500K pageviews per month.' } },
+      { '@type': 'Question', name: 'Can Beam import my beamanalytics.io history?', acceptedAnswer: { '@type': 'Answer', text: 'Not directly. Beam supports daily traffic CSV import for Plausible and Fathom export formats only. Export your beamanalytics.io data and archive it locally; Beam starts collecting fresh data from the day you install the script.' } },
+      { '@type': 'Question', name: 'What should beamanalytics.io users do now?', acceptedAnswer: { '@type': 'Answer', text: 'Export historical data from the beamanalytics.io dashboard while access lasts, then install a replacement tracker and verify it in production. The beamanalytics.io to Beam migration guide covers the full cutover in about 15 minutes.' } },
+    ],
+  })}</script>
+</head>
+<body class="bg-white text-gray-900 antialiased">
+${nav()}
+
+<main class="max-w-4xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
+
+  <div class="mb-2 text-sm text-indigo-600 font-medium uppercase tracking-wide">Comparison</div>
+  <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-gray-900 mb-4">Beam vs Beam Analytics (beamanalytics.io)</h1>
+  <p class="text-lg sm:text-xl text-gray-500 mb-8">These are two different products with confusingly similar names. This page separates them, compares what each one offers, and is honest about the one fact that dominates the decision: beamanalytics.io set a shutdown date of <strong>September 1, 2026</strong>, so for most readers this is a migration question rather than a head-to-head purchase.</p>
+
+  <section class="rounded-2xl border border-amber-200 bg-amber-50 p-5 sm:p-6 mb-10">
+    <h2 class="text-lg font-bold text-amber-900 mb-2">Which product is which?</h2>
+    <ul class="space-y-2 text-amber-900 leading-relaxed text-sm sm:text-base">
+      <li><strong>Beam</strong> — this site, <code class="text-xs bg-amber-100 px-1 rounded">beam-privacy.com</code>. Privacy-first web analytics built by Keylight Digital LLC on Cloudflare Workers and D1. Free tier plus a $5/mo Pro plan.</li>
+      <li><strong>Beam Analytics</strong> — <code class="text-xs bg-amber-100 px-1 rounded">beamanalytics.io</code>. A separate privacy analytics product launched in January 2023 by JR and Leng Lee, known for a 100K pageviews/month free tier. It set a shutdown date of September 1, 2026.</li>
+    </ul>
+    <p class="mt-3 text-amber-800 text-sm">We are not affiliated with beamanalytics.io, and Beam did not acquire it. The names are a coincidence, which is exactly why this page exists.</p>
+  </section>
+
+  ${comparisonTable([
+    { feature: 'Product status', beam: 'Active and maintained', competitor: 'Shutdown date set for Sept 1, 2026', beamWins: true },
+    { feature: 'Free tier', beam: '1 site, 50K pv/mo', competitor: '100K pv/mo (while it ran)', beamWins: false },
+    { feature: 'Paid plan', beam: '$5/mo Pro — unlimited sites, 500K pv/mo', competitor: 'Not available going forward', beamWins: true },
+    { feature: 'Cookies used', beam: 'None', competitor: 'None', beamWins: false },
+    { feature: 'GDPR compliant', beam: 'Yes', competitor: 'Yes', beamWins: false },
+    { feature: 'Consent banner needed', beam: 'No', competitor: 'No', beamWins: false },
+    { feature: 'Script size', beam: '< 2 KB', competitor: 'Lightweight script', beamWins: false },
+    { feature: 'Custom events', beam: 'Yes, with property breakdowns', competitor: 'Yes', beamWins: false },
+    { feature: 'Goals and conversion tracking', beam: 'Yes', competitor: 'Not offered', beamWins: true },
+    { feature: 'Traffic channel classification', beam: 'Yes', competitor: 'Not offered', beamWins: true },
+    { feature: 'Digest emails and anomaly alerts', beam: 'Yes', competitor: 'Not offered', beamWins: true },
+    { feature: 'REST API access', beam: 'Yes', competitor: 'Not documented', beamWins: true },
+    { feature: 'Public shareable dashboard', beam: 'Yes', competitor: 'Not documented', beamWins: true },
+    { feature: 'Historical data import', beam: 'Plausible and Fathom CSV only', competitor: 'Export from dashboard before access ends', beamWins: false },
+    { feature: 'Built on', beam: 'Cloudflare edge (Workers + D1)', competitor: 'Hosted SaaS', beamWins: false },
+  ])}
+
+  <div class="mt-12 space-y-6 text-gray-700 leading-relaxed">
+    <h2 class="text-2xl font-bold text-gray-900">Where Beam Analytics Was Genuinely Better</h2>
+    <p>
+      The free tier. beamanalytics.io gave away 100,000 pageviews per month at no cost — double Beam's 50,000. If you picked beamanalytics.io because the free ceiling was high enough that you never needed to pay, moving to Beam means either staying under a lower free limit or paying $5/month for the Pro plan. That is a real downgrade for a subset of users, and it is worth saying plainly rather than burying.
+    </p>
+    <p>
+      It also had a head start on brand recognition in the privacy analytics niche, and a community of users who were happy with it. The product was not abandoned for lack of quality — the team chose to wind it down.
+    </p>
+
+    <h2 class="text-2xl font-bold text-gray-900">Where Beam Has the Edge</h2>
+    <p>
+      The decisive one is that Beam is still here. A tracker with a published end-of-life date cannot be the foundation of your measurement stack, no matter how good the free tier is. Every day you leave the old script installed after the cutoff is a day of traffic you are not recording anywhere.
+    </p>
+    <p>
+      Beyond that, Beam covers the same cookieless, no-consent-banner ground and adds the analysis layer: goals and conversion tracking, traffic channel classification, rule-based insight summaries, weekly digest emails, anomaly alerts, a REST API, and an optional public dashboard you can share. The whole stack runs on Cloudflare's edge network, so there is no server to operate and the script stays under 2 KB.
+    </p>
+    <p>
+      Pricing is flat and predictable: free for one site up to 50K pageviews per month, or $5/month for unlimited sites and 500K pageviews per month.
+    </p>
+
+    <h2 class="text-2xl font-bold text-gray-900">What Beam Does Not Replace</h2>
+    <p>
+      Beam cannot import beamanalytics.io's export format. CSV import supports Plausible and Fathom daily traffic exports today, so your beamanalytics.io history has to be archived locally rather than backfilled into the Beam dashboard. Beam also has no session replay, no funnel analysis, no custom script domain to dodge ad blockers, and no enterprise SSO or team management — it is built for indie makers and small teams.
+    </p>
+    <p>
+      If any of those are hard requirements, evaluate <a href="/vs/plausible" class="text-indigo-700 hover:underline">Plausible</a>, <a href="/vs/fathom" class="text-indigo-700 hover:underline">Fathom</a>, <a href="/vs/umami" class="text-indigo-700 hover:underline">Umami</a>, or <a href="/vs/rybbit" class="text-indigo-700 hover:underline">Rybbit</a> before you commit. The <a href="/blog/beam-analytics-shutdown-migration-guide" class="text-indigo-700 hover:underline">shutdown migration options guide</a> compares all of them side by side.
+    </p>
+
+    <h2 class="text-2xl font-bold text-gray-900">Which Should You Choose?</h2>
+    <p>
+      There is no live choice to make between these two. If you are on <strong>beamanalytics.io</strong>, export your data from the dashboard while access lasts and install a replacement now — waiting only shrinks the amount of history your new provider will have collected by the time the old one goes dark.
+    </p>
+    <p>
+      Choose <strong>Beam</strong> if you liked the beamanalytics.io approach — cookieless, lightweight, no consent banner, simple traffic metrics — and want the closest available landing spot with a bit more analysis on top. The <a href="/migrate/beam-analytics" class="text-indigo-700 hover:underline">step-by-step migration guide</a> takes about 15 minutes end to end.
+    </p>
+  </div>
+
+  <section class="mt-12 rounded-2xl border border-emerald-100 bg-emerald-50 p-6 sm:p-8">
+    <h2 class="text-2xl font-bold text-gray-900">Migrating off beamanalytics.io?</h2>
+    <p class="mt-3 text-gray-700">Start with the checklist — export, install, verify, then remove the old script.</p>
+    <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+      <a href="/migrate/beam-analytics" class="inline-flex items-center justify-center rounded-xl bg-emerald-700 px-6 py-3 font-semibold text-white hover:bg-emerald-800">Open the migration guide</a>
+      <a href="/beam-analytics-alternative" class="inline-flex items-center justify-center rounded-xl border border-emerald-600 bg-white px-6 py-3 font-semibold text-emerald-800 hover:bg-emerald-100">Beam Analytics alternative overview</a>
+      <a href="/demo" class="inline-flex items-center justify-center rounded-xl border border-emerald-600 bg-white px-6 py-3 font-semibold text-emerald-800 hover:bg-emerald-100">Try the live demo</a>
+    </div>
+  </section>
+
+  ${relatedComparisons([
+    { href: '/vs/plausible', label: 'Beam vs Plausible', description: 'The most established privacy-first hosted option, and the other common landing spot for beamanalytics.io users.' },
+    { href: '/vs/fathom', label: 'Beam vs Fathom', description: 'Unlimited sites at a flat higher price — worth a look if you run many domains.' },
+    { href: '/vs/umami', label: 'Beam vs Umami', description: 'Free if you self-host. Compare the hosting trade-off before you commit to a managed tool.' },
   ])}
 
   ${ctaSection()}

@@ -56,6 +56,7 @@ URLS_JSON=$(cat <<'URLS'
   "/vs/matomo",
   "/vs/simple-analytics",
   "/vs/rybbit",
+  "/vs/beam-analytics",
   "/signup",
   "/login",
   "/about",
