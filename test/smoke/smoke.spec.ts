@@ -506,6 +506,23 @@ test.describe('Desktop smoke', () => {
     await page.screenshot({ path: 'screenshots/smoke/desktop-vs-cloudflare-web-analytics.png' })
   })
 
+  test('beam analytics comparison page loads and disambiguates the two products', async ({ page }) => {
+    await page.goto('/alternatives')
+    await expect(page.getByRole('link', { name: 'Beam vs Beam Analytics' }).first()).toBeVisible()
+
+    await page.goto('/vs/beam-analytics')
+    await expect(page.getByRole('heading', { name: 'Beam vs Beam Analytics (beamanalytics.io)' })).toBeVisible()
+    await expect(page.getByRole('heading', { level: 2, name: /which product is which/i })).toBeVisible()
+    await expect(page.getByText(/not affiliated with beamanalytics\.io/i)).toBeVisible()
+    await expect(page.getByText(/Shutdown date set for Sept 1, 2026/i)).toBeVisible()
+    await expect(page.getByText(/Goals and conversion tracking/i).first()).toBeVisible()
+    await expect(page.getByRole('heading', { level: 2, name: /where beam analytics was genuinely better/i })).toBeVisible()
+    await expect(page.getByRole('heading', { level: 2, name: /what beam does not replace/i })).toBeVisible()
+    await expect(page.getByRole('link', { name: /open the migration guide/i })).toBeVisible()
+
+    await page.screenshot({ path: 'screenshots/smoke/desktop-vs-beam-analytics.png' })
+  })
+
   test('product hunt launch page loads with campaign-tagged CTAs and stays out of sitemap', async ({ page }) => {
     await page.goto('/product-hunt')
     await expect(page.getByRole('heading', { level: 1 })).toContainText('Privacy-first analytics')
@@ -713,6 +730,12 @@ test.describe('Mobile smoke', () => {
     await assertNoHorizontalOverflow(page, 'cloudflare web analytics comparison page')
   })
 
+  test('beam analytics comparison page is mobile-safe at 375px', async ({ page }) => {
+    await page.goto('/vs/beam-analytics')
+    await expect(page.getByRole('heading', { name: 'Beam vs Beam Analytics (beamanalytics.io)' })).toBeVisible()
+    await assertNoHorizontalOverflow(page, 'beam analytics comparison page')
+  })
+
   test('product hunt launch page is mobile-safe at 375px', async ({ page }) => {
     await page.goto('/product-hunt')
     await expect(page.getByRole('heading', { level: 1 })).toContainText('Privacy-first analytics')
@@ -898,6 +921,7 @@ test.describe('OG image route', () => {
     'vs-matomo',
     'vs-simple-analytics',
     'vs-rybbit',
+    'vs-beam-analytics',
     'migrate',
     'migrate-google-analytics',
     'migrate-plausible',

@@ -442,6 +442,7 @@ export function landingPage(
         <a href="/vs/cloudflare-web-analytics" class="hover:text-gray-600">vs Cloudflare Web Analytics</a>
         <a href="/vs/plausible" class="hover:text-gray-600">vs Plausible</a>
         <a href="/vs/fathom" class="hover:text-gray-600">vs Fathom</a>
+        <a href="/vs/beam-analytics" class="hover:text-gray-600">vs Beam Analytics</a>
         <a href="/signup" class="hover:text-gray-600">Sign up</a>
         <a href="/login" class="hover:text-gray-600">Log in</a>
         <a href="/public/${BEAM_SITE_ID}" class="hover:text-gray-600">Live stats ↗</a>

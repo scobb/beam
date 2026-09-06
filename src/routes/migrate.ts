@@ -36,6 +36,7 @@ function footer(): string {
         <a href="/vs/google-analytics" class="hover:text-gray-600">vs Google Analytics</a>
         <a href="/vs/plausible" class="hover:text-gray-600">vs Plausible</a>
         <a href="/vs/fathom" class="hover:text-gray-600">vs Fathom</a>
+        <a href="/vs/beam-analytics" class="hover:text-gray-600">vs Beam Analytics</a>
         <a href="/beam-analytics-alternative" class="hover:text-gray-600">Beam Analytics Alternative</a>
         <a href="/signup" class="hover:text-gray-600">Sign up</a>
       </div>
@@ -1335,7 +1336,7 @@ ${nav()}
       <li>Custom script domains to reduce ad-block losses — Beam serves the script from the primary domain.</li>
       <li>Enterprise SSO or team management — Beam is designed for indie makers and small teams.</li>
     </ul>
-    <p class="mt-4 text-gray-700">If these gaps are blockers, compare alternatives like <a href="/vs/plausible" class="text-indigo-700 hover:underline">Plausible</a>, <a href="/vs/fathom" class="text-indigo-700 hover:underline">Fathom</a>, or <a href="/vs/umami" class="text-indigo-700 hover:underline">Umami</a> before committing.</p>
+    <p class="mt-4 text-gray-700">If these gaps are blockers, compare alternatives like <a href="/vs/plausible" class="text-indigo-700 hover:underline">Plausible</a>, <a href="/vs/fathom" class="text-indigo-700 hover:underline">Fathom</a>, or <a href="/vs/umami" class="text-indigo-700 hover:underline">Umami</a> before committing. For a direct feature-by-feature view of the two products, see <a href="/vs/beam-analytics" class="text-indigo-700 hover:underline">Beam vs Beam Analytics</a>.</p>
   </section>
 
   <section class="mb-12">
@@ -1367,6 +1368,7 @@ ${nav()}
       <a href="/signup" class="inline-flex items-center justify-center rounded-xl bg-emerald-700 px-6 py-3 font-semibold text-white hover:bg-emerald-800">Create Beam account</a>
       <a href="/for" class="inline-flex items-center justify-center rounded-xl border border-emerald-600 bg-white px-6 py-3 font-semibold text-emerald-800 hover:bg-emerald-100">Open setup guides</a>
       <a href="/demo" class="inline-flex items-center justify-center rounded-xl border border-emerald-600 bg-white px-6 py-3 font-semibold text-emerald-800 hover:bg-emerald-100">Try the live demo</a>
+      <a href="/vs/beam-analytics" class="inline-flex items-center justify-center rounded-xl border border-emerald-600 bg-white px-6 py-3 font-semibold text-emerald-800 hover:bg-emerald-100">Review Beam vs Beam Analytics</a>
       <a href="/beam-analytics-alternative" class="inline-flex items-center justify-center rounded-xl border border-emerald-600 bg-white px-6 py-3 font-semibold text-emerald-800 hover:bg-emerald-100">Beam Analytics Alternative page</a>
     </div>
   </section>

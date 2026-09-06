@@ -1127,7 +1127,7 @@ app.get('/blog/beam-analytics-shutdown-migration-guide', (c) => {
           <strong>Pricing:</strong> Free (1 site, 50K pageviews/month) or $5/month Pro (unlimited sites, 500K pageviews/month).
         </p>
         <p>
-          See the full <a href="/migrate/beam-analytics" class="text-indigo-600 hover:text-indigo-700">beamanalytics.io → Beam migration checklist</a>, or check the <a href="/beam-analytics-alternative" class="text-indigo-600 hover:text-indigo-700">Beam as a beamanalytics.io alternative</a> overview page.
+          See the full <a href="/migrate/beam-analytics" class="text-indigo-600 hover:text-indigo-700">beamanalytics.io → Beam migration checklist</a>, the <a href="/vs/beam-analytics" class="text-indigo-600 hover:text-indigo-700">Beam vs Beam Analytics comparison</a>, or the <a href="/beam-analytics-alternative" class="text-indigo-600 hover:text-indigo-700">Beam as a beamanalytics.io alternative</a> overview page.
         </p>
 
         <h3 class="text-lg font-bold text-gray-900 mt-8">2. Plausible — Best Established Privacy-First Option</h3>
@@ -1271,6 +1271,7 @@ app.get('/blog/beam-analytics-shutdown-migration-guide', (c) => {
         <h2 class="text-xl font-bold text-gray-900 mt-10">More Resources</h2>
         <ul class="list-disc pl-6 space-y-2">
           <li><a href="/migrate/beam-analytics" class="text-indigo-600 hover:text-indigo-700">beamanalytics.io migration checklist</a> — step-by-step cutover guide</li>
+          <li><a href="/vs/beam-analytics" class="text-indigo-600 hover:text-indigo-700">Beam vs Beam Analytics</a> — side-by-side comparison of the two similarly named products</li>
           <li><a href="/beam-analytics-alternative" class="text-indigo-600 hover:text-indigo-700">Beam as a beamanalytics.io alternative</a> — detailed feature comparison</li>
           <li><a href="/blog/google-analytics-alternatives-2026" class="text-indigo-600 hover:text-indigo-700">Google Analytics alternatives in 2026</a> — broader comparison if you're evaluating all options</li>
           <li><a href="/demo" class="text-indigo-600 hover:text-indigo-700">Live Beam demo</a> — see what the dashboard looks like before signing up</li>
