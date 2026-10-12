@@ -16,6 +16,16 @@ import {
 } from '../lib/analytics'
 import { buildTrafficChannelSql, normalizeTrafficChannel, type TrafficChannel } from '../lib/channels'
 import {
+  MAX_PUBLIC_FILTERS,
+  activePublicFilters,
+  cacheableCopy,
+  cachedJson,
+  isCrawlerRequest,
+  publicDashCacheKey,
+  readCachedResponse,
+  writeCachedResponse,
+} from '../lib/publicDashboardGuard'
+import {
   computeGoalSummaries,
   displayReferrerSource,
   type GoalRecord,
@@ -27,8 +37,8 @@ const BEAM_SITE_ID_FALLBACK = 'dfa32f6b-0775-43df-a2c4-eb23787e5f03'
 /**
  * Minimum age a public dashboard must reach before it re-renders itself.
  *
- * This page is served `Cache-Control: no-store` and every render re-runs the
- * full analytics batch, so an auto-refresh loop is billed in D1 rows. The old
+ * A render that misses the edge cache re-runs the full analytics batch, so an
+ * auto-refresh loop is billed in D1 rows. The old
  * unconditional `setTimeout(reload, 60000)` meant one forgotten tab cost 1,440
  * full batches a day; production showed ~114,000 renders in 30 days from a
  * handful of open tabs.
@@ -175,6 +185,21 @@ publicDash.get('/public/:site_id', async (c) => {
   const window = buildAnalyticsWindow(new Date(), c.req.query('range'))
   const range = window.range
 
+  // ── Crawler guards — all before the first query ───────────────────────────
+  // Each filter combination is a fresh URL running the full batch; crawlers
+  // walking them were most of Beam's D1 reads. See lib/publicDashboardGuard.ts.
+  const query = (key: string) => c.req.query(key)
+  const activeFilters = activePublicFilters(query)
+  if (activeFilters.length > 0 && isCrawlerRequest(c.req.raw)) {
+    return c.text('Filtered views are not available to crawlers.', 403, { 'X-Robots-Tag': 'noindex, nofollow' })
+  }
+  if (activeFilters.length > MAX_PUBLIC_FILTERS) {
+    return c.redirect(`/public/${encodeURIComponent(siteId)}?range=${encodeURIComponent(range)}`, 301)
+  }
+  const defer = (p: Promise<unknown>) => {
+    try { c.executionCtx.waitUntil(p) } catch { void p.catch(() => undefined) }
+  }
+
   // ── Segment filters ────────────────────────────────────────────────────────
   const fPage     = c.req.query('page')     ?? null
   const fReferrer = c.req.query('referrer') ?? null
@@ -203,6 +228,14 @@ publicDash.get('/public/:site_id', async (c) => {
 
   if (!site || site.public !== 1) {
     return c.html(notFoundPage(), 404)
+  }
+
+  // Checked after the visibility lookup, so making a dashboard private takes
+  // effect immediately rather than after the cache TTL.
+  const pageCacheKey = publicDashCacheKey(new URL(c.req.url).origin, siteId, range, query)
+  const cachedPage = await readCachedResponse(pageCacheKey)
+  if (cachedPage) {
+    return c.html(await cachedPage.text(), 200, { 'X-Robots-Tag': 'noindex, nofollow', 'X-Beam-Cache': 'HIT' })
   }
 
   const goals = await c.env.DB.prepare(
@@ -246,13 +279,27 @@ publicDash.get('/public/:site_id', async (c) => {
     // Has this site ever recorded a pageview? — for empty state detection
     c.env.DB.prepare(buildSiteHasPageviewsQuery())
       .bind(siteId),
-    c.env.DB.prepare(taggedSql('SELECT COUNT(*) as count FROM custom_events WHERE site_id = ? AND timestamp >= ? AND timestamp < ?', 'public'))
-      .bind(siteId, startISO, endISO),
-    c.env.DB.prepare(taggedSql(`SELECT ${window.groupByExpr} as date, COUNT(*) as count FROM custom_events WHERE site_id = ? AND timestamp >= ? AND timestamp < ? GROUP BY date ORDER BY date ASC`, 'public'))
-      .bind(siteId, startISO, endISO),
-    c.env.DB.prepare(taggedSql(`SELECT event_name, COUNT(*) as count FROM custom_events WHERE site_id = ? AND timestamp >= ? AND timestamp < ? GROUP BY event_name ORDER BY count DESC, event_name ASC LIMIT 20`, 'public'))
-      .bind(siteId, startISO, endISO),
   ])
+
+  // Custom events ignore the segment filters, so every filtered variant of this
+  // page re-ran identical statements (~8.3B rows in 30 days). Cache them per
+  // site and range instead. They were the batch's last three entries, so no
+  // positional index above shifted when they moved.
+  const eventStats = await cachedJson(`${new URL(c.req.url).origin}/__beam-cache/public-events/${encodeURIComponent(siteId)}/${range}`, async () => {
+    const res = await c.env.DB.batch([
+      c.env.DB.prepare(taggedSql('SELECT COUNT(*) as count FROM custom_events WHERE site_id = ? AND timestamp >= ? AND timestamp < ?', 'public'))
+        .bind(siteId, startISO, endISO),
+      c.env.DB.prepare(taggedSql(`SELECT ${window.groupByExpr} as date, COUNT(*) as count FROM custom_events WHERE site_id = ? AND timestamp >= ? AND timestamp < ? GROUP BY date ORDER BY date ASC`, 'public'))
+        .bind(siteId, startISO, endISO),
+      c.env.DB.prepare(taggedSql(`SELECT event_name, COUNT(*) as count FROM custom_events WHERE site_id = ? AND timestamp >= ? AND timestamp < ? GROUP BY event_name ORDER BY count DESC, event_name ASC LIMIT 20`, 'public'))
+        .bind(siteId, startISO, endISO),
+    ])
+    return {
+      totalEvents: (res[0]?.results[0] as { count: number } | undefined)?.count ?? 0,
+      eventDailyData: (res[1]?.results ?? []) as { date: string; count: number }[],
+      topEvents: (res[2]?.results ?? []) as { event_name: string; count: number }[],
+    }
+  }, defer)
 
   const totalPageviews = (batchRes[0]?.results[0] as { count: number } | undefined)?.count ?? 0
   const uniqueVisitors = (batchRes[1]?.results[0] as { count: number } | undefined)?.count ?? 0
@@ -280,9 +327,7 @@ publicDash.get('/public/:site_id', async (c) => {
   const totalDeviceVisitors = topDevices.reduce((sum, d) => sum + d.visitors, 0)
   const channelBreakdown = (batchRes[10]?.results ?? []) as { channel: TrafficChannel; visitors: number; pageviews: number }[]
   const totalChannelVisitors = channelBreakdown.reduce((sum, row) => sum + row.visitors, 0)
-  const totalEvents = (batchRes[12]?.results[0] as { count: number } | undefined)?.count ?? 0
-  const eventDailyData = (batchRes[13]?.results ?? []) as { date: string; count: number }[]
-  const topEvents = (batchRes[14]?.results ?? []) as { event_name: string; count: number }[]
+  const { totalEvents, eventDailyData, topEvents } = eventStats
 
   const periodMs = window.endDate.getTime() - window.startDate.getTime()
   const previousStartISO = new Date(window.startDate.getTime() - periodMs).toISOString()
@@ -348,12 +393,13 @@ publicDash.get('/public/:site_id', async (c) => {
       (key === 'device'   && fDevice   === rawValue) ||
       (key === 'channel'  && fChannel  === rawValue)
     )
+    if (!isActive && activeFilters.length >= MAX_PUBLIC_FILTERS) return escHtml(displayLabel)
     const href = escHtml(isActive ? dashUrl({ [key]: null }) : dashUrl({ [key]: rawValue }))
     const cls = isActive
       ? 'text-indigo-700 font-semibold hover:underline cursor-pointer'
       : 'hover:text-indigo-600 hover:underline cursor-pointer'
     const title = isActive ? 'Remove filter' : `Filter by ${escHtml(displayLabel)}`
-    return `<a href="${href}" class="${cls}" title="${title}">${escHtml(displayLabel)}</a>`
+    return `<a href="${href}" rel="nofollow" class="${cls}" title="${title}">${escHtml(displayLabel)}</a>`
   }
 
   const filterChipItems: { key: string; displayValue: string }[] = []
@@ -372,10 +418,10 @@ publicDash.get('/public/:site_id', async (c) => {
       ${filterChipItems.map(f => `
         <span class="inline-flex items-center gap-1 bg-white border border-indigo-200 text-indigo-800 text-xs font-medium px-2.5 py-1 rounded-full">
           ${escHtml(f.displayValue)}
-          <a href="${escHtml(dashUrl({ [f.key]: null }))}" class="ml-0.5 text-indigo-400 hover:text-indigo-700 font-bold leading-none" title="Remove filter">×</a>
+          <a href="${escHtml(dashUrl({ [f.key]: null }))}" rel="nofollow" class="ml-0.5 text-indigo-400 hover:text-indigo-700 font-bold leading-none" title="Remove filter">×</a>
         </span>
       `).join('')}
-      <a href="${escHtml(dashUrl({ page: null, referrer: null, country: null, browser: null, device: null, channel: null }))}" class="text-xs text-indigo-500 hover:text-indigo-700 underline ml-1">Clear all</a>
+      <a href="${escHtml(dashUrl({ page: null, referrer: null, country: null, browser: null, device: null, channel: null }))}" rel="nofollow" class="text-xs text-indigo-500 hover:text-indigo-700 underline ml-1">Clear all</a>
     </div>`
 
   const emptyBreakdown = '<p class="px-5 py-6 text-sm text-gray-400 text-center">No data for this period</p>'
@@ -445,7 +491,9 @@ publicDash.get('/public/:site_id', async (c) => {
   })
   const channelChartValues = channelBreakdown.map((row) => row.visitors)
   const channelChartColors = channelBreakdown.map((row) => channelColors[row.channel] ?? '#94a3b8')
-  const channelChartLinks = channelBreakdown.map((row) => dashUrl({ channel: row.channel }))
+  // Same cap as filterLink: a null target makes the click handler do nothing.
+  const channelChartLinks = channelBreakdown.map((row) =>
+    fChannel === null && activeFilters.length >= MAX_PUBLIC_FILTERS ? null : dashUrl({ channel: row.channel }))
   const eventsTableRows = topEvents.map(event => [escHtml(event.event_name), event.count.toLocaleString()])
 
   const goalCardsHtml = goalSummaries.length === 0 ? `
@@ -512,13 +560,14 @@ publicDash.get('/public/:site_id', async (c) => {
       <p class="text-2xl font-bold text-gray-900 mt-1 truncate">${escHtml(value)}</p>
     </div>`
 
-  return c.html(`<!DOCTYPE html>
+  const html = `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${escHtml(site.name)} Analytics — Beam</title>
   <meta name="description" content="Public analytics dashboard for ${escHtml(site.domain)} powered by Beam.">
+  <meta name="robots" content="noindex, nofollow">
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-50 min-h-screen">
@@ -532,9 +581,9 @@ publicDash.get('/public/:site_id', async (c) => {
         <span class="text-xs text-gray-400 hidden sm:inline truncate">${escHtml(site.domain)}</span>
       </div>
       <div class="flex flex-wrap gap-2">
-        <a href="${dashUrl({ range: 'today' })}" class="${rangeBtnClass('today')}">Today</a>
-        <a href="${dashUrl({ range: '7d' })}" class="${rangeBtnClass('7d')}">7 Days</a>
-        <a href="${dashUrl({ range: '30d' })}" class="${rangeBtnClass('30d')}">30 Days</a>
+        <a href="${dashUrl({ range: 'today' })}" rel="nofollow" class="${rangeBtnClass('today')}">Today</a>
+        <a href="${dashUrl({ range: '7d' })}" rel="nofollow" class="${rangeBtnClass('7d')}">7 Days</a>
+        <a href="${dashUrl({ range: '30d' })}" rel="nofollow" class="${rangeBtnClass('30d')}">30 Days</a>
       </div>
     </div>
   </header>
@@ -739,7 +788,10 @@ publicDash.get('/public/:site_id', async (c) => {
   </footer>
 <script>${EVENT_PROPERTIES_JS}</script>
 </body>
-</html>`)
+</html>`
+
+  defer(writeCachedResponse(pageCacheKey, cacheableCopy(html, 'text/html; charset=UTF-8')))
+  return c.html(html, 200, { 'X-Robots-Tag': 'noindex, nofollow', 'X-Beam-Cache': 'MISS' })
 })
 
 // ── Embeddable analytics widget (/embed/:siteId) ──────────────────────────────
