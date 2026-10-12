@@ -123,7 +123,9 @@ app.get(`/${INDEX_NOW_KEY}.txt`, () =>
 // SEO
 app.get('/robots.txt', (c) => {
   const baseUrl = getPublicBaseUrl(c.env)
-  return c.text(`User-agent: *\nAllow: /\nSitemap: ${publicUrl(baseUrl, '/sitemap.xml')}`)
+  // Public dashboards have no SEO value, and crawlers walking their filter
+  // links were most of Beam's D1 reads (see lib/publicDashboardGuard.ts).
+  return c.text(`User-agent: *\nAllow: /\nDisallow: /public/\nDisallow: /embed/\nSitemap: ${publicUrl(baseUrl, '/sitemap.xml')}`)
 })
 
 // IndexNow key verification file — served at /{key}.txt for Bing/Yandex crawlers
