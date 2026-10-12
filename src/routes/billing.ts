@@ -54,14 +54,16 @@ billing.get('/dashboard/billing', async (c) => {
   // Sync plan from Stripe if user has a customer ID (handles stale DB state when webhook is not configured)
   if (stripeCustomerId && stripeKey) {
     try {
+      // No status filter: Stripe then returns every non-canceled subscription,
+      // and a past_due one must still count as Pro (see subscriptionKeepsPro).
       const subRes = await fetch(
-        `https://api.stripe.com/v1/subscriptions?customer=${encodeURIComponent(stripeCustomerId)}&status=active&limit=1`,
+        `https://api.stripe.com/v1/subscriptions?customer=${encodeURIComponent(stripeCustomerId)}&limit=10`,
         { headers: { 'Authorization': `Bearer ${stripeKey}` } }
       )
       if (subRes.ok) {
         const subData = await subRes.json() as { data?: Array<{ id: string; status: string }> }
-        const activeSub = subData.data?.[0]
-        const stripeIsActive = activeSub?.status === 'active'
+        const activeSub = subData.data?.find(sub => subscriptionKeepsPro(sub.status))
+        const stripeIsActive = activeSub !== undefined
         const dbIsPro = plan === 'pro'
         if (stripeIsActive && !dbIsPro) {
           // Stripe says active but DB says free — sync up
@@ -487,7 +489,7 @@ billing.post('/api/webhooks/stripe', async (c) => {
     ).bind('free', now, sub.customer).run()
   } else if (event.type === 'customer.subscription.updated') {
     const sub = event.data.object as Subscription
-    const newPlan = sub.status === 'active' ? 'pro' : 'free'
+    const newPlan = subscriptionKeepsPro(sub.status) ? 'pro' : 'free'
     await c.env.DB.prepare(
       'UPDATE users SET plan = ?, updated_at = ? WHERE stripe_customer_id = ?'
     ).bind(newPlan, now, sub.customer).run()
@@ -495,6 +497,21 @@ billing.post('/api/webhooks/stripe', async (c) => {
 
   return new Response(null, { status: 200 })
 })
+
+// ── Subscription status → plan ────────────────────────────────────────────────
+
+/**
+ * `past_due` means a renewal charge failed and Stripe is still retrying it, for
+ * days. Treating that as free dropped a paying customer to free-tier collection
+ * caps — their pageviews were rejected with 402 while Stripe was still trying to
+ * collect. Only `canceled`, `unpaid` and `incomplete_expired` end Pro.
+ * (`incomplete` never had Pro: checkout grants it only on a completed session.)
+ */
+const PRO_SUBSCRIPTION_STATUSES = new Set(['active', 'trialing', 'past_due'])
+
+export function subscriptionKeepsPro(status: string): boolean {
+  return PRO_SUBSCRIPTION_STATUSES.has(status)
+}
 
 // ── Stripe HMAC-SHA256 signature verification ─────────────────────────────────
 
