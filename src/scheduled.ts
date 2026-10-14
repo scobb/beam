@@ -6,8 +6,15 @@ import { signUnsubscribe } from './routes/digest'
 
 const FROM_EMAIL = 'Beam <beam@keylightdigital.dev>'
 const RESEND_URL = 'https://api.resend.com/emails'
-const WEEKLY_DIGEST_CRON = '0 9 * * 1'
-const DAILY_ALERT_CRON = '0 9 * * *'
+/**
+ * The only trigger. There used to be a second, '0 9 * * 1', for the weekly
+ * digest, but when two triggers fall on the same minute Cloudflare fires just
+ * one of them: on every Monday checked (2026-09-14 through 10-12) only the
+ * daily one ran, so no digest was ever sent. Digests now go out from the daily
+ * run on Mondays.
+ */
+const DAILY_CRON = '0 9 * * *'
+const DIGEST_DAY_UTC = 1 // Monday
 
 interface DigestUser {
   id: string
@@ -26,6 +33,26 @@ interface TopPage {
 interface TopReferrer {
   referrer: string
   count: number
+}
+
+interface SiteWeek {
+  id: string
+  name: string
+  thisWeekPv: number
+  lastWeekPv: number
+  thisWeekUv: number
+  lastWeekUv: number
+  topReferrers: TopReferrer[]
+}
+
+/**
+ * Addresses at names reserved by RFC 2606/6761, which can never receive mail.
+ * Smoke tests sign up as smoke…@example.com; mailing them only produces
+ * bounces, which count against Beam's sender reputation.
+ */
+export function isReservedEmail(email: string): boolean {
+  const domain = email.slice(email.lastIndexOf('@') + 1).trim().toLowerCase()
+  return /(^|\.)(example\.(com|net|org)|example|test|invalid|localhost)$/.test(domain)
 }
 
 interface AlertTarget {
@@ -100,7 +127,7 @@ async function sendDigestEmail(
   const topPagesRows = topPages.length > 0
     ? topPages.map(p => `
       <tr>
-        <td style="padding:6px 0;font-family:monospace;font-size:13px;color:#374151;border-bottom:1px solid #f3f4f6">${p.path}</td>
+        <td style="padding:6px 0;font-family:monospace;font-size:13px;color:#374151;border-bottom:1px solid #f3f4f6">${escapeEmailHtml(p.path)}</td>
         <td style="padding:6px 0 6px 16px;text-align:right;font-size:13px;color:#6b7280;border-bottom:1px solid #f3f4f6">${p.count.toLocaleString()}</td>
       </tr>`).join('')
     : '<tr><td colspan="2" style="padding:8px 0;color:#9ca3af;font-size:13px">No pageviews this week</td></tr>'
@@ -108,14 +135,14 @@ async function sendDigestEmail(
   const topRefRows = topReferrers.length > 0
     ? topReferrers.map(r => `
       <tr>
-        <td style="padding:6px 0;font-size:13px;color:#374151;border-bottom:1px solid #f3f4f6">${r.referrer || 'Direct / None'}</td>
+        <td style="padding:6px 0;font-size:13px;color:#374151;border-bottom:1px solid #f3f4f6">${escapeEmailHtml(r.referrer || 'Direct / None')}</td>
         <td style="padding:6px 0 6px 16px;text-align:right;font-size:13px;color:#6b7280;border-bottom:1px solid #f3f4f6">${r.count.toLocaleString()}</td>
       </tr>`).join('')
     : '<tr><td colspan="2" style="padding:8px 0;color:#9ca3af;font-size:13px">No referrers this week</td></tr>'
 
   const insightsRows = siteInsights.enoughData && siteInsights.insights.length > 0
     ? siteInsights.insights
-      .map((insight, index) => `<li style="margin:0 0 8px 0;color:#374151;font-size:14px;line-height:1.5">${index + 1}. ${insight}</li>`)
+      .map((insight, index) => `<li style="margin:0 0 8px 0;color:#374151;font-size:14px;line-height:1.5">${index + 1}. ${escapeEmailHtml(insight)}</li>`)
       .join('')
     : '<li style="margin:0;color:#6b7280;font-size:14px;line-height:1.5">Not enough data yet. Insights appear after 14 full days of analytics history.</li>'
 
@@ -135,7 +162,7 @@ async function sendDigestEmail(
 
         <!-- Site name -->
         <tr><td style="padding:24px 32px 8px">
-          <h2 style="margin:0;font-size:18px;font-weight:600;color:#111827">${siteName}</h2>
+          <h2 style="margin:0;font-size:18px;font-weight:600;color:#111827">${escapeEmailHtml(siteName)}</h2>
           <p style="margin:4px 0 0;font-size:13px;color:#6b7280">Last 7 days vs previous 7 days</p>
         </td></tr>
 
@@ -238,6 +265,83 @@ Unsubscribe: ${unsubUrl}`
       text,
     }),
   })
+}
+
+async function sendMultiSiteDigestEmail(env: Env, user: DigestUser, sites: SiteWeek[]): Promise<void> {
+  const baseUrl = getPublicBaseUrl(env)
+  const secret = env.BEAM_JWT_SECRET ?? 'dev-secret-changeme'
+  const unsubToken = await signUnsubscribe(user.id, secret)
+  const unsubUrl = `${baseUrl}/api/digest/unsubscribe?token=${unsubToken}`
+  const dashUrl = `${baseUrl}/dashboard`
+
+  const ranked = [...sites].sort((a, b) => b.thisWeekPv - a.thisWeekPv)
+  const totalThis = ranked.reduce((n, s) => n + s.thisWeekPv, 0)
+  const totalLast = ranked.reduce((n, s) => n + s.lastWeekPv, 0)
+  const topSource = (s: SiteWeek) => displayReferrer(s.topReferrers[0]?.referrer)
+  const cell = 'padding:8px 0;font-size:13px;border-bottom:1px solid #f3f4f6'
+
+  const rows = ranked.map(s => `
+            <tr>
+              <td style="${cell}"><a href="${baseUrl}/dashboard/sites/${s.id}" style="color:#4f46e5;text-decoration:none">${escapeEmailHtml(s.name)}</a></td>
+              <td style="${cell};text-align:right;color:#111827">${s.thisWeekPv.toLocaleString()} <span style="color:${pctColor(s.thisWeekPv, s.lastWeekPv)}">${pctChange(s.thisWeekPv, s.lastWeekPv)}</span></td>
+              <td style="${cell};text-align:right;color:#111827">${s.thisWeekUv.toLocaleString()} <span style="color:${pctColor(s.thisWeekUv, s.lastWeekUv)}">${pctChange(s.thisWeekUv, s.lastWeekUv)}</span></td>
+              <td style="${cell};padding-left:12px;color:#6b7280">${escapeEmailHtml(topSource(s))}</td>
+            </tr>`).join('')
+  const th = 'padding:0 0 6px;font-size:11px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:0.05em'
+
+  const html = `<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#f9fafb;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#f9fafb;padding:32px 0">
+    <tr><td align="center">
+      <table width="560" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.1)">
+        <tr><td style="background:#4f46e5;padding:24px 32px">
+          <h1 style="margin:0;color:#ffffff;font-size:22px;font-weight:700">Beam</h1>
+          <p style="margin:4px 0 0;color:#c7d2fe;font-size:13px">Weekly Analytics Digest</p>
+        </td></tr>
+        <tr><td style="padding:24px 32px 8px">
+          <h2 style="margin:0;font-size:18px;font-weight:600;color:#111827">${totalThis.toLocaleString()} pageviews across ${ranked.length} sites</h2>
+          <p style="margin:4px 0 0;font-size:13px;color:#6b7280">Last 7 days vs previous 7 days: <span style="color:${pctColor(totalThis, totalLast)};font-weight:600">${pctChange(totalThis, totalLast)}</span></p>
+        </td></tr>
+        <tr><td style="padding:16px 32px 0">
+          <table width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+              <th align="left" style="${th}">Site</th>
+              <th align="right" style="${th}">Pageviews</th>
+              <th align="right" style="${th}">Visitors</th>
+              <th align="left" style="${th};padding-left:12px">Top source</th>
+            </tr>${rows}
+          </table>
+        </td></tr>
+        <tr><td style="padding:24px 32px" align="center">
+          <a href="${dashUrl}" style="display:inline-block;background:#4f46e5;color:#ffffff;text-decoration:none;padding:12px 28px;border-radius:8px;font-size:14px;font-weight:600">View Dashboard →</a>
+        </td></tr>
+        <tr><td style="padding:16px 32px 24px;border-top:1px solid #f3f4f6;text-align:center">
+          <p style="margin:0;font-size:12px;color:#9ca3af">
+            Sites with no pageviews in the last two weeks are left out.<br>
+            <a href="${unsubUrl}" style="color:#6366f1;text-decoration:underline">Unsubscribe from weekly digests</a>
+          </p>
+        </td></tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`
+
+  const text = `Beam Weekly Digest — ${ranked.length} sites
+
+${totalThis.toLocaleString()} pageviews in the last 7 days (${pctChange(totalThis, totalLast)} vs the previous 7 days)
+
+${ranked.map(s => `${s.name}: ${s.thisWeekPv.toLocaleString()} pageviews (${pctChange(s.thisWeekPv, s.lastWeekPv)}), ${s.thisWeekUv.toLocaleString()} visitors (${pctChange(s.thisWeekUv, s.lastWeekUv)}), top source ${topSource(s)}`).join('\n')}
+
+Sites with no pageviews in the last two weeks are left out.
+View your dashboard: ${dashUrl}
+
+---
+Unsubscribe: ${unsubUrl}`
+
+  await sendAlertEmail(env, user.email, `Your weekly Beam digest — ${ranked.length} sites`, html, text)
 }
 
 function alertEmailHtml(opts: { color: string; siteName: string; lead: string; rows: Array<[string, string]>; ctaHref: string; ctaLabel: string; footnote?: string }): string {
@@ -390,16 +494,16 @@ async function runWeeklyDigests(env: Env, now: Date): Promise<void> {
   const users = usersResult.results ?? []
 
   for (const user of users) {
-    // Get all sites for this user
+    if (isReservedEmail(user.email)) continue
+
     const sitesResult = await env.DB.prepare(
       'SELECT id, name FROM sites WHERE user_id = ?'
     ).bind(user.id).all<{ id: string; name: string }>()
 
-    const sites = sitesResult.results ?? []
-    if (sites.length === 0) continue
-
-    // Send one digest per site (or aggregate — we do per-site for clarity)
-    for (const site of sites) {
+    // A week of zeros is noise, so only sites with traffic in either week make
+    // the digest, and a user with none gets no email.
+    const active: SiteWeek[] = []
+    for (const site of sitesResult.results ?? []) {
       // This week pageviews
       const thisWeekPvRow = await env.DB.prepare(
         'SELECT COUNT(*) as count FROM pageviews WHERE site_id = ? AND timestamp >= ? AND timestamp < ?'
@@ -412,6 +516,7 @@ async function runWeeklyDigests(env: Env, now: Date): Promise<void> {
 
       const thisWeekPv = thisWeekPvRow?.count ?? 0
       const lastWeekPv = lastWeekPvRow?.count ?? 0
+      if (thisWeekPv + lastWeekPv === 0) continue
 
       // This week unique visitors (hash-based: date+path+country+browser+screen_width)
       const thisWeekUvRow = await env.DB.prepare(`
@@ -432,22 +537,7 @@ async function runWeeklyDigests(env: Env, now: Date): Promise<void> {
         WHERE site_id = ? AND timestamp >= ? AND timestamp < ?
       `).bind(site.id, lastWeekStart, thisWeekStart).first<PageviewCount>()
 
-      const thisWeekUv = thisWeekUvRow?.count ?? 0
-      const lastWeekUv = lastWeekUvRow?.count ?? 0
-
-      // Top 5 pages
-      const topPagesResult = await env.DB.prepare(`
-        SELECT path, COUNT(*) as count
-        FROM pageviews
-        WHERE site_id = ? AND timestamp >= ? AND timestamp < ?
-        GROUP BY path
-        ORDER BY count DESC
-        LIMIT 5
-      `).bind(site.id, thisWeekStart, nowISO).all<TopPage>()
-
-      const topPages = topPagesResult.results ?? []
-
-      // Top 3 referrers (exclude empty/null)
+      // Top 3 referrers
       const topRefResult = await env.DB.prepare(`
         SELECT COALESCE(referrer, '') as referrer, COUNT(*) as count
         FROM pageviews
@@ -457,33 +547,63 @@ async function runWeeklyDigests(env: Env, now: Date): Promise<void> {
         LIMIT 3
       `).bind(site.id, thisWeekStart, nowISO).all<TopReferrer>()
 
-      const topReferrers = topRefResult.results ?? []
-      const goalRows = await env.DB.prepare(
-        'SELECT id, name, match_pattern, created_at FROM goals WHERE site_id = ? ORDER BY created_at ASC'
-      ).bind(site.id).all<{ id: string; name: string; match_pattern: string; created_at: string }>()
-      const siteInsights = await generateSiteInsights({
-        db: env.DB,
-        kv: env.KV,
-        siteId: site.id,
-        range: '7d',
-        now,
-        goals: goalRows.results ?? [],
-      })
-
-      await sendDigestEmail(
-        env,
-        user,
-        site.name,
-        site.id,
+      active.push({
+        id: site.id,
+        name: site.name,
         thisWeekPv,
         lastWeekPv,
-        thisWeekUv,
-        lastWeekUv,
-        topPages,
-        topReferrers,
-        siteInsights
-      )
+        thisWeekUv: thisWeekUvRow?.count ?? 0,
+        lastWeekUv: lastWeekUvRow?.count ?? 0,
+        topReferrers: topRefResult.results ?? [],
+      })
     }
+
+    if (active.length === 0) continue
+
+    // One email per user. Per-site emails would have sent the paying customer
+    // 19 every Monday; several sites get one summary table instead.
+    if (active.length > 1) {
+      await sendMultiSiteDigestEmail(env, user, active)
+      continue
+    }
+
+    const site = active[0]!
+
+    // Top 5 pages
+    const topPagesResult = await env.DB.prepare(`
+      SELECT path, COUNT(*) as count
+      FROM pageviews
+      WHERE site_id = ? AND timestamp >= ? AND timestamp < ?
+      GROUP BY path
+      ORDER BY count DESC
+      LIMIT 5
+    `).bind(site.id, thisWeekStart, nowISO).all<TopPage>()
+
+    const goalRows = await env.DB.prepare(
+      'SELECT id, name, match_pattern, created_at FROM goals WHERE site_id = ? ORDER BY created_at ASC'
+    ).bind(site.id).all<{ id: string; name: string; match_pattern: string; created_at: string }>()
+    const siteInsights = await generateSiteInsights({
+      db: env.DB,
+      kv: env.KV,
+      siteId: site.id,
+      range: '7d',
+      now,
+      goals: goalRows.results ?? [],
+    })
+
+    await sendDigestEmail(
+      env,
+      user,
+      site.name,
+      site.id,
+      site.thisWeekPv,
+      site.lastWeekPv,
+      site.thisWeekUv,
+      site.lastWeekUv,
+      topPagesResult.results ?? [],
+      site.topReferrers,
+      siteInsights
+    )
   }
 }
 
@@ -597,10 +717,8 @@ export async function handleScheduled(env: Env, cronExpression?: string): Promis
   const now = new Date()
 
   // Backward-compatible: when no cron string is provided (tests/manual calls), run both jobs.
-  const shouldRunWeeklyDigests = !cron || cron === WEEKLY_DIGEST_CRON
-  // Daily trigger only. Both triggers fire on Mondays, so also running on the
-  // weekly one sent every Monday alert twice.
-  const shouldRunTrafficAlerts = !cron || cron === DAILY_ALERT_CRON
+  const shouldRunWeeklyDigests = !cron || (cron === DAILY_CRON && now.getUTCDay() === DIGEST_DAY_UTC)
+  const shouldRunTrafficAlerts = !cron || cron === DAILY_CRON
 
   if (shouldRunTrafficAlerts) {
     await nexusTrace(env, 'traffic-alerts', () => runTrafficAlerts(env, now))
