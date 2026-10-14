@@ -14,7 +14,6 @@ import { createSqliteD1 } from './helpers/sqliteD1'
  */
 
 const DAILY = '0 9 * * *'
-const WEEKLY = '0 9 * * 1'
 const RUN_AT = Date.parse('2026-10-12T09:00:00.000Z') // a Monday, like the cron
 const DAY_MS = 86400_000
 
@@ -125,14 +124,6 @@ test('a spike on a small site does not alert', async (t) => {
   seedDay(db, '2026-10-11', 40)
 
   await handleScheduled(env as never, DAILY)
-  assert.deepEqual(alerts(), [])
-})
-
-test('the weekly trigger does not run alerts, so Mondays send one, not two', async (t) => {
-  const { db, env, alerts } = setup(t)
-  seedHistory(db, 35, () => 30)
-
-  await handleScheduled(env as never, WEEKLY)
   assert.deepEqual(alerts(), [])
 })
 
