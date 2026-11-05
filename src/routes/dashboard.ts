@@ -43,6 +43,7 @@ import {
   resolveImportCoverageWindow,
   type ImportCoverageWindow,
 } from '../lib/historicalImports'
+import { PAGEVIEW_VISITOR_KEY_SQL } from '../lib/visitorKey'
 
 const dashboard = new Hono<{ Bindings: Env; Variables: { user: AuthUser } }>()
 const INSTALLATION_RECENT_WINDOW_MINUTES = 15
@@ -3057,7 +3058,7 @@ dashboard.get('/dashboard/sites/:id/goals', async (c) => {
   const periodMs = window.endDate.getTime() - window.startDate.getTime()
   const previousStartISO = new Date(window.startDate.getTime() - periodMs).toISOString()
   const previousEndISO = window.startISO
-  const uvExpr = `strftime('%Y-%m-%d', timestamp) || '|' || COALESCE(path, '') || '|' || COALESCE(country, '') || '|' || COALESCE(browser, '') || '|' || CAST(COALESCE(screen_width, 0) AS TEXT)`
+  const uvExpr = PAGEVIEW_VISITOR_KEY_SQL
 
   const totalUnique = await c.env.DB.prepare(
     `SELECT COUNT(DISTINCT ${uvExpr}) as count FROM pageviews WHERE site_id = ? AND timestamp >= ? AND timestamp < ?`
@@ -3332,8 +3333,8 @@ dashboard.get('/dashboard/sites/:id/analytics', async (c) => {
   const startISO = window.startISO
   const endISO = window.endISO
 
-  // Non-PII unique visitor fingerprint: distinct (date|path|country|browser|screen_width) per day
-  const uvExpr = `strftime('%Y-%m-%d', timestamp) || '|' || COALESCE(path, '') || '|' || COALESCE(country, '') || '|' || COALESCE(browser, '') || '|' || CAST(COALESCE(screen_width, 0) AS TEXT)`
+  // Non-PII unique visitor key (see lib/visitorKey.ts)
+  const uvExpr = PAGEVIEW_VISITOR_KEY_SQL
 
   const batchRes = await c.env.DB.batch([
     c.env.DB.prepare(taggedSql(`SELECT COUNT(*) as count FROM pageviews WHERE site_id = ? AND timestamp >= ? AND timestamp < ? ${fClause}`, 'app'))

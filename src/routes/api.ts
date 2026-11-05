@@ -5,6 +5,7 @@ import { hashApiKey } from '../lib/apiKeys'
 import { displayReferrerSource } from '../lib/goals'
 import { getPublicBaseUrl } from '../lib/publicUrl'
 import type { Env } from '../types'
+import { PAGEVIEW_VISITOR_KEY_SQL } from '../lib/visitorKey'
 
 const api = new Hono<{ Bindings: Env }>()
 const BEAM_SITE_ID_FALLBACK = 'dfa32f6b-0775-43df-a2c4-eb23787e5f03'
@@ -194,7 +195,7 @@ api.get('/api/v1/sites/:id/stats', async (c) => {
   }
 
   const window = buildAnalyticsWindow(new Date(), c.req.query('range'))
-  const uvExpr = `strftime('%Y-%m-%d', timestamp) || '|' || COALESCE(path, '') || '|' || COALESCE(country, '') || '|' || COALESCE(browser, '') || '|' || CAST(COALESCE(screen_width, 0) AS TEXT)`
+  const uvExpr = PAGEVIEW_VISITOR_KEY_SQL
   const channelExpr = buildTrafficChannelSql()
 
   const batchRes = await c.env.DB.batch([

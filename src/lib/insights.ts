@@ -1,7 +1,8 @@
 import { buildAnalyticsWindow, type AnalyticsRange } from './analytics'
 import { displayReferrerSource, type GoalRecord } from './goals'
+import { PAGEVIEW_VISITOR_KEY_SQL } from './visitorKey'
 
-const UV_EXPR = `strftime('%Y-%m-%d', timestamp) || '|' || COALESCE(path, '') || '|' || COALESCE(country, '') || '|' || COALESCE(browser, '') || '|' || CAST(COALESCE(screen_width, 0) AS TEXT)`
+const UV_EXPR = PAGEVIEW_VISITOR_KEY_SQL
 
 interface CountRow {
   count: number

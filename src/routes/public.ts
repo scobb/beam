@@ -30,6 +30,7 @@ import {
   displayReferrerSource,
   type GoalRecord,
 } from '../lib/goals'
+import { PAGEVIEW_VISITOR_KEY_SQL } from '../lib/visitorKey'
 
 const publicDash = new Hono<{ Bindings: Env }>()
 const BEAM_SITE_ID_FALLBACK = 'dfa32f6b-0775-43df-a2c4-eb23787e5f03'
@@ -137,7 +138,7 @@ publicDash.get('/badge/*', async (c) => {
   if (!Number.isFinite(visitorCount)) {
     const monthStart = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1)).toISOString()
     const monthEnd = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + 1, 1)).toISOString()
-    const uvExpr = `strftime('%Y-%m-%d', timestamp) || '|' || COALESCE(path, '') || '|' || COALESCE(country, '') || '|' || COALESCE(browser, '') || '|' || CAST(COALESCE(screen_width, 0) AS TEXT)`
+    const uvExpr = PAGEVIEW_VISITOR_KEY_SQL
     const result = await c.env.DB.prepare(
       `SELECT COUNT(DISTINCT ${uvExpr}) as count FROM pageviews WHERE site_id = ? AND timestamp >= ? AND timestamp < ?`
     ).bind(siteId, monthStart, monthEnd).first<{ count: number }>()
@@ -249,8 +250,8 @@ publicDash.get('/public/:site_id', async (c) => {
   const activeKeys = await c.env.KV.list({ prefix: `active:${siteId}:` })
   const activeVisitors = activeKeys.keys.length
 
-  // Non-PII unique visitor fingerprint
-  const uvExpr = `strftime('%Y-%m-%d', timestamp) || '|' || COALESCE(path, '') || '|' || COALESCE(country, '') || '|' || COALESCE(browser, '') || '|' || CAST(COALESCE(screen_width, 0) AS TEXT)`
+  // Non-PII unique visitor key (see lib/visitorKey.ts)
+  const uvExpr = PAGEVIEW_VISITOR_KEY_SQL
 
   const batchRes = await c.env.DB.batch([
     c.env.DB.prepare(taggedSql(`SELECT COUNT(*) as count FROM pageviews WHERE site_id = ? AND timestamp >= ? AND timestamp < ? ${fClause}`, 'public'))
