@@ -376,7 +376,7 @@ export function landingPage(
             <span class="text-gray-400 group-open:rotate-180 transition-transform">&#9660;</span>
           </summary>
           <p class="mt-4 text-gray-500 text-sm leading-relaxed">
-            We use a daily hash derived from non-personal signals (date, path, country, browser family, and screen width) to estimate unique visitors. No IP addresses or user IDs are ever stored. The hash resets each day, making it impossible to track someone across sessions.
+            We estimate unique visitors by counting distinct combinations of non-personal signals (date, country, browser family, and screen width). No cookies, IP addresses, or user IDs are ever stored. Because the date is part of the key, it resets each day, so nobody can be followed from one day to the next.
           </p>
         </details>
 

@@ -178,7 +178,7 @@ ${nav()}
       <h2 class="text-2xl font-bold text-gray-900">Unique visitor estimation</h2>
       <p class="mt-3 text-gray-600">
         Beam approximates daily unique visitors using non-PII tuples:
-        <code class="rounded bg-gray-100 px-2 py-0.5 text-xs">date + path + country + browser + screen_width</code>.
+        <code class="rounded bg-gray-100 px-2 py-0.5 text-xs">date + country + browser + screen_width</code>.
       </p>
       <ul class="mt-4 space-y-2 text-gray-700">
         <li><span class="font-semibold">Daily reset:</span> fingerprint components include date, so identifiers rotate every UTC day.</li>

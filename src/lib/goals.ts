@@ -1,3 +1,5 @@
+import { EVENT_VISITOR_KEY_SQL } from './visitorKey'
+
 export interface GoalRecord {
   id: string
   name: string
@@ -117,7 +119,7 @@ export async function computeGoalSummaries(params: ComputeGoalSummariesParams): 
   } = params
 
   const summaries: GoalSummary[] = []
-  const eventUvExpr = `strftime('%Y-%m-%d', timestamp) || '|' || COALESCE(path, '') || '|' || COALESCE(country, '') || '|' || COALESCE(referrer, '')`
+  const eventUvExpr = EVENT_VISITOR_KEY_SQL
 
   for (const goal of goals) {
     const matcher = goalMatcher(goal.match_pattern)
