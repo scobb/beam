@@ -1,4 +1,5 @@
 import { Hono } from 'hono'
+import { captureException } from '@sentry/cloudflare'
 import type { Env, AuthUser } from '../types'
 import { layout, escHtml } from './dashboard'
 import { createApiKey, hashApiKey } from '../lib/apiKeys'
@@ -15,6 +16,26 @@ function offerErrorMessage(error: string): string {
   return ''
 }
 
+// The portal route used to redirect back here without a word when it failed, so
+// "Manage Subscription" looked like a dead button. Always say what went wrong.
+function portalErrorMessage(error: string): string {
+  if (error === 'no_customer') return 'This account has no Stripe subscription on file, so there is nothing to manage here. If you are being billed for Beam, please contact support and we will sort it out.'
+  if (error === 'stripe') return 'We could not open the subscription portal just now. Please try again in a moment, or contact support if you need to change or cancel your subscription.'
+  return ''
+}
+
+// Stripe's own error text can name the account and the API key, so customers
+// get a fixed sentence and the detail goes to the logs and Sentry.
+function checkoutErrorMessage(error: string): string {
+  if (error === 'stripe') return 'We could not start checkout just now. Please try again in a moment, or contact support if the problem continues.'
+  return ''
+}
+
+function reportStripeFailure(what: string, failure: string): void {
+  console.error(`Stripe ${what} failed: ${failure}`)
+  captureException(new Error(`Stripe ${what} failed: ${failure}`))
+}
+
 // ── Billing page (/dashboard/billing) ────────────────────────────────────────
 
 billing.get('/dashboard/billing', async (c) => {
@@ -23,6 +44,8 @@ billing.get('/dashboard/billing', async (c) => {
   const apiKeyRevoked = c.req.query('api_key_revoked') === '1'
   const requestedOfferCode = normalizeLaunchOfferCode(c.req.query('offer'))
   const offerError = offerErrorMessage(c.req.query('offer_error') ?? '')
+  const portalError = portalErrorMessage(c.req.query('portal_error') ?? '')
+    || checkoutErrorMessage(c.req.query('checkout_error') ?? '')
   let generatedApiKey: string | null = null
 
   // Fetch fresh plan + subscription data from DB (JWT may be stale after upgrade)
@@ -119,6 +142,12 @@ billing.get('/dashboard/billing', async (c) => {
   const content = `
     <div class="p-4 sm:p-8 max-w-2xl">
       <h1 class="text-2xl font-bold text-gray-900 mb-6">Billing</h1>
+
+      ${portalError ? `
+        <div role="alert" class="mb-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-900">
+          ${escHtml(portalError)}
+        </div>
+      ` : ''}
 
       ${offerError ? `
         <div class="mb-4 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
@@ -333,18 +362,27 @@ billing.post('/dashboard/billing/checkout', async (c) => {
     }
   }
 
-  const res = await fetch('https://api.stripe.com/v1/checkout/sessions', {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${stripeKey}`,
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    body: params.toString(),
-  })
+  let checkoutUrl: string | undefined
+  let checkoutFailure: string
+  try {
+    const res = await fetch('https://api.stripe.com/v1/checkout/sessions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${stripeKey}`,
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: params.toString(),
+    })
+    const session = await res.json() as { url?: string; error?: { message?: string } }
+    checkoutUrl = res.ok ? session.url : undefined
+    checkoutFailure = `HTTP ${res.status}: ${session.error?.message ?? 'no checkout URL in response'}`
+  } catch (err) {
+    checkoutFailure = err instanceof Error ? err.message : String(err)
+  }
 
-  const session = await res.json() as { url?: string; error?: { message: string } }
-  if (!res.ok || !session.url) {
-    return c.html(`<p class="p-8 text-red-600">Stripe error: ${escHtml(session.error?.message ?? 'Unknown error')}</p>`, 500)
+  if (!checkoutUrl) {
+    reportStripeFailure('checkout session', checkoutFailure)
+    return c.redirect('/dashboard/billing?checkout_error=stripe', 303)
   }
 
   if (offer.status === 'valid' && offer.offer) {
@@ -353,7 +391,7 @@ billing.post('/dashboard/billing/checkout', async (c) => {
     ).bind(offer.offer.code, checkoutOfferStatus, nowIso, nowIso, user.sub).run()
   }
 
-  return c.redirect(session.url, 303)
+  return c.redirect(checkoutUrl, 303)
 })
 
 // ── Stripe Billing Portal (manage subscription) ───────────────────────────────
@@ -368,7 +406,7 @@ billing.post('/dashboard/billing/portal', async (c) => {
   ).bind(user.sub).first<{ stripe_customer_id: string | null }>()
 
   if (!dbUser?.stripe_customer_id) {
-    return c.redirect('/dashboard/billing', 303)
+    return c.redirect('/dashboard/billing?portal_error=no_customer', 303)
   }
 
   const params = new URLSearchParams({
@@ -376,21 +414,32 @@ billing.post('/dashboard/billing/portal', async (c) => {
     'return_url': `${baseUrl}/dashboard/billing`,
   })
 
-  const res = await fetch('https://api.stripe.com/v1/billing_portal/sessions', {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${stripeKey}`,
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    body: params.toString(),
-  })
-
-  const portalSession = await res.json() as { url?: string; error?: { message: string } }
-  if (!res.ok || !portalSession.url) {
-    return c.redirect('/dashboard/billing', 303)
+  let portalUrl: string | undefined
+  let failure: string
+  try {
+    const res = await fetch('https://api.stripe.com/v1/billing_portal/sessions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${stripeKey}`,
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: params.toString(),
+    })
+    const portalSession = await res.json() as { url?: string; error?: { message?: string } }
+    portalUrl = res.ok ? portalSession.url : undefined
+    failure = `HTTP ${res.status}: ${portalSession.error?.message ?? 'no portal URL in response'}`
+  } catch (err) {
+    failure = err instanceof Error ? err.message : String(err)
   }
 
-  return c.redirect(portalSession.url, 303)
+  if (!portalUrl) {
+    // Stripe's message names the cause (e.g. a restricted key missing a
+    // permission), so make sure it reaches the logs and Sentry.
+    reportStripeFailure('billing portal session', failure)
+    return c.redirect('/dashboard/billing?portal_error=stripe', 303)
+  }
+
+  return c.redirect(portalUrl, 303)
 })
 
 // ── Success page (/dashboard/billing/success) ────────────────────────────────
