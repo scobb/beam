@@ -25,7 +25,7 @@ async function setup(t: TestContext, customerId: string | null, stripeResponse?:
   globalThis.fetch = (async (input: RequestInfo | URL) => {
     const url = String(input instanceof Request ? input.url : input)
     stripeCalls.push(url)
-    if (url.includes('/billing_portal/sessions') && stripeResponse) return stripeResponse
+    if ((url.includes('/billing_portal/sessions') || url.includes('/checkout/sessions')) && stripeResponse) return stripeResponse
     return new Response(JSON.stringify({ data: [{ id: 'sub_1', status: 'active' }] }), { status: 200 })
   }) as typeof fetch
   const realError = console.error
@@ -64,4 +64,24 @@ test('portal explains itself when the account has no Stripe customer', async (t)
 
   const page = await (await request('/dashboard/billing?portal_error=no_customer')).text()
   assert.match(page, /no Stripe subscription on file/)
+})
+
+test('checkout never shows Stripe\'s own error text to the customer', async (t) => {
+  const secret = "Permission denied. The provided key 'rk_live_x' does not have the required permissions on account 'acct_123'"
+  const { request } = await setup(t, null, new Response(JSON.stringify({ error: { message: secret } }), { status: 403 }))
+  const res = await request('/dashboard/billing/checkout', 'POST')
+  assert.equal(res.status, 303)
+  assert.equal(res.headers.get('location'), '/dashboard/billing?checkout_error=stripe')
+  assert.doesNotMatch(await res.text(), /acct_123|rk_live/)
+
+  const page = await (await request('/dashboard/billing?checkout_error=stripe')).text()
+  assert.match(page, /could not start checkout/)
+  assert.doesNotMatch(page, /acct_123|rk_live/)
+})
+
+test('checkout still redirects to Stripe when a session is created', async (t) => {
+  const { request } = await setup(t, null, new Response(JSON.stringify({ url: 'https://checkout.stripe.com/c/pay/x' }), { status: 200 }))
+  const res = await request('/dashboard/billing/checkout', 'POST')
+  assert.equal(res.status, 303)
+  assert.equal(res.headers.get('location'), 'https://checkout.stripe.com/c/pay/x')
 })

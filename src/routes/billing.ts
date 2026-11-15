@@ -24,6 +24,18 @@ function portalErrorMessage(error: string): string {
   return ''
 }
 
+// Stripe's own error text can name the account and the API key, so customers
+// get a fixed sentence and the detail goes to the logs and Sentry.
+function checkoutErrorMessage(error: string): string {
+  if (error === 'stripe') return 'We could not start checkout just now. Please try again in a moment, or contact support if the problem continues.'
+  return ''
+}
+
+function reportStripeFailure(what: string, failure: string): void {
+  console.error(`Stripe ${what} failed: ${failure}`)
+  captureException(new Error(`Stripe ${what} failed: ${failure}`))
+}
+
 // ── Billing page (/dashboard/billing) ────────────────────────────────────────
 
 billing.get('/dashboard/billing', async (c) => {
@@ -33,6 +45,7 @@ billing.get('/dashboard/billing', async (c) => {
   const requestedOfferCode = normalizeLaunchOfferCode(c.req.query('offer'))
   const offerError = offerErrorMessage(c.req.query('offer_error') ?? '')
   const portalError = portalErrorMessage(c.req.query('portal_error') ?? '')
+    || checkoutErrorMessage(c.req.query('checkout_error') ?? '')
   let generatedApiKey: string | null = null
 
   // Fetch fresh plan + subscription data from DB (JWT may be stale after upgrade)
@@ -349,18 +362,27 @@ billing.post('/dashboard/billing/checkout', async (c) => {
     }
   }
 
-  const res = await fetch('https://api.stripe.com/v1/checkout/sessions', {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${stripeKey}`,
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    body: params.toString(),
-  })
+  let checkoutUrl: string | undefined
+  let checkoutFailure: string
+  try {
+    const res = await fetch('https://api.stripe.com/v1/checkout/sessions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${stripeKey}`,
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: params.toString(),
+    })
+    const session = await res.json() as { url?: string; error?: { message?: string } }
+    checkoutUrl = res.ok ? session.url : undefined
+    checkoutFailure = `HTTP ${res.status}: ${session.error?.message ?? 'no checkout URL in response'}`
+  } catch (err) {
+    checkoutFailure = err instanceof Error ? err.message : String(err)
+  }
 
-  const session = await res.json() as { url?: string; error?: { message: string } }
-  if (!res.ok || !session.url) {
-    return c.html(`<p class="p-8 text-red-600">Stripe error: ${escHtml(session.error?.message ?? 'Unknown error')}</p>`, 500)
+  if (!checkoutUrl) {
+    reportStripeFailure('checkout session', checkoutFailure)
+    return c.redirect('/dashboard/billing?checkout_error=stripe', 303)
   }
 
   if (offer.status === 'valid' && offer.offer) {
@@ -369,7 +391,7 @@ billing.post('/dashboard/billing/checkout', async (c) => {
     ).bind(offer.offer.code, checkoutOfferStatus, nowIso, nowIso, user.sub).run()
   }
 
-  return c.redirect(session.url, 303)
+  return c.redirect(checkoutUrl, 303)
 })
 
 // ── Stripe Billing Portal (manage subscription) ───────────────────────────────
@@ -411,10 +433,9 @@ billing.post('/dashboard/billing/portal', async (c) => {
   }
 
   if (!portalUrl) {
-    // Stripe's message names the cause (e.g. the live-mode customer portal was
-    // never configured), so make sure it reaches the logs and Sentry.
-    console.error(`Stripe billing portal session failed: ${failure}`)
-    captureException(new Error(`Stripe billing portal session failed: ${failure}`))
+    // Stripe's message names the cause (e.g. a restricted key missing a
+    // permission), so make sure it reaches the logs and Sentry.
+    reportStripeFailure('billing portal session', failure)
     return c.redirect('/dashboard/billing?portal_error=stripe', 303)
   }
 
